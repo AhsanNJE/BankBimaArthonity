@@ -1,0 +1,67 @@
+[
+    {
+        "emp_id":"B000000101",
+        "emp_name":"Hasib",
+        "emp_email":"hasib@gmail.com",
+        "emp_phone":"01314353560",
+        "loc_id":"1",
+        "emp_type":"Regular",
+        "dept_id":"2",
+        "designation_id":"1",
+        "dob":"2000-08-10",
+        "address":"Bashundhara, Dhaka",
+        "image":"abc.png"
+    },
+    {
+        "emp_id":"B000000102",
+        "emp_name":"Ahsan",
+        "emp_email":"ahsan@gmail.com",
+        "emp_phone":"01314353561",
+        "loc_id":"1",
+        "emp_type":"Regular",
+        "dept_id":"2",
+        "designation_id":"1",
+        "dob":"2000-08-10",
+        "address":"Bashundhara, Dhaka",
+        "image":"abc.png"
+    },
+    {
+        "emp_id":"B000000103",
+        "emp_name":"Faysal",
+        "emp_email":"faysal@gmail.com",
+        "emp_phone":"01314353562",
+        "loc_id":"1",
+        "emp_type":"Regular",
+        "dept_id":"2",
+        "designation_id":"1",
+        "dob":"2000-08-10",
+        "address":"Bashundhara, Dhaka",
+        "image":"abc.png"
+    },
+    {
+        "emp_id":"B000000104",
+        "emp_name":"Kawser",
+        "emp_email":"kawser@gmail.com",
+        "emp_phone":"01314353563",
+        "loc_id":"1",
+        "emp_type":"Regular",
+        "dept_id":"2",
+        "designation_id":"1",
+        "dob":"2000-08-10",
+        "address":"Bashundhara, Dhaka",
+        "image":"abc.png"
+    },
+    {
+        "emp_id":"B000000105",
+        "emp_name":"Tanim",
+        "emp_email":"tanim@gmail.com",
+        "emp_phone":"01314353564",
+        "loc_id":"1",
+        "emp_type":"Regular",
+        "dept_id":"2",
+        "designation_id":"1",
+        "dob":"2000-08-10",
+        "address":"Bashundhara, Dhaka",
+        "image":"abc.png"
+    }
+]
