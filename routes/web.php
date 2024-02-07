@@ -19,4 +19,4 @@ Route::get('/', function () {
 });
 
 
-Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('admin.dashboard');
+Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
