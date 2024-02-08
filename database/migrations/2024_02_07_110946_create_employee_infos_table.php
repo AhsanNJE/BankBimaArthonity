@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('dob');
             $table->string('address');
             $table->string('image');
+            $table->tinyInteger('status')->default('0')->comment('1 for Active 0 for Inactive');
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
