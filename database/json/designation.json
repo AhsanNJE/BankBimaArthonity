@@ -1,0 +1,27 @@
+[
+    {
+        "designation": "Junior Editor",
+        "dept_id":2
+    },
+    {
+        "designation": "Chief Editor",
+        "dept_id":2
+    },
+    {
+        "designation": "Marketing Chief",
+        "dept_id":3
+    },
+    {
+        "designation": "Freelencer",
+        "dept_id":3
+    },
+    {
+        "designation": "Cleaner",
+        "dept_id":5
+    },
+    {
+        "designation": "Chef",
+        "dept_id":4
+    }
+    
+]
