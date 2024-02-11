@@ -42,7 +42,8 @@ Route::controller(EmployeeController::class)->group(function(){
         Route::get('/locations/searchPagination/dictrict', 'SearchLocationByDistrict');
         Route::get('/locations/searchPagination/thana', 'SearchLocationByThana');
         //search list routs
-        
+        Route::get('/getLocationByThana', 'GetLocationByThana');
+
 
 
         ///////////// --------------- Department routes ----------- ///////////////////
@@ -62,6 +63,7 @@ Route::controller(EmployeeController::class)->group(function(){
 
 
 
+
         ///////////// --------------- Designation routes ----------- ///////////////////
         //crud routes start
         Route::get('/designations', 'ShowDesignations')->name('show.designations');
@@ -77,7 +79,7 @@ Route::controller(EmployeeController::class)->group(function(){
         Route::get('/designations/searchPagination', 'SearchDesignations');
         Route::get('/designations/searchPagination/department', 'SearchDesignationsByDepartment');
         //search list routs
-
+        Route::get('/getDesignationByName/department', 'GetDesignationByNameAndDepartment');
 
 
 

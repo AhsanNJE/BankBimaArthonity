@@ -12,8 +12,6 @@
             <th>Type</th>
             <th>Department</th>
             <th>Designation</th>
-            <th>DOB</th>
-            <th>Address</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -31,8 +29,6 @@
                 <td>{{ $item->emp_type }}</td>
                 <td>{{ $item->Department->dept_name }}</td>
                 <td>{{ $item->Designation->designation }}</td>
-                <td>{{ $item->dob }}</td>
-                <td>{{ $item->address }}</td>
                 <td>
                     @if ($item->status == 1)
                         <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Active</button>
@@ -41,9 +37,9 @@
                     @endif
                 </td>
                 <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editClientModal" data-modal-id="editClientModal"
+                    <button class="btn btn-info btn-sm open-modal editEmployee" data-modal-id="editEmployee"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm deleteClient" data-id="{{ $item->id }}" id="delete"><i
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
                             class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>
@@ -61,8 +57,6 @@
             <th>Type</th>
             <th>Department</th>
             <th>Designation</th>
-            <th>DOB</th>
-            <th>Address</th>
             <th>Status</th>
             <th>Action</th>
         </tr>

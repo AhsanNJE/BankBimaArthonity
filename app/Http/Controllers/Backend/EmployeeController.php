@@ -153,6 +153,33 @@ class EmployeeController extends Controller
     }//End Method
 
 
+
+    //Get Designation By Name And Department
+    public function GetDesignationByNameAndDepartment(Request $req){
+        if($req->department != ""){
+            $designations = Designation::where('designation', 'like', '%'.$req->designation.'%')
+            ->where('dept_id', $req->department)
+            ->orderBy('designation','asc')
+            ->take(10)
+            ->get();
+
+            if($designations->count() > 0){
+                $list = "";
+                foreach($designations as $designation) {
+                    $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$designation->id.'">'.$designation->designation.'</li>';
+                }
+            }
+            else{
+                $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
+            }
+            return $list;
+        }
+        else{
+            return $list = "";
+        }
+    }//End Method
+
+
     //Insert Designations
     public function InsertDesignations(Request $req){
         $req->validate([
@@ -291,6 +318,27 @@ class EmployeeController extends Controller
         return view('employee.location.locations', compact('location'));
     }//End Method
 
+
+
+    //Get Location By Thana
+    public function GetLocationByThana(Request $req){
+        $locations = Location_Info::where('thana', 'like', '%'.$req->location.'%')
+        ->orderBy('thana','asc')
+        ->take(10)
+        ->get();
+
+
+        if($locations->count() > 0){
+            $list = "";
+            foreach($locations as $location) {
+                $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$location->id.'">'.$location->division.'|'. $location->district. "|". $location->thana.'</li>';
+            }
+        }
+        else{
+            $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
+        }
+        return $list;
+    }//End Method
 
 
     //Insert Locations
@@ -456,20 +504,50 @@ class EmployeeController extends Controller
 
 
 
-    // //Insert Unit
-    // public function InsertUnits(Request $request){
-    //     $request->validate([
-    //         "unitName" => 'required|unique:inv__units,unit_name'
-    //     ]);
+    //Insert Employees
+    public function InsertEmployees(Request $req){
+        $req->validate([
+            "name" => 'required',
+            "email" => 'required|unique:employee__infos,emp_email,email',
+            "phone" => 'required|unique:employee__infos,emp_phone,phone',
+            "location" => 'required',
+            "type" => 'required',
+            "department" => 'required',
+            "designation" => 'required',
+            "dob" => 'required',
+            "address" => 'required',
+            "image" => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+        ]);
 
-    //     Inv_Unit::insert([
-    //         "unit_name" => $request->unitName,
-    //     ]);
+        //generates Auto Increment Employee Id
+        $latestEmployee = Employee_Info::orderBy('added_at','desc')->first();
+        $id = ($latestEmployee) ? 'B' . str_pad((intval(substr($latestEmployee->emp_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'B000000101';
+        
+        //process the image name and store it to storage/app/public/profiles directory
+        if ($req->hasFile('image') && $req->file('image')->isValid()) {
+            $originalName = $req->file('image')->getClientOriginalName();
+            $imageName = $id. '('. $req->name . ').' . $req->file('image')->getClientOriginalExtension();
+            $imagePath = $req->file('image')->storeAs('public/profiles', $imageName);
+        }
 
-    //     return response()->json([
-    //         'status'=>'success',
-    //     ]);  
-    // }//End Method
+        Employee_Info::insert([
+            "emp_id" => $id,
+            "emp_name" => $req->name,
+            "emp_email" => $req->email,
+            "emp_phone" => $req->phone,
+            "loc_id" => $req->location,
+            "emp_type" => $req->type,
+            "dept_id" => $req->department,
+            "designation_id" => $req->designation,
+            "dob" => $req->dob,
+            "address" => $req->address,
+            "image" => $imageName,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);
+    }//End Method
 
 
 
@@ -498,36 +576,59 @@ class EmployeeController extends Controller
 
 
 
-    // //Edit Unit
-    // public function EditUnits($id){
-    //     $inv_unit = Inv_Unit::findOrFail($id);
-    //     return response()->json([
-    //         'inv_unit'=>$inv_unit,
-    //     ]);
-    // }//End Method
+    //Edit Employees
+    public function EditEmployees(Request $req){
+        $employee = Employee_Info::with('Department','Designation','Location')->findOrFail($req->id);
+        return response()->json([
+            'employee'=>$employee,
+        ]);
+    }//End Method
 
 
 
-    // //Update Unit
-    // public function UpdateUnits(Request $request,$id){
-    //     $inv_unit = Inv_Unit::findOrFail($id);
+    //Update Unit
+    public function UpdateEmployees(Request $req){
+        $req->validate([
+            "name" => 'required',
+            "email" => ['required',Rule::unique('employee__infos', 'emp_email')->ignore($req->id)],
+            "phone" => ['required',Rule::unique('employee__infos', 'emp_phone')->ignore($req->id)],
+            "location" => 'required',
+            "type" => 'required',
+            "department" => 'required',
+            "designation" => 'required',
+            "dob" => 'required',
+            "address" => 'required',
+            "image" => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+        ]);
 
-    //     $request->validate([
-    //         "unitName" => ['required',Rule::unique('inv__units', 'unit_name')->ignore($inv_unit->id)],
-    //         "status"=>'required|in:0,1'
-    //     ]);
+        $employee = Employee_Info::findOrFail($req->id);
 
-    //     $update = Inv_Unit::findOrFail($id)->update([
-    //         "unit_name" => $request->unitName,
-    //         "status" => $request->status,
-    //         "updated_at" => now()
-    //     ]);
-    //     if($update){
-    //         return response()->json([
-    //             'status'=>'success'
-    //         ]); 
-    //     }
-    // }//End Method
+        //process the image name and store it to storage/app/public/profiles directory
+        if ($req->hasFile('image') && $req->file('image')->isValid()) {
+            $originalName = $req->file('image')->getClientOriginalName();
+            $imageName = $id. '('. $req->name . ').' . $req->file('image')->getClientOriginalExtension();
+            $imagePath = $req->file('image')->storeAs('public/profiles', $imageName);
+        }
+
+        $update = Employee_Info::findOrFail($id)->update([
+            "emp_name" => $req->name,
+            "emp_email" => $req->email,
+            "emp_phone" => $req->phone,
+            "loc_id" => $req->location,
+            "emp_type" => $req->type,
+            "dept_id" => $req->department,
+            "designation_id" => $req->designation,
+            "dob" => $req->dob,
+            "address" => $req->address,
+            "image" => $imageName,
+            "updated_at" => now()
+        ]);
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
 
 
 
