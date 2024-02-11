@@ -160,5 +160,58 @@ $(document).ready(function () {
 
     /////////////// ------------------ Search Location by Thana and add value to input ajax part end ---------------- /////////////////////////////
     
+
+
+
+    /////////////// ------------------ Search Transaction Groupe and add value to input ajax part start ---------------- /////////////////////////////
+    //search Transaction Groupe on add modal
+    $(document).on('keyup', '#groupe', function () {
+        let groupe = $(this).val();
+        $('#groupe').removeAttr('data-id');
+        getTransactionGroupeByName(groupe,  '#groupe-list ul');
+    });
+
+    //add list value in Transaction Groupe input of add modal
+    $(document).on('click', '#groupe-list li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#groupe').val(value);
+        $('#groupe').attr('data-id', id);
+        $('#groupe-list ul').html('');
+    });
+
+    //search Transaction Groupe on edit modal
+    $(document).on('keyup', '#updateGroupe', function () {
+        let groupe = $(this).val();
+        $('#updateGroupe').removeAttr('data-id');
+        getTransactionGroupeByName(groupe,  '#update-groupe ul');
+    });
+
+
+    //add list value in Transaction Groupe input of add modal
+    $(document).on('click', '#update-groupe li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#updateGroupe').val(value);
+        $('#updateGroupe').attr('data-id', id);
+        $('#update-groupe ul').html('');
+    });
+
+
+
+    //search Transaction Groupe by Name
+    function getTransactionGroupeByName(groupe, targetElement1) {
+        $.ajax({
+            url: "/transaction/getGroupeByName",
+            method: 'get',
+            data: {groupe:groupe},
+            success: function (res) {
+                $(targetElement1).html(res);
+            }
+        });
+    }
+
+    /////////////// ------------------ Search Location by Thana and add value to input ajax part end ---------------- /////////////////////////////
+    
    
 });

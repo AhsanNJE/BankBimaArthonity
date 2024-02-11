@@ -586,8 +586,9 @@ class EmployeeController extends Controller
 
 
 
-    //Update Unit
+    //Update Employees
     public function UpdateEmployees(Request $req){
+        dd($req->all());
         $req->validate([
             "name" => 'required',
             "email" => ['required',Rule::unique('employee__infos', 'emp_email')->ignore($req->id)],
@@ -675,4 +676,7 @@ class EmployeeController extends Controller
     // }//End Method
 
     /////////////////////////// --------------- Employee Table Methods end ---------- //////////////////////////
+
+
+    
 }

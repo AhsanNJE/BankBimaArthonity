@@ -110,16 +110,15 @@ $(document).ready(function () {
         let department = $('#updateDepartment').attr('data-id');
         let designation = $('#updateDesignation').attr('data-id');
         let formData = new FormData(this);
-        // formData.append('location',locations);
-        // formData.append('department',department);
-        // formData.append('designation',designation);
-        console.log(formData)
+        formData.append('location',locations);
+        formData.append('department',department);
+        formData.append('designation',designation);
         $.ajax({
             url: `/admin/employees/updateEmployees`,
             method: 'Put',
             processData: false,
             contentType: false,
-            dataType:'json',
+            cache: false,
             data: formData,
             beforeSend:function() {
                 $(document).find('span.error').text('');  

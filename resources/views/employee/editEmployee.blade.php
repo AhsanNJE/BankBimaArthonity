@@ -25,6 +25,7 @@
                 <!-- form start -->
                 <form id="EditEmployeeForm" method="post">
                     @csrf
+                    @method('put')
                     <div class="center">
                         <div class="card-body">
                             <div class="row">
