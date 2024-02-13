@@ -19,7 +19,7 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#AddSupplierForm')[0].reset();
-                    $('#supplierName').focus();
+                    $('#name').focus();
                     $('#search').val('');
                     $('.supplier').load(location.href + ' .supplier');
                     toastr.success('Supplier Added Successfully', 'Added!');

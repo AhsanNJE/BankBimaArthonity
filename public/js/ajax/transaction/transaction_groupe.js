@@ -14,7 +14,7 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#AddTransactionGroupeForm')[0].reset();
-                    $('#gropupeName').focus();
+                    $('#groupeName').focus();
                     $('#search').val('');
                     $('.groupe').load(location.href + ' .groupe');
                     toastr.success('Transaction Groupe Added Successfully', 'Added!');

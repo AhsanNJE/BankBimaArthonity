@@ -34,9 +34,9 @@
           </a>
         </li>
 
+
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <!-- <i class="nav-icon fas fa-table"></i> -->
             <i class="fa-solid fa-person"></i>
             <p>
               Employee
@@ -50,30 +50,13 @@
                 <p>All Employee</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="{{route('show.departments')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Department</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{route('show.designations')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Designation</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{route('show.locations')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Location</p>
-              </a>
-            </li>
           </ul>
         </li>
 
+
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="fa-solid fa-coins"></i>
+            <i class="fa-solid fa-tent-arrow-left-right"></i>
             <p>
               Transaction
               <i class="fas fa-angle-left right"></i>
@@ -94,9 +77,11 @@
             </li>
           </ul>
         </li>
+
+
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="fa-solid fa-coins"></i>
+            <i class="fa-regular fa-user"></i>
             <p>
               Supplier
               <i class="fas fa-angle-left right"></i>
@@ -111,9 +96,11 @@
             </li>
           </ul>
         </li>
+
+        
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="fa-solid fa-coins"></i>
+            <i class="fa-solid fa-person"></i>
             <p>
               Client
               <i class="fas fa-angle-left right"></i>
@@ -128,6 +115,39 @@
             </li>
           </ul>
         </li>
+
+        
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fa-solid fa-user"></i>
+            <p>
+              Admin
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('show.departments')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Department</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('show.designations')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Designation</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('show.locations')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Location</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+      
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

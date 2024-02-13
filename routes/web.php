@@ -173,7 +173,7 @@ Route::controller(ClientController::class)->group(function(){
     Route::get('/searchClient/name', 'SearchClients')->name('search.client.name');
     Route::get('/searchClient/email', 'SearchClientByEmail')->name('search.client.email');
     Route::get('/searchClient/contact', 'SearchClientByContact')->name('search.client.contact');
-    Route::get('/searchClient/location', 'SearchClientByLocation')->name('search.client.address');
+    Route::get('/searchClient/location', 'SearchClientByLocation')->name('search.client.location');
     Route::get('/searchClient/address', 'SearchClientByAddress')->name('search.client.address');
     //pagination routes start
     Route::get('/client/pagination', 'ClientPagination');
