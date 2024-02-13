@@ -3,9 +3,11 @@
     <thead>
         <tr>
             <th>SL:</th>
+            <th>Id</th>
             <th>Supplier Name</th>
             <th>Email</th>
-            <th>Contact</th>
+            <th>Phone</th>
+            <th>Location</th>
             <th>Address</th>
             <th>Action</th>
         </tr>
@@ -13,16 +15,17 @@
     <tbody>
         @foreach ($supplier as $key => $item)
             <tr>
-                <td>{{ $supplier->firstItem() + $key }}
-                </td>
-                <td>{{ $item->sup_name }}</td>
-                <td>{{ $item->sup_email }}</td>
-                <td>{{ $item->sup_contact }}</td>
-                <td>{{ $item->sup_address }}</td>
+                <td>{{ $supplier->firstItem() + $key }}</td>
+                <td>{{ $item->user_id }}</td>
+                <td>{{ $item->user_name }}</td>
+                <td>{{ $item->user_email }}</td>
+                <td>{{ $item->user_phone }}</td>
+                <td>{{ $item->Location->thana }}</td>
+                <td>{{ $item->address }}</td>
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editSupplierModal" data-modal-id="editSupplierModal"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm deleteSupplier" data-id="{{ $item->id }}" id="delete"><i
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
                             class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>
@@ -31,12 +34,13 @@
     <tfoot>
         <tr>
             <th>SL:</th>
+            <th>Id</th>
             <th>Supplier Name</th>
             <th>Email</th>
-            <th>Contact</th>
+            <th>Phone</th>
+            <th>Location</th>
             <th>Address</th>
             <th>Action</th>
         </tr>
     </tfoot>
 </table>
-

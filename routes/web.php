@@ -132,20 +132,22 @@ Route::controller(SupplierController::class)->group(function(){
     //crud routes start
     Route::get('/suppliers', 'ShowSuppliers')->name('show.suppliers');
     Route::post('/insertSuppliers', 'InsertSuppliers')->name('insert.suppliers');
-    Route::get('/editSuppliers/{id}', 'EditSuppliers')->name('edit.suppliers');
-    Route::put('/updateSuppliers/{id}', 'UpdateSuppliers')->name('update.suppliers');
-    Route::delete('/deleteSuppliers/{id}', 'DeleteSuppliers')->name('delete.suppliers');
+    Route::get('/editSuppliers', 'EditSuppliers')->name('edit.suppliers');
+    Route::put('/updateSuppliers', 'UpdateSuppliers')->name('update.suppliers');
+    Route::delete('/deleteSuppliers', 'DeleteSuppliers')->name('delete.suppliers');
     //search routes start
     Route::get('/searchSupplier/name', 'SearchSuppliers')->name('search.supplier.name');
     Route::get('/searchSupplier/email', 'SearchSupplierByEmail')->name('search.supplier.email');
-    Route::get('/searchSupplier/contact', 'SearchSupplierByContact')->name('search.supplier.contact');
+    Route::get('/searchSupplier/phone', 'SearchSupplierByContact')->name('search.supplier.contact');
+    Route::get('/searchSupplier/location', 'SearchSupplierByLocation')->name('search.supplier.location');
     Route::get('/searchSupplier/address', 'SearchSupplierByAddress')->name('search.supplier.address');
     //pagination routes start
     Route::get('/supplier/pagination', 'SupplierPagination');
     Route::get('/supplier/namePagination', 'SearchSuppliers');
     Route::get('/supplier/emailPagination', 'SearchSupplierByEmail');
-    Route::get('/supplier/contactPagination', 'SearchSupplierByContact');
+    Route::get('/supplier/phonePagination', 'SearchSupplierByContact');
     Route::get('/supplier/addressPagination', 'SearchSupplierByAddress');
+    Route::get('/supplier/locationPagination', 'SearchSupplierByLocation');
     //search list routs
     Route::get('/getSupplierByName', 'GetSupplierByName')->name('get.supplier.by.name');
 
@@ -164,19 +166,21 @@ Route::controller(ClientController::class)->group(function(){
     //crud routes start
     Route::get('/clients', 'ShowClients')->name('show.clients');
     Route::post('/insertClients', 'InsertClients')->name('insert.clients');
-    Route::get('/editClients/{id}', 'EditClients')->name('edit.clients');
-    Route::put('/updateClients/{id}', 'UpdateClients')->name('update.clients');
-    Route::delete('/deleteClients/{id}', 'DeleteClients')->name('delete.clients');
+    Route::get('/editClients', 'EditClients')->name('edit.clients');
+    Route::put('/updateClients', 'UpdateClients')->name('update.clients');
+    Route::delete('/deleteClients', 'DeleteClients')->name('delete.clients');
     //search routes start
     Route::get('/searchClient/name', 'SearchClients')->name('search.client.name');
     Route::get('/searchClient/email', 'SearchClientByEmail')->name('search.client.email');
     Route::get('/searchClient/contact', 'SearchClientByContact')->name('search.client.contact');
+    Route::get('/searchClient/location', 'SearchClientByLocation')->name('search.client.address');
     Route::get('/searchClient/address', 'SearchClientByAddress')->name('search.client.address');
     //pagination routes start
     Route::get('/client/pagination', 'ClientPagination');
     Route::get('/client/namePagination', 'SearchClients');
     Route::get('/client/emailPagination', 'SearchClientByEmail');
     Route::get('/client/contactPagination', 'SearchClientByContact');
+    Route::get('/client/locationPagination', 'SearchClientByLocation');
     Route::get('/client/addressPagination', 'SearchClientByAddress');
     //search list routs
 

@@ -51,6 +51,18 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <select name="gender" id="gender">
+                                            <option value="">Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="others">Others</option>
+                                        </select>
+                                        <span class="text-danger error" id="gender_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="location">Location</label>
                                         <input type="text" name="location" class="form-control" id="location" autocomplete="off">
                                         <div id="location-list">
@@ -63,8 +75,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="type">Type</label>
-                                        <input type="text" name="type" class="form-control" id="type">
+                                        <label for="type">Employee Type</label>
+                                        <select name="type" id="type">
+                                            <option value="">Select Employee Type</option>
+                                            <option value="regular">Regular</option>
+                                            <option value="district">District Employee</option>
+                                            <option value="bit">Bit Pione</option>
+                                        </select>
                                         <span class="text-danger error" id="type_error"></span>
                                     </div>
                                 </div>
@@ -97,6 +114,13 @@
                                         <label for="dob">Date of Birth</label>
                                         <input type="date" name="dob" class="form-control" id="dob">
                                         <span class="text-danger error" id="dob_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nid">NID</label>
+                                        <input type="text" name="nid" class="form-control" id="nid">
+                                        <span class="text-danger error" id="nid_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

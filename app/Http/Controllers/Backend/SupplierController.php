@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Supplier_Info;
+use App\Models\User_Info;
 
 class SupplierController extends Controller
 {
     /////////////////////////// --------------- Inventory Suppliers Methods start---------- //////////////////////////
     //Show Suppliers
     public function ShowSuppliers(){
-        $supplier = Supplier_Info::orderBy('added_at','desc')->paginate(15);
+        $supplier = User_Info::where('user_type','supplier')->orderBy('added_at','desc')->paginate(15);
         return view('supplier.suppliers', compact('supplier'));
     }//End Method
 
@@ -21,15 +22,15 @@ class SupplierController extends Controller
     //Get Suppliers by Name
     public function GetSupplierByName(Request $request){
         if($request->supplier != ""){
-            $supplier = Supplier_Info::where('sup_name', 'like', '%'.$request->supplier.'%')
-                ->orderBy('sup_name','asc')
+            $supplier = User_Info::where('user_name', 'like', '%'.$request->supplier.'%')
+                ->orderBy('user_name','asc')
                 ->take(10)
                 ->get();
     
             if($supplier->count() > 0){
                 $list = "";
                 foreach($supplier as $sup) {
-                    $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$sup->id.'">'.$sup->sup_name.'</li>';
+                    $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$sup->id.'">'.$sup->user_name.'</li>';
                 }
             }
             else{
@@ -44,19 +45,29 @@ class SupplierController extends Controller
 
 
     //Insert Supplier
-    public function InsertSuppliers(Request $request){
-        $request->validate([
-            "supplierName" => 'required|unique:supplier__infos,sup_name',
-            "supplierEmail" => 'required|email',
-            "supplierContact" => 'required|numeric',
-            "supplierAddress" => 'required',
+    public function InsertSuppliers(Request $req){
+        $req->validate([
+            "name" => 'required',
+            "email" => 'required|email|unique:user__infos,user_email',
+            "phone" => 'required|numeric|unique:user__infos,user_phone',
+            "location" => 'required',
+            "address" => 'required',
         ]);
+
+
+        //generates Auto Increment Client Id
+        $latestEmployee = User_Info::where('user_type','supplier')->orderBy('added_at','desc')->first();
+        $id = ($latestEmployee) ? 'S' . str_pad((intval(substr($latestEmployee->user_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'S000000101';
+
         
-        Supplier_info::insert([
-            "sup_name" => $request->supplierName,
-            "sup_email" => $request->supplierEmail,
-            "sup_contact" => $request->supplierContact,
-            "sup_address" => $request->supplierAddress,
+        User_Info::insert([
+            "user_id" => $id,
+            "user_name" => $req->name,
+            "user_email" => $req->email,
+            "user_phone" => $req->phone,
+            "loc_id" => $req->location,
+            "address" => $req->address,
+            "user_type" => 'supplier',
         ]);
 
         return response()->json([
@@ -67,8 +78,8 @@ class SupplierController extends Controller
 
 
     //Edit Supplier
-    public function EditSuppliers($id){
-        $supplier = Supplier_info::findOrFail($id);
+    public function EditSuppliers(Request $req){
+        $supplier = User_Info::with('Location')->findOrFail($req->id);
         return response()->json([
             'supplier'=>$supplier,
         ]);
@@ -77,21 +88,23 @@ class SupplierController extends Controller
 
 
     //Update Supplier
-    public function UpdateSuppliers(Request $request,$id){
-        $suplier = Supplier_info::findOrFail($id);
+    public function UpdateSuppliers(Request $req){
+        $supplier = User_Info::findOrFail($req->id);
 
-        $request->validate([
-            "supplierName" => ['required',Rule::unique('supplier__infos', 'sup_name')->ignore($suplier->id)],
-            "supplierEmail" => 'required|email',
-            "supplierContact" => 'required|numeric',
-            "supplierAddress" => 'required',
+        $req->validate([
+            "name" => 'required',
+            "email" => ['required','email',Rule::unique('user__infos', 'user_email')->ignore($supplier->id)],
+            "phone" => ['required','numeric',Rule::unique('user__infos', 'user_phone')->ignore($supplier->id)],
+            "address" => 'required',
+            "location" => 'required',
         ]);
 
-        $update = Supplier_info::findOrFail($id)->update([
-            "sup_name" => $request->supplierName,
-            "sup_email" => $request->supplierEmail,
-            "sup_contact" => $request->supplierContact,
-            "sup_address" => $request->supplierAddress,
+        $update = User_Info::findOrFail($req->id)->update([
+            "user_name" => $req->name,
+            "user_email" => $req->email,
+            "user_phone" => $req->phone,
+            "loc_id" => $req->location,
+            "address" => $req->address,
             "updated_at" => now()
         ]);
         if($update){
@@ -104,8 +117,8 @@ class SupplierController extends Controller
 
 
     //Delete Supplier
-    public function DeleteSuppliers($id){
-        Supplier_Info::findOrFail($id)->delete();
+    public function DeleteSuppliers(Request $req){
+        User_Info::findOrFail($req->id)->delete();
         return response()->json([
             'status'=>'success'
         ]); 
@@ -115,7 +128,7 @@ class SupplierController extends Controller
 
     //Supplier Pagination
     public function SupplierPagination(){
-        $supplier = Supplier_Info::orderBy('added_at','desc')->paginate(15);
+        $supplier = User_Info::where('user_type','supplier')->orderBy('added_at','desc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('supplier.supplierPagination', compact('supplier'))->render(),
@@ -126,8 +139,9 @@ class SupplierController extends Controller
 
     //Search Suppplier by Name
     public function SearchSuppliers(Request $request){
-        $supplier = Supplier_Info::where('sup_name', 'like','%'.$request->search.'%')
-        ->orderBy('sup_name','asc')
+        $supplier = User_Info::where('user_type','supplier')
+        ->where('user_name', 'like','%'.$request->search.'%')
+        ->orderBy('user_name','asc')
         ->paginate(15);
 
         $paginationHtml = $supplier->links()->toHtml();
@@ -151,8 +165,9 @@ class SupplierController extends Controller
 
     //Search Suppplier by Email
     public function SearchSupplierByEmail(Request $request){
-        $supplier = Supplier_Info::where('sup_email', 'like','%'.$request->search.'%')
-        ->orderBy('sup_email','asc')
+        $supplier = User_Info::where('user_type','supplier')
+        ->where('user_email', 'like','%'.$request->search.'%')
+        ->orderBy('user_email','asc')
         ->paginate(15);
 
         $paginationHtml = $supplier->links()->toHtml();
@@ -176,8 +191,38 @@ class SupplierController extends Controller
 
     //Search Suppplier by Contact
     public function SearchSupplierByContact(Request $request){
-        $supplier = Supplier_Info::where('sup_contact', 'like','%'.$request->search.'%')
-        ->orderBy('sup_contact','asc')
+        $supplier = User_Info::where('user_type','supplier')
+        ->where('user_phone', 'like','%'.$request->search.'%')
+        ->orderBy('user_phone','asc')
+        ->paginate(15);
+
+        $paginationHtml = $supplier->links()->toHtml();
+        
+        if($supplier->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('supplier.searchSupplier', compact('supplier'))->render(),
+                'paginate' => $paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    //Search Suppplier by Location
+    public function SearchSupplierByLocation(Request $request){
+        $supplier = User_Info::with('Location')
+        ->whereHas('Location', function ($query) use ($request) {
+            $query->where('thana', 'like', '%'.$request->search.'%');
+            $query->orderBy('thana','asc');
+        })
+        ->where('user_type','supplier')
         ->paginate(15);
 
         $paginationHtml = $supplier->links()->toHtml();
@@ -201,8 +246,9 @@ class SupplierController extends Controller
 
     //Search Suppplier by Address
     public function SearchSupplierByAddress(Request $request){
-        $supplier = Supplier_Info::where('sup_address', 'like', '%'.$request->search.'%')
-        ->orderBy('sup_address','asc')
+        $supplier = User_Info::where('user_type','supplier')
+        ->where('address', 'like', '%'.$request->search.'%')
+        ->orderBy('address','asc')
         ->paginate(15);
 
         $paginationHtml = $supplier->links()->toHtml();

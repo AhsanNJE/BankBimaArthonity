@@ -1,16 +1,18 @@
 $(document).ready(function () {
 
     /////////////// ------------------ Add Supplier ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#addSupplier', function (e) {
+    $(document).on('submit', '#AddSupplierForm', function (e) {
         e.preventDefault();
-        let supplierName = $('#supplierName').val();
-        let supplierEmail = $('#supplierEmail').val();
-        let supplierContact = $('#supplierContact').val();
-        let supplierAddress = $('#supplierAddress').val();
+        let locations = $('#location').attr('data-id');
+        let formData = new FormData(this);
+        formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: "/insertSuppliers",
             method: 'Post',
-            data: { supplierName:supplierName, supplierEmail:supplierEmail, supplierContact:supplierContact, supplierAddress:supplierAddress },
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -40,14 +42,17 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/editSuppliers/${id}`,
+            url: `/editSuppliers`,
             method: 'get',
+            data: { id:id },
             success: function (res) {
                 $('#id').val(res.supplier.id);
-                $('#updateSupplierName').val(res.supplier.sup_name);
-                $('#updateSupplierEmail').val(res.supplier.sup_email);
-                $('#updateSupplierContact').val(res.supplier.sup_contact);
-                $('#updateSupplierAddress').val(res.supplier.sup_address);
+                $('#updateName').val(res.supplier.user_name);
+                $('#updateEmail').val(res.supplier.user_email);
+                $('#updatePhone').val(res.supplier.user_phone);
+                $('#updateLocation').val(res.supplier.location.thana);
+                $('#updateLocation').attr('data-id',res.supplier.loc_id);
+                $('#updateAddress').val(res.supplier.address);
                 
                 var modal = document.getElementById(modalId);
 
@@ -64,17 +69,18 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Supplier ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#updateSupplier', function (e) {
+    $(document).on('submit', '#EditSupplierForm', function (e) {
         e.preventDefault();
-        let id = $('#id').val();;
-        let supplierName = $('#updateSupplierName').val();
-        let supplierEmail = $('#updateSupplierEmail').val();
-        let supplierContact = $('#updateSupplierContact').val();
-        let supplierAddress = $('#updateSupplierAddress').val();
+        let locations = $('#updateLocation').attr('data-id');
+        let formData = new FormData(this);
+        formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: `/updateSuppliers/${id}`,
-            method: 'Put',
-            data: { supplierName: supplierName, supplierEmail:supplierEmail, supplierContact: supplierContact, supplierAddress:supplierAddress },
+            url: `/updateSuppliers`,
+            method: 'post',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data:formData,
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -99,13 +105,14 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Delete Supplier ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.deleteSupplier', function (e) {
+    $(document).on('click', '#delete', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Supplier ??')) {
             $.ajax({
-                url: `/deleteSuppliers/${id}`,
+                url: `/deleteSuppliers`,
                 method: 'Delete',
+                data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
                         $('.supplier').load(location.href + ' .supplier');
@@ -147,9 +154,12 @@ $(document).ready(function () {
             loadSupplierData(`/searchSupplier/email`, {search:search}, '.supplier')
         }
         else if(searchOption == '3'){
-            loadSupplierData(`/searchSupplier/contact`, {search:search}, '.supplier')
+            loadSupplierData(`/searchSupplier/phone`, {search:search}, '.supplier')
         }
         else if(searchOption == '4'){
+            loadSupplierData(`/searchSupplier/location`, {search:search}, '.supplier')
+        }
+        else if(searchOption == '5'){
             loadSupplierData(`/searchSupplier/address`, {search:search}, '.supplier')
         }
         
@@ -174,6 +184,9 @@ $(document).ready(function () {
             loadSupplierData(`/supplier/contactPagination?page=${page}`, {search:search}, '.supplier')
         }
         else if(searchOption == '4'){
+            loadSupplierData(`/supplier/locationPagination?page=${page}`, {search:search}, '.supplier')
+        }
+        else if(searchOption == '5'){
             loadSupplierData(`/supplier/addressPagination?page=${page}`, {search:search}, '.supplier')
         }
     });

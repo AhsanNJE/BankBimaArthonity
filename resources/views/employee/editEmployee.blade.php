@@ -23,13 +23,14 @@
                 </div>
                 
                 <!-- form start -->
-                <form id="EditEmployeeForm" method="post">
+                <form id="EditEmployeeForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="center">
                         <div class="card-body">
                             <div class="row">
                                 <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="empId" id="empId">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="updateName">Name</label>
@@ -53,6 +54,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="updateGender">Gender</label>
+                                        <select name="gender" id="updateGender">
+                                            {{-- options will be display dynamically --}}
+                                        </select>
+                                        <span class="text-danger error" id="update_gender_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="updateLocation">Location</label>
                                         <input type="text" name="location" class="form-control" id="updateLocation">
                                         <div id="update-location">
@@ -66,7 +76,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="updateType">Type</label>
-                                        <input type="text" name="type" class="form-control" id="updateType">
+                                        <select name="type" id="updateType">
+                                            {{-- options will be display dynamically --}}
+                                        </select>
                                         <span class="text-danger error" id="update_type_error"></span>
                                     </div>
                                 </div>
@@ -99,6 +111,13 @@
                                         <label for="updateDob">Date of Birth</label>
                                         <input type="date" name="dob" class="form-control" id="updateDob">
                                         <span class="text-danger error" id="update_dob_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="updateNid">Nid</label>
+                                        <input type="text" name="nid" class="form-control" id="updateNid">
+                                        <span class="text-danger error" id="update_nid_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

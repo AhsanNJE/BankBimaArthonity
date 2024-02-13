@@ -7,9 +7,10 @@ $(document).ready(function () {
         let department = $('#department').attr('data-id');
         let designation = $('#designation').attr('data-id');
         let formData = new FormData(this);
-        formData.append('location',locations);
-        formData.append('department',department);
-        formData.append('designation',designation);
+        formData.append('department', department === undefined ? '' : department);
+        formData.append('location', locations === undefined ? '' : locations);
+        formData.append('designation', designation === undefined ? '' : designation);
+
         $.ajax({
             url: "/admin/employees/insertEmployees",
             method: 'Post',
@@ -26,6 +27,7 @@ $(document).ready(function () {
                     $('#name').focus();
                     $('#search').val('');
                     $('.employee').load(location.href + ' .employee');
+                    $('#previewImage').attr('src',`#`).hide();
                     toastr.success('Employee Added Successfully', 'Added!');
                 }
             },
@@ -67,6 +69,30 @@ $(document).ready(function () {
 
 
 
+    $(document).on('change','#updateImage', function (e){
+        let path = $(this).val();
+        let extension = path.substring(path.lastIndexOf('.')+1).toLowerCase();
+        
+        if(extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif'){
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#updatePreviewImage').attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(file);
+            }
+            else{
+                $('#updatePreviewImage').attr('src', " ").hide();
+            }
+        }
+        else{
+            $('#updatePreviewImage').attr('src', " ").hide();
+        }
+    });
+
+
+
 
     ///////////// ------------------ Edit Employee ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.editEmployee', function () {
@@ -78,17 +104,32 @@ $(document).ready(function () {
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
-                $('#updateName').val(res.employee.emp_name);
-                $('#updateEmail').val(res.employee.emp_email);
-                $('#updatePhone').val(res.employee.emp_phone);
+                $('#empId').val(res.employee.user_id);
+                $('#updateName').val(res.employee.user_name);
+                $('#updateEmail').val(res.employee.user_email);
+                $('#updatePhone').val(res.employee.user_phone);
+
+                // Create options dynamically based on the status value
+                $('#updateGender').empty();
+                $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
+                                         <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
+                                         <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
+
                 $('#updateLocation').val(res.employee.location.thana);
                 $('#updateLocation').attr('data-id',res.employee.loc_id);
-                $('#updateType').val(res.employee.emp_type);
+
+                // Create options dynamically based on the status value
+                $('#updateType').empty();
+                $('#updateType').append(`<option value="regular" ${res.employee.emp_type === 'regular' ? 'selected' : ''}>Regular</option>
+                                         <option value="district" ${res.employee.emp_type === 'district' ? 'selected' : ''}>District Employee</option>
+                                         <option value="bit" ${res.employee.emp_type === 'bit' ? 'selected' : ''}>Bit Pion</option>`);
+
                 $('#updateDepartment').val(res.employee.department.dept_name);
                 $('#updateDepartment').attr('data-id',res.employee.dept_id);
                 $('#updateDesignation').val(res.employee.designation.designation);
                 $('#updateDesignation').attr('data-id',res.employee.designation_id);
                 $('#updateDob').val(res.employee.dob);
+                $('#updateNid').val(res.employee.nid);
                 $('#updateAddress').val(res.employee.address);
                 $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}`).show();
 
@@ -115,11 +156,11 @@ $(document).ready(function () {
         formData.append('designation',designation);
         $.ajax({
             url: `/admin/employees/updateEmployees`,
-            method: 'Put',
+            method: 'Post',
+            data: formData,
+            cache: false,
             processData: false,
             contentType: false,
-            cache: false,
-            data: formData,
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -169,7 +210,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadDesignationData(`/admin/employees/employees/pagination?page=${page}`, {}, '.employee');
+        loadEmployeeData(`/admin/employees/employees/pagination?page=${page}`, {}, '.employee');
     });
 
 
@@ -181,43 +222,43 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
-    $(document).on('keyup', '#search', function (e) {
-        e.preventDefault();
-        let search = $(this).val();
-        let searchOption = $("#searchOption").val();
-        if(searchOption == "1"){
-            loadEmployeeData(`/admin/employees/searchEmployees`, {search:search}, '.employee')
-        }
-        else if(searchOption == "2"){
-            loadEmployeeData(`/admin/employees/searchEmployees/district`, {search:search}, '.employee')
-        }
-        else if(searchOption == "3"){
-            loadEmployeeData(`/admin/employees/searchEmployees/thana`, {search:search}, '.employee')
-        }
+    // /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    // $(document).on('keyup', '#search', function (e) {
+    //     e.preventDefault();
+    //     let search = $(this).val();
+    //     let searchOption = $("#searchOption").val();
+    //     if(searchOption == "1"){
+    //         loadEmployeeData(`/admin/employees/searchEmployees`, {search:search}, '.employee')
+    //     }
+    //     else if(searchOption == "2"){
+    //         loadEmployeeData(`/admin/employees/searchEmployees/district`, {search:search}, '.employee')
+    //     }
+    //     else if(searchOption == "3"){
+    //         loadEmployeeData(`/admin/employees/searchEmployees/thana`, {search:search}, '.employee')
+    //     }
         
-    });
+    // });
 
 
 
-    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.search-paginate a', function (e) {
-        e.preventDefault();
-        $('.paginate').addClass('hidden');
-        let search = $('#search').val();
-        let page = $(this).attr('href').split('page=')[1];
-        let searchOption = $("#searchOption").val();
-        if(searchOption == "1"){
-            loadEmployeeData(`/admin/employees/employees/searchPagination?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "2"){
-            loadEmployeeData(`/admin/employees/employees/searchPagination/district?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "2"){
-            loadEmployeeData(`/admin/employees/employees/searchPagination/division?page=${page}`, {search:search}, '.employee');
-        }
+    // /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    // $(document).on('click', '.search-paginate a', function (e) {
+    //     e.preventDefault();
+    //     $('.paginate').addClass('hidden');
+    //     let search = $('#search').val();
+    //     let page = $(this).attr('href').split('page=')[1];
+    //     let searchOption = $("#searchOption").val();
+    //     if(searchOption == "1"){
+    //         loadEmployeeData(`/admin/employees/employees/searchPagination?page=${page}`, {search:search}, '.employee');
+    //     }
+    //     else if(searchOption == "2"){
+    //         loadEmployeeData(`/admin/employees/employees/searchPagination/district?page=${page}`, {search:search}, '.employee');
+    //     }
+    //     else if(searchOption == "2"){
+    //         loadEmployeeData(`/admin/employees/employees/searchPagination/division?page=${page}`, {search:search}, '.employee');
+    //     }
         
-    });
+    // });
 
 
 

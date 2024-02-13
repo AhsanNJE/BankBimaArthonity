@@ -13,33 +13,44 @@
                     </div>
                 </div>
 
-                <form id="AddSupplierForm" method="post">
-                    @csrf 
+                <form id="AddSupplierForm" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="center">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="supplierName">Supplier Name</label>
-                                <input type="text" name="supplierName" class="form-control"  id="supplierName">
-                                <span class="text-danger error" id="supplierName_error"></span>
+                                <label for="name">Name</label>
+                                <input type="text" name="name" class="form-control" id="name">
+                                <span class="text-danger error" id="name_error"></span>
                             </div>
                             <div class="form-group">
-                                <label for="supplierEmail">Supplier Email</label>
-                                <input type="text" name="supplierEmail" class="form-control"  id="supplierEmail">
-                                <span class="text-danger error" id="supplierEmail_error"></span>
+                                <label for="email">Email</label>
+                                <input type="text" name="email" class="form-control" id="email">
+                                <span class="text-danger error" id="email_error"></span>
                             </div>
-                            
+
                             <div class="form-group">
-                                <label for="supplierContact">Supplier Contact</label>
-                                <input type="text" name="supplierContact" class="form-control"  id="supplierContact">
-                                <span class="text-danger error" id="supplierContact_error"></span>
+                                <label for="phone">Phone</label>
+                                <input type="text" name="phone" class="form-control" id="phone">
+                                <span class="text-danger error" id="phone_error"></span>
                             </div>
                             <div class="form-group">
-                                <label for="supplierAddress">Supplier Address</label>
-                                <input type="text" name="supplierAddress" class="form-control"  id="supplierAddress">
-                                <span class="text-danger error" id="supplierAddress_error"></span>
+                                <label for="location">Location</label>
+                                <input type="text" name="location" class="form-control" id="location"
+                                    autocomplete="off">
+                                <div id="location-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="location_error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" name="address" class="form-control" id="address">
+                                <span class="text-danger error" id="address_error"></span>
                             </div>
                             <div class="center">
-                                <button type="submit" id="addSupplier" class="btn btn-primary">Submit</button>
+                                <button type="submit" id="InsertSupplier" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -48,5 +59,3 @@
         </div>
     </div>
 </div>
-
-

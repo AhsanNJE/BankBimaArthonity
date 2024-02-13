@@ -302,4 +302,6 @@ class TransactionController extends Controller
 
     /////////////////////////// --------------- Transaction Heads Table Methods start ---------- //////////////////////////
 
+
+    
 }

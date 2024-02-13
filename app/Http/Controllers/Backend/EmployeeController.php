@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Employee_Info;
 use App\Models\Location_Info;
 use App\Models\Department_Info;
+use App\Models\User_Info;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
@@ -498,7 +499,7 @@ class EmployeeController extends Controller
     /////////////////////////// --------------- Employee Table Methods start ---------- //////////////////////////
     //Show All Employees
     public function ShowEmployees(){
-        $employee = Employee_Info::orderBy('added_at','desc')->paginate(15);
+        $employee = User_Info::where('user_type','employee')->orderBy('added_at','desc')->paginate(15);
         return view('employee.employees', compact('employee'));
     }//End Method
 
@@ -508,21 +509,23 @@ class EmployeeController extends Controller
     public function InsertEmployees(Request $req){
         $req->validate([
             "name" => 'required',
-            "email" => 'required|unique:employee__infos,emp_email,email',
-            "phone" => 'required|unique:employee__infos,emp_phone,phone',
+            "email" => 'required|email|unique:user__infos,user_email,email',
+            "phone" => 'required|numeric|unique:user__infos,user_phone,phone',
+            "gender" => 'required|in:male,female,others',
             "location" => 'required',
             "type" => 'required',
             "department" => 'required',
             "designation" => 'required',
             "dob" => 'required',
+            "nid" => 'required',
             "address" => 'required',
             "image" => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         //generates Auto Increment Employee Id
-        $latestEmployee = Employee_Info::orderBy('added_at','desc')->first();
-        $id = ($latestEmployee) ? 'B' . str_pad((intval(substr($latestEmployee->emp_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'B000000101';
-        
+        $latestEmployee = User_Info::where('user_type','employee')->orderBy('added_at','desc')->first();
+        $id = ($latestEmployee) ? 'E' . str_pad((intval(substr($latestEmployee->user_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'E000000101';
+
         //process the image name and store it to storage/app/public/profiles directory
         if ($req->hasFile('image') && $req->file('image')->isValid()) {
             $originalName = $req->file('image')->getClientOriginalName();
@@ -530,16 +533,19 @@ class EmployeeController extends Controller
             $imagePath = $req->file('image')->storeAs('public/profiles', $imageName);
         }
 
-        Employee_Info::insert([
-            "emp_id" => $id,
-            "emp_name" => $req->name,
-            "emp_email" => $req->email,
-            "emp_phone" => $req->phone,
+        User_Info::insert([
+            "user_id" => $id,
+            "user_name" => $req->name,
+            "user_email" => $req->email,
+            "user_phone" => $req->phone,
+            "gender" => $req->gender,
             "loc_id" => $req->location,
+            "user_type" => 'employee',
             "emp_type" => $req->type,
             "dept_id" => $req->department,
             "designation_id" => $req->designation,
             "dob" => $req->dob,
+            "nid" => $req->nid,
             "address" => $req->address,
             "image" => $imageName,
         ]);
@@ -551,34 +557,9 @@ class EmployeeController extends Controller
 
 
 
-    // //Get Unit by Name
-    // public function GetUnitByName(Request $request){
-    //     if($request->unit != ""){
-    //         $inv_unit = Inv_unit::where('unit_name', 'like', '%'.$request->unit.'%')
-    //         ->orderBy('unit_name','asc')
-    //         ->take(10)
-    //         ->get();
-
-    //         if($inv_unit->count() > 0){
-    //             $list = "";
-    //             foreach($inv_unit as $unit) {
-    //                 $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$unit->id.'">'.$unit->unit_name.'</li>';
-    //             }
-    //         }
-    //         else{
-    //             $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
-    //         }
-    //         return $list;
-    //     }else{
-    //         return "";
-    //     } 
-    // }//End Method
-
-
-
     //Edit Employees
     public function EditEmployees(Request $req){
-        $employee = Employee_Info::with('Department','Designation','Location')->findOrFail($req->id);
+        $employee = User_Info::with('Department','Designation','Location')->findOrFail($req->id);
         return response()->json([
             'employee'=>$employee,
         ]);
@@ -588,38 +569,52 @@ class EmployeeController extends Controller
 
     //Update Employees
     public function UpdateEmployees(Request $req){
-        dd($req->all());
         $req->validate([
             "name" => 'required',
-            "email" => ['required',Rule::unique('employee__infos', 'emp_email')->ignore($req->id)],
-            "phone" => ['required',Rule::unique('employee__infos', 'emp_phone')->ignore($req->id)],
+            "email" => ['required|email',Rule::unique('user__infos', 'user_email')->ignore($req->id)],
+            "phone" => ['required|numeric',Rule::unique('user__infos', 'user_phone')->ignore($req->id)],
+            "gender" => 'required|in:male,female,others',
             "location" => 'required',
             "type" => 'required',
             "department" => 'required',
             "designation" => 'required',
             "dob" => 'required',
+            "nid" => 'required',
             "address" => 'required',
-            "image" => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
-        $employee = Employee_Info::findOrFail($req->id);
+        $employee = User_Info::findOrFail($req->id);
+        
+        if($req->image != null){
+            $req->validate([
+                "image" => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+            ]);
 
-        //process the image name and store it to storage/app/public/profiles directory
-        if ($req->hasFile('image') && $req->file('image')->isValid()) {
-            $originalName = $req->file('image')->getClientOriginalName();
-            $imageName = $id. '('. $req->name . ').' . $req->file('image')->getClientOriginalExtension();
-            $imagePath = $req->file('image')->storeAs('public/profiles', $imageName);
+            //process the image name and store it to storage/app/public/profiles directory
+            if ($req->hasFile('image') && $req->file('image')->isValid()) {
+                $originalName = $req->file('image')->getClientOriginalName();
+                $imageName = $req->empId. '('. $req->name . ').' . $req->file('image')->getClientOriginalExtension();
+                $imagePath = $req->file('image')->storeAs('public/profiles', $imageName);
+            }
         }
+        else{
+            $imageName = $employee->image;
+        }
+        
+        
 
-        $update = Employee_Info::findOrFail($id)->update([
-            "emp_name" => $req->name,
-            "emp_email" => $req->email,
-            "emp_phone" => $req->phone,
+        $update = User_Info::findOrFail($req->id)->update([
+            "user_name" => $req->name,
+            "user_email" => $req->email,
+            "user_phone" => $req->phone,
+            "gender" => $req->gender,
             "loc_id" => $req->location,
+            "user_type" => 'employee',
             "emp_type" => $req->type,
             "dept_id" => $req->department,
             "designation_id" => $req->designation,
             "dob" => $req->dob,
+            "nid" => $req->nid,
             "address" => $req->address,
             "image" => $imageName,
             "updated_at" => now()
@@ -633,47 +628,26 @@ class EmployeeController extends Controller
 
 
 
-    // //Delete Unit
-    // public function DeleteUnits($id){
-    //     Inv_Unit::findOrFail($id)->delete();
-    //     return response()->json([
-    //         'status'=>'success'
-    //     ]); 
-    // }//End Method
+    //Delete Employees
+    public function DeleteEmployees(Request $req){
+        User_Info::findOrFail($req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
 
 
 
-    // //Unit Pagination
-    // public function UnitPagination(){
-    //     $inv_unit = Inv_Unit::orderBy('added_at','desc')->paginate(15);
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'data' => view('inventory.unit.unitPagination', compact('inv_unit'))->render(),
-    //     ]);
-    // }//End Method
+    //Employee Pagination
+    public function EmployeePagination(){
+        $employee = User_info::where('user_type','employee')->orderBy('added_at','desc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('employee.employeePagination', compact('employee'))->render(),
+        ]);
+    }//End Method
 
 
-
-    // //Unit Search
-    // public function SearchUnits(Request $request){
-    //     $inv_unit = Inv_Unit::where('unit_name', 'like', '%'.$request->search.'%')
-    //     ->orWhere('id', 'like','%'.$request->search.'%')
-    //     ->orderBy('unit_name','asc')
-    //     ->paginate(15);
-        
-    //     if($inv_unit->count() >= 1){
-    //         return response()->json([
-    //             'status' => 'success',
-    //             // 'pagination' => $inv_unit->links()->toHtml(),
-    //             'data' => view('inventory.unit.searchUnit', compact('inv_unit'))->render(),
-    //         ]);
-    //     }
-    //     else{
-    //         return response()->json([
-    //             'status'=>'null'
-    //         ]); 
-    //     }
-    // }//End Method
 
     /////////////////////////// --------------- Employee Table Methods end ---------- //////////////////////////
 

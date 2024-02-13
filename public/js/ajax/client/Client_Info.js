@@ -1,22 +1,24 @@
 $(document).ready(function () {
     /////////////// ------------------ Add Client ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#addClient', function (e) {
+    $(document).on('submit', '#AddClientForm', function (e) {
         e.preventDefault();
-        let clientName = $('#clientName').val();
-        let contact = $('#contact').val();
-        let email = $('#email').val();
-        let address = $('#address').val();
+        let locations = $('#location').attr('data-id');
+        let formData = new FormData(this);
+        formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: "/insertClients",
             method: 'Post',
-            data: { clientName: clientName,contact: contact, email:email, address:address },
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#addClientModal').hide();
                     $('#AddClientForm')[0].reset();
+                    $('#name').focus();
                     $('.client').load(location.href + ' .client');
                     $('#search').val('');
                     toastr.success('Client Added Successfully', 'Added!');
@@ -39,14 +41,24 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/editClients/${id}`,
+            url: `/editClients`,
             method: 'get',
+            data: { id:id },
             success: function (res) {
                 $('#id').val(res.client.id);
-                $('#updateClientName').val(res.client.client_name);
-                $('#updateContact').val(res.client.client_contact);
-                $('#updateEmail').val(res.client.client_email);
-                $('#updateAddress').val(res.client.client_address);
+                $('#updateName').val(res.client.user_name);
+                $('#updatePhone').val(res.client.user_phone);
+                $('#updateEmail').val(res.client.user_email);
+
+                // Create options dynamically based on the status value
+                $('#updateGender').empty();
+                $('#updateGender').append(`<option value="male" ${res.client.gender === 'male' ? 'selected' : ''}>Male</option>
+                                         <option value="female" ${res.client.gender === 'female' ? 'selected' : ''}>Female</option>
+                                         <option value="others" ${res.client.gender === 'others' ? 'selected' : ''}>Others</option>`);
+
+                $('#updateLocation').val(res.client.location.thana);
+                $('#updateLocation').attr('data-id',res.client.loc_id);
+                $('#updateAddress').val(res.client.address);
 
                 var modal = document.getElementById(modalId);
 
@@ -63,17 +75,18 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Client ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#updateClient', function (e) {
+    $(document).on('submit', '#EditClientForm', function (e) {
         e.preventDefault();
-        let id = $('#id').val();;
-        let clientName = $('#updateClientName').val();
-        let contact = $('#updateContact').val();
-        let email = $('#updateEmail').val();
-        let address = $('#updateAddress').val();
+        let locations = $('#updateLocation').attr('data-id');
+        let formData = new FormData(this);
+        formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: `/updateClients/${id}`,
-            method: 'Put',
-            data: { clientName: clientName, contact:contact, email:email, address:address },
+            url: `/updateClients`,
+            method: 'Post',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -103,8 +116,9 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Client ??')) {
             $.ajax({
-                url: `/deleteClients/${id}`,
+                url: `/deleteClients`,
                 method: 'Delete',
+                data:{ id:id },
                 success: function (res) {
                     if (res.status == "success") {
                         $('.client').load(location.href + ' .client');
@@ -149,6 +163,9 @@ $(document).ready(function () {
             loadClientData(`/searchClient/contact`, {search:search}, '.client')
         }
         else if(searchOption == '4'){
+            loadClientData(`/searchClient/location`, {search:search}, '.client')
+        }
+        else if(searchOption == '5'){
             loadClientData(`/searchClient/address`, {search:search}, '.client')
         }
     });
@@ -172,6 +189,9 @@ $(document).ready(function () {
             loadClientData(`/client/contactPagination?page=${page}`, {search:search}, '.client')
         }
         else if(searchOption == '4'){
+            loadClientData(`/client/locationPagination?page=${page}`, {search:search}, '.client')
+        }
+        else if(searchOption == '5'){
             loadClientData(`/client/addressPagination?page=${page}`, {search:search}, '.client')
         }
     });

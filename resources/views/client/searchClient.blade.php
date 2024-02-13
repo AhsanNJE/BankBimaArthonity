@@ -1,11 +1,13 @@
 <table class="show-table">
-    <caption class="caption">Client Details</caption>
     <thead>
+        <caption class="caption">Client Details</caption>
         <tr>
             <th>SL:</th>
-            <th>Client Name</th>
+            <th>Client Id</th>
+            <th>Name</th>
             <th>Email</th>
-            <th>Contact</th>
+            <th>Phone</th>
+            <th>Location</th>
             <th>Address</th>
             <th>Action</th>
         </tr>
@@ -14,10 +16,12 @@
         @foreach ($client as $key => $item)
             <tr>
                 <td>{{ $client->firstItem() + $key }}</td>
-                <td>{{ $item->client_name }}</td>
-                <td>{{ $item->client_email }}</td>
-                <td>{{ $item->client_contact }}</td>
-                <td>{{ $item->client_address }}</td>
+                <td>{{ $item->user_id }}</td>
+                <td>{{ $item->user_name }}</td>
+                <td>{{ $item->user_email }}</td>
+                <td>{{ $item->user_phone }}</td>
+                <td>{{ $item->Location->thana }}</td>
+                <td>{{ $item->address }}</td>
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editClientModal" data-modal-id="editClientModal"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
@@ -30,12 +34,13 @@
     <tfoot>
         <tr>
             <th>SL:</th>
-            <th>Client Name</th>
+            <th>Client Id</th>
+            <th>Name</th>
             <th>Email</th>
-            <th>Contact</th>
+            <th>Phone</th>
+            <th>Location</th>
             <th>Address</th>
             <th>Action</th>
         </tr>
     </tfoot>
 </table>
-

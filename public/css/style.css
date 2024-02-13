@@ -179,7 +179,7 @@ select {
     padding: 4px 18px 8px 4px;
     cursor: pointer;
     box-sizing: border-box;
-    height: 23px;
+    height: 33px;
     background: url('../images/angle-arrow-down.png') no-repeat right 4px center #fff;
     background-size: 10px;
 }

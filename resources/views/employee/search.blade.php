@@ -4,14 +4,12 @@
         <tr>
             <th>SL:</th>
             <th>Id</th>
-            <th>Image</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Location</th>
-            <th>Type</th>
-            <th>Department</th>
-            <th>Designation</th>
+            <th>Address</th>
+            <th>Image</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -20,15 +18,13 @@
         @foreach ($employee as $key => $item)
             <tr>
                 <td>{{ $employee->firstItem() + $key }}</td>
-                <td>{{ $item->emp_id }}</td>
-                <td>{{ $item->image }}</td>
-                <td>{{ $item->emp_name }}</td>
-                <td>{{ $item->emp_email }}</td>
-                <td>{{ $item->emp_phone }}</td>
+                <td>{{ $item->user_id }}</td>
+                <td>{{ $item->user_name }}</td>
+                <td>{{ $item->user_email }}</td>
+                <td>{{ $item->user_phone }}</td>
                 <td>{{ $item->Location->thana }}</td>
-                <td>{{ $item->emp_type }}</td>
-                <td>{{ $item->Department->dept_name }}</td>
-                <td>{{ $item->Designation->designation }}</td>
+                <td>{{ $item->address }}</td>
+                <td><img src="/storage/profiles/{{ $item->image }}" alt="" height="50px" width="50px"></td>
                 <td>
                     @if ($item->status == 1)
                         <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Active</button>
@@ -49,17 +45,16 @@
         <tr>
             <th>SL:</th>
             <th>Id</th>
-            <th>Image</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Location</th>
-            <th>Type</th>
-            <th>Department</th>
-            <th>Designation</th>
+            <th>Address</th>
+            <th>Image</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
     </tfoot>
 </table>
+
 
