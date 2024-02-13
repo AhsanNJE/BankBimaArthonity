@@ -11,19 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee__infos', function (Blueprint $table) {
+        Schema::create('user__infos', function (Blueprint $table) {
             $table->id();
-            $table->string('emp_id')->unique();
-            $table->string('emp_name');
-            $table->string('emp_email')->unique();
-            $table->string('emp_phone')->unique();
+            $table->string('user_id')->unique();
+            $table->string('user_name')->nullable();
+            $table->string('user_email')->unique()->nullable();
+            $table->string('user_phone')->unique()->nullable();
+            $table->string('gender')->nullable();
             $table->unsignedBigInteger('loc_id')->nullable();
-            $table->string('emp_type');
+            $table->string('user_type');
+            $table->string('emp_type')->nullable();
             $table->unsignedBigInteger('dept_id')->nullable();
             $table->unsignedBigInteger('designation_id')->nullable();
-            $table->date('dob');
-            $table->string('address');
-            $table->string('image');
+            $table->date('dob')->nullable();
+            $table->string('nid')->nullable();
+            $table->string('address')->nullable();
+            $table->string('image')->nullable();
+            $table->tinyInteger('status')->default('0')->comment('1 for Active 0 for Inactive');
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
@@ -43,6 +47,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee__infos');
+        Schema::dropIfExists('user__infos');
     }
 };

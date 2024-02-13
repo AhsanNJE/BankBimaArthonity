@@ -45,39 +45,89 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{route('show.employees')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>All Employee</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{route('show.departments')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Add Employee</p>
+                <p>Department</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('show.designations')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Designation</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('show.locations')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Location</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fa-solid fa-coins"></i>
+            <p>
+              Transaction
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('show.transaction.groupes')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Transaction Groupe</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('show.transaction.heads')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Transaction Head</p>
               </a>
             </li>
           </ul>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <!-- <i class="nav-icon fas fa-table"></i> -->
-            <i class="fa-solid fa-location-dot"></i>
+            <i class="fa-solid fa-coins"></i>
             <p>
-              Location Info
+              Supplier
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{route('show.suppliers')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Location</p>
+                <p>All Suppliers</p>
               </a>
             </li>
-
           </ul>
         </li>
-
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fa-solid fa-coins"></i>
+            <p>
+              Client
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('show.clients')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>All Clients</p>
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
