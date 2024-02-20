@@ -118,11 +118,11 @@ $(document).ready(function () {
                 $('#updateLocation').val(res.employee.location.thana);
                 $('#updateLocation').attr('data-id',res.employee.loc_id);
 
-                // Create options dynamically based on the status value
+                // Create options dynamically
                 $('#updateType').empty();
-                $('#updateType').append(`<option value="regular" ${res.employee.emp_type === 'regular' ? 'selected' : ''}>Regular</option>
-                                         <option value="district" ${res.employee.emp_type === 'district' ? 'selected' : ''}>District Employee</option>
-                                         <option value="bit" ${res.employee.emp_type === 'bit' ? 'selected' : ''}>Bit Pion</option>`);
+                $('#updateType').append(`<option value="regular employee" ${res.employee.tran_user_type === 'regular employee' ? 'selected' : ''}>Regular</option>
+                                         <option value="district employee" ${res.employee.tran_user_type === 'district employee' ? 'selected' : ''}>District Employee</option>
+                                         <option value="bit pion" ${res.employee.tran_user_type === 'bit pion' ? 'selected' : ''}>Bit Pion</option>`);
 
                 $('#updateDepartment').val(res.employee.department.dept_name);
                 $('#updateDepartment').attr('data-id',res.employee.dept_id);

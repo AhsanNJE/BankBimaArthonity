@@ -14,17 +14,25 @@ return new class extends Migration
         Schema::create('transaction__mains', function (Blueprint $table) {
             $table->id();
             $table->string('tran_id');
-            $table->string('invoice');
+            $table->string('invoice')->nullable();
             $table->unsignedBigInteger('loc_id')->nullable();
             $table->string('tran_type');
-            $table->float('receive')->nullabel();
-            $table->float('payment')->nullable();
+            $table->float('balance_amount')->nullable();
             $table->float('discount')->default('0');
-            $table->float('net_receive')->nullable();
-            $table->float('net_payment')->nullable();
+            $table->float('net_amount')->nullable();
+            $table->float('receive')->nullable();
+            $table->float('payment')->nullable();
+            $table->float('due')->nullable();
+            $table->string('tran_type_with')->nullable();
+            $table->string('tran_user')->nullable();
+            $table->float('due_col')->nullable();
+            $table->float('due_disc')->nullable();
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+            $table->foreign('tran_user')->references('user_id')->on('user__infos')
+                    ->onUpdate('cascade')
+                    ->onDelete('set null');
             $table->timestamp('tran_date')->useCurrent();
             $table->timestamp('updated_at')->nullable();
         });

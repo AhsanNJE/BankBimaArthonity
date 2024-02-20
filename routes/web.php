@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\ClientController;
 use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\SupplierController;
-use App\Http\Controllers\Backend\ClientController;
 use App\Http\Controllers\Backend\TransactionController;
+use App\Http\Controllers\Backend\PartyPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -229,6 +230,58 @@ Route::controller(TransactionController::class)->group(function(){
         Route::get('/heads/searchPagination', 'SearchTransactionHeads');
         Route::get('/heads/searchPagination/groupe', 'SearchTransactionHeadsByGroupe');
         //search list routs
-        Route::get('/getHeadsByName/groupe', 'GetTransactionHeadByGroupe');
+        Route::get('/getHeads/groupe', 'GetTransactionHeadByGroupe');
+
+
+        ////////////////////////// --------------- Transaction Details routes ----------- ///////////////////////////
+        //main crude Routes
+        Route::get('/', 'ShowTransactions')->name('show.transaction');
+        Route::post('/insertMain', 'InsertTransactionMain')->name('insert.transaction.main');
+        Route::get('/editMain', 'EditTransactionMain')->name('edit.transaction.main');
+        Route::put('/updateMain', 'UpdateTransactionMain')->name('update.transaction.main');
+        Route::delete('/deleteMain', 'DeleteTransactionMain')->name('delete.transaction.main');
+        //details crud routes start
+        Route::post('/insertDetails', 'InsertTransactionDetails')->name('insert.transaction.details');
+        Route::get('/editDetails', 'EditTransactionDetails')->name('edit.transaction.details');
+        Route::put('/updateDetails', 'UpdateTransactionDetails')->name('update.transaction.details');
+        Route::delete('/deleteDetails', 'DeleteTransactionDetails')->name('delete.transaction.details');
+        
+        //search routes start
+        Route::get('/searchDetails', 'SearchTransactionDetails')->name('search.transaction.details');
+        //pagination routes start
+        Route::get('/details/pagination', 'TransactionHeadPagination');
+        Route::get('/details/searchPagination', 'SearchTransactionDetails');
+        //search list routs
+        Route::get('/getDetails/TranId', 'GetTransactionDetailsByTranId');
+
+
+
+        ////////////////////////// --------------- Transaction Main routes ----------- ///////////////////////////
+        //search routes start
+        Route::get('/searchMain', 'SearchTransactionMain')->name('search.transaction.main');
+        //pagination routes start
+        Route::get('/main/pagination', 'TransactionMainPagination');
+        Route::get('/main/searchPagination', 'SearchTransactionMain');
+        //search list routs
+        Route::get('/getTranId', 'GetTransactionId');
+        Route::get('/getTranUser', 'GetTransactionUser');
+        Route::get('/getTransactionGrid', 'GetTransactionGrid');
+
+    });
+
+
+
+    Route::controller(PartyPaymentController::class)->group(function(){
+        Route::prefix('/party')->group(function(){
+            //main crude Routes
+            Route::get('/', 'ShowParty')->name('show.party');
+            Route::post('/insertParty', 'InsertParty')->name('insert.party');
+            Route::get('/editParty', 'EditParty')->name('edit.party');
+            Route::put('/updateParty', 'UpdateParty')->name('update.party');
+            Route::delete('/deleteParty', 'DeleteParty')->name('delete.party');
+            //search list routs
+            Route::get('/getTranId', 'GetTransactionId');
+            Route::get('/getTranUser', 'GetTransactionUser');
+        });
     });
 });

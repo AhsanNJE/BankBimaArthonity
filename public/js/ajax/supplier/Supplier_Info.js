@@ -47,6 +47,11 @@ $(document).ready(function () {
             data: { id:id },
             success: function (res) {
                 $('#id').val(res.supplier.id);
+
+                $('#updateType').empty();
+                $('#updateType').append(`<option value="food supplier" ${res.supplier.tran_user_type === 'food supplier' ? 'selected' : ''}>Food Supplier</option>
+                                         <option value="stationary supplier" ${res.supplier.tran_user_type === 'stationary supplier' ? 'selected' : ''}>Stationary Supplier</option>`);
+
                 $('#updateName').val(res.supplier.user_name);
                 $('#updateEmail').val(res.supplier.user_email);
                 $('#updatePhone').val(res.supplier.user_phone);

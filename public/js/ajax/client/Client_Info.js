@@ -46,6 +46,14 @@ $(document).ready(function () {
             data: { id:id },
             success: function (res) {
                 $('#id').val(res.client.id);
+
+                $('#updateType').empty();
+                $('#updateType').append(`<option value="newspaper client" ${res.client.tran_user_type === 'newspaper client' ? 'selected' : ''}>Newpaper Client</option>
+                                         <option value="advertisement client" ${res.client.tran_user_type === 'advertisement client' ? 'selected' : ''}>Advertisement Client</option>
+                                         <option value="magazine client" ${res.client.tran_user_type === 'magazine client' ? 'selected' : ''}>Magazine Client</option>
+                                         <option value="others" ${res.client.tran_user_type === 'others' ? 'selected' : ''}>Others</option>`);
+
+
                 $('#updateName').val(res.client.user_name);
                 $('#updatePhone').val(res.client.user_phone);
                 $('#updateEmail').val(res.client.user_email);

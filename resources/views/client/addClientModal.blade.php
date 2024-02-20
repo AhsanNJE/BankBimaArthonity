@@ -19,10 +19,25 @@
                     <div class="center">
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group">
-                                    <label for="name">Client Name</label>
-                                    <input type="text" name="name" class="form-control" id="name">
-                                    <span class="text-danger error" id="name_error"></span>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="type">Client Type</label>
+                                        <select name="type" id="type">
+                                            <option value="">Select client Type</option>
+                                            <option value="newspaper client">Newpaper Client</option>
+                                            <option value="advertisement client">Advertisement Client</option>
+                                            <option value="magazine client">Magazine Client</option>
+                                            <option value="others">Others</option>
+                                        </select>
+                                        <span class="text-danger error" id="type_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Client Name</label>
+                                        <input type="text" name="name" class="form-control" id="name">
+                                        <span class="text-danger error" id="name_error"></span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
