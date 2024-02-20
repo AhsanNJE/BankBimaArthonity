@@ -7,8 +7,8 @@ $(document).ready(function () {
         let district = $('#district').val();
         let thana = $('#thana').val();
         $.ajax({
-            url: "/admin/employees/insertLocations",
-            method: 'Post',
+            url:"/admin/employees/insert/locations",
+            method:'POST',
             data: { division:division, district:district, thana:thana },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -39,8 +39,8 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/admin/employees/editLocations`,
-            method: 'get',
+            url:`/admin/employees/edit/locations`,
+            method:'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -67,8 +67,8 @@ $(document).ready(function () {
         let district = $('#updateDistrict').val();
         let thana = $('#updateThana').val();
         $.ajax({
-            url: `/admin/employees/updateLocations`,
-            method: 'Put',
+            url:`/admin/employees/update/locations`,
+            method:'PUT',
             data: { division: division, district:district, thana:thana, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -99,8 +99,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Location ??')) {
             $.ajax({
-                url: `/admin/employees/deleteLocations`,
-                method: 'Delete',
+                url:`/admin/employees/delete/locations`,
+                method:'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
@@ -137,13 +137,13 @@ $(document).ready(function () {
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadLocationData(`/admin/employees/searchLocations`, {search:search}, '.location')
+            loadLocationData(`/admin/employees/search/locations`, {search:search}, '.location')
         }
         else if(searchOption == "2"){
-            loadLocationData(`/admin/employees/searchLocations/district`, {search:search}, '.location')
+            loadLocationData(`/admin/employees/search/locations/district`, {search:search}, '.location')
         }
         else if(searchOption == "3"){
-            loadLocationData(`/admin/employees/searchLocations/thana`, {search:search}, '.location')
+            loadLocationData(`/admin/employees/search/locations/thana`, {search:search}, '.location')
         }
         
     });
@@ -158,13 +158,13 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadLocationData(`/admin/employees/locations/searchPagination?page=${page}`, {search:search}, '.location');
+            loadLocationData(`/admin/employees/locations/search/pagination?page=${page}`, {search:search}, '.location');
         }
         else if(searchOption == "2"){
-            loadLocationData(`/admin/employees/locations/searchPagination/district?page=${page}`, {search:search}, '.location');
+            loadLocationData(`/admin/employees/locations/search/pagination/district?page=${page}`, {search:search}, '.location');
         }
         else if(searchOption == "2"){
-            loadLocationData(`/admin/employees/locations/searchPagination/division?page=${page}`, {search:search}, '.location');
+            loadLocationData(`/admin/employees/locations/search/pagination/division?page=${page}`, {search:search}, '.location');
         }
         
     });

@@ -44,38 +44,38 @@ Route::controller(EmployeeController::class)->group(function(){
         ///////////// --------------- Location routes ----------- ///////////////////
         //crud routes start
         Route::get('/locations', 'ShowLocations')->name('show.locations');
-        Route::post('/insertLocations', 'InsertLocations')->name('insert.locations');
-        Route::get('/editLocations', 'EditLocations')->name('edit.locations');
-        Route::put('/updateLocations', 'UpdateLocations')->name('update.locations');
-        Route::delete('/deleteLocations', 'DeleteLocations')->name('delete.locations');
+        Route::post('/insert/locations', 'InsertLocations')->name('insert.locations');
+        Route::get('/edit/locations', 'EditLocations')->name('edit.locations');
+        Route::put('/update/locations', 'UpdateLocations')->name('update.locations');
+        Route::delete('/delete/locations', 'DeleteLocations')->name('delete.locations');
         //search routes start
-        Route::get('/searchLocations', 'SearchLocations')->name('search.locations');
-        Route::get('/searchLocations/district', 'SearchLocationByDistrict')->name('search.locations.district');
-        Route::get('/searchLocations/thana', 'SearchLocationByThana')->name('search.locations.thana');
+        Route::get('/search/locations', 'SearchLocations')->name('search.locations');
+        Route::get('/search/locations/district', 'SearchLocationByDistrict')->name('search.locations.district');
+        Route::get('/search/locations/thana', 'SearchLocationByThana')->name('search.locations.thana');
         //pagination routes start
         Route::get('/locations/pagination', 'LocationPagination');
-        Route::get('/locations/searchPagination', 'SearchLocations');
-        Route::get('/locations/searchPagination/dictrict', 'SearchLocationByDistrict');
-        Route::get('/locations/searchPagination/thana', 'SearchLocationByThana');
+        Route::get('/locations/search/pagination', 'SearchLocations');
+        Route::get('/locations/search/pagination/dictrict', 'SearchLocationByDistrict');
+        Route::get('/locations/search/pagination/thana', 'SearchLocationByThana');
         //search list routs
-        Route::get('/getLocationByThana', 'GetLocationByThana');
+        Route::get('/get/locationby/thana', 'GetLocationByThana');
 
 
 
         ///////////// --------------- Department routes ----------- ///////////////////
         //crud routes start
         Route::get('/departments', 'ShowDepartments')->name('show.departments');
-        Route::post('/insertDepartments', 'InsertDepartments')->name('insert.departments');
-        Route::get('/editDepartments', 'EditDepartments')->name('edit.departments');
-        Route::put('/updateDepartments', 'UpdateDepartments')->name('update.departments');
-        Route::delete('/deleteDepartments', 'DeleteDepartments')->name('delete.departments');
+        Route::post('/insert/departments', 'InsertDepartments')->name('insert.departments');
+        Route::get('/edit/departments', 'EditDepartments')->name('edit.departments');
+        Route::put('/update/departments', 'UpdateDepartments')->name('update.departments');
+        Route::delete('/delete/departments', 'DeleteDepartments')->name('delete.departments');
         //search routes start
-        Route::get('/searchDepartments', 'SearchDepartments')->name('search.departments');
+        Route::get('/search/departments', 'SearchDepartments')->name('search.departments');
         //pagination routes start
         Route::get('/departments/pagination', 'DepartmentPagination');
-        Route::get('/departments/searchPagination', 'SearchDepartments');
+        Route::get('/departments/search/pagination', 'SearchDepartments');
         //search list routs
-        Route::get('/getDepartmentByName', 'GetDepartmentByName');
+        Route::get('/get/departmentby/name', 'GetDepartmentByName');
 
 
 
@@ -83,36 +83,36 @@ Route::controller(EmployeeController::class)->group(function(){
         ///////////// --------------- Designation routes ----------- ///////////////////
         //crud routes start
         Route::get('/designations', 'ShowDesignations')->name('show.designations');
-        Route::post('/insertDesignations', 'InsertDesignations')->name('insert.designations');
-        Route::get('/editDesignations', 'EditDesignations')->name('edit.designations');
-        Route::put('/updateDesignations', 'UpdateDesignations')->name('update.designations');
-        Route::delete('/deleteDesignations', 'DeleteDesignations')->name('delete.designations');
+        Route::post('/insert/designations', 'InsertDesignations')->name('insert.designations');
+        Route::get('/edit/designations', 'EditDesignations')->name('edit.designations');
+        Route::put('/update/designations', 'UpdateDesignations')->name('update.designations');
+        Route::delete('/delete/designations', 'DeleteDesignations')->name('delete.designations');
         //search routes start
-        Route::get('/searchDesignations', 'SearchDesignations')->name('search.designations');
-        Route::get('/searchDesignations/department', 'SearchDesignationsByDepartment')->name('search.designations.by.department');
+        Route::get('/search/designations', 'SearchDesignations')->name('search.designations');
+        Route::get('/search/designations/department', 'SearchDesignationsByDepartment')->name('search.designations.by.department');
         //pagination routes start
         Route::get('/designations/pagination', 'DesignationPagination');
-        Route::get('/designations/searchPagination', 'SearchDesignations');
-        Route::get('/designations/searchPagination/department', 'SearchDesignationsByDepartment');
+        Route::get('/designations/search/pagination', 'SearchDesignations');
+        Route::get('/designations/search/pagination/department', 'SearchDesignationsByDepartment');
         //search list routs
-        Route::get('/getDesignationByName/department', 'GetDesignationByNameAndDepartment');
+        Route::get('/get/designationby/name/department', 'GetDesignationByNameAndDepartment');
 
 
 
         ///////////// --------------- Employees routes ----------- ///////////////////
-        //crud routes start
+        //crud routes start 
         Route::get('/', 'ShowEmployees')->name('show.employees');
-        Route::post('/insertEmployees', 'InsertEmployees')->name('insert.employees');
-        Route::get('/editEmployees', 'EditEmployees')->name('edit.employees');
-        Route::put('/updateEmployees', 'UpdateEmployees')->name('update.employees');
-        Route::delete('/deleteEmployees', 'DeleteEmployees')->name('delete.employees');
+        Route::post('/insert/employees', 'InsertEmployees')->name('insert.employees');
+        Route::get('/edit/employees', 'EditEmployees')->name('edit.employees');
+        Route::put('/update/employees', 'UpdateEmployees')->name('update.employees');
+        Route::delete('/delete/employees', 'DeleteEmployees')->name('delete.employees');
         //search routes start
-        Route::get('/searchUnits', 'SearchUnits')->name('search.employees');
+        Route::get('/search/units', 'SearchUnits')->name('search.employees');
         //pagination routes start
         Route::get('/pagination', 'EmployeePagination');
-        Route::get('/searchPagination', 'SearchEmployees');
+        Route::get('/search/pagination', 'SearchEmployees');
         //search list routs
-        Route::get('/getEmployeeByName', 'GetUnitByName')->name('get.employee.by.name');
+        Route::get('/get/employeeby/name', 'GetUnitByName')->name('get.employee.by.name');
         
     });
 });
@@ -132,25 +132,25 @@ Route::controller(SupplierController::class)->group(function(){
     ///////////// --------------- Suppliers routes ----------- ///////////////////
     //crud routes start
     Route::get('/suppliers', 'ShowSuppliers')->name('show.suppliers');
-    Route::post('/insertSuppliers', 'InsertSuppliers')->name('insert.suppliers');
-    Route::get('/editSuppliers', 'EditSuppliers')->name('edit.suppliers');
-    Route::put('/updateSuppliers', 'UpdateSuppliers')->name('update.suppliers');
-    Route::delete('/deleteSuppliers', 'DeleteSuppliers')->name('delete.suppliers');
+    Route::post('/insert/suppliers', 'InsertSuppliers')->name('insert.suppliers');
+    Route::get('/edit/suppliers', 'EditSuppliers')->name('edit.suppliers');
+    Route::put('/update/suppliers', 'UpdateSuppliers')->name('update.suppliers');
+    Route::delete('/delete/suppliers', 'DeleteSuppliers')->name('delete.suppliers');
     //search routes start
-    Route::get('/searchSupplier/name', 'SearchSuppliers')->name('search.supplier.name');
-    Route::get('/searchSupplier/email', 'SearchSupplierByEmail')->name('search.supplier.email');
-    Route::get('/searchSupplier/phone', 'SearchSupplierByContact')->name('search.supplier.contact');
-    Route::get('/searchSupplier/location', 'SearchSupplierByLocation')->name('search.supplier.location');
-    Route::get('/searchSupplier/address', 'SearchSupplierByAddress')->name('search.supplier.address');
+    Route::get('/search/supplier/name', 'SearchSuppliers')->name('search.supplier.name');
+    Route::get('/search/supplier/email', 'SearchSupplierByEmail')->name('search.supplier.email');
+    Route::get('/search/supplier/phone', 'SearchSupplierByContact')->name('search.supplier.contact');
+    Route::get('/search/supplier/location', 'SearchSupplierByLocation')->name('search.supplier.location');
+    Route::get('/search/supplier/address', 'SearchSupplierByAddress')->name('search.supplier.address');
     //pagination routes start
     Route::get('/supplier/pagination', 'SupplierPagination');
-    Route::get('/supplier/namePagination', 'SearchSuppliers');
-    Route::get('/supplier/emailPagination', 'SearchSupplierByEmail');
-    Route::get('/supplier/phonePagination', 'SearchSupplierByContact');
-    Route::get('/supplier/addressPagination', 'SearchSupplierByAddress');
-    Route::get('/supplier/locationPagination', 'SearchSupplierByLocation');
+    Route::get('/supplier/name/pagination', 'SearchSuppliers');
+    Route::get('/supplier/email/pagination', 'SearchSupplierByEmail');
+    Route::get('/supplier/phone/pagination', 'SearchSupplierByContact');
+    Route::get('/supplier/address/pagination', 'SearchSupplierByAddress');
+    Route::get('/supplier/location/pagination', 'SearchSupplierByLocation');
     //search list routs
-    Route::get('/getSupplierByName', 'GetSupplierByName')->name('get.supplier.by.name');
+    Route::get('/get/supplierby/name', 'GetSupplierByName')->name('get.supplier.by.name');
 
 });
 
@@ -166,23 +166,23 @@ Route::controller(ClientController::class)->group(function(){
     ///////////// --------------- Clients routes ----------- ///////////////////
     //crud routes start
     Route::get('/clients', 'ShowClients')->name('show.clients');
-    Route::post('/insertClients', 'InsertClients')->name('insert.clients');
-    Route::get('/editClients', 'EditClients')->name('edit.clients');
-    Route::put('/updateClients', 'UpdateClients')->name('update.clients');
-    Route::delete('/deleteClients', 'DeleteClients')->name('delete.clients');
+    Route::post('/insert/clients', 'InsertClients')->name('insert.clients');
+    Route::get('/edit/clients', 'EditClients')->name('edit.clients');
+    Route::put('/update/clients', 'UpdateClients')->name('update.clients');
+    Route::delete('/delete/clients', 'DeleteClients')->name('delete.clients');
     //search routes start
-    Route::get('/searchClient/name', 'SearchClients')->name('search.client.name');
-    Route::get('/searchClient/email', 'SearchClientByEmail')->name('search.client.email');
-    Route::get('/searchClient/contact', 'SearchClientByContact')->name('search.client.contact');
-    Route::get('/searchClient/location', 'SearchClientByLocation')->name('search.client.location');
-    Route::get('/searchClient/address', 'SearchClientByAddress')->name('search.client.address');
+    Route::get('/search/client/name', 'SearchClients')->name('search.client.name');
+    Route::get('/search/client/email', 'SearchClientByEmail')->name('search.client.email');
+    Route::get('/search/client/contact', 'SearchClientByContact')->name('search.client.contact');
+    Route::get('/search/client/location', 'SearchClientByLocation')->name('search.client.location');
+    Route::get('/search/client/address', 'SearchClientByAddress')->name('search.client.address');
     //pagination routes start
     Route::get('/client/pagination', 'ClientPagination');
-    Route::get('/client/namePagination', 'SearchClients');
-    Route::get('/client/emailPagination', 'SearchClientByEmail');
-    Route::get('/client/contactPagination', 'SearchClientByContact');
-    Route::get('/client/locationPagination', 'SearchClientByLocation');
-    Route::get('/client/addressPagination', 'SearchClientByAddress');
+    Route::get('/client/name/pagination', 'SearchClients');
+    Route::get('/client/email/pagination', 'SearchClientByEmail');
+    Route::get('/client/contact/pagination', 'SearchClientByContact');
+    Route::get('/client/location/pagination', 'SearchClientByLocation');
+    Route::get('/client/address/pagination', 'SearchClientByAddress');
     //search list routs
 
 });
@@ -200,17 +200,17 @@ Route::controller(TransactionController::class)->group(function(){
         ////////////////////////// --------------- Transaction Groupes routes ----------- /////////////////////////
         //crud routes start
         Route::get('/groupes', 'ShowTransactionGroupes')->name('show.transaction.groupes');
-        Route::post('/insertGroupes', 'InsertTransactionGroupes')->name('insert.transaction.groupes');
-        Route::get('/editGroupes', 'EditTransactionGroupes')->name('edit.transaction.groupes');
-        Route::put('/updateGroupes', 'UpdateTransactionGroupes')->name('update.transaction.groupes');
-        Route::delete('/deleteGroupes', 'DeleteTransactionGroupes')->name('delete.transaction.groupes');
+        Route::post('/insert/groupes', 'InsertTransactionGroupes')->name('insert.transaction.groupes');
+        Route::get('/edit/groupes', 'EditTransactionGroupes')->name('edit.transaction.groupes');
+        Route::put('/update/groupes', 'UpdateTransactionGroupes')->name('update.transaction.groupes');
+        Route::delete('/delete/groupes', 'DeleteTransactionGroupes')->name('delete.transaction.groupes');
         //search routes start
-        Route::get('/searchGroupes', 'SearchTransactionGroupes')->name('search.transaction.groupes');
+        Route::get('/search/groupes', 'SearchTransactionGroupes')->name('search.transaction.groupes');
         //pagination routes start
         Route::get('/groupes/pagination', 'TransactionGroupePagination');
-        Route::get('/groupes/searchPagination', 'SearchTransactionGroupes');
+        Route::get('/groupes/search/pagination', 'SearchTransactionGroupes');
         //search list routs
-        Route::get('/getGroupeByName', 'GetTransactionGroupeByName');
+        Route::get('/get/groupeby/name', 'GetTransactionGroupeByName');
 
 
 
@@ -218,18 +218,18 @@ Route::controller(TransactionController::class)->group(function(){
         ////////////////////////// --------------- Transaction Heads routes ----------- ///////////////////////////
         //crud routes start
         Route::get('/heads', 'ShowTransactionHeads')->name('show.transaction.heads');
-        Route::post('/insertHeads', 'InsertTransactionHeads')->name('insert.transaction.heads');
-        Route::get('/editHeads', 'EditTransactionHeads')->name('edit.transaction.heads');
-        Route::put('/updateHeads', 'UpdateTransactionHeads')->name('update.transaction.heads');
-        Route::delete('/deleteHeads', 'DeleteTransactionHeads')->name('delete.transaction.heads');
+        Route::post('/insert/heads', 'InsertTransactionHeads')->name('insert.transaction.heads');
+        Route::get('/edit/heads', 'EditTransactionHeads')->name('edit.transaction.heads');
+        Route::put('/update/heads', 'UpdateTransactionHeads')->name('update.transaction.heads');
+        Route::delete('/delete/heads', 'DeleteTransactionHeads')->name('delete.transaction.heads');
         //search routes start
-        Route::get('/searchHeads', 'SearchTransactionHeads')->name('search.transaction.heads');
-        Route::get('/searchHeads/groupe', 'SearchTransactionHeadsByGroupe')->name('search.transaction.heads.by.groupe');
+        Route::get('/search/heads', 'SearchTransactionHeads')->name('search.transaction.heads');
+        Route::get('/search/heads/groupe', 'SearchTransactionHeadsByGroupe')->name('search.transaction.heads.by.groupe');
         //pagination routes start
         Route::get('/heads/pagination', 'TransactionHeadPagination');
-        Route::get('/heads/searchPagination', 'SearchTransactionHeads');
-        Route::get('/heads/searchPagination/groupe', 'SearchTransactionHeadsByGroupe');
+        Route::get('/heads/search/pagination', 'SearchTransactionHeads');
+        Route::get('/heads/search/pagination/groupe', 'SearchTransactionHeadsByGroupe');
         //search list routs
-        Route::get('/getHeadsByName/groupe', 'GetTransactionHeadByGroupe');
+        Route::get('/get/headsby/name/groupe', 'GetTransactionHeadByGroupe');
     });
 });

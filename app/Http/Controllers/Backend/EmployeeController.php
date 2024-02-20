@@ -571,8 +571,8 @@ class EmployeeController extends Controller
     public function UpdateEmployees(Request $req){
         $req->validate([
             "name" => 'required',
-            "email" => ['required|email',Rule::unique('user__infos', 'user_email')->ignore($req->id)],
-            "phone" => ['required|numeric',Rule::unique('user__infos', 'user_phone')->ignore($req->id)],
+            "email" => ['required','email',Rule::unique('user__infos', 'user_email')->ignore($req->id)],
+            "phone" => ['required','numeric',Rule::unique('user__infos', 'user_phone')->ignore($req->id)],
             "gender" => 'required|in:male,female,others',
             "location" => 'required',
             "type" => 'required',

@@ -12,8 +12,8 @@ $(document).ready(function () {
         formData.append('designation', designation === undefined ? '' : designation);
 
         $.ajax({
-            url: "/admin/employees/insertEmployees",
-            method: 'Post',
+            url:"/admin/employees/insert/employees",
+            method:"POST",
             processData: false,
             contentType: false,
             cache: false,
@@ -99,9 +99,9 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/admin/employees/editEmployees`,
-            method: 'get',
-            data: { id:id },
+            url:`/admin/employees/edit/employees`,
+            method:'GET',  
+            data:{ id:id },
             success: function (res) {
                 $('#id').val(id);
                 $('#empId').val(res.employee.user_id);
@@ -155,8 +155,8 @@ $(document).ready(function () {
         formData.append('department',department);
         formData.append('designation',designation);
         $.ajax({
-            url: `/admin/employees/updateEmployees`,
-            method: 'Post',
+            url:"/admin/employees/update/employees",
+            method:"POST",
             data: formData,
             cache: false,
             processData: false,
@@ -190,8 +190,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Employee ??')) {
             $.ajax({
-                url: `/admin/employees/deleteEmployees`,
-                method: 'Delete',
+                url:`/admin/employees/delete/employees`,
+                method:'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

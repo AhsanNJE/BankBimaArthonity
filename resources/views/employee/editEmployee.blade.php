@@ -23,9 +23,9 @@
                 </div>
                 
                 <!-- form start -->
-                <form id="EditEmployeeForm" method="post" enctype="multipart/form-data">
+                <form id="EditEmployeeForm" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('put')
+                    @method('PUT')
                     <div class="center">
                         <div class="card-body">
                             <div class="row">

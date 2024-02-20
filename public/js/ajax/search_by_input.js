@@ -42,9 +42,9 @@ $(document).ready(function () {
     //search Department by name
     function getDepartmentByName(department, targetElement1) {
         $.ajax({
-            url: "/admin/employees/getDepartmentByName",
-            method: 'get',
-            data: {department:department},
+            url:"/admin/employees/get/departmentby/name",
+            method:'GET',
+            data:{department:department},
             success: function (res) {
                 $(targetElement1).html(res);
             }
@@ -97,9 +97,9 @@ $(document).ready(function () {
     //search Designation by name
     function getDesignationByNameAndDepartment(designation, targetElement1, department="") {
         $.ajax({
-            url: "/admin/employees/getDesignationByName/department",
-            method: 'get',
-            data: {designation:designation, department:department},
+            url:"/admin/employees/get/designationby/name/department",
+            method:'GET',
+            data:{designation:designation, department:department},
             success: function (res) {
                 $(targetElement1).html(res);
             }
@@ -149,9 +149,9 @@ $(document).ready(function () {
     //search Location by Thana
     function getLocationByThana(location, targetElement1) {
         $.ajax({
-            url: "/admin/employees/getLocationByThana",
-            method: 'get',
-            data: {location:location},
+            url:"/admin/employees/get/locationby/thana",
+            method:'GET',
+            data:{location:location},
             success: function (res) {
                 $(targetElement1).html(res);
             }
@@ -202,9 +202,9 @@ $(document).ready(function () {
     //search Transaction Groupe by Name
     function getTransactionGroupeByName(groupe, targetElement1) {
         $.ajax({
-            url: "/transaction/getGroupeByName",
-            method: 'get',
-            data: {groupe:groupe},
+            url:"/transaction/get/groupeby/name",
+            method:'GET',
+            data:{groupe:groupe},
             success: function (res) {
                 $(targetElement1).html(res);
             }

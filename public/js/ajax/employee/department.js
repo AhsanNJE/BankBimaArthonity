@@ -5,8 +5,8 @@ $(document).ready(function () {
         e.preventDefault();
         let deptName = $('#deptName').val();
         $.ajax({
-            url: "/admin/employees/insertDepartments",
-            method: 'Post',
+            url:"/admin/employees/insert/departments",
+            method:'POST',
             data: { deptName:deptName },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -25,7 +25,7 @@ $(document).ready(function () {
                 let error = err.responseJSON;
                 $.each(error.errors, function (key, value) {
                     $('#' + key + "_error").text(value);
-                });
+                }); 
             }
         });
     });
@@ -37,8 +37,8 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/admin/employees/editDepartments`,
-            method: 'get',
+            url:`/admin/employees/edit/departments`,
+            method:'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -61,8 +61,8 @@ $(document).ready(function () {
         let id = $('#id').val();
         let deptName = $('#updateDeptName').val();
         $.ajax({
-            url: `/admin/employees/updateDepartments`,
-            method: 'Put',
+            url:`/admin/employees/update/departments`,
+            method:'PUT',
             data: { deptName: deptName, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -93,8 +93,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Location ??')) {
             $.ajax({
-                url: `/admin/employees/deleteDepartments`,
-                method: 'Delete',
+                url:`/admin/employees/delete/departments`,
+                method:'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
@@ -129,7 +129,7 @@ $(document).ready(function () {
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
-        loadDepartmentData(`/admin/employees/searchDepartments`, {search:search}, '.department')
+        loadDepartmentData(`/admin/employees/search/departments`, {search:search}, '.department')
     });
 
 
@@ -140,7 +140,7 @@ $(document).ready(function () {
         $('.paginate').addClass('hidden');
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
-        loadDepartmentData(`/admin/employees/departments/searchPagination?page=${page}`, {search:search}, '.department');
+        loadDepartmentData(`/admin/employees/departments/search/pagination?page=${page}`, {search:search}, '.department');
     });
 
 

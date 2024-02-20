@@ -5,9 +5,9 @@ $(document).ready(function () {
         e.preventDefault();
         let groupeName = $('#groupeName').val();
         $.ajax({
-            url: "/transaction/insertGroupes",
-            method: 'Post',
-            data: { groupeName:groupeName },
+            url:"/transaction/insert/groupes",
+            method:'POST',
+            data:{ groupeName:groupeName },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -37,8 +37,8 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/transaction/editGroupes`,
-            method: 'get',
+            url:`/transaction/edit/groupes`,
+            method:'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -61,8 +61,8 @@ $(document).ready(function () {
         let id = $('#id').val();
         let groupeName = $('#updateGroupeName').val();
         $.ajax({
-            url: `/transaction/updateGroupes`,
-            method: 'Put',
+            url:`/transaction/update/groupes`,
+            method:'PUT',
             data: { groupeName: groupeName, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -93,9 +93,9 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Transaction Groupe ??')) {
             $.ajax({
-                url: `/transaction/deleteGroupes`,
-                method: 'Delete',
-                data: { id:id },
+                url:`/transaction/delete/groupes`,
+                method:'DELETE',
+                data:{ id:id },
                 success: function (res) {
                     if (res.status == "success") {
                         $('.groupe').load(location.href + ' .groupe');
@@ -129,7 +129,7 @@ $(document).ready(function () {
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
-        loadTransactionGroupeData(`/transaction/searchGroupes`, {search:search}, '.groupe')
+        loadTransactionGroupeData(`/transaction/search/groupes`, {search:search}, '.groupe')
     });
 
 
@@ -140,7 +140,7 @@ $(document).ready(function () {
         $('.paginate').addClass('hidden');
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
-        loadTransactionGroupeData(`/transaction/groupes/searchPagination?page=${page}`, {search:search}, '.groupe');
+        loadTransactionGroupeData(`/transaction/groupes/search/pagination?page=${page}`, {search:search}, '.groupe');
     });
 
 
@@ -148,8 +148,8 @@ $(document).ready(function () {
     //Transaction Groupe data load function
     function loadTransactionGroupeData(url, data, targetElement) {
         $.ajax({
-            url: url,
-            data: data,
+            url:url,
+            data:data,
             success: function (res) {
                 if (res.status == "null") {
                     $(targetElement).html(`<span class="text-danger">Result not Found </span>`);
