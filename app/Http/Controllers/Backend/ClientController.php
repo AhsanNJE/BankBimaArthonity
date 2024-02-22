@@ -23,6 +23,7 @@ class ClientController extends Controller
     public function InsertClients(Request $req){
         $req->validate([
             "name" => 'required',
+            "type" => 'required',
             "phone" => 'required|numeric|unique:user__infos,user_phone',
             "email" => 'required|email|unique:user__infos,user_email',
             "gender" => 'required',
@@ -37,6 +38,7 @@ class ClientController extends Controller
 
         $client = User_Info::insert([
             "user_id" => $id,
+            "tran_user_type" => $req->type,
             "user_name" => $req->name,
             "user_phone" => $req->phone,
             "user_email" => $req->email,
@@ -70,15 +72,17 @@ class ClientController extends Controller
         $client = User_Info::findOrFail($req->id);
 
         $req->validate([
+            "type" => 'required',
             "name" => 'required',
-            "email" => ['required','email',Rule::unique('user__infos', 'user_email')->ignore($client->id)],
             "phone" => ['required','numeric',Rule::unique('user__infos', 'user_phone')->ignore($client->id)],
+            "email" => ['required','email',Rule::unique('user__infos', 'user_email')->ignore($client->id)],
             "gender" => 'required',
             "location" => 'required|numeric',
         ]);
 
 
         $update = User_Info::findOrFail($req->id)->update([
+            "tran_user_type" => $req->type,
             "user_name" => $req->name,
             "user_phone" => $req->phone,
             "user_email" => $req->email,

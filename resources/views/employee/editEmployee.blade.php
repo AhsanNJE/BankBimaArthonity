@@ -23,9 +23,9 @@
                 </div>
                 
                 <!-- form start -->
-                <form id="EditEmployeeForm" method="POST" enctype="multipart/form-data">
+                <form id="EditEmployeeForm" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
+                    @method('put')
                     <div class="center">
                         <div class="card-body">
                             <div class="row">
@@ -64,7 +64,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="updateLocation">Location</label>
-                                        <input type="text" name="location" class="form-control" id="updateLocation">
+                                        <input type="text" name="location" class="form-control" id="updateLocation" autocomplete="off">
                                         <div id="update-location">
                                             <ul>
 
@@ -85,7 +85,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="updateDepartment">Department</label>
-                                        <input type="text" name="department" class="form-control" id="updateDepartment">
+                                        <input type="text" name="department" class="form-control" id="updateDepartment" autocomplete="off">
                                         <div id="update-department">
                                             <ul>
 
@@ -97,7 +97,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="updateDesignation">Designation</label>
-                                        <input type="text" name="designation" class="form-control" id="updateDesignation">
+                                        <input type="text" name="designation" class="form-control" id="updateDesignation" autocomplete="off">
                                         <div id="update-designation">
                                             <ul>
 

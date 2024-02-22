@@ -12,8 +12,8 @@ $(document).ready(function () {
         formData.append('designation', designation === undefined ? '' : designation);
 
         $.ajax({
-            url:"/admin/employees/insert/employees",
-            method:"POST",
+            url: "/admin/employees/insert/employees",
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -99,9 +99,9 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url:`/admin/employees/edit/employees`,
-            method:'GET',  
-            data:{ id:id },
+            url: `/admin/employees/edit/employees`,
+            method: 'GET',
+            data: { id:id },
             success: function (res) {
                 $('#id').val(id);
                 $('#empId').val(res.employee.user_id);
@@ -118,11 +118,11 @@ $(document).ready(function () {
                 $('#updateLocation').val(res.employee.location.thana);
                 $('#updateLocation').attr('data-id',res.employee.loc_id);
 
-                // Create options dynamically based on the status value
+                // Create options dynamically
                 $('#updateType').empty();
-                $('#updateType').append(`<option value="regular" ${res.employee.emp_type === 'regular' ? 'selected' : ''}>Regular</option>
-                                         <option value="district" ${res.employee.emp_type === 'district' ? 'selected' : ''}>District Employee</option>
-                                         <option value="bit" ${res.employee.emp_type === 'bit' ? 'selected' : ''}>Bit Pion</option>`);
+                $('#updateType').append(`<option value="regular employee" ${res.employee.tran_user_type === 'regular employee' ? 'selected' : ''}>Regular</option>
+                                         <option value="district employee" ${res.employee.tran_user_type === 'district employee' ? 'selected' : ''}>District Employee</option>
+                                         <option value="bit pion" ${res.employee.tran_user_type === 'bit pion' ? 'selected' : ''}>Bit Pion</option>`);
 
                 $('#updateDepartment').val(res.employee.department.dept_name);
                 $('#updateDepartment').attr('data-id',res.employee.dept_id);
@@ -155,8 +155,8 @@ $(document).ready(function () {
         formData.append('department',department);
         formData.append('designation',designation);
         $.ajax({
-            url:"/admin/employees/update/employees",
-            method:"POST",
+            url: `/admin/employees/update/employees`,
+            method: 'POST',
             data: formData,
             cache: false,
             processData: false,
@@ -190,8 +190,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Employee ??')) {
             $.ajax({
-                url:`/admin/employees/delete/employees`,
-                method:'DELETE',
+                url: `/admin/employees/delete/employees`,
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

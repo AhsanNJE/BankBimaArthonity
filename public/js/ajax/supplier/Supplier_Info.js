@@ -7,8 +7,8 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url:"/insert/suppliers",
-            method:"POST",
+            url: "/insert/suppliers",
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -19,7 +19,7 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#AddSupplierForm')[0].reset();
-                    $('#name').focus();
+                    $('#supplierName').focus();
                     $('#search').val('');
                     $('.supplier').load(location.href + ' .supplier');
                     toastr.success('Supplier Added Successfully', 'Added!');
@@ -42,11 +42,16 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url:`/edit/suppliers`,
-            method:'GET',
+            url: `/edit/suppliers`,
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(res.supplier.id);
+
+                $('#updateType').empty();
+                $('#updateType').append(`<option value="food supplier" ${res.supplier.tran_user_type === 'food supplier' ? 'selected' : ''}>Food Supplier</option>
+                                         <option value="stationary supplier" ${res.supplier.tran_user_type === 'stationary supplier' ? 'selected' : ''}>Stationary Supplier</option>`);
+
                 $('#updateName').val(res.supplier.user_name);
                 $('#updateEmail').val(res.supplier.user_email);
                 $('#updatePhone').val(res.supplier.user_phone);
@@ -75,8 +80,8 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url:`/update/suppliers`,
-            method:'POST',
+            url: `/update/suppliers`,
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -110,8 +115,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Supplier ??')) {
             $.ajax({
-                url:`/delete/suppliers`,
-                method:'DELETE',
+                url: `/delete/suppliers`,
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
@@ -175,7 +180,7 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == '1'){
-            loadSupplierData(`/supplier/name/pagination?page=${page}`, {search:search}, '.supplier');
+            loadSupplierData(`/supplier/name/sagination?page=${page}`, {search:search}, '.supplier');
         }
         else if(searchOption == '2'){
             loadSupplierData(`/supplier/email/pagination?page=${page}`, {search:search}, '.supplier')

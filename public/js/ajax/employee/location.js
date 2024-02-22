@@ -7,8 +7,8 @@ $(document).ready(function () {
         let district = $('#district').val();
         let thana = $('#thana').val();
         $.ajax({
-            url:"/admin/employees/insert/locations",
-            method:'POST',
+            url: "/admin/employees/insert/locations",
+            method: 'POST',
             data: { division:division, district:district, thana:thana },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -39,8 +39,8 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url:`/admin/employees/edit/locations`,
-            method:'GET',
+            url: `/admin/employees/edit/locations`,
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -67,8 +67,8 @@ $(document).ready(function () {
         let district = $('#updateDistrict').val();
         let thana = $('#updateThana').val();
         $.ajax({
-            url:`/admin/employees/update/locations`,
-            method:'PUT',
+            url: `/admin/employees/update/locations`,
+            method: 'PUT',
             data: { division: division, district:district, thana:thana, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -99,8 +99,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Location ??')) {
             $.ajax({
-                url:`/admin/employees/delete/locations`,
-                method:'DELETE',
+                url: `/admin/employees/delete/locations`,
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

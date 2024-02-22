@@ -234,6 +234,10 @@ div[id$="-list"] li:hover, div[id^="update-"] li:hover {
     cursor: pointer;
 }
 
+div[id$="-list"] li:focus, div[id^="update-"] li:focus {
+    background-color: #00afffb0;
+}
+
 /* -------------------------------------- Search by input css end here -------------------------------------------------*/
 
 

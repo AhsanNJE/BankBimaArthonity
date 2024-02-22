@@ -33,12 +33,12 @@ class EmployeeController extends Controller
 
         if($departments->count() > 0){
             $list = "";
-            foreach($departments as $department) {
-                $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$department->id.'">'.$department->dept_name.'</li>';
+            foreach($departments as $index => $department) {
+                $list .= '<li tabindex="'.($index + 1).'" data-id="'.$department->id.'">'.$department->dept_name.'</li>';
             }
         }
         else{
-            $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
+            $list = '<li>No Data Found</li>';
         }
         return $list;
     }//End Method
@@ -166,12 +166,12 @@ class EmployeeController extends Controller
 
             if($designations->count() > 0){
                 $list = "";
-                foreach($designations as $designation) {
-                    $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$designation->id.'">'.$designation->designation.'</li>';
+                foreach($designations as $index => $designation) {
+                    $list .= '<li tabindex="'. ($index + 1) .'" data-id="'.$designation->id.'">'.$designation->designation.'</li>';
                 }
             }
             else{
-                $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
+                $list = '<li>No Data Found</li>';
             }
             return $list;
         }
@@ -331,12 +331,12 @@ class EmployeeController extends Controller
 
         if($locations->count() > 0){
             $list = "";
-            foreach($locations as $location) {
-                $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$location->id.'">'.$location->division.'|'. $location->district. "|". $location->thana.'</li>';
+            foreach($locations as $index => $location) {
+                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$location->id.'">'.$location->thana.'</li>';
             }
         }
         else{
-            $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
+            $list = '<li>No Data Found</li>';
         }
         return $list;
     }//End Method
@@ -541,7 +541,7 @@ class EmployeeController extends Controller
             "gender" => $req->gender,
             "loc_id" => $req->location,
             "user_type" => 'employee',
-            "emp_type" => $req->type,
+            "tran_user_type" => $req->type,
             "dept_id" => $req->department,
             "designation_id" => $req->designation,
             "dob" => $req->dob,
@@ -610,7 +610,7 @@ class EmployeeController extends Controller
             "gender" => $req->gender,
             "loc_id" => $req->location,
             "user_type" => 'employee',
-            "emp_type" => $req->type,
+            "tran_user_type" => $req->type,
             "dept_id" => $req->department,
             "designation_id" => $req->designation,
             "dob" => $req->dob,

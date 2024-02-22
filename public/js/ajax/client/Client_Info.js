@@ -6,8 +6,8 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url:"/insert/clients",
-            method:'POST',
+            url: "/insert/clients",
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -41,11 +41,19 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url:`/edit/clients`,
-            method:'GET',
+            url: `/edit/clients`,
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(res.client.id);
+
+                $('#updateType').empty();
+                $('#updateType').append(`<option value="newspaper client" ${res.client.tran_user_type === 'newspaper client' ? 'selected' : ''}>Newpaper Client</option>
+                                         <option value="advertisement client" ${res.client.tran_user_type === 'advertisement client' ? 'selected' : ''}>Advertisement Client</option>
+                                         <option value="magazine client" ${res.client.tran_user_type === 'magazine client' ? 'selected' : ''}>Magazine Client</option>
+                                         <option value="others" ${res.client.tran_user_type === 'others' ? 'selected' : ''}>Others</option>`);
+
+
                 $('#updateName').val(res.client.user_name);
                 $('#updatePhone').val(res.client.user_phone);
                 $('#updateEmail').val(res.client.user_email);
@@ -81,8 +89,8 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url:`/update/clients`,
-            method:'POST',
+            url: `/update/clients`,
+            method: 'POST',
             data: formData,
             cache: false,
             processData: false,
@@ -116,8 +124,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Client ??')) {
             $.ajax({
-                url:`/delete/clients`,
-                method:'DELETE',
+                url: `/delete/clients`,
+                method: 'DELETE',
                 data:{ id:id },
                 success: function (res) {
                     if (res.status == "success") {

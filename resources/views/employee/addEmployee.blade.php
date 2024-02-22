@@ -78,9 +78,9 @@
                                         <label for="type">Employee Type</label>
                                         <select name="type" id="type">
                                             <option value="">Select Employee Type</option>
-                                            <option value="regular">Regular</option>
-                                            <option value="district">District Employee</option>
-                                            <option value="bit">Bit Pione</option>
+                                            <option value="regular employee">Regular</option>
+                                            <option value="district employee">District Employee</option>
+                                            <option value="bit pion">Bit Pione</option>
                                         </select>
                                         <span class="text-danger error" id="type_error"></span>
                                     </div>

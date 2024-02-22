@@ -29,12 +29,12 @@ class SupplierController extends Controller
     
             if($supplier->count() > 0){
                 $list = "";
-                foreach($supplier as $sup) {
-                    $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$sup->id.'">'.$sup->user_name.'</li>';
+                foreach($supplier as $index => $sup) {
+                    $list .= '<li tabindex="'.($index + 1).'" data-id="'.$sup->id.'">'.$sup->user_name.'</li>';
                 }
             }
             else{
-                $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
+                $list = '<li>No Data Found</li>';
             }
             return $list;
         }else{
@@ -48,6 +48,7 @@ class SupplierController extends Controller
     public function InsertSuppliers(Request $req){
         $req->validate([
             "name" => 'required',
+            "type" => 'required',
             "email" => 'required|email|unique:user__infos,user_email',
             "phone" => 'required|numeric|unique:user__infos,user_phone',
             "location" => 'required',
@@ -62,6 +63,7 @@ class SupplierController extends Controller
         
         User_Info::insert([
             "user_id" => $id,
+            "tran_user_type" => $req->type,
             "user_name" => $req->name,
             "user_email" => $req->email,
             "user_phone" => $req->phone,
@@ -97,9 +99,11 @@ class SupplierController extends Controller
             "phone" => ['required','numeric',Rule::unique('user__infos', 'user_phone')->ignore($supplier->id)],
             "address" => 'required',
             "location" => 'required',
+            "type" => 'required'
         ]);
 
         $update = User_Info::findOrFail($req->id)->update([
+            "tran_user_type" => $req->type,
             "user_name" => $req->name,
             "user_email" => $req->email,
             "user_phone" => $req->phone,

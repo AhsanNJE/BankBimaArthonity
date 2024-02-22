@@ -1,4 +1,4 @@
-@extends('admin.layouts.layout')
+@extends('admin.layouts/layout')
 @section('admin')
     <div class="add-search">
         <div class="row">

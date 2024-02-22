@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->unsignedBigInteger('loc_id')->nullable();
             $table->string('user_type');
-            $table->string('emp_type')->nullable();
+            $table->string('tran_user_type')->nullable();
             $table->unsignedBigInteger('dept_id')->nullable();
             $table->unsignedBigInteger('designation_id')->nullable();
             $table->date('dob')->nullable();

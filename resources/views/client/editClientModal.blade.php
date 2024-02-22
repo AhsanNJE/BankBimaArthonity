@@ -21,6 +21,15 @@
                         <div class="card-body">
                             <div class="row">
                                 <input type="hidden" name="id" id="id">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="updateType">Type</label>
+                                        <select name="type" id="updateType">
+                                            {{-- options will be display dynamically --}}
+                                        </select>
+                                        <span class="text-danger error" id="update_type_error"></span>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="updateName">Client Name</label>
                                     <input type="text" name="name" class="form-control" id="updateName">

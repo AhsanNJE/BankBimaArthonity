@@ -4,10 +4,10 @@ $(document).ready(function () {
     $(document).on('click', '#InsertTransactionHead', function (e) {
         e.preventDefault();
         let headName = $('#headName').val();
-        let groupe = $('#groupe').attr('data-id');
+        let groupe = $('#groupe').val();
         $.ajax({
-            url:"/transaction/insert/heads",
-            method:'POST',
+            url: "/transaction/insert/heads",
+            method: 'POST',
             data: { headName:headName, groupe:groupe },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -38,14 +38,18 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url:`/transaction/edit/heads`,
-            method:'GET',
+            url: `/transaction/edit/heads`,
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
                 $('#updateHeadName').val(res.heads.tran_head_name);
-                $('#updateGroupe').attr('data-id',res.heads.groupe_id);
-                $('#updateGroupe').val(res.heads.groupe.tran_groupe_name);
+
+                $('#updateGroupe').html('');
+                $('#updateGroupe').append(`<option value="" >Select Transaction Groupe</option>`);
+                $.each(res.groupes, function (key, groupe) {
+                    $('#updateGroupe').append(`<option value="${groupe.id}" ${res.heads.groupe_id === groupe.id ? 'selected' : ''}>${groupe.tran_groupe_name}</option>`);
+                });
 
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -63,10 +67,10 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $('#id').val();
         let headName = $('#updateHeadName').val();
-        let groupe = $('#updateGroupe').attr('data-id');
+        let groupe = $('#updateGroupe').val();
         $.ajax({
-            url:`/transaction/update/heads`,
-            method:'PUT',
+            url: `/transaction/update/heads`,
+            method: 'PUT',
             data: { headName:headName, groupe:groupe, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -97,8 +101,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Transaction Head ??')) {
             $.ajax({
-                url:`/transaction/delete/heads`,
-                method:'DELETE',
+                url: `/transaction/delete/heads`,
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
@@ -166,8 +170,8 @@ $(document).ready(function () {
     //Transaction Head data load function
     function loadTransactionHeadData(url, data, targetElement) {
         $.ajax({
-            url:url,
-            data:data,
+            url: url,
+            data: data,
             success: function (res) {
                 if (res.status == "null") {
                     $(targetElement).html(`<span class="text-danger">Result not Found </span>`);

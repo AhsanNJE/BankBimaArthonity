@@ -5,16 +5,16 @@ $(document).ready(function () {
         e.preventDefault();
         let groupeName = $('#groupeName').val();
         $.ajax({
-            url:"/transaction/insert/groupes",
-            method:'POST',
-            data:{ groupeName:groupeName },
+            url: "/transaction/insert/groupes",
+            method: 'POST',
+            data: { groupeName:groupeName },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
             success: function (res) {
                 if (res.status == "success") {
                     $('#AddTransactionGroupeForm')[0].reset();
-                    $('#groupeName').focus();
+                    $('#gropupeName').focus();
                     $('#search').val('');
                     $('.groupe').load(location.href + ' .groupe');
                     toastr.success('Transaction Groupe Added Successfully', 'Added!');
@@ -37,8 +37,8 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url:`/transaction/edit/groupes`,
-            method:'GET',
+            url: `/transaction/edit/groupes`,
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -61,8 +61,8 @@ $(document).ready(function () {
         let id = $('#id').val();
         let groupeName = $('#updateGroupeName').val();
         $.ajax({
-            url:`/transaction/update/groupes`,
-            method:'PUT',
+            url: `/transaction/update/groupes`,
+            method: 'PUT',
             data: { groupeName: groupeName, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -93,9 +93,9 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Transaction Groupe ??')) {
             $.ajax({
-                url:`/transaction/delete/groupes`,
-                method:'DELETE',
-                data:{ id:id },
+                url: `/transaction/delete/groupes`,
+                method: 'DELETE',
+                data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
                         $('.groupe').load(location.href + ' .groupe');
@@ -148,8 +148,8 @@ $(document).ready(function () {
     //Transaction Groupe data load function
     function loadTransactionGroupeData(url, data, targetElement) {
         $.ajax({
-            url:url,
-            data:data,
+            url: url,
+            data: data,
             success: function (res) {
                 if (res.status == "null") {
                     $(targetElement).html(`<span class="text-danger">Result not Found </span>`);

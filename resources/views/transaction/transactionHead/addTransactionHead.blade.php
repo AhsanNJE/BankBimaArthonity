@@ -27,12 +27,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="groupe">Transaction Groupe</label>
-                                        <input type="text" name="groupe" class="form-control" id="groupe" autocomplete="off">
-                                        <div id="groupe-list">
-                                            <ul>
-
-                                            </ul>
-                                        </div>
+                                        <select name="groupe" id="groupe">
+                                            <option value="">Select Transaction Groupe</option>
+                                            @foreach ($groupes as $groupe)
+                                                <option value="{{ $groupe->id }}">{{ $groupe->tran_groupe_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         <span class="text-danger error" id="groupe_error"></span>
                                     </div>
                                 </div>

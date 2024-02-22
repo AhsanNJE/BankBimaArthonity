@@ -123,7 +123,7 @@
 
 <!-- Delete Button ClICK For Sweet Alert show -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<!-- <script src="{{ asset('assets/dist/js/sweetalertcode.js') }}"></script> -->
+{{-- <script src="{{ asset('assets/dist/js/sweetalertcode.js') }}"></script> --}}
 
 <!-- DataTables -->
 <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -138,7 +138,7 @@
 <!-- HASIB -->
 
 <!-- jquery cdn link --> 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap cdn link --> 
 <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 

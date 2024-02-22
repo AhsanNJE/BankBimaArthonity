@@ -28,12 +28,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="updateGroupe">Transaction Groupe</label>
-                                        <input type="text" name="groupe" class="form-control" id="updateGroupe" autocomplete="off">
-                                        <div id="update-groupe">
-                                            <ul>
-
-                                            </ul>
-                                        </div>
+                                        <select name="groupe" id="updateGroupe">
+                                            {{-- options will be display dynamically --}}
+                                        </select>
                                         <span class="text-danger error" id="update_groupe_error"></span>
                                     </div>
                                 </div>

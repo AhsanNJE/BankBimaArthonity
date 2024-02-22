@@ -5,8 +5,8 @@ $(document).ready(function () {
         e.preventDefault();
         let deptName = $('#deptName').val();
         $.ajax({
-            url:"/admin/employees/insert/departments",
-            method:'POST',
+            url: "/admin/employees/insert/departments",
+            method: 'POST',
             data: { deptName:deptName },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -25,7 +25,7 @@ $(document).ready(function () {
                 let error = err.responseJSON;
                 $.each(error.errors, function (key, value) {
                     $('#' + key + "_error").text(value);
-                }); 
+                });
             }
         });
     });
@@ -37,8 +37,8 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url:`/admin/employees/edit/departments`,
-            method:'GET',
+            url: `/admin/employees/edit/departments`,
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -61,8 +61,8 @@ $(document).ready(function () {
         let id = $('#id').val();
         let deptName = $('#updateDeptName').val();
         $.ajax({
-            url:`/admin/employees/update/departments`,
-            method:'PUT',
+            url: `/admin/employees/update/departments`,
+            method: 'PUT',
             data: { deptName: deptName, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -93,8 +93,8 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Location ??')) {
             $.ajax({
-                url:`/admin/employees/delete/departments`,
-                method:'DELETE',
+                url: `/admin/employees/delete/departments`,
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
