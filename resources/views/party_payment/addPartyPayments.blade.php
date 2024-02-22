@@ -153,6 +153,29 @@
                                     <button type="submit" id="InsertParty" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
+                            <div class="row due-grid">
+                                <div class="col-md-12">
+                                    <div class="transaction_grid">
+                                        <table class="show-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>SL:</th>
+                                                    <th>Transaction Id</th>
+                                                    <th>Bill Amount</th>
+                                                    <th>Due</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                            <tfoot>
+                                                
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>

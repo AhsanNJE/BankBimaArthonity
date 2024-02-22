@@ -27,7 +27,7 @@ $(document).ready(function () {
     $(document).on('change', '#groupe', function (e) {
         let groupe = $('#groupe').val();
         $.ajax({
-            url: "/transaction/getHeads/groupe",
+            url: "/transaction/get/heads/groupe",
             method: 'get',
             data: { groupe:groupe },
             success: function (res) {
@@ -44,7 +44,7 @@ $(document).ready(function () {
     $(document).on('change', '#updateGroupe', function (e) {
         let groupe = $('#updateGroupe').val();
         $.ajax({
-            url: "/transaction/getHeads/groupe",
+            url: "/transaction/get/heads/groupe",
             method: 'get',
             data: { groupe:groupe },
             success: function (res) {
@@ -66,7 +66,7 @@ $(document).ready(function () {
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: "/party/insertParty",
+            url: "/party/insert/party",
             method: 'Post',
             processData: false,
             contentType: false,
@@ -98,7 +98,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/party/editParty`,
+            url: `/party/edit/party`,
             method: 'get',
             data: { id:id },
             success: function (res) {
@@ -145,162 +145,15 @@ $(document).ready(function () {
 
 
 
-
-    ///////////// ------------------ Edit Transaction Details ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#edit', function (e) {
-        e.preventDefault();
-        let id = $(this).data('id');
-        $.ajax({
-            url: "/transaction/editDetails",
-            method: 'GET',
-            data: { id:id },
-            success: function (res) {
-                $('#dId').val(res.transaction.id);
-
-                $('#updateGroupe').html('');
-                $('#updateGroupe').append(`<option value="" >Select Transaction Groupe</option>`);
-                $.each(res.groupes, function (key, groupe) {
-                    $('#updateGroupe').append(`<option value="${groupe.id}" ${res.transaction.tran_groupe_id === groupe.id ? 'selected' : ''}>${groupe.tran_groupe_name}</option>`);
-                });
-
-                $('#updateHead').html('');
-                $('#updateHead').append(`<option value="" >Select Transaction Head</option>`);
-                $.each(res.heads, function (key, head) {
-                    $('#updateHead').append(`<option value="${head.id}" ${res.transaction.tran_head_id === head.id ? 'selected' : ''}>${head.tran_head_name}</option>`);
-                });
-
-                $('#updateQuantity').val(res.transaction.quantity);
-                $('#updateAmount').val(res.transaction.amount);
-                $('#updateTotAmount').val(res.transaction.tot_amount);
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    });
-
-
-
-
-    /////////////// ------------------ Update Transaction Details ajax part start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditTransactionForm', function (e) {
-        e.preventDefault();
-        let tranId = $('#updateTranId').val();
-        let user = $('#updateUser').attr('data-id');
-        let locations = $('#updateLocation').attr('data-id');
-        let formData = new FormData(this);
-        formData.append('user', user === undefined ? '' : user);
-        formData.append('location', locations === undefined ? '' : locations);
-        $.ajax({
-            url: `transaction/updateDetails`,
-            method: 'Post',
-            data: formData,
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend:function() {
-                $(document).find('span.error').text('');  
-            },
-            success: function (res) {
-                console.log(res);
-                if (res.status == "success") {
-                    getTransactionGrid(tranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateNetAmount', '#updateBalance', '#updateTotalDiscount', '#updateAdvance' );
-                    $('#dId').val('');
-                    $('#updateGroupe').val('');
-                    $('#updateHead').val('');
-                    $('#updateQuantity').val('1');
-                    $('#updateAmount').val('');
-                    $('#updateTotAmount').val('');
-                    toastr.success('Transaction Details Updated Successfully', 'Updated!');
-                }
-            },
-            error: function (err) {
-                let error = err.responseJSON;
-                $.each(error.errors, function (key, value) {
-                    $('#update_' + key + "_error").text(value);
-                })
-            }
-        });
-    });
-
-
-
-    /////////////// ------------------ Update Transaction Main ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#UpdateMainTransaction', function (e) {
-        e.preventDefault();
-        let id = $('#id').val();
-        let type = $('#updateType').val();
-        let amountRP = $('#updateAmountRP').val();
-        let totalDiscount = $('#updateTotalDiscount').val();
-        let netAmount = $('#updateNetAmount').val();
-        let advance = $('#updateAdvance').val();
-        let balance = $('#updateBalance').val();
-        $.ajax({
-            url: `transaction/updateMain`,
-            method: 'Put',
-            data: { id:id, type:type, amountRP:amountRP, totalDiscount:totalDiscount, netAmount:netAmount, advance:advance, balance:balance },
-            beforeSend:function() {
-                $(document).find('span.error').text('');  
-            },
-            success: function (res) {
-                console.log(res);
-                if (res.status == "success") {
-                    $('.details').load(location.href + ' .details');
-                    $('#editTransaction').hide();
-                    toastr.success('Transaction Main Updated Successfully', 'Updated!');
-                }
-            },
-            error: function (err) {
-                let error = err.responseJSON;
-                $.each(error.errors, function (key, value) {
-                    $('#update_' + key + "_error").text(value);
-                })
-            }
-        });
-    });
-
-
-
-    /////////////// ------------------ Delete Transaction Details ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#delete', function (e) {
-        e.preventDefault();
-        let tranId = $('#tranId').val();
-        let updateTranId = $('#updateTranId').val();
-        let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Transaction ??')) {
-            $.ajax({
-                url: `transaction/deleteDetails`,
-                method: 'Delete',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        if(updateTranId != ""){
-                            getTransactionGrid(updateTranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateNetAmount', '#updateBalance', '#updateTotalDiscount', '#updateAdvance' );
-                        }
-                        else if(tranId != ""){
-                            getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
-                        }
-                        $('.details').load(location.href + ' .details');
-                        $('#search').val('');
-                        toastr.success('Transaction Details Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
-    });
-
-
-
     //get last transaction id by transaction type function
     function getTransactionId(type, targetElement) {
         $.ajax({
-            url: "/party/getTranId",
+            url: "/party/get/tranid",
             method: 'get',
             data: {type:type},
             success: function (res) {
                 if(res.status === 'success'){
                     $(targetElement).val(res.id);
-                    getTransactionGrid(res.id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
                 }
                 else{
                     $(targetElement).val(res.tran_id);

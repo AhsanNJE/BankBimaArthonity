@@ -6,7 +6,7 @@ $(document).ready(function () {
         let headName = $('#headName').val();
         let groupe = $('#groupe').attr('data-id');
         $.ajax({
-            url: "/transaction/insertHeads",
+            url: "/transaction/insert/heads",
             method: 'Post',
             data: { headName:headName, groupe:groupe },
             beforeSend:function() {
@@ -38,7 +38,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/transaction/editHeads`,
+            url: `/transaction/edit/heads`,
             method: 'get',
             data: { id:id },
             success: function (res) {
@@ -65,7 +65,7 @@ $(document).ready(function () {
         let headName = $('#updateHeadName').val();
         let groupe = $('#updateGroupe').attr('data-id');
         $.ajax({
-            url: `/transaction/updateHeads`,
+            url: `/transaction/update/heads`,
             method: 'Put',
             data: { headName:headName, groupe:groupe, id:id },
             beforeSend:function() {
@@ -97,7 +97,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Transaction Head ??')) {
             $.ajax({
-                url: `/transaction/deleteHeads`,
+                url: `/transaction/delete/heads`,
                 method: 'Delete',
                 data: { id:id },
                 success: function (res) {
@@ -135,10 +135,10 @@ $(document).ready(function () {
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadTransactionHeadData(`/transaction/searchHeads`, {search:search}, '.heads')
+            loadTransactionHeadData(`/transaction/search/heads`, {search:search}, '.heads')
         }
         else if(searchOption == "2"){
-            loadTransactionHeadData(`/transaction/searchHeads/groupe`, {search:search}, '.heads')
+            loadTransactionHeadData(`/transaction/search/heads/groupe`, {search:search}, '.heads')
         }
         
     });
@@ -153,10 +153,10 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadTransactionHeadData(`/transaction/heads/searchPagination?page=${page}`, {search:search}, '.heads');
+            loadTransactionHeadData(`/transaction/heads/search/pagination?page=${page}`, {search:search}, '.heads');
         }
         else if(searchOption == "2"){
-            loadTransactionHeadData(`/transaction/heads/searchPagination/groupe?page=${page}`, {search:search}, '.heads');
+            loadTransactionHeadData(`/transaction/heads/search/pagination/groupe?page=${page}`, {search:search}, '.heads');
         }
         
     });

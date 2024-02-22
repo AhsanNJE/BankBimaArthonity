@@ -137,7 +137,7 @@ $(document).ready(function () {
     //search Department by name
     function getDepartmentByName(department, targetElement1) {
         $.ajax({
-            url: "/admin/employees/getDepartmentByName",
+            url: "/admin/employees/get/department/name",
             method: 'get',
             data: { department: department },
             success: function (res) {
@@ -294,7 +294,7 @@ $(document).ready(function () {
     //search Designation by name
     function getDesignationByNameAndDepartment(designation, targetElement1, department = "") {
         $.ajax({
-            url: "/admin/employees/getDesignationByName/department",
+            url: "/admin/employees/get/designation/name/department",
             method: 'get',
             data: { designation: designation, department: department },
             success: function (res) {
@@ -447,7 +447,7 @@ $(document).ready(function () {
     //search Location by Thana
     function getLocationByThana(location, targetElement1) {
         $.ajax({
-            url: "/admin/employees/getLocationByThana",
+            url: "/admin/employees/get/location/thana",
             method: 'get',
             data: { location: location },
             success: function (res) {
@@ -458,7 +458,7 @@ $(document).ready(function () {
 
     /////////////// ------------------ Search Location by Thana and add value to input ajax part end ---------------- /////////////////////////////
 
-    
+
 
     ////////////// ------------------- Search Transaction user and add value to input ajax part start --------------- ////////////////////////////
     //search Transaction User on add modal
@@ -606,6 +606,9 @@ $(document).ready(function () {
         } 
         else if (e.keyCode === 13) { // Enter key
             e.preventDefault();
+            let id = $(targetElement1).attr('data-id');
+            getDueListByUserId(id, '.due-grid tbody');
+            console.log(id)
             $(targetElement2).html('');
             $(targetElement1).focus();
         }
@@ -616,11 +619,39 @@ $(document).ready(function () {
     //search Transaction User by Name
     function getTransactionUser(tranUserType, tranUser, targetElement1) {
         $.ajax({
-            url: "/transaction/getTranUser",
+            url: "/transaction/get/tranuser",
             method: 'get',
             data: { tranUserType: tranUserType, tranUser: tranUser },
             success: function (res) {
                 $(targetElement1).html(res);
+            }
+        });
+    }
+
+
+    //get due payment list by user id
+    function getDueListByUserId(id, grid) {
+        $.ajax({
+            url: "/party/get/trandue/userid",
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                if(res.status === 'success'){
+                    $(grid).html(res.data);
+                    
+                    let transactions = res.transaction.data;
+                    // Calculate total amount
+                    let totalAmount = transactions.reduce((sum, transaction) => sum + transaction.due, 0);
+                    $('.due-grid tfoot').html(`<tr>
+                                                <td colspan="4" style="text-align:right;"> Total Due: ${totalAmount}</td>
+                                                </tr>`)
+                    // $(amount).val(totalAmount);
+
+                }
+                else{
+                    $(grid).html('');
+                }
+                
             }
         });
     }

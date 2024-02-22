@@ -41,7 +41,7 @@ $(document).ready(function () {
     $(document).on('change', '#groupe', function (e) {
         let groupe = $('#groupe').val();
         $.ajax({
-            url: "/transaction/getHeads/groupe",
+            url: "/transaction/get/heads/groupe",
             method: 'get',
             data: { groupe:groupe },
             success: function (res) {
@@ -58,7 +58,7 @@ $(document).ready(function () {
     $(document).on('change', '#updateGroupe', function (e) {
         let groupe = $('#updateGroupe').val();
         $.ajax({
-            url: "/transaction/getHeads/groupe",
+            url: "/transaction/get/heads/groupe",
             method: 'get',
             data: { groupe:groupe },
             success: function (res) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: "/transaction/insertDetails",
+            url: "/transaction/insert/details",
             method: 'Post',
             processData: false,
             contentType: false,
@@ -127,7 +127,7 @@ $(document).ready(function () {
         let advance = $('#advance').val();
         let balance = $('#balance').val();
         $.ajax({
-            url: "/transaction/insertMain",
+            url: "/transaction/insert/main",
             method: 'Post',
             data: { tranId:tranId, type:type, invoice:invoice, withs:withs, user:user, locations:locations, amountRP:amountRP,discount:discount, netAmount:netAmount, advance:advance, balance:balance },
             beforeSend: function () {
@@ -157,7 +157,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `transaction/editMain`,
+            url: `transaction/edit/main`,
             method: 'get',
             data: { id:id },
             success: function (res) {
@@ -225,7 +225,7 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $(this).data('id');
         $.ajax({
-            url: "/transaction/editDetails",
+            url: "/transaction/edit/details",
             method: 'GET',
             data: { id:id },
             success: function (res) {
@@ -266,7 +266,7 @@ $(document).ready(function () {
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: `transaction/updateDetails`,
+            url: `transaction/update/details`,
             method: 'Post',
             data: formData,
             processData: false,
@@ -310,7 +310,7 @@ $(document).ready(function () {
         let advance = $('#updateAdvance').val();
         let balance = $('#updateBalance').val();
         $.ajax({
-            url: `transaction/updateMain`,
+            url: `transaction/update/main`,
             method: 'Put',
             data: { id:id, type:type, amountRP:amountRP, totalDiscount:totalDiscount, netAmount:netAmount, advance:advance, balance:balance },
             beforeSend:function() {
@@ -343,7 +343,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Transaction ??')) {
             $.ajax({
-                url: `transaction/deleteDetails`,
+                url: `transaction/delete/details`,
                 method: 'Delete',
                 data: { id:id },
                 success: function (res) {
@@ -368,7 +368,7 @@ $(document).ready(function () {
     //get last transaction id by transaction type function
     function getTransactionId(type, targetElement) {
         $.ajax({
-            url: "/transaction/getTranId",
+            url: "/transaction/get/tranid",
             method: 'get',
             data: {type:type},
             success: function (res) {
@@ -388,7 +388,7 @@ $(document).ready(function () {
     //Get Inserted Transacetion Grid By Transaction Id Function
     function getTransactionGrid(tranId, grid, amount="",  total ="", balances= "", discount="", advances="") {
         $.ajax({
-            url: "/transaction/getTransactionGrid",
+            url: "/transaction/get/transactiongrid",
             method: 'get',
             data: {tranId:tranId},
             success: function (res) {

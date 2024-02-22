@@ -5,7 +5,7 @@ $(document).ready(function () {
         e.preventDefault();
         let groupeName = $('#groupeName').val();
         $.ajax({
-            url: "/transaction/insertGroupes",
+            url: "/transaction/insert/groupes",
             method: 'Post',
             data: { groupeName:groupeName },
             beforeSend:function() {
@@ -37,7 +37,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/transaction/editGroupes`,
+            url: `/transaction/edit/groupes`,
             method: 'get',
             data: { id:id },
             success: function (res) {
@@ -61,7 +61,7 @@ $(document).ready(function () {
         let id = $('#id').val();
         let groupeName = $('#updateGroupeName').val();
         $.ajax({
-            url: `/transaction/updateGroupes`,
+            url: `/transaction/update/groupes`,
             method: 'Put',
             data: { groupeName: groupeName, id:id },
             beforeSend:function() {
@@ -93,7 +93,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Transaction Groupe ??')) {
             $.ajax({
-                url: `/transaction/deleteGroupes`,
+                url: `/transaction/delete/groupes`,
                 method: 'Delete',
                 data: { id:id },
                 success: function (res) {
@@ -129,7 +129,7 @@ $(document).ready(function () {
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
-        loadTransactionGroupeData(`/transaction/searchGroupes`, {search:search}, '.groupe')
+        loadTransactionGroupeData(`/transaction/search/groupes`, {search:search}, '.groupe')
     });
 
 
@@ -140,7 +140,7 @@ $(document).ready(function () {
         $('.paginate').addClass('hidden');
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
-        loadTransactionGroupeData(`/transaction/groupes/searchPagination?page=${page}`, {search:search}, '.groupe');
+        loadTransactionGroupeData(`/transaction/groupes/search/pagination?page=${page}`, {search:search}, '.groupe');
     });
 
 

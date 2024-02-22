@@ -7,7 +7,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: "/insertSuppliers",
+            url: "/insert/suppliers",
             method: 'Post',
             processData: false,
             contentType: false,
@@ -42,7 +42,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/editSuppliers`,
+            url: `/edit/suppliers`,
             method: 'get',
             data: { id:id },
             success: function (res) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: `/updateSuppliers`,
+            url: `/update/suppliers`,
             method: 'post',
             processData: false,
             contentType: false,
@@ -115,7 +115,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Supplier ??')) {
             $.ajax({
-                url: `/deleteSuppliers`,
+                url: `/delete/suppliers`,
                 method: 'Delete',
                 data: { id:id },
                 success: function (res) {
@@ -153,19 +153,19 @@ $(document).ready(function () {
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == '1'){
-            loadSupplierData(`/searchSupplier/name`, {search:search}, '.supplier');
+            loadSupplierData(`/search/supplier/name`, {search:search}, '.supplier');
         }
         else if(searchOption == '2'){
-            loadSupplierData(`/searchSupplier/email`, {search:search}, '.supplier')
+            loadSupplierData(`/search/supplier/email`, {search:search}, '.supplier')
         }
         else if(searchOption == '3'){
-            loadSupplierData(`/searchSupplier/phone`, {search:search}, '.supplier')
+            loadSupplierData(`/search/supplier/phone`, {search:search}, '.supplier')
         }
         else if(searchOption == '4'){
-            loadSupplierData(`/searchSupplier/location`, {search:search}, '.supplier')
+            loadSupplierData(`/search/supplier/location`, {search:search}, '.supplier')
         }
         else if(searchOption == '5'){
-            loadSupplierData(`/searchSupplier/address`, {search:search}, '.supplier')
+            loadSupplierData(`/search/supplier/address`, {search:search}, '.supplier')
         }
         
     });
@@ -180,19 +180,19 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == '1'){
-            loadSupplierData(`/supplier/namePagination?page=${page}`, {search:search}, '.supplier');
+            loadSupplierData(`/supplier/name/sagination?page=${page}`, {search:search}, '.supplier');
         }
         else if(searchOption == '2'){
-            loadSupplierData(`/supplier/emailPagination?page=${page}`, {search:search}, '.supplier')
+            loadSupplierData(`/supplier/email/pagination?page=${page}`, {search:search}, '.supplier')
         }
         else if(searchOption == '3'){
-            loadSupplierData(`/supplier/contactPagination?page=${page}`, {search:search}, '.supplier')
+            loadSupplierData(`/supplier/contact/pagination?page=${page}`, {search:search}, '.supplier')
         }
         else if(searchOption == '4'){
-            loadSupplierData(`/supplier/locationPagination?page=${page}`, {search:search}, '.supplier')
+            loadSupplierData(`/supplier/location/pagination?page=${page}`, {search:search}, '.supplier')
         }
         else if(searchOption == '5'){
-            loadSupplierData(`/supplier/addressPagination?page=${page}`, {search:search}, '.supplier')
+            loadSupplierData(`/supplier/address/pagination?page=${page}`, {search:search}, '.supplier')
         }
     });
 

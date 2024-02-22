@@ -12,7 +12,7 @@ $(document).ready(function () {
         formData.append('designation', designation === undefined ? '' : designation);
 
         $.ajax({
-            url: "/admin/employees/insertEmployees",
+            url: "/admin/employees/insert/employees",
             method: 'Post',
             processData: false,
             contentType: false,
@@ -99,7 +99,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/admin/employees/editEmployees`,
+            url: `/admin/employees/edit/employees`,
             method: 'get',
             data: { id:id },
             success: function (res) {
@@ -155,7 +155,7 @@ $(document).ready(function () {
         formData.append('department',department);
         formData.append('designation',designation);
         $.ajax({
-            url: `/admin/employees/updateEmployees`,
+            url: `/admin/employees/update/employees`,
             method: 'Post',
             data: formData,
             cache: false,
@@ -190,7 +190,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Employee ??')) {
             $.ajax({
-                url: `/admin/employees/deleteEmployees`,
+                url: `/admin/employees/delete/employees`,
                 method: 'Delete',
                 data: { id:id },
                 success: function (res) {

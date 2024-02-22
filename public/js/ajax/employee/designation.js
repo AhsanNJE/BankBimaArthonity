@@ -6,7 +6,7 @@ $(document).ready(function () {
         let designations = $('#designations').val();
         let department = $('#department').attr('data-id');
         $.ajax({
-            url: "/admin/employees/insertDesignations",
+            url: "/admin/employees/insert/designations",
             method: 'Post',
             data: { designations:designations, department:department },
             beforeSend:function() {
@@ -38,7 +38,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/admin/employees/editDesignations`,
+            url: `/admin/employees/edit/designations`,
             method: 'get',
             data: { id:id },
             success: function (res) {
@@ -65,7 +65,7 @@ $(document).ready(function () {
         let designations = $('#updateDesignations').val();
         let department = $('#updateDepartment').attr('data-id');
         $.ajax({
-            url: `/admin/employees/updateDesignations`,
+            url: `/admin/employees/update/designations`,
             method: 'Put',
             data: { designations: designations, department:department, id:id },
             beforeSend:function() {
@@ -97,7 +97,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Location ??')) {
             $.ajax({
-                url: `/admin/employees/deleteDesignations`,
+                url: `/admin/employees/delete/designations`,
                 method: 'Delete',
                 data: { id:id },
                 success: function (res) {
@@ -135,10 +135,10 @@ $(document).ready(function () {
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadDesignationData(`/admin/employees/searchDesignations`, {search:search}, '.designation')
+            loadDesignationData(`/admin/employees/search/designations`, {search:search}, '.designation')
         }
         else if(searchOption == "2"){
-            loadDesignationData(`/admin/employees/searchDesignations/department`, {search:search}, '.designation')
+            loadDesignationData(`/admin/employees/search/designations/department`, {search:search}, '.designation')
         }
         
     });
@@ -153,10 +153,10 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadDesignationData(`/admin/employees/designations/searchPagination?page=${page}`, {search:search}, '.designation');
+            loadDesignationData(`/admin/employees/designations/search/pagination?page=${page}`, {search:search}, '.designation');
         }
         else if(searchOption == "2"){
-            loadDesignationData(`/admin/employees/designations/searchPagination/department?page=${page}`, {search:search}, '.designation');
+            loadDesignationData(`/admin/employees/designations/search/pagination/department?page=${page}`, {search:search}, '.designation');
         }
         
     });

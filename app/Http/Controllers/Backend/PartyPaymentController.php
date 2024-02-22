@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Party_Payment_Receive;
 use App\Models\Transaction_Groupe;
+use App\Models\Transaction_Main;
 
 class PartyPaymentController extends Controller
 {
@@ -69,6 +70,28 @@ class PartyPaymentController extends Controller
             return '<li>Select Transaction with first</li>';
         }
     }
+
+
+    //Get Transacetion Due Grid By User Id
+    public function GetTransactionDueByUserId(Request $req){
+        if($req->id != ""){
+            $transaction = Transaction_Main::where('tran_user', 'like', '%'.$req->id.'%')
+            ->orderBy('tran_date','asc')
+            ->paginate(20);
+
+            if ($transaction) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => view('party_payment.dueTransactionGrid', compact('transaction'))->render(),
+                    'transaction' => $transaction
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'null'
+                ]); 
+            }
+        }
+    }//End Method
 
 
     //Insert Party Payments

@@ -75,7 +75,7 @@ class ClientController extends Controller
             "type" => 'required',
             "name" => 'required',
             "phone" => ['required','numeric',Rule::unique('user__infos', 'user_phone')->ignore($client->id)],
-            "email" => ['required','numeric',Rule::unique('user__infos', 'user_email')->ignore($client->id)],
+            "email" => ['required','email',Rule::unique('user__infos', 'user_email')->ignore($client->id)],
             "gender" => 'required',
             "location" => 'required|numeric',
         ]);

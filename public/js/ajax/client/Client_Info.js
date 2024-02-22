@@ -6,7 +6,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: "/insertClients",
+            url: "/insert/clients",
             method: 'Post',
             processData: false,
             contentType: false,
@@ -41,7 +41,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/editClients`,
+            url: `/edit/clients`,
             method: 'get',
             data: { id:id },
             success: function (res) {
@@ -89,7 +89,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
-            url: `/updateClients`,
+            url: `/update/clients`,
             method: 'Post',
             data: formData,
             cache: false,
@@ -124,7 +124,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Client ??')) {
             $.ajax({
-                url: `/deleteClients`,
+                url: `/delete/clients`,
                 method: 'Delete',
                 data:{ id:id },
                 success: function (res) {
@@ -162,19 +162,19 @@ $(document).ready(function () {
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == '1'){
-            loadClientData(`/searchClient/name`, {search:search}, '.client');
+            loadClientData(`/search/client/name`, {search:search}, '.client');
         }
         else if(searchOption == '2'){
-            loadClientData(`/searchClient/email`, {search:search}, '.client')
+            loadClientData(`/search/client/email`, {search:search}, '.client')
         }
         else if(searchOption == '3'){
-            loadClientData(`/searchClient/contact`, {search:search}, '.client')
+            loadClientData(`/search/client/contact`, {search:search}, '.client')
         }
         else if(searchOption == '4'){
-            loadClientData(`/searchClient/location`, {search:search}, '.client')
+            loadClientData(`/search/client/location`, {search:search}, '.client')
         }
         else if(searchOption == '5'){
-            loadClientData(`/searchClient/address`, {search:search}, '.client')
+            loadClientData(`/search/client/address`, {search:search}, '.client')
         }
     });
 
@@ -188,19 +188,19 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == '1'){
-            loadClientData(`/client/namePagination?page=${page}`, {search:search}, '.client');
+            loadClientData(`/client/name/pagination?page=${page}`, {search:search}, '.client');
         }
         else if(searchOption == '2'){
-            loadClientData(`/client/emailPagination?page=${page}`, {search:search}, '.client')
+            loadClientData(`/client/email/pagination?page=${page}`, {search:search}, '.client')
         }
         else if(searchOption == '3'){
-            loadClientData(`/client/contactPagination?page=${page}`, {search:search}, '.client')
+            loadClientData(`/client/contact/pagination?page=${page}`, {search:search}, '.client')
         }
         else if(searchOption == '4'){
-            loadClientData(`/client/locationPagination?page=${page}`, {search:search}, '.client')
+            loadClientData(`/client/location/pagination?page=${page}`, {search:search}, '.client')
         }
         else if(searchOption == '5'){
-            loadClientData(`/client/addressPagination?page=${page}`, {search:search}, '.client')
+            loadClientData(`/client/address/pagination?page=${page}`, {search:search}, '.client')
         }
     });
 
