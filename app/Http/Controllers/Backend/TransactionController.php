@@ -146,8 +146,9 @@ class TransactionController extends Controller
     
     //Show All Transaction Heads
     public function ShowTransactionHeads(){
+        $groupes = Transaction_Groupe::orderBy('added_at','desc')->get();
         $heads = Transaction_Head::orderBy('added_at','desc')->paginate(15);
-        return view('transaction.transactionHead.transactionHeads', compact('heads'));
+        return view('transaction.transactionHead.transactionHeads', compact('heads', 'groupes'));
     }//End Method
 
 
@@ -214,9 +215,11 @@ class TransactionController extends Controller
 
     //Edit Transaction Heads
     public function EditTransactionHeads(Request $req){
+        $groupes = Transaction_Groupe::orderBy('added_at','desc')->get();
         $heads = Transaction_Head::with('Groupe')->findOrFail($req->id);
         return response()->json([
             'heads'=>$heads,
+            'groupes' => $groupes,
         ]);
     }//End Method
 
