@@ -123,7 +123,7 @@
 
 <!-- Delete Button ClICK For Sweet Alert show -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="{{ asset('assets/dist/js/sweetalertcode.js') }}"></script>
+{{-- <script src="{{ asset('assets/dist/js/sweetalertcode.js') }}"></script> --}}
 
 <!-- DataTables -->
 <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>

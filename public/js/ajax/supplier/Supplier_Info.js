@@ -8,7 +8,7 @@ $(document).ready(function () {
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: "/insert/suppliers",
-            method: 'Post',
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -43,7 +43,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `/edit/suppliers`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(res.supplier.id);
@@ -81,7 +81,7 @@ $(document).ready(function () {
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: `/update/suppliers`,
-            method: 'post',
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -116,7 +116,7 @@ $(document).ready(function () {
         if (confirm('Are You Sure to Delete This Supplier ??')) {
             $.ajax({
                 url: `/delete/suppliers`,
-                method: 'Delete',
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

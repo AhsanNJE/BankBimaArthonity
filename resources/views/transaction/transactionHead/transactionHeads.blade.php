@@ -32,5 +32,5 @@
 <!-- ajax part start from here -->
 @section('ajax')
     <script src="{{ asset('js/ajax/transaction/transaction_head.js') }}"></script>
-    <script src="{{ asset('js/ajax/searchByInput.js') }}"></script>
+    <script src="{{ asset('js/ajax/search_by_input.js') }}"></script>
 @endsection

@@ -6,7 +6,7 @@ $(document).ready(function () {
         let deptName = $('#deptName').val();
         $.ajax({
             url: "/admin/employees/insert/departments",
-            method: 'Post',
+            method: 'POST',
             data: { deptName:deptName },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -38,7 +38,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `/admin/employees/edit/departments`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -62,7 +62,7 @@ $(document).ready(function () {
         let deptName = $('#updateDeptName').val();
         $.ajax({
             url: `/admin/employees/update/departments`,
-            method: 'Put',
+            method: 'PUT',
             data: { deptName: deptName, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -94,7 +94,7 @@ $(document).ready(function () {
         if (confirm('Are You Sure to Delete This Location ??')) {
             $.ajax({
                 url: `/admin/employees/delete/departments`,
-                method: 'Delete',
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

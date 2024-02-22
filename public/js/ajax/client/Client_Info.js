@@ -7,7 +7,7 @@ $(document).ready(function () {
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: "/insert/clients",
-            method: 'Post',
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -42,7 +42,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `/edit/clients`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(res.client.id);
@@ -90,7 +90,7 @@ $(document).ready(function () {
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: `/update/clients`,
-            method: 'Post',
+            method: 'POST',
             data: formData,
             cache: false,
             processData: false,
@@ -125,7 +125,7 @@ $(document).ready(function () {
         if (confirm('Are You Sure to Delete This Client ??')) {
             $.ajax({
                 url: `/delete/clients`,
-                method: 'Delete',
+                method: 'DELETE',
                 data:{ id:id },
                 success: function (res) {
                     if (res.status == "success") {

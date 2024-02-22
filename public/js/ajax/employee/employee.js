@@ -13,7 +13,7 @@ $(document).ready(function () {
 
         $.ajax({
             url: "/admin/employees/insert/employees",
-            method: 'Post',
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -100,7 +100,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `/admin/employees/edit/employees`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -156,7 +156,7 @@ $(document).ready(function () {
         formData.append('designation',designation);
         $.ajax({
             url: `/admin/employees/update/employees`,
-            method: 'Post',
+            method: 'POST',
             data: formData,
             cache: false,
             processData: false,
@@ -191,7 +191,7 @@ $(document).ready(function () {
         if (confirm('Are You Sure to Delete This Employee ??')) {
             $.ajax({
                 url: `/admin/employees/delete/employees`,
-                method: 'Delete',
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

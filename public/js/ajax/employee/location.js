@@ -8,7 +8,7 @@ $(document).ready(function () {
         let thana = $('#thana').val();
         $.ajax({
             url: "/admin/employees/insert/locations",
-            method: 'Post',
+            method: 'POST',
             data: { division:division, district:district, thana:thana },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -40,7 +40,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `/admin/employees/edit/locations`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -68,7 +68,7 @@ $(document).ready(function () {
         let thana = $('#updateThana').val();
         $.ajax({
             url: `/admin/employees/update/locations`,
-            method: 'Put',
+            method: 'PUT',
             data: { division: division, district:district, thana:thana, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -100,7 +100,7 @@ $(document).ready(function () {
         if (confirm('Are You Sure to Delete This Location ??')) {
             $.ajax({
                 url: `/admin/employees/delete/locations`,
-                method: 'Delete',
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

@@ -42,7 +42,7 @@ $(document).ready(function () {
         let groupe = $('#groupe').val();
         $.ajax({
             url: "/transaction/get/heads/groupe",
-            method: 'get',
+            method: 'GET',
             data: { groupe:groupe },
             success: function (res) {
                 $('#head').html(res);
@@ -59,7 +59,7 @@ $(document).ready(function () {
         let groupe = $('#updateGroupe').val();
         $.ajax({
             url: "/transaction/get/heads/groupe",
-            method: 'get',
+            method: 'GET',
             data: { groupe:groupe },
             success: function (res) {
                 $('#updateHead').html(res);
@@ -81,7 +81,7 @@ $(document).ready(function () {
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: "/transaction/insert/details",
-            method: 'Post',
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -128,7 +128,7 @@ $(document).ready(function () {
         let balance = $('#balance').val();
         $.ajax({
             url: "/transaction/insert/main",
-            method: 'Post',
+            method: 'POST',
             data: { tranId:tranId, type:type, invoice:invoice, withs:withs, user:user, locations:locations, amountRP:amountRP,discount:discount, netAmount:netAmount, advance:advance, balance:balance },
             beforeSend: function () {
                 $(document).find('span.error').text('');
@@ -158,7 +158,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `transaction/edit/main`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 
@@ -267,7 +267,7 @@ $(document).ready(function () {
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: `transaction/update/details`,
-            method: 'Post',
+            method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
@@ -311,7 +311,7 @@ $(document).ready(function () {
         let balance = $('#updateBalance').val();
         $.ajax({
             url: `transaction/update/main`,
-            method: 'Put',
+            method: 'PUT',
             data: { id:id, type:type, amountRP:amountRP, totalDiscount:totalDiscount, netAmount:netAmount, advance:advance, balance:balance },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -344,7 +344,7 @@ $(document).ready(function () {
         if (confirm('Are You Sure to Delete This Transaction ??')) {
             $.ajax({
                 url: `transaction/delete/details`,
-                method: 'Delete',
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
@@ -369,7 +369,7 @@ $(document).ready(function () {
     function getTransactionId(type, targetElement) {
         $.ajax({
             url: "/transaction/get/tranid",
-            method: 'get',
+            method: 'GET',
             data: {type:type},
             success: function (res) {
                 if(res.status === 'success'){
@@ -389,7 +389,7 @@ $(document).ready(function () {
     function getTransactionGrid(tranId, grid, amount="",  total ="", balances= "", discount="", advances="") {
         $.ajax({
             url: "/transaction/get/transactiongrid",
-            method: 'get',
+            method: 'GET',
             data: {tranId:tranId},
             success: function (res) {
                 if(res.status === 'success'){

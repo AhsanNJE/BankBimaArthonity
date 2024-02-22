@@ -7,7 +7,7 @@ $(document).ready(function () {
         let groupe = $('#groupe').attr('data-id');
         $.ajax({
             url: "/transaction/insert/heads",
-            method: 'Post',
+            method: 'POST',
             data: { headName:headName, groupe:groupe },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -39,7 +39,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `/transaction/edit/heads`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -66,7 +66,7 @@ $(document).ready(function () {
         let groupe = $('#updateGroupe').attr('data-id');
         $.ajax({
             url: `/transaction/update/heads`,
-            method: 'Put',
+            method: 'PUT',
             data: { headName:headName, groupe:groupe, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -98,7 +98,7 @@ $(document).ready(function () {
         if (confirm('Are You Sure to Delete This Transaction Head ??')) {
             $.ajax({
                 url: `/transaction/delete/heads`,
-                method: 'Delete',
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

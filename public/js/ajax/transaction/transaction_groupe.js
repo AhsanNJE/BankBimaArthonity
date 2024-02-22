@@ -6,7 +6,7 @@ $(document).ready(function () {
         let groupeName = $('#groupeName').val();
         $.ajax({
             url: "/transaction/insert/groupes",
-            method: 'Post',
+            method: 'POST',
             data: { groupeName:groupeName },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -38,7 +38,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `/transaction/edit/groupes`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
@@ -62,7 +62,7 @@ $(document).ready(function () {
         let groupeName = $('#updateGroupeName').val();
         $.ajax({
             url: `/transaction/update/groupes`,
-            method: 'Put',
+            method: 'PUT',
             data: { groupeName: groupeName, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
@@ -94,7 +94,7 @@ $(document).ready(function () {
         if (confirm('Are You Sure to Delete This Transaction Groupe ??')) {
             $.ajax({
                 url: `/transaction/delete/groupes`,
-                method: 'Delete',
+                method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {

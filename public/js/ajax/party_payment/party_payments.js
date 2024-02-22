@@ -28,7 +28,7 @@ $(document).ready(function () {
         let groupe = $('#groupe').val();
         $.ajax({
             url: "/transaction/get/heads/groupe",
-            method: 'get',
+            method: 'GET',
             data: { groupe:groupe },
             success: function (res) {
                 $('#head').html(res);
@@ -45,7 +45,7 @@ $(document).ready(function () {
         let groupe = $('#updateGroupe').val();
         $.ajax({
             url: "/transaction/get/heads/groupe",
-            method: 'get',
+            method: 'GET',
             data: { groupe:groupe },
             success: function (res) {
                 $('#updateHead').html(res);
@@ -67,7 +67,7 @@ $(document).ready(function () {
         formData.append('location', locations === undefined ? '' : locations);
         $.ajax({
             url: "/party/insert/party",
-            method: 'Post',
+            method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
@@ -99,7 +99,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         $.ajax({
             url: `/party/edit/party`,
-            method: 'get',
+            method: 'GET',
             data: { id:id },
             success: function (res) {
                 
@@ -149,7 +149,7 @@ $(document).ready(function () {
     function getTransactionId(type, targetElement) {
         $.ajax({
             url: "/party/get/tranid",
-            method: 'get',
+            method: 'GET',
             data: {type:type},
             success: function (res) {
                 if(res.status === 'success'){

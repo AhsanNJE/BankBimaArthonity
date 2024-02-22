@@ -138,7 +138,7 @@ $(document).ready(function () {
     function getDepartmentByName(department, targetElement1) {
         $.ajax({
             url: "/admin/employees/get/department/name",
-            method: 'get',
+            method: 'GET',
             data: { department: department },
             success: function (res) {
                 $(targetElement1).html(res);
@@ -295,7 +295,7 @@ $(document).ready(function () {
     function getDesignationByNameAndDepartment(designation, targetElement1, department = "") {
         $.ajax({
             url: "/admin/employees/get/designation/name/department",
-            method: 'get',
+            method: 'GET',
             data: { designation: designation, department: department },
             success: function (res) {
                 $(targetElement1).html(res);
@@ -448,7 +448,7 @@ $(document).ready(function () {
     function getLocationByThana(location, targetElement1) {
         $.ajax({
             url: "/admin/employees/get/location/thana",
-            method: 'get',
+            method: 'GET',
             data: { location: location },
             success: function (res) {
                 $(targetElement1).html(res);
@@ -620,7 +620,7 @@ $(document).ready(function () {
     function getTransactionUser(tranUserType, tranUser, targetElement1) {
         $.ajax({
             url: "/transaction/get/tranuser",
-            method: 'get',
+            method: 'GET',
             data: { tranUserType: tranUserType, tranUser: tranUser },
             success: function (res) {
                 $(targetElement1).html(res);
