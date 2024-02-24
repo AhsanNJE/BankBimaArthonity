@@ -26,9 +26,9 @@
                with font-awesome or any other icon font library -->
         <li class="nav-item menu-open">
           <a href="#" class="nav-link active">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+          <i class="fa-solid fa-house"></i>
             <p>
-              Dashboard
+            Administrator
               <!-- <i class="right fas fa-angle-left"></i> -->
             </p>
           </a>
@@ -36,8 +36,8 @@
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <!-- <i class="nav-icon fas fa-table"></i> -->
-            <i class="fa-solid fa-person"></i>
+            <!-- <i class="fa-solid fa-person"></i> -->
+            <i class="fa-solid fa-users-line"></i>
             <p>
               Employee
               <i class="fas fa-angle-left right"></i>
@@ -50,22 +50,22 @@
                 <p>All Employee</p>
               </a>
             </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+          <i class="fa-solid fa-people-roof"></i>
+            <p>
+              Client
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('show.departments')}}" class="nav-link">
+              <a href="{{route('show.clients')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Department</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{route('show.designations')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Designation</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{route('show.locations')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Location</p>
+                <p>All Clients</p>
               </a>
             </li>
           </ul>
@@ -73,9 +73,81 @@
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="fa-solid fa-coins"></i>
+          <i class="fa-solid fa-people-roof"></i>
             <p>
-              Transaction
+              Supplier
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('show.suppliers')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>All Suppliers</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+          <i class="fa-solid fa-envelope"></i>
+            <p>
+              Department
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('show.departments')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>All Department</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+          <i class="fa-solid fa-pen-to-square"></i>
+            <p>
+              Designation
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('show.designations')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>All Designation</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+          <i class="fa-solid fa-location-dot"></i>
+            <p>
+              Location
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('show.locations')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>All Location</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            <p>
+              Transaction Group
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -86,12 +158,39 @@
                 <p>Transaction Groupe</p>
               </a>
             </li>
-            <li class="nav-item">
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+          <i class="fa-solid fa-right-left"></i>
+            <p>
+              Transaction Head 
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+           <li class="nav-item">
               <a href="{{route('show.transaction.heads')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Transaction Head</p>
               </a>
             </li>
+          </ul>
+        </li>
+        
+        <hr>
+
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            <p>
+              Transaction
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{route('show.transaction')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -112,9 +211,10 @@
             </li>
           </ul>
         </li>
+
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="fa-solid fa-coins"></i>
+          <i class="fa-brands fa-cc-amazon-pay"></i>
             <p>
               Party Payments
               <i class="fas fa-angle-left right"></i>
@@ -131,40 +231,6 @@
               <a href="{{route('show.transaction')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Payment to Supplier</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa-solid fa-coins"></i>
-            <p>
-              Supplier
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="{{route('show.suppliers')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>All Suppliers</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa-solid fa-coins"></i>
-            <p>
-              Client
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="{{route('show.clients')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>All Clients</p>
               </a>
             </li>
           </ul>
