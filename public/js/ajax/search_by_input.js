@@ -1,23 +1,52 @@
 $(document).ready(function () {
     /////////////// ------------------ Search Department by name and add value to input ajax part start ---------------- /////////////////////////////
-    //search Department on add modal
+    //Department Keyup Event
     $(document).on('keyup', '#department', function (e) {
         let department = $(this).val();
         let id = $(this).attr('data-id');
         DepartmentKeyUp(e, department, id, '#department', '#designation', '#department-list ul');
     });
 
-
+    // Department Key down Event
     $(document).on('keydown', '#department', function (e) {
         let list = $('#department-list ul li');
-        DepartmentKeyDown(e, list, '#department');
+        DepartmentKeyDown(e, list, '#department', '#department-list ul');
     });
 
+
+    // Department List Key down Event
     $(document).on('keydown', '#department-list ul li', function (e) {
         let list = $('#department-list ul li');
         let focused = $('#department-list ul li:focus');
         DepartmentListKeyDown(e, list, focused, '#department', '#department-list ul');
     });
+
+
+    // Department Focus Event
+    $(document).on('focus', '#department', function (e) {
+        let department = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getDepartmentByName(department, '#department-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Department Focous out event
+    $(document).on('focusout', '#department', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#department-list ul').html('');
+                }
+            });
+        }
+    });
+
 
     //add list value in Department input of add modal
     $(document).on('click', '#department-list li', function () {
@@ -28,7 +57,9 @@ $(document).ready(function () {
         $('#department-list ul').html('');
     });
 
-    //search Department on edit modal
+
+
+    // Update Department List Keyup event
     $(document).on('keyup', '#updateDepartment', function (e) {
         let department = $(this).val();
         let id = $(this).attr('data-id');
@@ -36,15 +67,48 @@ $(document).ready(function () {
     });
 
 
+
+    // Update Department Keydown event
     $(document).on('keydown', '#updateDepartment', function (e) {
         let list = $('#update-department ul li');
-        DepartmentKeyDown(e, list, '#updateDepartment');
+        DepartmentKeyDown(e, list, '#updateDepartment', '#update-department ul');
     });
 
+
+
+    // Update Department List Keydown event
     $(document).on('keydown', '#update-department ul li', function (e) {
         let list = $('#update-department ul li');
         let focused = $('#update-department ul li:focus');
         DepartmentListKeyDown(e, list, focused, '#updateDepartment', '#update-department ul');
+    });
+
+
+
+    // Update Department Focus Event
+    $(document).on('focus', '#updateDepartment', function (e) {
+        let department = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getDepartmentByName(department, '#update-department ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    
+    // Update Department Focous out event
+    $(document).on('focusout', '#updateDepartment', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-department ul').html('');
+                }
+            });
+        }
     });
 
 
@@ -86,20 +150,26 @@ $(document).ready(function () {
 
 
     // Department Key Down Event Function
-    function DepartmentKeyDown(e, list, targetElement1) {
+    function DepartmentKeyDown(e, list, targetElement1, targetElement2) {
         if (list.length > 0) {
             if (e.keyCode === 40) { // Down arrow key
                 e.preventDefault();
                 list.first().focus();
                 $(targetElement1).val(list.first().text());
                 $(targetElement1).attr("data-id", list.data('id'));
-            } else if (e.keyCode === 38) { // Up arrow key
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
                 e.preventDefault();
                 list.last().focus();
                 $(targetElement1).val(list.last().text());
                 $(targetElement1).attr("data-id", list.data('id'));
-            } else if (e.keyCode === 13) { // Enter key
+            } 
+            else if (e.keyCode === 13) { // Enter key
                 e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
+                console.log("tab");
             }
         }
     }

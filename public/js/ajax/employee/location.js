@@ -5,11 +5,11 @@ $(document).ready(function () {
         e.preventDefault();
         let division = $('#division').val();
         let district = $('#district').val();
-        let thana = $('#thana').val();
+        let upazila = $('#upazila').val();
         $.ajax({
             url: "/admin/employees/insert/locations",
             method: 'POST',
-            data: { division:division, district:district, thana:thana },
+            data: { division:division, district:district, upazila:upazila },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -46,7 +46,7 @@ $(document).ready(function () {
                 $('#id').val(id);
                 $('#updateDivision').val(res.location.division);
                 $('#updateDistrict').val(res.location.district);
-                $('#updateThana').val(res.location.thana);
+                $('#updateUpazila').val(res.location.upazila);
 
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -65,11 +65,11 @@ $(document).ready(function () {
         let id = $('#id').val();
         let division = $('#updateDivision').val();
         let district = $('#updateDistrict').val();
-        let thana = $('#updateThana').val();
+        let upazila = $('#updateUpazila').val();
         $.ajax({
             url: `/admin/employees/update/locations`,
             method: 'PUT',
-            data: { division: division, district:district, thana:thana, id:id },
+            data: { division: division, district:district, upazila:upazila, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -119,7 +119,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadDesignationData(`/admin/employees/locations/pagination?page=${page}`, {}, '.location');
+        loadLocationData(`/admin/employees/locations/pagination?page=${page}`, {}, '.location');
     });
 
 
@@ -143,7 +143,7 @@ $(document).ready(function () {
             loadLocationData(`/admin/employees/search/locations/district`, {search:search}, '.location')
         }
         else if(searchOption == "3"){
-            loadLocationData(`/admin/employees/search/locations/thana`, {search:search}, '.location')
+            loadLocationData(`/admin/employees/search/locations/upazila`, {search:search}, '.location')
         }
         
     });
@@ -161,10 +161,10 @@ $(document).ready(function () {
             loadLocationData(`/admin/employees/locations/search/pagination?page=${page}`, {search:search}, '.location');
         }
         else if(searchOption == "2"){
-            loadLocationData(`/admin/employees/locations/search/pagination/district?page=${page}`, {search:search}, '.location');
+            loadLocationData(`/admin/employees/locations/search/pagination/dictrict?page=${page}`, {search:search}, '.location');
         }
-        else if(searchOption == "2"){
-            loadLocationData(`/admin/employees/locations/search/pagination/division?page=${page}`, {search:search}, '.location');
+        else if(searchOption == "3"){
+            loadLocationData(`/admin/employees/locations/search/pagination/upazila?page=${page}`, {search:search}, '.location');
         }
         
     });

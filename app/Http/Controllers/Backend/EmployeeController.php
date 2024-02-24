@@ -322,9 +322,9 @@ class EmployeeController extends Controller
 
 
     //Get Location By Thana
-    public function GetLocationByThana(Request $req){
-        $locations = Location_Info::where('thana', 'like', '%'.$req->location.'%')
-        ->orderBy('thana','asc')
+    public function GetLocationByUpazila(Request $req){
+        $locations = Location_Info::where('upazila', 'like', '%'.$req->location.'%')
+        ->orderBy('upazila','asc')
         ->take(10)
         ->get();
 
@@ -347,13 +347,13 @@ class EmployeeController extends Controller
         $req->validate([
             "division" => 'required',
             "district" => 'required',
-            "thana" => 'required',
+            "upazila" => 'required',
         ]);
 
         Location_Info::insert([
             "division" => $req->division,
             "district" => $req->district,
-            "thana" => $req->thana,
+            "upazila" => $req->upazila,
         ]);
 
         return response()->json([
@@ -380,13 +380,13 @@ class EmployeeController extends Controller
         $req->validate([
             "division" => 'required',
             "district"  => 'required',
-            "thana"  => 'required',
+            "upazila"  => 'required',
         ]);
 
         $update = Location_Info::findOrFail($req->id)->update([
             "district" => $req->district,
             "division" => $req->division,
-            "thana" => $req->thana,
+            "upazila" => $req->upazila,
             "updated_at" => now()
         ]);
 
@@ -469,10 +469,10 @@ class EmployeeController extends Controller
 
 
 
-    //Search Location By Thana
-    public function SearchLocationByThana(Request $req){
-        $location = Location_Info::where('thana', 'like', '%'.$req->search.'%')
-        ->orderBy('thana','asc')
+    //Search Location By Upazila
+    public function SearchLocationByUpazila(Request $req){
+        $location = Location_Info::where('upazila', 'like', '%'.$req->search.'%')
+        ->orderBy('upazila','asc')
         ->paginate(15);
 
         $paginationHtml = $location->links()->toHtml();

@@ -5,7 +5,7 @@
             <th>SL:</th>
             <th>Division</th>
             <th>District</th>
-            <th>Thana</th>
+            <th>Upazila</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -15,7 +15,7 @@
                 <td>{{ $location->firstItem() + $key }}</td>
                 <td>{{ $item->division }}</td>
                 <td>{{ $item->district }}</td>
-                <td>{{ $item->thana }}</td>
+                <td>{{ $item->upazila }}</td>
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editLocation" data-modal-id="editLocation"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
@@ -30,7 +30,7 @@
             <th>SL:</th>
             <th>Division</th>
             <th>District</th>
-            <th>Thana</th>
+            <th>Upazila</th>
             <th>Action</th>
         </tr>
     </tfoot>

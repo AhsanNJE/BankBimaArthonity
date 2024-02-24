@@ -9,10 +9,13 @@
         "dept_name": "Marketing"
     },
     {
-        "dept_name": "Food"
+        "dept_name": "Kitchen"
     },
     {
         "dept_name": "Worker"
+    },
+    {
+        "dept_name": "Printing"
     },
     {
         "dept_name": "Reporter"

@@ -1,5 +1,11 @@
 $(document).ready(function () {
-
+    $(document).on('click', '.add', function (e) {
+        $("#designations").focus();
+        $("#designations").val('');
+        $('#department').removeAttr('data-id');
+        $('#department').val('');
+    });
+    
     /////////////// ------------------ Add Designation ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#InsertDesignation', function (e) {
         e.preventDefault();
@@ -16,6 +22,7 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     $('#AddDesignationForm')[0].reset();
                     $('#designations').focus();
+                    $('#department').removeAttr('data-id');
                     $('#search').val('');
                     $('.designation').load(location.href + ' .designation');
                     toastr.success('Designation Added Successfully', 'Added!');
@@ -75,6 +82,7 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     $('#editDesignation').hide();
                     $('#EditDesignationForm')[0].reset();
+                    $('#updateDepartment').removeAttr('data-id');
                     $('#search').val('');
                     $('.designation').load(location.href + ' .designation');
                     toastr.success('Designation Updated Successfully', 'Updated!');

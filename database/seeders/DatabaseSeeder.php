@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             LocationInfoSeeder::class,
             DepartmentInfoSeeder::class,
             DesignationSeeder::class,
+            TransactionGroupeSeeder::class,
+            TransactionHeadSeeder::class,
             
         ]);
     }
