@@ -321,7 +321,7 @@ class EmployeeController extends Controller
 
 
 
-    //Get Location By Thana
+    //Get Location By Upazila
     public function GetLocationByUpazila(Request $req){
         $locations = Location_Info::where('upazila', 'like', '%'.$req->location.'%')
         ->orderBy('upazila','asc')
@@ -332,7 +332,7 @@ class EmployeeController extends Controller
         if($locations->count() > 0){
             $list = "";
             foreach($locations as $index => $location) {
-                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$location->id.'">'.$location->thana.'</li>';
+                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$location->id.'">'.$location->upazila.'</li>';
             }
         }
         else{

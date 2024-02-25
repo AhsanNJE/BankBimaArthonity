@@ -25,6 +25,9 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     $('#AddEmployeeForm')[0].reset();
                     $('#name').focus();
+                    $('#location').removeAttr('data-id');
+                    $('#department').removeAttr('data-id');
+                    $('#designation').removeAttr('data-id');
                     $('#search').val('');
                     $('.employee').load(location.href + ' .employee');
                     $('#previewImage').attr('src',`#`).hide();

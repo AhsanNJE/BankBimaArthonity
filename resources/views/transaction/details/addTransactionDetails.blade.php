@@ -95,7 +95,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="user">Transaction User</label>
-                                        <input type="text" name="user" class="form-control" id="user">
+                                        <input type="text" name="user" class="form-control" id="user" autocomplete="off">
                                         <div id="user-list">
                                             <ul>
 

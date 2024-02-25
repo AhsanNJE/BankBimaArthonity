@@ -20,7 +20,7 @@
                 <td>{{ $item->user_name }}</td>
                 <td>{{ $item->user_email }}</td>
                 <td>{{ $item->user_phone }}</td>
-                <td>{{ $item->Location->thana }}</td>
+                <td>{{ $item->Location->upazila }}</td>
                 <td>{{ $item->address }}</td>
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editClientModal" data-modal-id="editClientModal"

@@ -48,7 +48,7 @@ $(document).ready(function () {
     });
 
 
-    //add list value in Department input of add modal
+    // Department List Click Event
     $(document).on('click', '#department-list li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
@@ -59,7 +59,7 @@ $(document).ready(function () {
 
 
 
-    // Update Department List Keyup event
+    // Update Department Keyup event
     $(document).on('keyup', '#updateDepartment', function (e) {
         let department = $(this).val();
         let id = $(this).attr('data-id');
@@ -99,7 +99,7 @@ $(document).ready(function () {
 
 
     
-    // Update Department Focous out event
+    // Update Department Focousout event
     $(document).on('focusout', '#updateDepartment', function (e) {
         let id = $(this).attr('data-id');
         if(id == undefined){
@@ -112,7 +112,7 @@ $(document).ready(function () {
     });
 
 
-    //add list value in Department input of add modal
+    // Update Department Click Event
     $(document).on('click', '#update-department li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
@@ -169,7 +169,6 @@ $(document).ready(function () {
             } 
             else if (e.keyCode === 9) { // Tab key
                 $(targetElement2).html('');
-                console.log("tab");
             }
         }
     }
@@ -204,7 +203,7 @@ $(document).ready(function () {
         }
     }
 
-    //search Department by name
+    // Search Department by Name
     function getDepartmentByName(department, targetElement1) {
         $.ajax({
             url: "/admin/employees/get/department/name",
@@ -222,7 +221,7 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Search Designation by name and Department and add value to input ajax part start ---------------- /////////////////////////////
-    //search Designation on add modal
+    // Designation Keyup event
     $(document).on('keyup', '#designation', function (e) {
         let department = $('#department').attr('data-id');
         let designation = $(this).val();
@@ -230,10 +229,11 @@ $(document).ready(function () {
         DesignationKeyUp(e, department, designation, id, '#designation', '#designation-list ul');
     });
 
+
     // Designation Key Down Event
     $(document).on('keydown', '#designation', function (e) {
         let list = $('#designation-list ul li');
-        DesignationKeyDown(e, list, '#designation');
+        DesignationKeyDown(e, list, '#designation', '#designation-list ul');
     });
 
 
@@ -245,7 +245,34 @@ $(document).ready(function () {
     });
 
 
-    //add list value in Designation input of add modal
+    // Designation Focus Event
+    $(document).on('focus', '#designation', function (e) {
+        let designation = $(this).val();
+        let department = $('#department').attr('data-id');
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getDesignationByNameAndDepartment(designation, '#designation-list ul', department);
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Designation Focousout event
+    $(document).on('focusout', '#designation', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#designation-list ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Designation List Click event
     $(document).on('click', '#designation-list li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
@@ -254,7 +281,7 @@ $(document).ready(function () {
         $('#designation-list ul').html('');
     });
 
-    //search Designation on edit modal
+    // Update Designation Keyup Event
     $(document).on('keyup', '#updateDesignation', function (e) {
         let department = $('#updateDepartment').attr('data-id');
         let designation = $(this).val();
@@ -263,14 +290,14 @@ $(document).ready(function () {
     });
 
 
-    // Designation Key Down Event
+    // Update Designation Keydown Event
     $(document).on('keydown', '#updateDesignation', function (e) {
         let list = $('#update-designation ul li');
-        DesignationKeyDown(e, list, '#updateDesignation');
+        DesignationKeyDown(e, list, '#updateDesignation', '#update-designation ul');
     });
 
 
-    // Designation List key Down Event
+    // Update Designation List keydown Event
     $(document).on('keydown', '#update-designation ul li', function (e) {
         let list = $('#update-designation ul li');
         let focused = $('#update-designation ul li:focus');
@@ -278,7 +305,7 @@ $(document).ready(function () {
     });
 
 
-    //add list value in Designation input of add modal
+    // Update Designation List Click Event
     $(document).on('click', '#update-designation li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
@@ -288,8 +315,35 @@ $(document).ready(function () {
     });
 
 
+    // Update Designation Focus Event
+    $(document).on('focus', '#updateDesignation', function (e) {
+        let designation = $(this).val();
+        let department = $('#updateDepartment').attr('data-id');
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getDesignationByNameAndDepartment(designation, '#update-designation ul', department);
+        }
+        else{
+            e.preventDefault();
+        }
+    });
 
-    // Designation Key Up Event Function
+
+    // Update Designation Focous out event
+    $(document).on('focusout', '#updateDesignation', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-designation ul').html('');
+                }
+            });
+        }
+    });
+
+
+
+    // Designation Keyup Event Function
     function DesignationKeyUp(e, department, designation, id, targetElement1, targetElement2){
         if (e.keyCode === 13) { // Enter Key
             e.preventDefault();
@@ -311,8 +365,8 @@ $(document).ready(function () {
     }
 
 
-    // Designation Key Down Event Function
-    function DesignationKeyDown(e, list, targetElement1) {
+    // Designation Keydown Event Function
+    function DesignationKeyDown(e, list, targetElement1, targetElement2) {
         if (list.length > 0) {
             if (e.keyCode === 40) { // Down arrow key
                 e.preventDefault();
@@ -326,12 +380,15 @@ $(document).ready(function () {
                 $(targetElement1).attr("data-id", list.data('id'));
             } else if (e.keyCode === 13) { // Enter key
                 e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
             }
         }
     }
     
 
-    // Department List Key Down Event function
+    // Department List Keydown Event function
     function DesignationListKeyDown(e, list, focused, targetElement1, targetElement2) {
         if (e.keyCode === 40) { // Down arrow key
             e.preventDefault();
@@ -361,7 +418,7 @@ $(document).ready(function () {
     }
 
 
-    //search Designation by name
+    // Search Designation by Name and Department
     function getDesignationByNameAndDepartment(designation, targetElement1, department = "") {
         $.ajax({
             url: "/admin/employees/get/designation/name/department",
@@ -377,8 +434,8 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Search Location by Thana and add value to input ajax part start ---------------- /////////////////////////////
-    //search Location on add modal
+    /////////////// ------------------ Search Location by Upazila and add value to input ajax part start ---------------- /////////////////////////////
+    // Location Keyup Event
     $(document).on('keyup', '#location', function (e) {
         let location = $(this).val();
         let id = $(this).attr('data-id');
@@ -386,14 +443,14 @@ $(document).ready(function () {
     });
 
 
-    // Location Key Down Event
+    // Location Keydown Event
     $(document).on('keydown', '#location', function (e) {
         let list = $('#location-list ul li');
-        LocationKeyDown(e, list, '#location');
+        LocationKeyDown(e, list, '#location', '#location-list ul');
     });
 
 
-    // Location List key Down Event
+    // Location List keydown Event
     $(document).on('keydown', '#location-list ul li', function (e) {
         let list = $('#location-list ul li');
         let focused = $('#location-list ul li:focus');
@@ -401,7 +458,7 @@ $(document).ready(function () {
     });
 
 
-    //add list value in Location input of add modal
+    // Location List Click Event
     $(document).on('click', '#location-list li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
@@ -410,7 +467,33 @@ $(document).ready(function () {
         $('#location-list ul').html('');
     });
 
-    //search Location on edit modal
+
+    // Location Focus Event
+    $(document).on('focus', '#location', function (e) {
+        let location = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getLocationByUpazila(location, '#location-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Locaation Focousout event
+    $(document).on('focusout', '#location', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#location-list ul').html('');
+                }
+            });
+        }
+    });
+
+    // Update Location Keyup Event
     $(document).on('keyup', '#updateLocation', function (e) {
         let location = $(this).val();
         let id = $(this).attr('data-id');
@@ -418,14 +501,14 @@ $(document).ready(function () {
     });
 
 
-    // Update Location Key Down Event
+    // Update Location Keydown Event
     $(document).on('keydown', '#updateLocation', function (e) {
         let list = $('#update-location ul li');
-        LocationKeyDown(e, list, '#updateLocation');
+        LocationKeyDown(e, list, '#updateLocation', '#update-location ul');
     });
 
 
-    // Update Location List key Down Event
+    // Update Location List Keydown Event
     $(document).on('keydown', '#update-location ul li', function (e) {
         let list = $('#update-location ul li');
         let focused = $('#update-location ul li:focus');
@@ -433,7 +516,7 @@ $(document).ready(function () {
     });
 
 
-    //add list value in Location input of add modal
+    // Update Location List Click Event
     $(document).on('click', '#update-location li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
@@ -443,7 +526,35 @@ $(document).ready(function () {
     });
 
 
-    // Location Key Up Event Function
+
+    // Update Location Focus Event
+    $(document).on('focus', '#updateLocation', function (e) {
+        let location = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getLocationByUpazila(location, '#update-location ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+
+    // Update Locaation Focousout Event
+    $(document).on('focusout', '#updateLocation', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-location ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Location Keyup Event Function
     function LocationKeyUp(e, location, id, targetElement1, targetElement2){
         if (e.keyCode === 13) { // Enter Key
             e.preventDefault();
@@ -451,7 +562,7 @@ $(document).ready(function () {
         else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
             //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
             $(targetElement1).removeAttr('data-id');
-            getLocationByThana(location, targetElement2);
+            getLocationByUpazila(location, targetElement2);
         }
         else if (e.keyCode === 9) { // Tab key
             if (id != undefined) {
@@ -459,33 +570,38 @@ $(document).ready(function () {
             }
             else{
                 $(targetElement1).removeAttr('data-id');
-                getLocationByThana(location, targetElement2);
+                getLocationByUpazila(location, targetElement2);
             }
         }
     }
 
 
-    // Location Key Down Event Function
-    function LocationKeyDown(e, list, targetElement1) {
+    // Location Keydown Event Function
+    function LocationKeyDown(e, list, targetElement1, targetElement2) {
         if (list.length > 0) {
             if (e.keyCode === 40) { // Down arrow key
                 e.preventDefault();
                 list.first().focus();
                 $(targetElement1).val(list.first().text());
                 $(targetElement1).attr("data-id", list.data('id'));
-            } else if (e.keyCode === 38) { // Up arrow key
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
                 e.preventDefault();
                 list.last().focus();
                 $(targetElement1).val(list.last().text());
                 $(targetElement1).attr("data-id", list.data('id'));
-            } else if (e.keyCode === 13) { // Enter key
+            } 
+            else if (e.keyCode === 13) { // Enter key
                 e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
             }
         }
     }
     
 
-    // Location List Key Down Event function
+    // Location List Keydown Event function
     function LocationListKeyDown(e, list, focused, targetElement1, targetElement2) {
         if (e.keyCode === 40) { // Down arrow key
             e.preventDefault();
@@ -514,10 +630,10 @@ $(document).ready(function () {
         }
     }
 
-    //search Location by Thana
-    function getLocationByThana(location, targetElement1) {
+    // Search Location by Upazila
+    function getLocationByUpazila(location, targetElement1) {
         $.ajax({
-            url: "/admin/employees/get/location/thana",
+            url: "/admin/employees/get/location/upazila",
             method: 'GET',
             data: { location: location },
             success: function (res) {
@@ -526,18 +642,17 @@ $(document).ready(function () {
         });
     }
 
-    /////////////// ------------------ Search Location by Thana and add value to input ajax part end ---------------- /////////////////////////////
+    /////////////// ------------------ Search Location by Upazila and add value to input ajax part end ---------------- /////////////////////////////
 
 
 
-    ////////////// ------------------- Search Transaction user and add value to input ajax part start --------------- ////////////////////////////
+    ////////////// ------------------- Search Transaction User and add value to input ajax part start --------------- ////////////////////////////
     //search Transaction User on add modal
     $(document).on('keyup', '#user', function (e) {
         let tranUser = $(this).val();
         let tranUserType = $('#with').val();
         let id = $(this).attr('data-id');
         UserKeyUp(e, tranUserType, tranUser, id, '#user', '#user-list ul');
-        
     });
 
 
@@ -545,7 +660,7 @@ $(document).ready(function () {
     // User Key Down Event
     $(document).on('keydown', '#user', function (e) {
         let list = $('#user-list ul li');
-        UserKeyDown(e, list, '#user');
+        UserKeyDown(e, list, '#user', '#user-list ul');
     });
 
 
@@ -570,6 +685,34 @@ $(document).ready(function () {
 
 
 
+    // User Focus Event
+    $(document).on('focus', '#user', function (e) {
+        let tranUser = $(this).val();
+        let tranUserType = $('#with').val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getTransactionUser(tranUserType, tranUser, '#user-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // User Focousout event
+    $(document).on('focusout', '#user', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#user-list ul').html('');
+                }
+            });
+        }
+    });
+
+
+
     //search Transaction User on edit modal
     $(document).on('keyup', '#updateUser', function (e) {
         let tranUser = $(this).val();
@@ -583,7 +726,7 @@ $(document).ready(function () {
     // Update User Key Down Event
     $(document).on('keydown', '#updateUser', function (e) {
         let list = $('#update-user ul li');
-        UserKeyDown(e, list, '#updateUser');
+        UserKeyDown(e, list, '#updateUser', '#update-user ul');
     });
 
 
@@ -604,6 +747,33 @@ $(document).ready(function () {
         $('#updateUser').val(value);
         $('#updateUser').attr('data-id', id);
         $('#update-user ul').html('');
+    });
+
+
+    // User Focus Event
+    $(document).on('focus', '#updateUser', function (e) {
+        let tranUser = $(this).val();
+        let tranUserType = $('#updateWith').val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getTransactionUser(tranUserType, tranUser, '#update-user ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // User Focousout event
+    $(document).on('focusout', '#updateUser', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-user ul').html('');
+                }
+            });
+        }
     });
 
 
@@ -632,20 +802,25 @@ $(document).ready(function () {
 
 
     // User Key Down Event Function
-    function UserKeyDown(e, list, targetElement1) {
+    function UserKeyDown(e, list, targetElement1, targetElement2) {
         if (list.length > 0) {
             if (e.keyCode === 40) { // Down arrow key
                 e.preventDefault();
                 list.first().focus();
                 $(targetElement1).val(list.first().text());
                 $(targetElement1).attr("data-id", list.data('id'));
-            } else if (e.keyCode === 38) { // Up arrow key
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
                 e.preventDefault();
                 list.last().focus();
                 $(targetElement1).val(list.last().text());
                 $(targetElement1).attr("data-id", list.data('id'));
-            } else if (e.keyCode === 13) { // Enter key
+            } 
+            else if (e.keyCode === 13) { // Enter key
                 e.preventDefault();
+            }
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
             }
         }
     }
@@ -686,7 +861,7 @@ $(document).ready(function () {
 
 
 
-    //search Transaction User by Name
+    // Search Transaction User by Name
     function getTransactionUser(tranUserType, tranUser, targetElement1) {
         $.ajax({
             url: "/transaction/get/tranuser",
@@ -699,7 +874,7 @@ $(document).ready(function () {
     }
 
 
-    //get due payment list by user id
+    // Get Due Payment list by User Id
     function getDueListByUserId(id, grid) {
         $.ajax({
             url: "/party/get/trandue/userid",
@@ -713,10 +888,8 @@ $(document).ready(function () {
                     // Calculate total amount
                     let totalAmount = transactions.reduce((sum, transaction) => sum + transaction.due, 0);
                     $('.due-grid tfoot').html(`<tr>
-                                                <td colspan="4" style="text-align:right;"> Total Due: ${totalAmount}</td>
+                                                    <td colspan="4" style="text-align:right;"> Total Due: ${totalAmount}</td>
                                                 </tr>`)
-                    // $(amount).val(totalAmount);
-
                 }
                 else{
                     $(grid).html('');
