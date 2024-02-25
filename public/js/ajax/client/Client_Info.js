@@ -18,7 +18,8 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#AddClientForm')[0].reset();
-                    $('#name').focus();
+                    $('#location').removeAttr('data-id');
+                    $('#type').focus();
                     $('.client').load(location.href + ' .client');
                     $('#search').val('');
                     toastr.success('Client Added Successfully', 'Added!');

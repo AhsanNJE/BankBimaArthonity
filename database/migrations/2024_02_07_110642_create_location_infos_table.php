@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('division');
             $table->string('district');
-            $table->string('thana');
+            $table->string('upazila');
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
         });

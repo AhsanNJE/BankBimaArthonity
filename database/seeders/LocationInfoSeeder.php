@@ -19,9 +19,9 @@ class LocationInfoSeeder extends Seeder
 
         $locations->each(function($location){
             Location_Info::create([
-                "division"=>$location->division,
-                "district"=>$location->district,
-                "thana"=>$location->thana,
+                "division" => $location->division,
+                "district" => $location->district,
+                "upazila" => $location->upazila,
             ]);
         });
     }

@@ -52,14 +52,14 @@ Route::controller(EmployeeController::class)->group(function(){
         //search routes start
         Route::get('/search/locations', 'SearchLocations')->name('search.locations');
         Route::get('/search/locations/district', 'SearchLocationByDistrict')->name('search.locations.district');
-        Route::get('/search/locations/thana', 'SearchLocationByThana')->name('search.locations.thana');
+        Route::get('/search/locations/upazila', 'SearchLocationByUpazila')->name('search.locations.upazila');
         //pagination routes start
         Route::get('/locations/pagination', 'LocationPagination');
         Route::get('/locations/search/pagination', 'SearchLocations');
         Route::get('/locations/search/pagination/dictrict', 'SearchLocationByDistrict');
-        Route::get('/locations/search/pagination/thana', 'SearchLocationByThana');
+        Route::get('/locations/search/pagination/upazila', 'SearchLocationByUpazila');
         //search list routs
-        Route::get('/get/location/thana', 'GetLocationByThana');
+        Route::get('/get/location/upazila', 'GetLocationByUpazila');
 
 
 

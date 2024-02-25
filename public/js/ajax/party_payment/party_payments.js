@@ -78,7 +78,10 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#AddPartyForm')[0].reset();
+                    $('#location').removeAttr('data-id');
+                    $('#user').removeAttr('data-id');
                     $('.party').load(location.href + ' .party');
+                    $('.due-grid tbody').html('');
                     toastr.success('Party Payment Added Successfully', 'Added!');
                 }
             },

@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Party_Payment_Receive;
 use App\Models\Transaction_Groupe;
 use App\Models\Transaction_Main;
+use App\Models\Transaction_Detail;
 
 class PartyPaymentController extends Controller
 {
@@ -76,6 +77,7 @@ class PartyPaymentController extends Controller
     public function GetTransactionDueByUserId(Request $req){
         if($req->id != ""){
             $transaction = Transaction_Main::where('tran_user', 'like', '%'.$req->id.'%')
+            ->where('due', '>', 0)
             ->orderBy('tran_date','asc')
             ->paginate(20);
 
@@ -110,23 +112,108 @@ class PartyPaymentController extends Controller
             "totAmount" => 'required',
         ]);
 
-        Party_Payment_Receive::insert([
-            "tran_id" => $req->tranId,
-            "invoice" => $req->invoice,
-            "loc_id" => $req->location,
-            "tran_type" => $req->type,
-            "tran_groupe_id" => $req->groupe,
-            "tran_head_id" => $req->head,
-            "tran_type_with" => $req->with,
-            "tran_user" => $req->user,
-            "amount" => $req->amount,
-            "quantity" => $req->quantity,
-            "tot_amount" => $req->totAmount,
-        ]);
 
-        return response()->json([
-            'status'=>'success',
-        ]);  
+        // dd($req->user);
+        if($req->user != ""){
+            $transaction = Transaction_Main::where('tran_user', 'like', '%'.$req->user.'%')
+            ->where('due', '>', 0)
+            ->orderBy('tran_date','asc')
+            ->get();
+
+            // dd($transaction);
+            if($transaction){
+                $totAmount = $req->totAmount;
+                $totDue = 0;
+                foreach($transaction as $index => $tran) {
+                    $totDue = $totDue + $tran->due;
+                }
+                if($totAmount != 0){
+                    if($totDue < $totAmount){
+                        return response()->json([
+                            'message' => 'Amount should be less than equal to the due amount',
+                            'errors' => [
+                                'totAmount' => ['Amount should be less than equal to the due amount']
+                            ]
+                        ], 422);
+                    }
+                    else{
+                        foreach($transaction as $index => $tran) {
+                            if($totAmount != 0){
+                                if($tran->due <= $totAmount){
+                                    $totAmount = $totAmount - $tran->due;
+                                    if($tran->due_col == null){
+                                        $nulldue = 0;
+                                        $dueCol = $nulldue + $tran->due;
+                                        Transaction_Main::findOrFail($tran->id)->update([
+                                            "due_col" => $dueCol,
+                                            "due" => 0,
+                                            "updated_at" => now()
+                                        ]);
+                                    }
+                                    else{
+                                        $dueCol = $tran->due_col + $tran->due;
+                                        Transaction_Main::findOrFail($tran->id)->update([
+                                            "due_col" => $dueCol,
+                                            "due" => 0,
+                                            "updated_at" => now()
+                                        ]);
+                                    }
+                                }
+                                else if($tran->due > $totAmount){
+                                    $remDue = $tran->due - $totAmount;                           
+                                    $dueCol = $tran->due_col + $totAmount;
+    
+                                    Transaction_Main::findOrFail($tran->id)->update([
+                                        "due_col" => $dueCol,
+                                        "due" => $remDue,
+                                        "updated_at" => now()
+                                    ]);
+                                    $totAmount = 0;
+                                }
+                            }
+                        }
+                        
+                        $party = Party_Payment_Receive::insert([
+                            "tran_id" => $req->tranId,
+                            "invoice" => $req->invoice,
+                            "loc_id" => $req->location,
+                            "tran_type" => $req->type,
+                            "tran_groupe_id" => $req->groupe,
+                            "tran_head_id" => $req->head,
+                            "tran_type_with" => $req->with,
+                            "tran_user" => $req->user,
+                            "amount" => $req->amount,
+                            "quantity" => $req->quantity,
+                            "tot_amount" => $req->totAmount,
+                        ]);
+    
+                        return response()->json([
+                            'status'=>'success',
+                        ]); 
+                    }
+                }
+                
+            }
+        }
+
+        
+
+        
+
+        // if($party){
+        //     if($req->user != ""){
+        //         $transaction = Transaction_Main::where('tran_user', 'like', '%'.$req->id.'%')
+        //         ->where('due', '>', 0)
+        //         ->orderBy('tran_date','asc')
+        //         ->get();
+
+        //         if($transaction){
+    
+        //         }
+        //     }
+        // }
+
+         
     }//End Method
 
 

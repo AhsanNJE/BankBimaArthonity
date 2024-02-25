@@ -136,6 +136,8 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#AddTransactionForm')[0].reset();
+                    $('#location').removeAttr('data-id');
+                    $('#user').removeAttr('data-id');
                     $('.transaction_grid tbody').html('');
                     $('.details').load(location.href + ' .details');
                     toastr.success('Transaction Added To Main TableSuccessfully', 'Added!');

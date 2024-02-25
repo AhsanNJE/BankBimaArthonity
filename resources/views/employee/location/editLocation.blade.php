@@ -32,9 +32,9 @@
                                         <span class="text-danger error" id="update_district_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updateThana">Thana</label>
-                                        <input type="text" name="thana" class="form-control" id="updateThana">
-                                        <span class="text-danger error" id="update_thana_error"></span>
+                                        <label for="updateUpazila">Upazila</label>
+                                        <input type="text" name="upazila" class="form-control" id="updateUpazila">
+                                        <span class="text-danger error" id="update_upazila_error"></span>
                                     </div>
                                 </div>
                             </div>

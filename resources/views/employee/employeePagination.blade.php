@@ -22,7 +22,7 @@
                 <td>{{ $item->user_name }}</td>
                 <td>{{ $item->user_email }}</td>
                 <td>{{ $item->user_phone }}</td>
-                <td>{{ $item->Location->thana }}</td>
+                <td>{{ $item->Location->upazila }}</td>
                 <td>{{ $item->address }}</td>
                 <td><img src="/storage/profiles/{{ $item->image }}" alt="" height="50px" width="50px"></td>
                 <td>

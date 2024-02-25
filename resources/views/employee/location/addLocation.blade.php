@@ -31,9 +31,9 @@
                                         <span class="text-danger error" id="district_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="thana">Thana</label>
-                                        <input type="text" name="thana" class="form-control" id="thana">
-                                        <span class="text-danger error" id="thana_error"></span>
+                                        <label for="upazila">Upazila</label>
+                                        <input type="text" name="upazila" class="form-control" id="upazila">
+                                        <span class="text-danger error" id="upazila_error"></span>
                                     </div>
                                 </div>
                             </div>
