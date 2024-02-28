@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\TransactionController;
 use App\Http\Controllers\Backend\PartyPaymentController;
+use App\Http\Controllers\Backend\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -280,4 +281,11 @@ Route::controller(PartyPaymentController::class)->group(function(){
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/trandue/userid', 'GetTransactionDueByUserId');
     });
+});
+
+
+/////////////////////////////////////// Reports Statement Route ///////////////////////
+Route::controller(ReportController::class)->group(function(){
+    Route::get('/pending/due','PendingDue')->name('pending.due');
+    Route::get('/filter','Filter');
 });
