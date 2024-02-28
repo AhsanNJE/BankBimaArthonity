@@ -10,7 +10,7 @@
 <div id="showEmployeeDetails" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">
-            <h3 class="center">Add Employee</h3>
+            <h3 class="center">Employee Details</h3>
             <span class="close-modal" data-modal-id="showEmployeeDetails">&times;</span>
         </div>
 
@@ -25,7 +25,7 @@
                 <!-- form start -->
                 <div class="center">
                     <div class="card-body">
-                        
+
                     </div>
                 </div>
             </div>

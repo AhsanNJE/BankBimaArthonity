@@ -58,7 +58,7 @@ $(document).ready(function () {
                 $('#updateName').val(res.supplier.user_name);
                 $('#updateEmail').val(res.supplier.user_email);
                 $('#updatePhone').val(res.supplier.user_phone);
-                $('#updateLocation').val(res.supplier.location.thana);
+                $('#updateLocation').val(res.supplier.location.upazila);
                 $('#updateLocation').attr('data-id',res.supplier.loc_id);
                 $('#updateAddress').val(res.supplier.address);
                 

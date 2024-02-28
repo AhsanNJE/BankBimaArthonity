@@ -100,7 +100,6 @@ class PartyPaymentController extends Controller
     public function InsertParty(Request $req){
         $req->validate([
             "tranId" => 'required',
-            "invoice" => 'required',
             "location" => 'required|numeric',
             "type" => 'required',
             "groupe" => 'required',
@@ -175,7 +174,6 @@ class PartyPaymentController extends Controller
                         
                         $party = Party_Payment_Receive::insert([
                             "tran_id" => $req->tranId,
-                            "invoice" => $req->invoice,
                             "loc_id" => $req->location,
                             "tran_type" => $req->type,
                             "tran_groupe_id" => $req->groupe,
@@ -264,7 +262,6 @@ class PartyPaymentController extends Controller
         else{
             $req->validate([
                 "tranId" => 'required',
-                "invoice" => 'required',
                 "location" => 'required|numeric',
                 "type" => 'required',
                 "groupe" => 'required',
@@ -278,7 +275,6 @@ class PartyPaymentController extends Controller
     
             Party_Payment_Receive::insert([
                 "tran_id" => $req->tranId,
-                "invoice" => $req->invoice,
                 "loc_id" => $req->location,
                 "tran_type" => $req->type,
                 "tran_groupe_id" => $req->groupe,
@@ -308,4 +304,28 @@ class PartyPaymentController extends Controller
 
 
     /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
+
+
+    /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
+    //Show Party Payments Receive From Client
+    public function ShowReceiveParty(){
+        $party = Party_Payment_Receive::where('tran_type', "receive")->orderBy('tran_date','asc')->paginate(15);
+        $groupes = Transaction_Groupe::get();
+        return view('party_payment.receive.partyPayments', compact('party','groupes'));
+    }//End Method
+
+    /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
+    
+
+
+    /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
+    //Show Party Payments Payment To Supplier
+    public function ShowPaymentParty(){
+        $party = Party_Payment_Receive::where('tran_type', "payment")->orderBy('tran_date','asc')->paginate(15);
+        $groupes = Transaction_Groupe::get();
+        return view('party_payment.payment.partyPayments', compact('party','groupes'));
+    }//End Method
+
+    /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
+    
 }

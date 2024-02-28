@@ -38,16 +38,7 @@
                                         <span class="text-danger error" id="update_date_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="updateType">Transaction Type</label>
-                                        <select name="type" id="updateType">
-                                            
-                                        </select>
-                                        <span class="text-danger error" id="update_type_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="updateTranId">Transaction Id</label>
                                         <input type="text" name="tranId" class="form-control" id="updateTranId"

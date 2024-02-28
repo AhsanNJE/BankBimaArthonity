@@ -68,7 +68,7 @@ $(document).ready(function () {
                                          <option value="female" ${res.client.gender === 'female' ? 'selected' : ''}>Female</option>
                                          <option value="others" ${res.client.gender === 'others' ? 'selected' : ''}>Others</option>`);
 
-                $('#updateLocation').val(res.client.location.thana);
+                $('#updateLocation').val(res.client.location.upazila);
                 $('#updateLocation').attr('data-id',res.client.loc_id);
                 $('#updateAddress').val(res.client.address);
 

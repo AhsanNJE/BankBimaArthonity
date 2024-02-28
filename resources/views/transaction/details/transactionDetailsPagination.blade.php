@@ -31,7 +31,7 @@
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editTransaction" data-modal-id="editTransaction"
                         data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->tran_id }}" id="delete"><i
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->tran_id }}" id="deleteMain"><i
                             class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>

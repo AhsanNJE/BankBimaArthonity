@@ -3,9 +3,20 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="addTransactionPayment">Add Transaction Payment Details</button>
+                <button class="open-modal add" data-modal-id="addTransaction">Add Transaction Payment</button>
             </div>
-            <div class="col-md-9 search">
+            <div class="col-md-2">
+                <label for="startDate">Start Date</label>
+                <input type="date" name="startDate" id="startDate" class="form-input" value="{{ date('Y-m-d') }}">
+            </div>
+            <div class="col-md-2" >
+                <label for="endDate">End Date</label>
+                <input type="date" name="endDate" id="endDate" class="form-input" value="{{ date('Y-m-d') }}">
+            </div>
+            <div class="col-md-5">
+                <select name="searchOption" id="searchOption" class="select-small">
+                    <option value=""></option>
+                </select>
                 <input type="text" name="search" id="search" class="form-input" placeholder="Search here...">
             </div>
         </div>

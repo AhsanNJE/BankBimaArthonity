@@ -6,8 +6,8 @@
                 <button class="open-modal add" data-modal-id="addTransaction">Add Transaction</button>
             </div>
             <div class="col-md-9 search">
-                <input type="date" name="startDate" id="startDate" class="form-input">
-                <input type="date" name="endDate" id="endDate" class="form-input">
+                <input type="date" name="startDate" id="startDate" class="form-input" value="{{ date('Y-m-d') }}">
+                <input type="date" name="endDate" id="endDate" class="form-input" value="{{ date('Y-m-d') }}">
                 <input type="text" name="search" id="search" class="form-input" placeholder="Search here...">
             </div>
         </div>

@@ -259,24 +259,26 @@ Route::controller(TransactionController::class)->group(function(){
         
         //search routes start
         Route::get('/search/details', 'SearchTransactionDetails')->name('search.transaction.details');
+        Route::get('/search/main', 'SearchTransactionMain')->name('search.transaction.main');
         //pagination routes start
         Route::get('/details/pagination', 'TransactionHeadPagination');
         Route::get('/details/search/pagination', 'SearchTransactionDetails');
-        //search list routs
-        Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
-
-
-
-        ////////////////////////// --------------- Transaction Main routes ----------- ///////////////////////////
-        //search routes start
-        Route::get('/search/main', 'SearchTransactionMain')->name('search.transaction.main');
-        //pagination routes start
         Route::get('/main/pagination', 'TransactionMainPagination');
         Route::get('/main/search/pagination', 'SearchTransactionMain');
         //search list routs
         Route::get('/get/tranid', 'GetTransactionId');
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/transactiongrid', 'GetTransactionGrid');
+        Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
+        
+
+
+        // Transactionn Receive Details Routes
+        Route::get('/receive', 'ShowTransactionReceive')->name('show.transaction.receive');
+        
+        
+        // Transactionn Payment Details Routes
+        Route::get('/payment', 'ShowTransactionPayment')->name('show.transaction.payment');
 
     });
 });
@@ -295,5 +297,13 @@ Route::controller(PartyPaymentController::class)->group(function(){
         Route::get('/get/tranid', 'GetTransactionId');
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/trandue/userid', 'GetTransactionDueByUserId');
+
+
+        // Party Payment Receive Details Routes
+        Route::get('/receive', 'ShowReceiveParty')->name('show.party.receive');
+        
+        
+        // Party Payment Payment Details Routes
+        Route::get('/payment', 'ShowPaymentParty')->name('show.party.payment');
     });
 });

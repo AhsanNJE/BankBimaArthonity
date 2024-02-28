@@ -121,7 +121,7 @@ $(document).ready(function () {
                                          <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
                                          <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
 
-                $('#updateLocation').val(res.employee.location.thana);
+                $('#updateLocation').val(res.employee.location.upazila);
                 $('#updateLocation').attr('data-id',res.employee.loc_id);
 
                 // Create options dynamically
