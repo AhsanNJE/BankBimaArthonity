@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    $(document).on('click', '.add', function (e) {
+        $('#groupeName').focus();
+    });
     /////////////// ------------------ Add Transaction Groupe ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#InsertTransactionGroupe', function (e) {
         e.preventDefault();
@@ -14,7 +16,7 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#AddTransactionGroupeForm')[0].reset();
-                    $('#gropupeName').focus();
+                    $('#groupeName').focus();
                     $('#search').val('');
                     $('.groupe').load(location.href + ' .groupe');
                     toastr.success('Transaction Groupe Added Successfully', 'Added!');
@@ -43,7 +45,7 @@ $(document).ready(function () {
             success: function (res) {
                 $('#id').val(id);
                 $('#updateGroupeName').val(res.groupes.tran_groupe_name);
-
+                $('#updateGroupeName').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
             },

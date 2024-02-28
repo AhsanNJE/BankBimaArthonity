@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    $(document).on('click', '.add', function (e) {
+        $('#division').focus();
+    });
     /////////////// ------------------ Add Location ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#InsertLocation', function (e) {
         e.preventDefault();
@@ -47,7 +49,7 @@ $(document).ready(function () {
                 $('#updateDivision').val(res.location.division);
                 $('#updateDistrict').val(res.location.district);
                 $('#updateUpazila').val(res.location.upazila);
-
+                $('#updateDivision').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
             },

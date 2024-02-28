@@ -135,7 +135,7 @@
                                         <label for="image">Image</label>
                                         <input type="file" name="image" class="form-control" id="image">
                                         <span class="text-danger error" id="image_error"></span>
-                                        <img src="#" alt="Selected Image" id="previewImage" style="display: none;">
+                                        <img src="#" alt="Selected Image" id="previewImage" style="display: none; width:200px; height:200px;">
                                     </div>
                                 </div>
                             </div>

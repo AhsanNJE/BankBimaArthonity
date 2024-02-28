@@ -121,13 +121,21 @@ class ClientController extends Controller
 
 
 
-    //Search Client by Name
+    // Search Client by Name
     public function SearchClients(Request $request){
-        $client = User_Info::where('user_type','client')
-        ->where('user_name', 'like', '%'.$request->search.'%')
-        ->orWhere('id', 'like','%'.$request->search.'%')
-        ->orderBy('user_name','asc')
-        ->paginate(15);
+        if($request->search != ""){
+            $client = User_Info::where('user_type','client')
+            ->where('user_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $client = User_Info::where('user_type','client')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+        
 
         $paginationHtml = $client->links()->toHtml();
         
@@ -149,10 +157,17 @@ class ClientController extends Controller
 
     //Search Client by Email
     public function SearchClientByEmail(Request $request){
-        $client = User_Info::where('user_type','client')
-        ->where('user_email', 'like', '%'.$request->search.'%')
-        ->orderBy('user_email','asc')
-        ->paginate(15);
+        if($request->search != ""){
+            $client = User_Info::where('user_type','client')
+            ->where('user_email', 'like', '%'.$request->search.'%')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+        else{
+            $client = User_Info::where('user_type','client')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
 
         $paginationHtml = $client->links()->toHtml();
         
@@ -174,10 +189,18 @@ class ClientController extends Controller
 
     //Search Client by Contact
     public function SearchClientByContact(Request $request){
-        $client = User_Info::where('user_type','client')
-        ->where('user_phone', 'like', '%'.$request->search.'%')
-        ->orderBy('user_phone','asc')
-        ->paginate(15);
+        if($request->search != ""){
+            $client = User_Info::where('user_type','client')
+            ->where('user_phone', 'like', '%'.$request->search.'%')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+        else{
+            $client = User_Info::where('user_type','client')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+        
 
         $paginationHtml = $client->links()->toHtml();
         
@@ -199,13 +222,24 @@ class ClientController extends Controller
 
     //Search Client by Location
     public function SearchClientByLocation(Request $request){
-        $client = User_Info::with('Location')
-        ->whereHas('Location', function ($query) use ($request) {
-            $query->where('thana', 'like', '%'.$request->search.'%');
-            $query->orderBy('thana','asc');
-        })
-        ->where('user_type','client')
-        ->paginate(15);
+        if($request->search != ""){
+            $client = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->where('upazila', 'like', '%'.$request->search.'%');
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','client')
+            ->paginate(15);
+        }
+        else{
+            $client = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','client')
+            ->paginate(15);
+        }
+        
 
         $paginationHtml = $client->links()->toHtml();
         
@@ -228,10 +262,17 @@ class ClientController extends Controller
 
     //Search Client by Address
     public function SearchClientByAddress(Request $request){
-        $client = User_Info::where('user_type','client')
-        ->where('address', 'like', '%'.$request->search.'%')
-        ->orderBy('address','asc')
-        ->paginate(15);
+        if($request->search != ""){
+            $client = User_Info::where('user_type','client')
+            ->where('address', 'like', '%'.$request->search.'%')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+        else{
+            $client = User_Info::where('user_type','client')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
 
         $paginationHtml = $client->links()->toHtml();
         

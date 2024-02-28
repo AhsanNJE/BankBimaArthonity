@@ -106,10 +106,26 @@ Route::controller(EmployeeController::class)->group(function(){
         Route::put('/update/employees', 'UpdateEmployees')->name('update.employees');
         Route::delete('/delete/employees', 'DeleteEmployees')->name('delete.employees');
         //search routes start
-        Route::get('/search/employees', 'SearchEmployees')->name('search.employees');
+        Route::get('/search/employees', 'SearchEmployees')->name('search.employees.name');
+        Route::get('/search/employees/email', 'SearchEmployeeByEmail')->name('search.employees.email');
+        Route::get('/search/employees/phone', 'SearchEmployeeByPhone')->name('search.employees.phone');
+        Route::get('/search/employees/location', 'SearchEmployeeByLocation')->name('search.employees.location');
+        Route::get('/search/employees/address', 'SearchEmployeeByAddress')->name('search.employees.address');
+        Route::get('/search/employees/nid', 'SearchEmployeeByNid')->name('search.employees.nid');
+        Route::get('/search/employees/dob', 'SearchEmployeeByDob')->name('search.employees.dob');
+        Route::get('/search/employees/department', 'SearchEmployeeByDepartment')->name('search.employees.department');
+        Route::get('/search/employees/designation', 'SearchEmployeeByDesignation')->name('search.employees.designation');
         //pagination routes start
         Route::get('/pagination', 'EmployeePagination');
         Route::get('/search/pagination', 'SearchEmployees');
+        Route::get('/search/pagination/email', 'SearchEmployeeByEmail');
+        Route::get('/search/pagination/phone', 'SearchEmployeeByPhone');
+        Route::get('/search/pagination/location', 'SearchEmployeeByLocation');
+        Route::get('/search/pagination/address', 'SearchEmployeeByAddress');
+        Route::get('/search/pagination/nid', 'SearchEmployeeByNid');
+        Route::get('/search/pagination/dob', 'SearchEmployeeByDob');
+        Route::get('/search/pagination/department', 'SearchEmployeeByDepartment');
+        Route::get('/search/pagination/designation', 'SearchEmployeeByDesignation');
         //search list routs
         Route::get('/get/employeeby/name', 'GetEmployeeByName')->name('get.employee.by.name');
         

@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    $(document).on('click', '.add', function (e) {
+        $('#type').focus();
+    });
     /////////////// ------------------ Add Supplier ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddSupplierForm', function (e) {
         e.preventDefault();
@@ -52,7 +54,7 @@ $(document).ready(function () {
                 $('#updateType').empty();
                 $('#updateType').append(`<option value="food supplier" ${res.supplier.tran_user_type === 'food supplier' ? 'selected' : ''}>Food Supplier</option>
                                          <option value="stationary supplier" ${res.supplier.tran_user_type === 'stationary supplier' ? 'selected' : ''}>Stationary Supplier</option>`);
-
+                $('#updateType').focus();
                 $('#updateName').val(res.supplier.user_name);
                 $('#updateEmail').val(res.supplier.user_email);
                 $('#updatePhone').val(res.supplier.user_phone);
