@@ -29,7 +29,7 @@
                                                 <input type="date" name="end_date" value="{{ date('Y-m-d') }}" class="form-control" required>
                                             </div>
                                             <div class="col-md-1 pt-4">
-                                                <button type="submit" class="btn btn-primary">Filter</button>
+                                                <button type="submit" class="btn btn-primary">View</button>
                                             </div>
                                         </div>
                                     </form>
