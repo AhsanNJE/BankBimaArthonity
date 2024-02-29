@@ -238,27 +238,27 @@
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-          <i class="fa-brands fa-cc-amazon-pay"></i>
+          <i class="fa-solid fa-book-open"></i>
             <p>
-              REPORTS:
+              Reports:
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('pending.due')}}" class="nav-link">
+              <a href="{{route('pending.all.due')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Due Statement-</p>
+                <p>All Due Statement-</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('pending.due')}}" class="nav-link">
+              <a href="{{route('client.due.transaction')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>As Per Client</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('pending.due')}}" class="nav-link">
+              <a href="{{ route('supplier.due.transaction') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>As Per Supllier</p>
               </a>
