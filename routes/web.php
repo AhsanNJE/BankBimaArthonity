@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\TransactionController;
 use App\Http\Controllers\Backend\PartyPaymentController;
+use App\Http\Controllers\Backend\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -310,4 +311,19 @@ Route::controller(PartyPaymentController::class)->group(function(){
         // Party Payment Payment Details Routes
         Route::get('/payment', 'ShowPaymentParty')->name('show.party.payment');
     });
+});
+
+
+/////////////////////////////////////// Report Controller All Routes ////////////////////////////////
+
+// Due Reports For Client & Supplier //
+Route::controller(ReportController::class)->group(function(){
+    Route::get('/pending/all/due','PendingAllDue')->name('pending.all.due');
+    Route::post('/filter','Filter');
+    Route::get('/pagination/pagination-data', 'Pagination');
+    Route::get('/search/due/statement', 'SearchDueStatement')->name('search.due.statement');
+    Route::get('/client/due/transaction', 'ClientDueTransaction')->name('client.due.transaction');
+    Route::post('/client/filter', 'ClientFilter');
+    Route::get('/supplier/due/transaction', 'SupplierDueTransaction')->name('supplier.due.transaction');
+    Route::post('/supplier/filter', 'SupplierFilter');
 });

@@ -22,4 +22,11 @@ class User_Info extends Model
     public function Designation(){
         return $this->belongsTo(Designation::class,'designation_id','id');
     }
+
+    ///// client base due find for user_type User_Info Table /////////
+    
+    public function transaction()
+    {
+        return $this->hasMany(Transaction_Main::class, 'tran_user', 'user_id');
+    }
 }

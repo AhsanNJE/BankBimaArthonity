@@ -1,6 +1,20 @@
 @extends('admin.layouts.layout')
 @section('admin')
 
+@php
+
+ $date = date('d-F-Y');
+ $today_paid = App\Models\Transaction_Main::where('tran_date',$date)->sum('payment');
+
+ $total_amount = App\Models\Transaction_Main::sum('net_amount');
+ $total_receive = App\Models\Transaction_Main::sum('receive');
+ $total_payment = App\Models\Transaction_Main::sum('payment');
+
+ $total_due = App\Models\Transaction_Main::sum('due'); 
+
+
+@endphp
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
   <div class="container-fluid">
@@ -27,12 +41,13 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3>{{ $total_amount }}৳</h3>
 
-                <p>New Orders</p>
+                <p>Total Amount</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <!-- <i class="ion ion-bag"></i> -->
+                <i class="fa-solid fa-bangladeshi-taka-sign"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -42,12 +57,13 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3>{{  $total_receive }}<sup style="font-size: 20px">৳</sup></h3>
 
-                <p>Bounce Rate</p>
+                <p>Total Receive</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <!-- <i class="ion ion-stats-bars"></i> -->
+                <i class="fa-solid fa-hand-holding-dollar"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -57,9 +73,9 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>{{ $total_payment }}<sup style="font-size: 20px">৳</sup></h3>
 
-                <p>User Registrations</p>
+                <p>Total Payment</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -72,12 +88,13 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+              <h3>{{  $total_due }}<sup style="font-size: 20px">৳</sup></h3>
 
-                <p>Unique Visitors</p>
+                <p>Total Due</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <!-- <i class="ion ion-pie-graph"></i> -->
+                <i class="fa-solid fa-scale-unbalanced"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
