@@ -256,15 +256,20 @@ Route::controller(TransactionController::class)->group(function(){
         Route::get('/edit/details', 'EditTransactionDetails')->name('edit.transaction.details');
         Route::put('/update/details', 'UpdateTransactionDetails')->name('update.transaction.details');
         Route::delete('/delete/details', 'DeleteTransactionDetails')->name('delete.transaction.details');
-        
         //search routes start
-        Route::get('/search/details', 'SearchTransactionDetails')->name('search.transaction.details');
-        Route::get('/search/main', 'SearchTransactionMain')->name('search.transaction.main');
+        Route::get('/search/date', 'ShowTransactionByDate')->name('search.transaction.date');
+        Route::get('/search/tranid', 'SearchTransactionByTranId')->name('show.transaction.tranid');
+        Route::get('/search/invoice', 'SearchTransactionByInvoice')->name('show.transaction.invoice');
+        Route::get('/search/with', 'SearchTransactionByTranWith')->name('show.transaction.with');
+        Route::get('/search/user', 'SearchTransactionByTranUser')->name('show.transaction.user');
+
         //pagination routes start
-        Route::get('/details/pagination', 'TransactionHeadPagination');
-        Route::get('/details/search/pagination', 'SearchTransactionDetails');
-        Route::get('/main/pagination', 'TransactionMainPagination');
-        Route::get('/main/search/pagination', 'SearchTransactionMain');
+        Route::get('/pagination', 'TransactionPagination');
+        Route::get('/pagination/date', 'ShowTransactionByDate');
+        Route::get('/pagination/tranid', 'SearchTransactionByTranId');
+        Route::get('/pagination/invoice', 'SearchTransactionByInvoice');
+        Route::get('/pagination/with', 'SearchTransactionByTranWith');
+        Route::get('/pagination/user', 'SearchTransactionByTranUser');
         //search list routs
         Route::get('/get/tranid', 'GetTransactionId');
         Route::get('/get/tranuser', 'GetTransactionUser');
@@ -272,10 +277,8 @@ Route::controller(TransactionController::class)->group(function(){
         Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
         
 
-
         // Transactionn Receive Details Routes
         Route::get('/receive', 'ShowTransactionReceive')->name('show.transaction.receive');
-        
         
         // Transactionn Payment Details Routes
         Route::get('/payment', 'ShowTransactionPayment')->name('show.transaction.payment');
@@ -301,6 +304,7 @@ Route::controller(PartyPaymentController::class)->group(function(){
 
         // Party Payment Receive Details Routes
         Route::get('/receive', 'ShowReceiveParty')->name('show.party.receive');
+        
         
         
         // Party Payment Payment Details Routes

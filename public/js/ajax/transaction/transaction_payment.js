@@ -5,6 +5,16 @@ $(document).ready(function () {
         $('#invoice').focus();
         getTransactionId(type, '#tranId');
     });
+
+
+    // Search by Date Range
+    $(document).on('change', '#startDate, #endDate', function(e){
+        e.preventDefault();
+        let type = "payment";
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        searchTransaction(`/transaction/search/date`, {startDate:startDate, endDate:endDate, type:type})
+    });
     
     
     
@@ -384,6 +394,69 @@ $(document).ready(function () {
 
 
 
+
+    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.paginate a', function (e) {
+        e.preventDefault();
+        let type = "payment";
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let page = $(this).attr('href').split('page=')[1];
+        searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type});
+    });
+
+
+    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    $(document).on('keyup', '#search', function (e) {
+        e.preventDefault();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let search = $(this).val();
+        let type = "payment";
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "2"){
+            searchTransaction(`/transaction/search/invoice`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "3"){
+            searchTransaction(`/transaction/search/with`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "4"){
+            searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+    });
+
+
+
+    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.search-paginate a', function (e) {
+        e.preventDefault();
+        $('.paginate').addClass('hidden');
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let search = $('#search').val();
+        let type = "payment";
+        let searchOption = $("#searchOption").val();
+        let page = $(this).attr('href').split('page=')[1];
+        if(searchOption == "1"){
+            searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "2"){
+            searchTransaction(`/transaction/pagination/invoice?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "3"){
+            searchTransaction(`/transaction/pagination/with?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "4"){
+            searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        
+    });
+
+
+
     //get last transaction id by transaction type function
     function getTransactionId(type, targetElement) {
         $.ajax({
@@ -434,6 +507,28 @@ $(document).ready(function () {
             }
         });
     };
+
+
+
+    // Search Transaction Payment Details
+    function searchTransaction(url, data) {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            data: data,
+            success: function (res) {
+                if(res.status === 'success'){
+                    $('.details').html(res.data);
+                    if(res.paginate){
+                        $('.details').append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                    }
+                }
+                else{
+                    $('.details').html(`<span class="text-danger">Result not Found </span>`);
+                }
+            }
+        });
+    }
 
 
 });

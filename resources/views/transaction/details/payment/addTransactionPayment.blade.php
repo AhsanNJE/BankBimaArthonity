@@ -3,6 +3,11 @@
         .modal-subject {
             width: 80%;
         }
+
+        #search {
+            width: 100%;
+            margin: 0;
+        }
     </style>
 @endsection
 
@@ -38,8 +43,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="tranId">Transaction Id</label>
-                                        <input type="text" name="tranId" class="form-control" id="tranId"
-                                            >
+                                        <input type="text" name="tranId" class="form-control" id="tranId">
                                         <span class="text-danger error" id="tranId_error"></span>
                                     </div>
                                 </div>
@@ -80,7 +84,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="user">Transaction User</label>
-                                        <input type="text" name="user" class="form-control" id="user" autocomplete="off">
+                                        <input type="text" name="user" class="form-control" id="user"
+                                            autocomplete="off">
                                         <div id="user-list">
                                             <ul>
 
@@ -115,7 +120,8 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="quantity">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="quantity" value="1">
+                                        <input type="text" name="quantity" class="form-control" id="quantity"
+                                            value="1">
                                         <span class="text-danger error" id="quantity_error"></span>
                                     </div>
                                 </div>
@@ -129,7 +135,8 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="totAmount">Total</label>
-                                        <input type="text" name="totAmount" class="form-control" id="totAmount" readonly>
+                                        <input type="text" name="totAmount" class="form-control" id="totAmount"
+                                            readonly>
                                         <span class="text-danger error" id="totAmount_error"></span>
                                     </div>
                                 </div>
@@ -189,8 +196,7 @@
                                     </table>
                                 </div>
                                 <div class="center">
-                                    <button id="AddMainTransaction"
-                                        class="btn btn-success addButton">Submit</button>
+                                    <button id="AddMainTransaction" class="btn btn-success addButton">Submit</button>
                                 </div>
                             </div>
                         </div>
