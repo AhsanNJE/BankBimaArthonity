@@ -107,10 +107,26 @@ Route::controller(EmployeeController::class)->group(function(){
         Route::put('/update/employees', 'UpdateEmployees')->name('update.employees');
         Route::delete('/delete/employees', 'DeleteEmployees')->name('delete.employees');
         //search routes start
-        Route::get('/search/employees', 'SearchEmployees')->name('search.employees');
+        Route::get('/search/employees', 'SearchEmployees')->name('search.employees.name');
+        Route::get('/search/employees/email', 'SearchEmployeeByEmail')->name('search.employees.email');
+        Route::get('/search/employees/phone', 'SearchEmployeeByPhone')->name('search.employees.phone');
+        Route::get('/search/employees/location', 'SearchEmployeeByLocation')->name('search.employees.location');
+        Route::get('/search/employees/address', 'SearchEmployeeByAddress')->name('search.employees.address');
+        Route::get('/search/employees/nid', 'SearchEmployeeByNid')->name('search.employees.nid');
+        Route::get('/search/employees/dob', 'SearchEmployeeByDob')->name('search.employees.dob');
+        Route::get('/search/employees/department', 'SearchEmployeeByDepartment')->name('search.employees.department');
+        Route::get('/search/employees/designation', 'SearchEmployeeByDesignation')->name('search.employees.designation');
         //pagination routes start
         Route::get('/pagination', 'EmployeePagination');
         Route::get('/search/pagination', 'SearchEmployees');
+        Route::get('/search/pagination/email', 'SearchEmployeeByEmail');
+        Route::get('/search/pagination/phone', 'SearchEmployeeByPhone');
+        Route::get('/search/pagination/location', 'SearchEmployeeByLocation');
+        Route::get('/search/pagination/address', 'SearchEmployeeByAddress');
+        Route::get('/search/pagination/nid', 'SearchEmployeeByNid');
+        Route::get('/search/pagination/dob', 'SearchEmployeeByDob');
+        Route::get('/search/pagination/department', 'SearchEmployeeByDepartment');
+        Route::get('/search/pagination/designation', 'SearchEmployeeByDesignation');
         //search list routs
         Route::get('/get/employeeby/name', 'GetEmployeeByName')->name('get.employee.by.name');
         
@@ -241,27 +257,32 @@ Route::controller(TransactionController::class)->group(function(){
         Route::get('/edit/details', 'EditTransactionDetails')->name('edit.transaction.details');
         Route::put('/update/details', 'UpdateTransactionDetails')->name('update.transaction.details');
         Route::delete('/delete/details', 'DeleteTransactionDetails')->name('delete.transaction.details');
-        
         //search routes start
-        Route::get('/search/details', 'SearchTransactionDetails')->name('search.transaction.details');
+        Route::get('/search/date', 'ShowTransactionByDate')->name('search.transaction.date');
+        Route::get('/search/tranid', 'SearchTransactionByTranId')->name('show.transaction.tranid');
+        Route::get('/search/invoice', 'SearchTransactionByInvoice')->name('show.transaction.invoice');
+        Route::get('/search/with', 'SearchTransactionByTranWith')->name('show.transaction.with');
+        Route::get('/search/user', 'SearchTransactionByTranUser')->name('show.transaction.user');
+
         //pagination routes start
-        Route::get('/details/pagination', 'TransactionHeadPagination');
-        Route::get('/details/search/pagination', 'SearchTransactionDetails');
-        //search list routs
-        Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
-
-
-
-        ////////////////////////// --------------- Transaction Main routes ----------- ///////////////////////////
-        //search routes start
-        Route::get('/search/main', 'SearchTransactionMain')->name('search.transaction.main');
-        //pagination routes start
-        Route::get('/main/pagination', 'TransactionMainPagination');
-        Route::get('/main/search/pagination', 'SearchTransactionMain');
+        Route::get('/pagination', 'TransactionPagination');
+        Route::get('/pagination/date', 'ShowTransactionByDate');
+        Route::get('/pagination/tranid', 'SearchTransactionByTranId');
+        Route::get('/pagination/invoice', 'SearchTransactionByInvoice');
+        Route::get('/pagination/with', 'SearchTransactionByTranWith');
+        Route::get('/pagination/user', 'SearchTransactionByTranUser');
         //search list routs
         Route::get('/get/tranid', 'GetTransactionId');
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/transactiongrid', 'GetTransactionGrid');
+        Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
+        
+
+        // Transactionn Receive Details Routes
+        Route::get('/receive', 'ShowTransactionReceive')->name('show.transaction.receive');
+        
+        // Transactionn Payment Details Routes
+        Route::get('/payment', 'ShowTransactionPayment')->name('show.transaction.payment');
 
     });
 });
@@ -276,10 +297,32 @@ Route::controller(PartyPaymentController::class)->group(function(){
         Route::get('/edit/party', 'EditParty')->name('edit.party');
         Route::put('/update/party', 'UpdateParty')->name('update.party');
         Route::delete('/delete/party', 'DeleteParty')->name('delete.party');
+        //search routes start
+        Route::get('/search/date', 'ShowPartyByDate')->name('search.party.date');
+        Route::get('/search/tranid', 'SearchPartyByTranId')->name('search.party.tranid');
+        Route::get('/search/with', 'SearchPartyByTranWith')->name('search.party.with');
+        Route::get('/search/user', 'SearchPartyByUser')->name('search.party.user');
+        //pagination routes start
+        Route::get('/pagination', 'PartyPagination');
+        Route::get('/pagination/date', 'ShowPartyByDate');
+        Route::get('/pagination/tranid', 'SearchPartyByTranId');
+        Route::get('/pagination/with', 'SearchPartyByTranWith');
+        Route::get('/pagination/user', 'SearchPartyByUser');
+
+
         //search list routs
         Route::get('/get/tranid', 'GetTransactionId');
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/trandue/userid', 'GetTransactionDueByUserId');
+
+
+        // Party Payment Receive Details Routes
+        Route::get('/receive', 'ShowReceiveParty')->name('show.party.receive');
+        
+        
+        
+        // Party Payment Payment Details Routes
+        Route::get('/payment', 'ShowPaymentParty')->name('show.party.payment');
     });
 });
 

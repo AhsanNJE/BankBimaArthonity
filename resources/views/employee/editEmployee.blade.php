@@ -132,7 +132,7 @@
                                         <label for="updateImage">Image</label>
                                         <input type="file" name="image" class="form-control" id="updateImage">
                                         <span class="text-danger error" id="update_image_error"></span>
-                                        <img src="#" alt="Selected Image" id="updatePreviewImage" style="display: none;">
+                                        <img src="#" alt="Selected Image" id="updatePreviewImage" style="display: none; width:200px; height:200px;">
                                     </div>
                                 </div>
                             </div>

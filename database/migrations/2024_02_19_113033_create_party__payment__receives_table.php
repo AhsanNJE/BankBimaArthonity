@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('tran_user')->nullable();
             $table->unsignedBigInteger('tran_groupe_id')->nullable();
             $table->unsignedBigInteger('tran_head_id')->nullable();
-            $table->float('quantity')->nullable();
+            $table->float('quantity')->default(1);
             $table->float('amount')->nullable();
             $table->float('tot_amount')->nullable();
             $table->foreign('loc_id')->references('id')->on('location__infos')

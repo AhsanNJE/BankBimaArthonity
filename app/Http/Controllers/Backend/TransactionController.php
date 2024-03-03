@@ -324,11 +324,12 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Heads Table Methods Ends ---------- //////////////////////////
 
 
+
+
     /////////////////////////// --------------- Transaction Details Table Methods start ---------- //////////////////////////
-    
-    //Show All Transaction Details
+    //Show All Transaction
     public function ShowTransactions(){
-        $transaction = Transaction_Main::orderBy('tran_date','desc')->paginate(15);
+        $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
         $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
         return view('transaction.details.transactionDetails', compact('transaction','groupes'));
     }//End Method
@@ -360,6 +361,7 @@ class TransactionController extends Controller
 
 
 
+    // Get transaction User By Transaction User Type
     public function GetTransactionUser(Request $req){
         if($req->tranUserType != ""){
             $users = User_Info::where('user_name', 'like', '%'.$req->tranUser.'%')
@@ -407,33 +409,9 @@ class TransactionController extends Controller
     }//End Method
 
 
-    // //Get Transaction Heads By Name And Groupe
-    // public function GetTransactionHeadsByGroupe(Request $req){
-    //     if($req->department != ""){
-    //         $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
-    //         ->where('groupe_id', $req->groupe)
-    //         ->orderBy('tran_head_name','asc')
-    //         ->take(10)
-    //         ->get();
-
-    //         if($heads->count() > 0){
-    //             $list = "";
-    //             foreach($heads as $head) {
-    //                 $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$head->id.'">'.$head->tran_head_name.'</li>';
-    //             }
-    //         }
-    //         else{
-    //             $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
-    //         }
-    //         return $list;
-    //     }
-    //     else{
-    //         return $list = "";
-    //     }
-    // }//End Method
 
 
-    //Insert Transaction Heads
+    //Insert Transaction Details
     public function InsertTransactionDetails(Request $req){
         $req->validate([
             "tranId" => 'required',
@@ -604,6 +582,8 @@ class TransactionController extends Controller
     }//End Method
 
 
+
+    // Update Transaction Main
     public function UpdateTransactionMain(Request $req){
         $transaction = Transaction_Main::findOrFail($req->id);
         $req->validate([
@@ -653,218 +633,200 @@ class TransactionController extends Controller
 
 
 
-    // //Transaction Heads Pagination
-    // public function TransactionHeadPagination(){
-    //     $heads = Transaction_Head::orderBy('added_at','desc')->paginate(15);
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'data' => view('transaction.transactionHead.transactionHeadPagination', compact('heads'))->render(),
-    //     ]);
-    // }//End Method
+    //Delete Transaction Main
+    public function DeleteTransactionMain(Request $req){
+        Transaction_Main::where("tran_id", $req->id)->delete();
+        Transaction_Detail::where("tran_id", $req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
 
 
 
-    // //Transaction Heads Search
-    // public function SearchTransactionHeads(Request $req){
-    //     $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->search.'%')
-    //     ->orderBy('tran_head_name','asc')
-    //     ->paginate(15);
+    //Transaction Pagination
+    public function TransactionPagination(Request $req){
+        if($req->type == null ){
+            $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        }
+        else{
+            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        }
+        return view('transaction.details.transactionPagination', compact('transaction'));
+    }//End Method
 
-    //     $paginationHtml = $heads->links()->toHtml();
+
+
+    // Get Transaction Details by Date Range
+    public function ShowTransactionByDate(Request $req){
+        if($req->type == null ){
+            $transaction = Transaction_Main::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(15);
+        }
+        else{
+            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(15);
+        }
+        $paginationHtml = $transaction->links()->toHtml();
         
-    //     if($heads->count() >= 1){
-    //         return response()->json([
-    //             'status' => 'success',
-    //             'paginate' => $paginationHtml,
-    //             'data' => view('transaction.transactionHead.search', compact('heads'))->render(),
-    //         ]);
-    //     }
-    //     else{
-    //         return response()->json([
-    //             'status'=>'null'
-    //         ]); 
-    //     }
-    // }//End Method
+        if($transaction->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('transaction.details.search', compact('transaction'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
 
 
 
-
-    // //Transaction Heads Search by groupe
-    // public function SearchTransactionHeadsByGroupe(Request $req){
-    //     $heads = Transaction_Head::with('Groupe')
-    //     ->whereHas('Groupe', function ($query) use ($req) {
-    //         $query->where('tran_groupe_name', 'like', '%' . $req->search . '%');
-    //         $query->orderBy('tran_groupe_name','asc');
-    //     })
-    //     ->paginate(15);
-
-    //     $paginationHtml = $heads->links()->toHtml();
+    // Get Transaction by TranId
+    public function SearchTransactionByTranId(Request $req){
+        if($req->type == null ){
+            $transaction = Transaction_Main::where('tran_id', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_id','asc')->paginate(15);
+        }
+        else{
+            $transaction = Transaction_Main::where('tran_type', $req->type)->where('tran_id', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_id','asc')->paginate(15);
+        }
         
-    //     if($heads->count() >= 1){
-    //         return response()->json([
-    //             'status' => 'success',
-    //             'paginate' => $paginationHtml,
-    //             'data' => view('transaction.transactionHead.search', compact('heads'))->render(),
-    //         ]);
-    //     }
-    //     else{
-    //         return response()->json([
-    //             'status'=>'null'
-    //         ]); 
-    //     }
-    // }//End Method
+        $paginationHtml = $transaction->links()->toHtml();
+        
+        if($transaction->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('transaction.details.search', compact('transaction'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
 
+
+    // Get Transaction by Invoice
+    public function SearchTransactionByInvoice(Request $req){
+        if($req->type == null ){
+            $transaction = Transaction_Main::where('invoice', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('invoice','asc')->paginate(15);
+        }
+        else{
+            $transaction = Transaction_Main::where('tran_type', $req->type)->where('invoice', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('invoice','asc')->paginate(15);
+        }
+        
+        $paginationHtml = $transaction->links()->toHtml();
+        
+        if($transaction->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('transaction.details.search', compact('transaction'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+
+    // Get Transaction by Tran With
+    public function SearchTransactionByTranWith(Request $req){
+        if($req->type == null ){
+            $transaction = Transaction_Main::where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_type_with','asc')->paginate(15);
+        }
+        else{
+            $transaction = Transaction_Main::where('tran_type', $req->type)->where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_type_with','asc')->paginate(15);
+        }
+        
+        $paginationHtml = $transaction->links()->toHtml();
+        
+        if($transaction->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('transaction.details.search', compact('transaction'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+
+    
+    // Get Transaction by Tran User
+    public function SearchTransactionByTranUser(Request $req){
+        if($req->type == null ){
+            $transaction = Transaction_Main::with('User')
+            ->whereHas('User', function ($query) use ($req) {
+                $query->where('user_name', 'like', '%'.$req->search.'%');
+                $query->orderBy('user_name','asc');
+            })
+            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+            ->paginate(15);
+        }
+        else{
+            $transaction = Transaction_Main::with('User')
+            ->whereHas('User', function ($query) use ($req) {
+                $query->where('user_name', 'like', '%'.$req->search.'%');
+                $query->orderBy('user_name','asc');
+            })
+            ->where('tran_type', $req->type)
+            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+            ->paginate(15);
+        }
+        
+
+        $paginationHtml = $transaction->links()->toHtml();
+
+        if($transaction->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('transaction.details.search', compact('transaction'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
 
 
     /////////////////////////// --------------- Transaction Details Table Methods Ends ---------- //////////////////////////
 
 
 
-    /////////////////////////// --------------- Transaction Main Table Methods start ---------- //////////////////////////
+    /////////////////////////// --------------- Transaction Receive Methods start ---------- //////////////////////////
+    //Show All Transaction Receive Details
+    public function ShowTransactionReceive(){
+        $transaction = Transaction_Main::where('tran_type','receive')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        return view('transaction.details.receive.transactionReceive', compact('transaction','groupes'));
+    }//End Method
+
+    /////////////////////////// --------------- Transaction Receive Table Methods Ends ---------- //////////////////////////
     
-    //Show All Transaction Main
-    public function ShowTransactionMain(){
-        $heads = Transaction_Head::orderBy('added_at','desc')->paginate(15);
-        return view('transaction.transactionHead.transactionHeads', compact('heads'));
+    
+    
+    
+    /////////////////////////// --------------- Transaction Payment Methods start ---------- //////////////////////////
+    //Show All Transaction Payment Details
+    public function ShowTransactionPayment(){
+        $transaction = Transaction_Main::where('tran_type','payment')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        return view('transaction.details.payment.transactionPayment', compact('transaction','groupes'));
     }//End Method
 
 
-
-    // //Get Transaction Heads By Name And Groupe
-    // public function GetTransactionHeadsByGroupe(Request $req){
-    //     if($req->department != ""){
-    //         $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
-    //         ->where('groupe_id', $req->groupe)
-    //         ->orderBy('tran_head_name','asc')
-    //         ->take(10)
-    //         ->get();
-
-    //         if($heads->count() > 0){
-    //             $list = "";
-    //             foreach($heads as $head) {
-    //                 $list .= '<li class="list-group-item list-group-item-primary" data-id="'.$head->id.'">'.$head->tran_head_name.'</li>';
-    //             }
-    //         }
-    //         else{
-    //             $list = '<li class="list-group-item list-group-item-primary">No Data Found</li>';
-    //         }
-    //         return $list;
-    //     }
-    //     else{
-    //         return $list = "";
-    //     }
-    // }//End Method
-
-
-    
-
-
-
-    // //Edit Transaction Heads
-    // public function EditTransactionHeads(Request $req){
-    //     $heads = Transaction_Head::with('Groupe')->findOrFail($req->id);
-    //     return response()->json([
-    //         'heads'=>$heads,
-    //     ]);
-    // }//End Method
-
-
-
-    // //Update Transaction Heads
-    // public function UpdateTransactionHeads(Request $req){
-    //     $heads = Transaction_Head::findOrFail($req->id);
-
-    //     $req->validate([
-    //         "headName" => ['required',Rule::unique('transaction__heads', 'tran_head_name')->ignore($heads->id)],
-    //         "groupe"  => 'required|numeric'
-    //     ]);
-
-    //     $update = Transaction_Head::findOrFail($req->id)->update([
-    //         "tran_head_name" => $req->headName,
-    //         "groupe_id" => $req->groupe,
-    //         "updated_at" => now()
-    //     ]);
-    //     if($update){
-    //         return response()->json([
-    //             'status'=>'success'
-    //         ]); 
-    //     }
-    // }//End Method
-
-
-
-    // //Delete Transaction Heads
-    // public function DeleteTransactionHeads(Request $req){
-    //     Transaction_Head::findOrFail($req->id)->delete();
-    //     return response()->json([
-    //         'status'=>'success'
-    //     ]); 
-    // }//End Method
-
-
-
-    // //Transaction Heads Pagination
-    // public function TransactionHeadPagination(){
-    //     $heads = Transaction_Head::orderBy('added_at','desc')->paginate(15);
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'data' => view('transaction.transactionHead.transactionHeadPagination', compact('heads'))->render(),
-    //     ]);
-    // }//End Method
-
-
-
-    // //Transaction Heads Search
-    // public function SearchTransactionHeads(Request $req){
-    //     $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->search.'%')
-    //     ->orderBy('tran_head_name','asc')
-    //     ->paginate(15);
-
-    //     $paginationHtml = $heads->links()->toHtml();
-        
-    //     if($heads->count() >= 1){
-    //         return response()->json([
-    //             'status' => 'success',
-    //             'paginate' => $paginationHtml,
-    //             'data' => view('transaction.transactionHead.search', compact('heads'))->render(),
-    //         ]);
-    //     }
-    //     else{
-    //         return response()->json([
-    //             'status'=>'null'
-    //         ]); 
-    //     }
-    // }//End Method
-
-
-
-
-    // //Transaction Heads Search by groupe
-    // public function SearchTransactionHeadsByGroupe(Request $req){
-    //     $heads = Transaction_Head::with('Groupe')
-    //     ->whereHas('Groupe', function ($query) use ($req) {
-    //         $query->where('tran_groupe_name', 'like', '%' . $req->search . '%');
-    //         $query->orderBy('tran_groupe_name','asc');
-    //     })
-    //     ->paginate(15);
-
-    //     $paginationHtml = $heads->links()->toHtml();
-        
-    //     if($heads->count() >= 1){
-    //         return response()->json([
-    //             'status' => 'success',
-    //             'paginate' => $paginationHtml,
-    //             'data' => view('transaction.transactionHead.search', compact('heads'))->render(),
-    //         ]);
-    //     }
-    //     else{
-    //         return response()->json([
-    //             'status'=>'null'
-    //         ]); 
-    //     }
-    // }//End Method
-
-
-
-    /////////////////////////// --------------- Transaction Main Table Methods Ends ---------- //////////////////////////
+    /////////////////////////// --------------- Transaction Payment Table Methods Ends ---------- //////////////////////////
 }

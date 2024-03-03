@@ -3,6 +3,10 @@
         .modal-subject {
             width: 80%;
         }
+        #search{
+            width: 100%;
+            margin: 0;
+        }
     </style>
 @endsection
 
@@ -78,17 +82,13 @@
                                         <label for="with">Transaction With</label>
                                         <select name="with" id="with">
                                             <option>Select Transaction With</option>
-                                            <option value="regular employee">Regular</option>
-                                            <option value="district employee">District Employee</option>
-                                            <option value="bit pion">Bit Pione</option>
                                             <option value="newspaper client">Newpaper Client</option>
                                             <option value="advertisement client">Advertisement Client</option>
                                             <option value="magazine client">Magazine Client</option>
                                             <option value="food supplier">Food Supplier</option>
                                             <option value="stationary supplier">Stationary Supplier</option>
-                                            <option value="others">Others</option>
                                         </select>
-                                        <span class="text-danger error" id="head_error"></span>
+                                        <span class="text-danger error" id="with_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">

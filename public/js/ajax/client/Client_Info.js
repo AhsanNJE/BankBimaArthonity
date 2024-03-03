@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    $(document).on('click', '.add', function (e) {
+        $('#type').focus();
+    });
     /////////////// ------------------ Add Client ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddClientForm', function (e) {
         e.preventDefault();
@@ -53,7 +56,7 @@ $(document).ready(function () {
                                          <option value="advertisement client" ${res.client.tran_user_type === 'advertisement client' ? 'selected' : ''}>Advertisement Client</option>
                                          <option value="magazine client" ${res.client.tran_user_type === 'magazine client' ? 'selected' : ''}>Magazine Client</option>
                                          <option value="others" ${res.client.tran_user_type === 'others' ? 'selected' : ''}>Others</option>`);
-
+                $('#updateType').focus();
 
                 $('#updateName').val(res.client.user_name);
                 $('#updatePhone').val(res.client.user_phone);
@@ -65,7 +68,7 @@ $(document).ready(function () {
                                          <option value="female" ${res.client.gender === 'female' ? 'selected' : ''}>Female</option>
                                          <option value="others" ${res.client.gender === 'others' ? 'selected' : ''}>Others</option>`);
 
-                $('#updateLocation').val(res.client.location.thana);
+                $('#updateLocation').val(res.client.location.upazila);
                 $('#updateLocation').attr('data-id',res.client.loc_id);
                 $('#updateAddress').val(res.client.address);
 
