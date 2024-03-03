@@ -26,6 +26,18 @@
                                         <span class="text-danger error" id="groupeName_error"></span>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-groupe">
+                                        <label for="type">Groupe Type</label>
+                                        <select name="type" id="type">
+                                            <option value="" >Select Transaction With</option>
+                                            <option value="Receive">Receive</option>
+                                            <option value="Payment">Payment</option>
+                                            <option value="Both">Both</option>
+                                        </select>
+                                        <span class="text-danger error" id="type_error"></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="center">
                                 <button type="submit" id="InsertTransactionGroupe" class="btn btn-primary">Submit</button>

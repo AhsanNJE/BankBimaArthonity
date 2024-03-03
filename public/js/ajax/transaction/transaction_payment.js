@@ -187,12 +187,8 @@ $(document).ready(function () {
                                         <option value="regular employee" ${res.transaction.tran_type_with === 'regular employee' ? 'selected' : 'disabled'}>Regular</option>
                                         <option value="district employee" ${res.transaction.tran_type_with === 'district employee' ? 'selected' : 'disabled'}>District Employee</option>
                                         <option value="bit pion" ${res.transaction.tran_type_with === 'bit pion' ? 'selected' : 'disabled'}>Bit Pione</option>
-                                        <option value="newspaper client" ${res.transaction.tran_type_with === 'newspaper client' ? 'selected' : 'disabled'}>Newpaper Client</option>
-                                        <option value="advertisement client" ${res.transaction.tran_type_with === 'advertisement client' ? 'selected' : 'disabled'}>Advertisement Client</option>
-                                        <option value="magazine client" ${res.transaction.tran_type_with === 'magazine client' ? 'selected' : 'disabled'}>Magazine Client</option>
                                         <option value="food supplier" ${res.transaction.tran_type_with === 'food supplier' ? 'selected' : 'disabled'}>Food Supplier</option>
-                                        <option value="stationary supplier" ${res.transaction.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>
-                                        <option value="others" ${res.transaction.tran_type_with === 'others' ? 'selected' : 'disabled'}>Others</option>`);
+                                        <option value="stationary supplier" ${res.transaction.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>`);
 
                 $('#updateUser').attr('data-id',res.transaction.tran_user);
                 $('#updateUser').val(res.transaction.user.user_name);

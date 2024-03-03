@@ -44,16 +44,32 @@ class TransactionController extends Controller
     }//End Method
 
 
+    //Get Transaction Groupes By Type
+    public function GetTransactionGroupeByType(Request $req){
+        $groupes = Transaction_Groupe::where('tran_groupe_type', 'like', '%'.$req->type.'%')
+        ->orderBy('tran_groupe_type','asc')
+        ->get();
+
+
+        return response()->json([
+            'status' => "success",
+            'groupes'=> $groupes,
+        ]);
+    }//End Method
+
+
 
 
     //Insert Transaction Groupes
     public function InsertTransactionGroupes(Request $req){
         $req->validate([
-            "groupeName" => 'required|unique:transaction__groupes,tran_groupe_name'
+            "groupeName" => 'required|unique:transaction__groupes,tran_groupe_name',
+            "type" => 'required|in:Payment,Receive,Both',
         ]);
 
         Transaction_Groupe::insert([
             "tran_groupe_name" => $req->groupeName,
+            "tran_groupe_type" => $req->type,
         ]);
 
         return response()->json([
@@ -79,10 +95,12 @@ class TransactionController extends Controller
 
         $req->validate([
             "groupeName" => ['required',Rule::unique('transaction__groupes', 'tran_groupe_name')->ignore($groupes->id)],
+            "type" => 'required|in:Payment,Receive,Both',
         ]);
 
         $update = Transaction_Groupe::findOrFail($req->id)->update([
             "tran_groupe_name" => $req->groupeName,
+            "tran_groupe_type" => $req->type,
             "updated_at" => now()
         ]);
         if($update){
@@ -508,7 +526,7 @@ class TransactionController extends Controller
     //Edit Transaction Details
     public function EditTransactionDetails(Request $req){
         $transaction = Transaction_Detail::with('Groupe','Head')->findOrFail($req->id);
-        $groupes = Transaction_Groupe::get();
+        $groupes = Transaction_Groupe::where('tran_groupe_type', $transaction->tran_type)->get();
         $heads = Transaction_Head::where('groupe_id', '=', $transaction->tran_groupe_id)->get();
         return response()->json([
             'transaction'=>$transaction,
@@ -810,7 +828,7 @@ class TransactionController extends Controller
     //Show All Transaction Receive Details
     public function ShowTransactionReceive(){
         $transaction = Transaction_Main::where('tran_type','receive')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
-        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        $groupes = Transaction_Groupe::where('tran_groupe_type', 'Receive')->orderBy('added_at','asc')->get();
         return view('transaction.details.receive.transactionReceive', compact('transaction','groupes'));
     }//End Method
 
@@ -823,7 +841,7 @@ class TransactionController extends Controller
     //Show All Transaction Payment Details
     public function ShowTransactionPayment(){
         $transaction = Transaction_Main::where('tran_type','payment')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
-        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        $groupes = Transaction_Groupe::where('tran_groupe_type', 'Payment')->orderBy('added_at','asc')->get();
         return view('transaction.details.payment.transactionPayment', compact('transaction','groupes'));
     }//End Method
 
