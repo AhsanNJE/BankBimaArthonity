@@ -1,20 +1,19 @@
 $(document).ready(function () {
     //get last transaction id by transaction type
-    $(document).on('change', '#type', function (e) {
-        let type = $('#type').val();
+    $(document).on('click', '.add', function (e) {
+        let type = "payment";
         getTransactionId(type, '#tranId');
     });
-
+    
 
     // Search by Date Range
     $(document).on('change', '#startDate, #endDate', function(e){
         e.preventDefault();
-        let type = "";
+        let type = "payment";
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         searchPartyPayment(`/party/search/date`, {startDate:startDate, endDate:endDate, type:type})
     });
-    
     
     
     $(document).on('keyup', '#quantity, #amount', function (e) {
@@ -69,12 +68,14 @@ $(document).ready(function () {
 
     $(document).on('submit', '#AddPartyForm', function (e) {
         e.preventDefault();
-        let tranId = $('#tranId').val();
         let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
+        formData.append('groupe', 4);
+        formData.append('head', 15);
+        formData.append('type', "payment");
         $.ajax({
             url: "/party/insert/party",
             method: 'POST',
@@ -115,6 +116,7 @@ $(document).ready(function () {
             method: 'GET',
             data: { id:id },
             success: function (res) {
+                
                 $('#id').val(res.party.id);
 
                 $('#updateTranId').val(res.party.tran_id);
@@ -149,7 +151,7 @@ $(document).ready(function () {
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
-        let type = "";
+        let type = "payment";
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[1];
@@ -164,7 +166,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $(this).val();
-        let type = "";
+        let type = "payment";
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
             searchPartyPayment(`/party/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
@@ -189,7 +191,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $('#search').val();
-        let type = "";
+        let type = "payment";
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[1];
         if(searchOption == "1"){
@@ -222,7 +224,6 @@ $(document).ready(function () {
             }
         });
     }
-
 
 
 

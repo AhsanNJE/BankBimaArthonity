@@ -1,20 +1,19 @@
 $(document).ready(function () {
     //get last transaction id by transaction type
-    $(document).on('change', '#type', function (e) {
-        let type = $('#type').val();
+    $(document).on('click', '.add', function (e) {
+        let type = "receive";
         getTransactionId(type, '#tranId');
     });
-
+    
 
     // Search by Date Range
     $(document).on('change', '#startDate, #endDate', function(e){
         e.preventDefault();
-        let type = "";
+        let type = "receive";
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         searchPartyPayment(`/party/search/date`, {startDate:startDate, endDate:endDate, type:type})
     });
-    
     
     
     $(document).on('keyup', '#quantity, #amount', function (e) {
@@ -75,6 +74,9 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
+        formData.append('groupe', 4);
+        formData.append('head', 14);
+        formData.append('type', "receive");
         $.ajax({
             url: "/party/insert/party",
             method: 'POST',
@@ -115,6 +117,7 @@ $(document).ready(function () {
             method: 'GET',
             data: { id:id },
             success: function (res) {
+                
                 $('#id').val(res.party.id);
 
                 $('#updateTranId').val(res.party.tran_id);
@@ -124,8 +127,9 @@ $(document).ready(function () {
 
                 $('#updateWith').empty();
                 $('#updateWith').append(`<option value="" disabled>Select Transaction With</option>
-                                        <option value="food supplier" ${res.party.tran_type_with === 'food supplier' ? 'selected' : 'disabled'}>Food Supplier</option>
-                                        <option value="stationary supplier" ${res.party.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>`);
+                <option value="newspaper client" ${res.transaction.tran_type_with === 'newspaper client' ? 'selected' : 'disabled'}>Newpaper Client</option>
+                <option value="advertisement client" ${res.transaction.tran_type_with === 'advertisement client' ? 'selected' : 'disabled'}>Advertisement Client</option>
+                <option value="magazine client" ${res.transaction.tran_type_with === 'magazine client' ? 'selected' : 'disabled'}>Magazine Client</option>`);
 
                 $('#updateUser').attr('data-id',res.party.tran_user);
                 $('#updateUser').val(res.party.user.user_name);
@@ -149,7 +153,7 @@ $(document).ready(function () {
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
-        let type = "";
+        let type = "receive";
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[1];
@@ -164,7 +168,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $(this).val();
-        let type = "";
+        let type = "receive";
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
             searchPartyPayment(`/party/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
@@ -189,7 +193,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $('#search').val();
-        let type = "";
+        let type = "receive";
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[1];
         if(searchOption == "1"){
@@ -222,7 +226,6 @@ $(document).ready(function () {
             }
         });
     }
-
 
 
 

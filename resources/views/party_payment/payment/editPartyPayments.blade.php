@@ -40,26 +40,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="updateType">Transaction Type</label>
-                                        <select name="type" id="updateType">
-                                            
-                                        </select>
-                                        <span class="text-danger error" id="update_type_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label for="updateTranId">Transaction Id</label>
                                         <input type="text" name="tranId" class="form-control" id="updateTranId"
                                             readonly>
                                         <span class="text-danger error" id="update_tranId_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="updateInvoice">Invoice No</label>
-                                        <input type="text" name="invoice" class="form-control" id="updateInvoice" readonly>
-                                        <span class="text-danger error" id="update_invoice_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -94,29 +78,6 @@
                                             </ul>
                                         </div>
                                         <span class="text-danger error" id="update_user_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="updateGroupe">Transaction Groupe</label>
-                                        <select name="groupe" id="updateGroupe">
-                                            <option value="">Select Transaction Groupe</option>
-                                            @foreach ($groupes as $groupe)
-                                                <option value="{{ $groupe->id }}">{{ $groupe->tran_groupe_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error" id="update_groupe_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="updateHead">Transaction Head</label>
-                                        <select name="head" id="updateHead">
-                                            <option value="">Select Transaction Head</option>
-                                            {{-- options will be display dynamicaly depending on transaction groupe --}}
-                                        </select>
-                                        <span class="text-danger error" id="update_head_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-2">

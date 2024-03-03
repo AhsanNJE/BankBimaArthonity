@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    $(document).on('click', '.add', function (e) {
+        $('#headName').focus();
+    });
     /////////////// ------------------ Add Transaction Head ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#InsertTransactionHead', function (e) {
         e.preventDefault();
@@ -44,7 +46,8 @@ $(document).ready(function () {
             success: function (res) {
                 $('#id').val(id);
                 $('#updateHeadName').val(res.heads.tran_head_name);
-
+                $('#updateHeadName').focus();
+                
                 $('#updateGroupe').html('');
                 $('#updateGroupe').append(`<option value="" >Select Transaction Groupe</option>`);
                 $.each(res.groupes, function (key, groupe) {

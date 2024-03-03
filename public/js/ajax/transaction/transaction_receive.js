@@ -1,19 +1,25 @@
 $(document).ready(function () {
     //get last transaction id by transaction type
-    $(document).on('change', '#type', function (e) {
-        let type = $('#type').val();
+    $(document).on('click', '.add', function (e) {
+        let type = 'receive';
+        $('#invoice').focus();
         getTransactionId(type, '#tranId');
     });
     
+
     // Search by Date Range
     $(document).on('change', '#startDate, #endDate', function(e){
         e.preventDefault();
-        let type = "";
+        let type = "receive";
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         searchTransaction(`/transaction/search/date`, {startDate:startDate, endDate:endDate, type:type})
     });
 
+
+
+
+    
     
     $(document).on('keyup', '#quantity, #amount', function (e) {
         let quantity = $('#quantity').val();
@@ -42,7 +48,6 @@ $(document).ready(function () {
 
         $('#netAmount').val(netAmount);
         $('#balance').val(balance);
-        
     });
 
 
@@ -87,6 +92,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
+        formData.append('type', 'receive');
         $.ajax({
             url: "/transaction/insert/details",
             method: 'POST',
@@ -123,7 +129,7 @@ $(document).ready(function () {
     $(document).on('click', '#AddMainTransaction', function (e) {
         e.preventDefault();
         let tranId = $('#tranId').val();
-        let type = $('#type').val();
+        let type = 'receive';
         let invoice = $('#invoice').val();
         let withs = $('#with').val();
         let user = $('#user').attr('data-id');
@@ -166,17 +172,12 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `transaction/edit/main`,
+            url: `/transaction/edit/main`,
             method: 'GET',
             data: { id:id },
             success: function (res) {
                 
                 $('#id').val(res.transaction.id);
-
-                $('#updateType').empty();
-                $('#updateType').append(`<option value="" disabled>Select Transaction Type</option>
-                                        <option value="receive" ${res.transaction.tran_type === 'receive' ? 'selected' : 'disabled'}>Receive</option>
-                                         <option value="payment" ${res.transaction.tran_type === 'payment' ? 'selected' : 'disabled'}>Payment</option>`);
 
                 $('#updateTranId').val(res.transaction.tran_id);
                 $('#updateInvoice').val(res.transaction.invoice);
@@ -274,8 +275,9 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
+        formData.append('type', "receive");
         $.ajax({
-            url: `transaction/update/details`,
+            url: `/transaction/update/details`,
             method: 'POST',
             data: formData,
             processData: false,
@@ -312,14 +314,14 @@ $(document).ready(function () {
     $(document).on('click', '#UpdateMainTransaction', function (e) {
         e.preventDefault();
         let id = $('#id').val();
-        let type = $('#updateType').val();
+        let type = "receive";
         let amountRP = $('#updateAmountRP').val();
         let totalDiscount = $('#updateTotalDiscount').val();
         let netAmount = $('#updateNetAmount').val();
         let advance = $('#updateAdvance').val();
         let balance = $('#updateBalance').val();
         $.ajax({
-            url: `transaction/update/main`,
+            url: `/transaction/update/main`,
             method: 'PUT',
             data: { id:id, type:type, amountRP:amountRP, totalDiscount:totalDiscount, netAmount:netAmount, advance:advance, balance:balance },
             beforeSend:function() {
@@ -352,7 +354,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Transaction ??')) {
             $.ajax({
-                url: `transaction/delete/details`,
+                url: `/transaction/delete/details`,
                 method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
@@ -371,7 +373,6 @@ $(document).ready(function () {
             });
         }
     });
-
 
 
     /////////////// ------------------ Delete Transaction Main ajax part start ---------------- /////////////////////////////
@@ -398,7 +399,7 @@ $(document).ready(function () {
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
-        let type = "";
+        let type = "receive";
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[1];
@@ -413,7 +414,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $(this).val();
-        let type = "";
+        let type = "receive";
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
             searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
@@ -431,9 +432,6 @@ $(document).ready(function () {
 
 
 
-
-
-
     /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.search-paginate a', function (e) {
         e.preventDefault();
@@ -441,7 +439,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $('#search').val();
-        let type = "";
+        let type = "receive";
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[1];
         if(searchOption == "1"){
@@ -470,7 +468,7 @@ $(document).ready(function () {
             success: function (res) {
                 if(res.status === 'success'){
                     $(targetElement).val(res.id);
-                    getTransactionGrid(res.id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
+                    getTransactionGrid(res.tran_id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
                 }
                 else{
                     $(targetElement).val(res.tran_id);
@@ -513,9 +511,7 @@ $(document).ready(function () {
     };
 
 
-
-
-    // Search Transaction Details
+    // Search Transaction Receive Details
     function searchTransaction(url, data) {
         $.ajax({
             url: url,
@@ -534,5 +530,6 @@ $(document).ready(function () {
             }
         });
     }
+
 
 });

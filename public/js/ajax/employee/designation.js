@@ -5,7 +5,7 @@ $(document).ready(function () {
         $('#department').removeAttr('data-id');
         $('#department').val('');
     });
-    
+
     /////////////// ------------------ Add Designation ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#InsertDesignation', function (e) {
         e.preventDefault();
@@ -53,7 +53,7 @@ $(document).ready(function () {
                 $('#updateDesignations').val(res.designations.designation);
                 $('#updateDepartment').attr('data-id',res.designations.dept_id);
                 $('#updateDepartment').val(res.designations.department.dept_name);
-
+                $('#updateDesignations').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
             },

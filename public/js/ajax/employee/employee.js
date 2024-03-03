@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    $(document).on('click', '.add', function (e) {
+        $('#name').focus();
+    });
     /////////////// ------------------ Add Employee ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddEmployeeForm', function (e) {
         e.preventDefault();
@@ -109,6 +111,7 @@ $(document).ready(function () {
                 $('#id').val(id);
                 $('#empId').val(res.employee.user_id);
                 $('#updateName').val(res.employee.user_name);
+                $('#updateName').focus();
                 $('#updateEmail').val(res.employee.user_email);
                 $('#updatePhone').val(res.employee.user_phone);
 
@@ -118,7 +121,7 @@ $(document).ready(function () {
                                          <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
                                          <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
 
-                $('#updateLocation').val(res.employee.location.thana);
+                $('#updateLocation').val(res.employee.location.upazila);
                 $('#updateLocation').attr('data-id',res.employee.loc_id);
 
                 // Create options dynamically
@@ -225,43 +228,78 @@ $(document).ready(function () {
 
 
 
-    // /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
-    // $(document).on('keyup', '#search', function (e) {
-    //     e.preventDefault();
-    //     let search = $(this).val();
-    //     let searchOption = $("#searchOption").val();
-    //     if(searchOption == "1"){
-    //         loadEmployeeData(`/admin/employees/searchEmployees`, {search:search}, '.employee')
-    //     }
-    //     else if(searchOption == "2"){
-    //         loadEmployeeData(`/admin/employees/searchEmployees/district`, {search:search}, '.employee')
-    //     }
-    //     else if(searchOption == "3"){
-    //         loadEmployeeData(`/admin/employees/searchEmployees/thana`, {search:search}, '.employee')
-    //     }
+    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    $(document).on('keyup', '#search', function (e) {
+        e.preventDefault();
+        let search = $(this).val();
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadEmployeeData(`/admin/employees/search/employees`, {search:search}, '.employee')
+        }
+        if(searchOption == "2"){
+            loadEmployeeData(`/admin/employees/search/employees/email`, {search:search}, '.employee')
+        }
+        if(searchOption == "3"){
+            loadEmployeeData(`/admin/employees/search/employees/phone`, {search:search}, '.employee')
+        }
+        if(searchOption == "4"){
+            loadEmployeeData(`/admin/employees/search/employees/location`, {search:search}, '.employee')
+        }
+        if(searchOption == "5"){
+            loadEmployeeData(`/admin/employees/search/employees/address`, {search:search}, '.employee')
+        }
+        if(searchOption == "6"){
+            loadEmployeeData(`/admin/employees/search/employees/nid`, {search:search}, '.employee')
+        }
+        if(searchOption == "7"){
+            loadEmployeeData(`/admin/employees/search/employees/dob`, {search:search}, '.employee')
+        }
+        if(searchOption == "8"){
+            loadEmployeeData(`/admin/employees/search/employees/department`, {search:search}, '.employee')
+        }
+        if(searchOption == "9"){
+            loadEmployeeData(`/admin/employees/search/employees/designation`, {search:search}, '.employee')
+        }
+    });
+
+
+
+    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.search-paginate a', function (e) {
+        e.preventDefault();
+        $('.paginate').addClass('hidden');
+        let search = $('#search').val();
+        let page = $(this).attr('href').split('page=')[1];
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadEmployeeData(`/admin/employees/search/pagination?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "2"){
+            loadEmployeeData(`/admin/employees/search/pagination/email?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "3"){
+            loadEmployeeData(`/admin/employees/search/pagination/phone?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "4"){
+            loadEmployeeData(`/admin/employees/search/pagination/location?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "5"){
+            loadEmployeeData(`/admin/employees/search/pagination/address?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "6"){
+            loadEmployeeData(`/admin/employees/search/pagination/nid?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "7"){
+            loadEmployeeData(`/admin/employees/search/pagination/dob?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "8"){
+            loadEmployeeData(`/admin/employees/search/pagination/department?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "9"){
+            loadEmployeeData(`/admin/employees/search/pagination/designation?page=${page}`, {search:search}, '.employee');
+        }
         
-    // });
-
-
-
-    // /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
-    // $(document).on('click', '.search-paginate a', function (e) {
-    //     e.preventDefault();
-    //     $('.paginate').addClass('hidden');
-    //     let search = $('#search').val();
-    //     let page = $(this).attr('href').split('page=')[1];
-    //     let searchOption = $("#searchOption").val();
-    //     if(searchOption == "1"){
-    //         loadEmployeeData(`/admin/employees/employees/searchPagination?page=${page}`, {search:search}, '.employee');
-    //     }
-    //     else if(searchOption == "2"){
-    //         loadEmployeeData(`/admin/employees/employees/searchPagination/district?page=${page}`, {search:search}, '.employee');
-    //     }
-    //     else if(searchOption == "2"){
-    //         loadEmployeeData(`/admin/employees/employees/searchPagination/division?page=${page}`, {search:search}, '.employee');
-    //     }
-        
-    // });
+    });
 
 
 

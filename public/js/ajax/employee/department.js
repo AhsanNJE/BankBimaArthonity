@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    $(document).on('click', '.add', function (e) {
+        $('#deptName').focus();
+    });
     /////////////// ------------------ Add Department ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#InsertDepartment', function (e) {
         e.preventDefault();
@@ -43,7 +45,7 @@ $(document).ready(function () {
             success: function (res) {
                 $('#id').val(id);
                 $('#updateDeptName').val(res.department.dept_name);
-
+                $('#updateDeptName').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
             },

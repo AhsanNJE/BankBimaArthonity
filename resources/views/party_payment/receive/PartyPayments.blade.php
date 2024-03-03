@@ -3,7 +3,7 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="addTransaction">Add Transaction Payment</button>
+                <button class="open-modal add" data-modal-id="addTransaction">Add Payment from Client</button>
             </div>
             <div class="col-md-2">
                 <label for="startDate">Start Date</label>
@@ -17,9 +17,8 @@
                 <label for="searchOption">Search Option</label>
                 <select name="searchOption" id="searchOption">
                     <option value="1">Transaction Id</option>
-                    <option value="2">Invoice</option>
-                    <option value="3">Transaction With</option>
-                    <option value="4">User</option>
+                    <option value="2">Transaction With</option>
+                    <option value="3">User</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -31,20 +30,20 @@
 
 
     <!-- table show -->
-    <div class="details">
-        @include('transaction.details.transactionDetailsPagination')
+    <div class="party">
+        @include('party_payment.partyPaymentPagination')
     </div>
 
 
-    @include('transaction.details.payment.addTransactionPayment')
+    @include('party_payment.receive.addPartyPayments')
 
-    @include('transaction.details.payment.editTransactionPayment')
+    @include('party_payment.receive.editPartyPayments')
 
 @endsection
 
 
 <!-- ajax part start from here -->
 @section('ajax')
-    <script src="{{ asset('js/ajax/transaction/transaction_payment.js') }}"></script>
+    <script src="{{ asset('js/ajax/party_payment/receive_from_client.js') }}"></script>
     <script src="{{ asset('js/ajax/search_by_input.js') }}"></script>
 @endsection

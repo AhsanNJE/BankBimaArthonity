@@ -33,6 +33,8 @@
                     @endif
                 </td>
                 <td style="display: flex;gap:5px;">
+                    <button class="btn btn-info btn-sm open-modal showEmployeeDetails" data-modal-id="showEmployeeDetails"
+                        data-id="{{ $item->id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
                     <button class="btn btn-info btn-sm open-modal editEmployee" data-modal-id="editEmployee"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
                     <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i

@@ -9,8 +9,13 @@
                 <select name="searchOption" id="searchOption" class="select-small">
                     <option value="1">Name</option>
                     <option value="2">Email</option>
-                    <option value="3">Contact</option>
-                    <option value="4">Address</option>
+                    <option value="3">Phone</option>
+                    <option value="4">Location</option>
+                    <option value="5">Address</option>
+                    <option value="6">Nid</option>
+                    <option value="7">Dob</option>
+                    <option value="8">Department</option>
+                    <option value="9">Designation</option>
                 </select>
                 <input type="text" name="search" id="search" class="input-small" placeholder="Search here...">
             </div>
@@ -27,6 +32,8 @@
     @include('employee.addEmployee')
 
     @include('employee.editEmployee')
+    
+    @include('employee.employeeDetails')
 
 @endsection
 

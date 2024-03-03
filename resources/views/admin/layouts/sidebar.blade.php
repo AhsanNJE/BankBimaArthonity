@@ -198,13 +198,13 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('show.transaction')}}" class="nav-link">
+              <a href="{{route('show.transaction.receive')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Transaction Receive</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('show.transaction')}}" class="nav-link">
+              <a href="{{route('show.transaction.payment')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Transaction Payment</p>
               </a>
@@ -224,11 +224,17 @@
             <li class="nav-item">
               <a href="{{route('show.party')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
+                <p>Party Payments</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('show.party.receive')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
                 <p>Receive from Client</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('show.transaction')}}" class="nav-link">
+              <a href="{{route('show.party.payment')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Payment to Supplier</p>
               </a>
