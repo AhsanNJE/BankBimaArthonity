@@ -6,10 +6,11 @@ $(document).ready(function () {
     $(document).on('click', '#InsertTransactionGroupe', function (e) {
         e.preventDefault();
         let groupeName = $('#groupeName').val();
+        let type = $('#type').val();
         $.ajax({
             url: "/transaction/insert/groupes",
             method: 'POST',
-            data: { groupeName:groupeName },
+            data: { groupeName:groupeName, type:type },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -45,6 +46,12 @@ $(document).ready(function () {
             success: function (res) {
                 $('#id').val(id);
                 $('#updateGroupeName').val(res.groupes.tran_groupe_name);
+                $('#updateType').empty();
+                $('#updateType').append(`<option value="" >Select Transaction With</option>
+                                        <option value="Receive" ${res.groupes.tran_groupe_type === 'Receive' ? 'selected' : ''}>Receive</option>
+                                        <option value="Payment" ${res.groupes.tran_groupe_type === 'Payment' ? 'selected' : ''}>Payment</option>
+                                        <option value="Both" ${res.groupes.tran_groupe_type === 'Both' ? 'selected' : ''}>Both</option>`);
+                
                 $('#updateGroupeName').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -62,10 +69,11 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $('#id').val();
         let groupeName = $('#updateGroupeName').val();
+        let type = $('#updateType').val();
         $.ajax({
             url: `/transaction/update/groupes`,
             method: 'PUT',
-            data: { groupeName: groupeName, id:id },
+            data: { groupeName: groupeName, type:type, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },

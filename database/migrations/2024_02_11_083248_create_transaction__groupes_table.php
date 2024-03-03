@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('transaction__groupes', function (Blueprint $table) {
             $table->id();
             $table->string('tran_groupe_name');
+            $table->string('tran_groupe_type');
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
         });
