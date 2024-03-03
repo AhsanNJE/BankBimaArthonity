@@ -21,9 +21,9 @@
                 <td>{{ $item->tran_type_with }}</td>
                 <td>{{ $item->User->user_name }}</td>
                 <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editTransaction" data-modal-id="editTransaction"
-                        data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->tran_id }}" id="delete"><i
+                    <button class="btn btn-info btn-sm open-modal editParty" data-modal-id="editParty"
+                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
                             class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>

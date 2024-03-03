@@ -297,6 +297,19 @@ Route::controller(PartyPaymentController::class)->group(function(){
         Route::get('/edit/party', 'EditParty')->name('edit.party');
         Route::put('/update/party', 'UpdateParty')->name('update.party');
         Route::delete('/delete/party', 'DeleteParty')->name('delete.party');
+        //search routes start
+        Route::get('/search/date', 'ShowPartyByDate')->name('search.party.date');
+        Route::get('/search/tranid', 'SearchPartyByTranId')->name('search.party.tranid');
+        Route::get('/search/with', 'SearchPartyByTranWith')->name('search.party.with');
+        Route::get('/search/user', 'SearchPartyByUser')->name('search.party.user');
+        //pagination routes start
+        Route::get('/pagination', 'PartyPagination');
+        Route::get('/pagination/date', 'ShowPartyByDate');
+        Route::get('/pagination/tranid', 'SearchPartyByTranId');
+        Route::get('/pagination/with', 'SearchPartyByTranWith');
+        Route::get('/pagination/user', 'SearchPartyByUser');
+
+
         //search list routs
         Route::get('/get/tranid', 'GetTransactionId');
         Route::get('/get/tranuser', 'GetTransactionUser');

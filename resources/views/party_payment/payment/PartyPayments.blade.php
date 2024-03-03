@@ -3,7 +3,7 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="addTransaction">Add Transaction Payment</button>
+                <button class="open-modal add" data-modal-id="addTransaction">Add Payment to Supplier </button>
             </div>
             <div class="col-md-2">
                 <label for="startDate">Start Date</label>
@@ -31,7 +31,7 @@
 
     <!-- table show -->
     <div class="party">
-        @include('party_payment.payment.partyPaymentPagination')
+        @include('party_payment.partyPaymentPagination')
     </div>
 
 

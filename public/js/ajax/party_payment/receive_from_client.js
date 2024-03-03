@@ -5,6 +5,15 @@ $(document).ready(function () {
         getTransactionId(type, '#tranId');
     });
     
+
+    // Search by Date Range
+    $(document).on('change', '#startDate, #endDate', function(e){
+        e.preventDefault();
+        let type = "receive";
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        searchPartyPayment(`/party/search/date`, {startDate:startDate, endDate:endDate, type:type})
+    });
     
     
     $(document).on('keyup', '#quantity, #amount', function (e) {
@@ -100,7 +109,7 @@ $(document).ready(function () {
 
 
     ///////////// ------------------ Edit Transaction Main ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.editTransaction', function () {
+    $(document).on('click', '.editParty', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
@@ -109,33 +118,23 @@ $(document).ready(function () {
             data: { id:id },
             success: function (res) {
                 
-                $('#id').val(res.transaction.id);
+                $('#id').val(res.party.id);
 
-                $('#updateType').empty();
-                $('#updateType').append(`<option value="" disabled>Select Transaction Type</option>
-                                        <option value="receive" ${res.transaction.tran_type === 'receive' ? 'selected' : 'disabled'}>Receive</option>
-                                         <option value="payment" ${res.transaction.tran_type === 'payment' ? 'selected' : 'disabled'}>Payment</option>`);
-
-                $('#updateTranId').val(res.transaction.tran_id);
-                $('#updateInvoice').val(res.transaction.invoice);
-                $('#updateLocation').val(res.transaction.location.thana);
-                $('#updateLocation').attr('data-id', res.transaction.loc_id);
+                $('#updateTranId').val(res.party.tran_id);
+                $('#updateLocation').val(res.party.location.upazila);
+                $('#updateLocation').attr('data-id', res.party.loc_id);
 
 
                 $('#updateWith').empty();
                 $('#updateWith').append(`<option value="" disabled>Select Transaction With</option>
-                                        <option value="regular employee" ${res.transaction.tran_type_with === 'regular employee' ? 'selected' : 'disabled'}>Regular</option>
-                                        <option value="district employee" ${res.transaction.tran_type_with === 'district employee' ? 'selected' : 'disabled'}>District Employee</option>
-                                        <option value="bit pion" ${res.transaction.tran_type_with === 'bit pion' ? 'selected' : 'disabled'}>Bit Pione</option>
-                                        <option value="newspaper client" ${res.transaction.tran_type_with === 'newspaper client' ? 'selected' : 'disabled'}>Newpaper Client</option>
-                                        <option value="advertisement client" ${res.transaction.tran_type_with === 'advertisement client' ? 'selected' : 'disabled'}>Advertisement Client</option>
-                                        <option value="magazine client" ${res.transaction.tran_type_with === 'magazine client' ? 'selected' : 'disabled'}>Magazine Client</option>
-                                        <option value="food supplier" ${res.transaction.tran_type_with === 'food supplier' ? 'selected' : 'disabled'}>Food Supplier</option>
-                                        <option value="stationary supplier" ${res.transaction.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>
-                                        <option value="others" ${res.transaction.tran_type_with === 'others' ? 'selected' : 'disabled'}>Others</option>`);
+                <option value="newspaper client" ${res.transaction.tran_type_with === 'newspaper client' ? 'selected' : 'disabled'}>Newpaper Client</option>
+                <option value="advertisement client" ${res.transaction.tran_type_with === 'advertisement client' ? 'selected' : 'disabled'}>Advertisement Client</option>
+                <option value="magazine client" ${res.transaction.tran_type_with === 'magazine client' ? 'selected' : 'disabled'}>Magazine Client</option>`);
 
-                $('#updateUser').attr('data-id',res.transaction.tran_user);
-                $('#updateUser').val(res.transaction.user.user_name);
+                $('#updateUser').attr('data-id',res.party.tran_user);
+                $('#updateUser').val(res.party.user.user_name);
+                $('#updateAmount').val(res.party.amount);
+                $('#updateTotAmount').val(res.party.tot_amount);
                 
                 
                 var modal = document.getElementById(modalId);
@@ -147,6 +146,65 @@ $(document).ready(function () {
                 console.log(err);
             }
         });
+    });
+
+
+
+    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.paginate a', function (e) {
+        e.preventDefault();
+        let type = "receive";
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let page = $(this).attr('href').split('page=')[1];
+        searchPartyPayment(`/party/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type});
+    });
+
+
+
+    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    $(document).on('keyup', '#search', function (e) {
+        e.preventDefault();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let search = $(this).val();
+        let type = "receive";
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            searchPartyPayment(`/party/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "2"){
+            searchPartyPayment(`/party/search/with`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "3"){
+            searchPartyPayment(`/party/search/user`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+    });
+
+
+
+
+
+
+    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.search-paginate a', function (e) {
+        e.preventDefault();
+        $('.paginate').addClass('hidden');
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let search = $('#search').val();
+        let type = "receive";
+        let searchOption = $("#searchOption").val();
+        let page = $(this).attr('href').split('page=')[1];
+        if(searchOption == "1"){
+            searchPartyPayment(`/party/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "2"){
+            searchPartyPayment(`/party/pagination/with?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
+        if(searchOption == "3"){
+            searchPartyPayment(`/party/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        }
     });
 
 
@@ -165,6 +223,28 @@ $(document).ready(function () {
                     $(targetElement).val(res.tran_id);
                 }
                 
+            }
+        });
+    }
+
+
+
+    // Search Party Payment Details
+    function searchPartyPayment(url, data) {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            data: data,
+            success: function (res) {
+                if(res.status === 'success'){
+                    $('.party').html(res.data);
+                    if(res.paginate){
+                        $('.party').append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                    }
+                }
+                else{
+                    $('.party').html(`<span class="text-danger">Result not Found </span>`);
+                }
             }
         });
     }

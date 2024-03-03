@@ -6,11 +6,11 @@
     </style>
 @endsection
 
-<div id="editTransaction" class="modal-container">
+<div id="editParty" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">
             <h3 class="center">Edit Party Payments</h3>
-            <span class="close-modal" data-modal-id="editTransaction">&times;</span>
+            <span class="close-modal" data-modal-id="editParty">&times;</span>
         </div>
 
         <div class="center">
@@ -30,7 +30,7 @@
                             <div class="row">
                                 <input type="hidden" name="id" id="id">
                                 <input type="hidden" name="dId" id="dId">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="updateDate">Date</label>
                                         <input type="text" name="date" class="form-control" id="updateDate"
@@ -38,7 +38,7 @@
                                         <span class="text-danger error" id="update_date_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="updateTranId">Transaction Id</label>
                                         <input type="text" name="tranId" class="form-control" id="updateTranId"
@@ -82,13 +82,6 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="updateQuantity">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="updateQuantity" value="1">
-                                        <span class="text-danger error" id="update_quantity_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
                                         <label for="updateAmount">Amount</label>
                                         <input type="text" name="amount" class="form-control" id="updateAmount">
                                         <span class="text-danger error" id="update_amount_error"></span>
@@ -102,7 +95,7 @@
                                     </div>
                                 </div>
                                 <div class="center">
-                                    <button type="submit" id="UpdateTransaction"
+                                    <button type="submit" id="UpdateParty"
                                         class="btn btn-success addButton">Update</button>
                                 </div>
                             </div>

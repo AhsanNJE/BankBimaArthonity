@@ -329,7 +329,7 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Details Table Methods start ---------- //////////////////////////
     //Show All Transaction
     public function ShowTransactions(){
-        $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(2);
+        $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
         $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
         return view('transaction.details.transactionDetails', compact('transaction','groupes'));
     }//End Method
@@ -647,10 +647,10 @@ class TransactionController extends Controller
     //Transaction Pagination
     public function TransactionPagination(Request $req){
         if($req->type == null ){
-            $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(2);
+            $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
         }
         else{
-            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(2);
+            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
         }
         return view('transaction.details.transactionPagination', compact('transaction'));
     }//End Method
@@ -660,10 +660,10 @@ class TransactionController extends Controller
     // Get Transaction Details by Date Range
     public function ShowTransactionByDate(Request $req){
         if($req->type == null ){
-            $transaction = Transaction_Main::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(2);
+            $transaction = Transaction_Main::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(15);
         }
         else{
-            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(2);
+            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(15);
         }
         $paginationHtml = $transaction->links()->toHtml();
         
@@ -686,10 +686,10 @@ class TransactionController extends Controller
     // Get Transaction by TranId
     public function SearchTransactionByTranId(Request $req){
         if($req->type == null ){
-            $transaction = Transaction_Main::where('tran_id', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(2);
+            $transaction = Transaction_Main::where('tran_id', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_id','asc')->paginate(15);
         }
         else{
-            $transaction = Transaction_Main::where('tran_type', $req->type)->where('tran_id', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(2);
+            $transaction = Transaction_Main::where('tran_type', $req->type)->where('tran_id', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_id','asc')->paginate(15);
         }
         
         $paginationHtml = $transaction->links()->toHtml();
@@ -712,10 +712,10 @@ class TransactionController extends Controller
     // Get Transaction by Invoice
     public function SearchTransactionByInvoice(Request $req){
         if($req->type == null ){
-            $transaction = Transaction_Main::where('invoice', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(2);
+            $transaction = Transaction_Main::where('invoice', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('invoice','asc')->paginate(15);
         }
         else{
-            $transaction = Transaction_Main::where('tran_type', $req->type)->where('invoice', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(2);
+            $transaction = Transaction_Main::where('tran_type', $req->type)->where('invoice', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('invoice','asc')->paginate(15);
         }
         
         $paginationHtml = $transaction->links()->toHtml();
@@ -738,10 +738,10 @@ class TransactionController extends Controller
     // Get Transaction by Tran With
     public function SearchTransactionByTranWith(Request $req){
         if($req->type == null ){
-            $transaction = Transaction_Main::where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(2);
+            $transaction = Transaction_Main::where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_type_with','asc')->paginate(15);
         }
         else{
-            $transaction = Transaction_Main::where('tran_type', $req->type)->where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(2);
+            $transaction = Transaction_Main::where('tran_type', $req->type)->where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_type_with','asc')->paginate(15);
         }
         
         $paginationHtml = $transaction->links()->toHtml();
@@ -771,7 +771,7 @@ class TransactionController extends Controller
                 $query->orderBy('user_name','asc');
             })
             ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
-            ->orderBy('tran_date','asc')->paginate(2);
+            ->paginate(15);
         }
         else{
             $transaction = Transaction_Main::with('User')
@@ -781,7 +781,7 @@ class TransactionController extends Controller
             })
             ->where('tran_type', $req->type)
             ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
-            ->orderBy('tran_date','asc')->paginate(2);
+            ->paginate(15);
         }
         
 
@@ -809,7 +809,7 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Receive Methods start ---------- //////////////////////////
     //Show All Transaction Receive Details
     public function ShowTransactionReceive(){
-        $transaction = Transaction_Main::where('tran_type','receive')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(2);
+        $transaction = Transaction_Main::where('tran_type','receive')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
         $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
         return view('transaction.details.receive.transactionReceive', compact('transaction','groupes'));
     }//End Method
@@ -822,7 +822,7 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Payment Methods start ---------- //////////////////////////
     //Show All Transaction Payment Details
     public function ShowTransactionPayment(){
-        $transaction = Transaction_Main::where('tran_type','payment')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(2);
+        $transaction = Transaction_Main::where('tran_type','payment')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
         $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
         return view('transaction.details.payment.transactionPayment', compact('transaction','groupes'));
     }//End Method

@@ -3,7 +3,7 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="addTransaction">Add Transaction Payment</button>
+                <button class="open-modal add" data-modal-id="addTransaction">Add Transaction Receive</button>
             </div>
             <div class="col-md-2">
                 <label for="startDate">Start Date</label>

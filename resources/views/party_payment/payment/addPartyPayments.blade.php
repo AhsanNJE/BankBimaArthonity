@@ -3,6 +3,10 @@
         .modal-subject {
             width: 80%;
         }
+        #search{
+            width: 100%;
+            margin: 0;
+        }
     </style>
 @endsection
 

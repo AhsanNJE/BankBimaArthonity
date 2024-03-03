@@ -3,6 +3,10 @@
         .modal-subject {
             width: 80%;
         }
+        #search{
+            width: 100%;
+            margin: 0;
+        }
     </style>
 @endsection
 
@@ -84,7 +88,7 @@
                                             <option value="food supplier">Food Supplier</option>
                                             <option value="stationary supplier">Stationary Supplier</option>
                                         </select>
-                                        <span class="text-danger error" id="head_error"></span>
+                                        <span class="text-danger error" id="with_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
