@@ -53,6 +53,50 @@ class ReportController extends Controller
         }
     }//End Method
 
+    //Pay All Due
+    public function PendingAllDueAjax($id){
+
+        $allduepay = Transaction_Main::findOrFail($id);
+        return response()->json($allduepay);
+
+    }// End Method  
+
+    public function TransUpdateDue(Request $request){
+
+        $trans_due_id = $request->id;
+        $due_amount = $request->due;
+        $pay_amount = $request->pay;
+
+        $alltrans = Transaction_Main::findOrFail($trans_due_id);
+        $maindue = $alltrans->due;
+        $mainpay = $alltrans->payment;
+
+        $paid_due = $maindue - $due_amount;
+        $paid_pay = $mainpay + $due_amount;
+
+        Transaction_Main::findOrFail($trans_due_id)->update([
+            'due' => $paid_due,
+            'payment' => $paid_pay, 
+        ]);
+
+         $notification = array(
+            'message' => 'Due Amount Updated Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->route('pending.all.due')->with($notification);
+
+
+    }// End Method 
+
+    // Trans Details
+    public function TransDetails($trans_id){
+
+        $transDetails = Transaction_Main::where('id',$trans_id)->first();
+        return view('reports.details_due_statement',compact('transDetails'));
+
+    }// End Method 
+
     /////////////////////////////////////// For Client Due & Filter //////////////////////////
 
     public function ClientDueTransaction()
