@@ -223,6 +223,7 @@ Route::controller(TransactionController::class)->group(function(){
         Route::get('/groupes/search/pagination', 'SearchTransactionGroupes');
         //search list routs
         Route::get('/get/groupeby/name', 'GetTransactionGroupeByName');
+        Route::get('/get/groupeby/type', 'GetTransactionGroupeByType');
 
 
 
