@@ -29,6 +29,7 @@
             <td> <span class="btn btn-warning btn-sm waves-effect waves-light"> {{ round($item->payment) }}</span> </td>
             <td> <span class="btn btn-danger btn-sm waves-effect waves-light"> {{ round($item->due) }}</span> </td>
             <td>
+<<<<<<< HEAD
                 <!-- <a href="#" class="btn btn-secondary rounded-pill waves-effect waves-light"> Details </a>  -->
                 <a href="#" class="btn btn-dark btn-sm rounded-pill waves-effect waves-light"> Pay Due </a>
             </td>
@@ -65,5 +66,23 @@
             <th></th>
         </tr>
     </tfoot>
+=======
+                <a href="{{ route('trans.details',$item->id) }}"
+                    class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light"> Details </a>
+
+                <button type="button" class="btn btn-primary btn-sm rounded-pill waves-effect waves-light"
+                    data-bs-toggle="modal" data-bs-target="#signup-modal" id="{{ $item->id }}"
+                    onclick="transactionDue(this.id)">Pay Due</button>
+
+                <a href="{{ route('trans.invoice',$item->tran_id) }}"
+                    class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">
+                    Invoice</a>
+            </td>
+        </tr>
+        @endforeach
+
+    </tbody>
+
+>>>>>>> 7fb98cba3699eaeb0790c3ec983bea9539fca89f
 </table>
 {{ $alldue->links() }}

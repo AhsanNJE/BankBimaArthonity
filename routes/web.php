@@ -333,12 +333,20 @@ Route::controller(PartyPaymentController::class)->group(function(){
 
 // Due Reports For Client & Supplier //
 Route::controller(ReportController::class)->group(function(){
+    //ALL
     Route::get('/pending/all/due','PendingAllDue')->name('pending.all.due');
     Route::post('/filter','Filter');
     Route::get('/pagination/pagination-data', 'Pagination');
     Route::get('/search/due/statement', 'SearchDueStatement')->name('search.due.statement');
+    Route::get('/trans/invoice/{transinvoice_id}','TransInvoice')->name('trans.invoice');
+    //Pay All Due Statement Update
+    Route::get('/pending/all/due/{id}','PendingAllDueAjax');
+    Route::post('/trans/update/due','TransUpdateDue')->name('trans.update.due');
+    Route::get('/trans/details/{trans_id}','TransDetails')->name('trans.details');
+    //Client
     Route::get('/client/due/transaction', 'ClientDueTransaction')->name('client.due.transaction');
     Route::post('/client/filter', 'ClientFilter');
+    //Supplier
     Route::get('/supplier/due/transaction', 'SupplierDueTransaction')->name('supplier.due.transaction');
     Route::post('/supplier/filter', 'SupplierFilter');
 });

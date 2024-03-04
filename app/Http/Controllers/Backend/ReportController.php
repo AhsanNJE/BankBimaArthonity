@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction_Main;
+use App\Models\Transaction_Detail;
 
 class ReportController extends Controller
 {
@@ -39,11 +40,15 @@ class ReportController extends Controller
 
     //Searching
     public function SearchDueStatement(Request $request){
-
-        $alldue = Transaction_Main::where('invoice', 'like', '%'.$request->search_string.'%')
-        // ->where('price', 'like', '%'.$request->search_string.'%')
+        
+        $alldue = Transaction_Main::with('User')
+        ->whereHas('User', function ($query) use ($request){
+            $query->where('user_type', 'client');
+            $query->where('user_name', 'like', '%'.$request->search_string.'%');
+        })
         ->orderBy('id', 'desc')
         ->paginate(2);
+
         if($alldue->count() >= 1){
             return view('reports.pagi_due_statement',compact('alldue'))->render();
         }else{
@@ -52,6 +57,60 @@ class ReportController extends Controller
             ]);
         }
     }//End Method
+
+    //Pay All Due
+    public function PendingAllDueAjax($id){
+
+        $allduepay = Transaction_Main::findOrFail($id);
+        return response()->json($allduepay);
+
+    }// End Method  
+
+    public function TransUpdateDue(Request $request){
+
+        $trans_due_id = $request->id;
+        $due_amount = $request->due;
+        $pay_amount = $request->pay;
+
+        $alltrans = Transaction_Main::findOrFail($trans_due_id);
+        $maindue = $alltrans->due;
+        $mainpay = $alltrans->payment;
+
+        $paid_due = $maindue - $due_amount;
+        $paid_pay = $mainpay + $due_amount;
+
+        Transaction_Main::findOrFail($trans_due_id)->update([
+            'due' => $paid_due,
+            'payment' => $paid_pay, 
+        ]);
+
+         $notification = array(
+            'message' => 'Due Amount Updated Successfully',
+            'alert-type' => 'success'
+        ); 
+
+        return redirect()->route('pending.all.due')->with($notification);
+
+
+    }// End Method 
+
+    // Trans Details
+    public function TransDetails($trans_id){
+
+        $transDetails = Transaction_Main::where('id',$trans_id)->first();
+        return view('reports.details_due_statement',compact('transDetails'));
+
+    }// End Method 
+
+    // Invoice
+    public function TransInvoice($transinvoice_id){
+
+        $transDetailsInvoice = Transaction_Detail::where('tran_id',$transinvoice_id)->get();
+
+        $transMainInvoice = Transaction_Main::where('tran_id',$transinvoice_id)->first();
+        return view('reports.invoice_due_statement',compact('transMainInvoice','transDetailsInvoice'));
+
+   } // End Method 
 
     /////////////////////////////////////// For Client Due & Filter //////////////////////////
 
