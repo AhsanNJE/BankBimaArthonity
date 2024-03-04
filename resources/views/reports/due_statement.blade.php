@@ -94,12 +94,32 @@
                                             Details </a>
 
                                         <button type="button"
-                                            class="btn btn-primary btn-sm rounded-pill waves-effect waves-light"
+                                            class="btn btn-success btn-sm rounded-pill waves-effect waves-light"
                                             data-bs-toggle="modal" data-bs-target="#signup-modal" id="{{ $item->id }}"
                                             onclick="transactionDue(this.id)">Pay Due </button>
+
+                                        <a href="{{ route('trans.invoice',$item->tran_id) }}"
+                                        class="btn btn-primary btn-sm rounded-pill waves-effect waves-light">
+                                        Invoice</a>
                                     </td>
                                 </tr>
                                 @endforeach
+
+                            </tbody>
+                            
+                        </table>
+                        
+                        {{ $alldue->links() }}
+                    </div> <!-- end card body-->
+                    
+                    <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                            <thead>
+                              
+                            </thead>
+
+
+                            <tbody>
+                               
 
                             </tbody>
 
@@ -113,27 +133,34 @@
 
                                 @endphp
                                 <tr>
-                                    <th colspan="5">
+                                    <th>
                                         <h4 class="text-right text-bold">Total : </h4>
                                     </th>
                                     <th>
-                                        <h4 class="text-left text-bold">{{ $total_amount }}</h4>
+                                        <h4 class="text-end text-bold">{{ $total_amount }}</h4>
                                     </th>
                                     <th>
-                                        <h4 class="text-left text-bold">{{ $total_receive }}</h4>
+                                        <h4 class="text-right text-bold">Receive : </h4>
                                     </th>
                                     <th>
-                                        <h4 class="text-left text-bold">{{ $total_payment }}</h4>
+                                        <h4 class="text-end text-bold">{{ $total_receive }}</h4>
                                     </th>
                                     <th>
-                                        <h4 class="text-left text-bold">{{ $total_due }}</h4>
+                                        <h4 class="text-right text-bold">Payment : </h4>
                                     </th>
-                                    <th></th>
+                                    <th>
+                                        <h4 class="text-end text-bold">{{ $total_payment }}</h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-right text-bold">Due : </h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-end text-bold">{{ $total_due }}</h4>
+                                    </th>
+                                    
                                 </tr>
                             </tfoot>
                         </table>
-                        {{ $alldue->links() }}
-                    </div> <!-- end card body-->
                 </div> <!-- end card -->
             </div><!-- end col-->
         </div>

@@ -336,6 +336,7 @@ Route::controller(ReportController::class)->group(function(){
     Route::post('/filter','Filter');
     Route::get('/pagination/pagination-data', 'Pagination');
     Route::get('/search/due/statement', 'SearchDueStatement')->name('search.due.statement');
+    Route::get('/trans/invoice/{transinvoice_id}','TransInvoice')->name('trans.invoice');
     //Pay All Due Statement Update
     Route::get('/pending/all/due/{id}','PendingAllDueAjax');
     Route::post('/trans/update/due','TransUpdateDue')->name('trans.update.due');

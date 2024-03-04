@@ -20,7 +20,8 @@
                 </div>
             </div>
             <div class="col-2 mt-2">
-            <a href="{{ route('pending.all.due') }}" class="btn btn-info mb-2 text-left"><<-Back</a>
+                <a href="{{ route('pending.all.due') }}" class="btn btn-info mb-2 text-left">
+                <i class="fa-solid fa-arrow-left"></i><b>Back</b></a>
             </div>
         </div>
         <!-- end page title -->

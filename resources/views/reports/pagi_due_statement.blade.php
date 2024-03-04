@@ -35,39 +35,15 @@
                 <button type="button" class="btn btn-primary btn-sm rounded-pill waves-effect waves-light"
                     data-bs-toggle="modal" data-bs-target="#signup-modal" id="{{ $item->id }}"
                     onclick="transactionDue(this.id)">Pay Due</button>
+
+                <a href="{{ route('trans.invoice',$item->tran_id) }}"
+                    class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">
+                    Invoice</a>
             </td>
         </tr>
         @endforeach
 
     </tbody>
 
-    <tfoot>
-        @php
-
-        $total_amount = App\Models\Transaction_Main::sum('net_amount');
-        $total_receive = App\Models\Transaction_Main::sum('receive');
-        $total_payment = App\Models\Transaction_Main::sum('payment');
-        $total_due = App\Models\Transaction_Main::sum('due');
-
-        @endphp
-        <tr>
-            <th colspan="5">
-                <h4 class="text-right text-bold">Total : </h4>
-            </th>
-            <th>
-                <h4 class="text-left text-bold">{{ $total_amount }}</h4>
-            </th>
-            <th>
-                <h4 class="text-left text-bold">{{ $total_receive }}</h4>
-            </th>
-            <th>
-                <h4 class="text-left text-bold">{{ $total_payment }}</h4>
-            </th>
-            <th>
-                <h4 class="text-left text-bold">{{ $total_due }}</h4>
-            </th>
-            <th></th>
-        </tr>
-    </tfoot>
 </table>
 {{ $alldue->links() }}

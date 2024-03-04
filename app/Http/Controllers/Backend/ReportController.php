@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction_Main;
+use App\Models\Transaction_Detail;
 
 class ReportController extends Controller
 {
@@ -39,11 +40,15 @@ class ReportController extends Controller
 
     //Searching
     public function SearchDueStatement(Request $request){
-
-        $alldue = Transaction_Main::where('invoice', 'like', '%'.$request->search_string.'%')
-        // ->where('price', 'like', '%'.$request->search_string.'%')
+        
+        $alldue = Transaction_Main::with('User')
+        ->whereHas('User', function ($query) use ($request){
+            $query->where('user_type', 'client');
+            $query->where('user_name', 'like', '%'.$request->search_string.'%');
+        })
         ->orderBy('id', 'desc')
         ->paginate(2);
+
         if($alldue->count() >= 1){
             return view('reports.pagi_due_statement',compact('alldue'))->render();
         }else{
@@ -96,6 +101,16 @@ class ReportController extends Controller
         return view('reports.details_due_statement',compact('transDetails'));
 
     }// End Method 
+
+    // Invoice
+    public function TransInvoice($transinvoice_id){
+
+        $transDetailsInvoice = Transaction_Detail::where('tran_id',$transinvoice_id)->get();
+
+        $transMainInvoice = Transaction_Main::where('tran_id',$transinvoice_id)->first();
+        return view('reports.invoice_due_statement',compact('transMainInvoice','transDetailsInvoice'));
+
+   } // End Method 
 
     /////////////////////////////////////// For Client Due & Filter //////////////////////////
 
