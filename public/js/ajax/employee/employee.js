@@ -2,6 +2,23 @@ $(document).ready(function () {
     $(document).on('click', '.add', function (e) {
         $('#name').focus();
     });
+
+
+    $(document).on('click', '.showEmployeeDetails', function (e) {
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/admin/employees/details",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $('.details').html(res.data)
+                console.log(res.employee);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
     /////////////// ------------------ Add Employee ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddEmployeeForm', function (e) {
         e.preventDefault();

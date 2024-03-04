@@ -14,21 +14,8 @@
             <span class="close-modal" data-modal-id="showEmployeeDetails">&times;</span>
         </div>
 
-        <div class="center">
-            <div class="card card-primary col-md-12">
-                <div class="card-header">
-                    <div class="center">
-                        <h3 class="card-title">Employee Details</h3>
-                    </div>
-                </div>
-
-                <!-- form start -->
-                <div class="center">
-                    <div class="card-body">
-
-                    </div>
-                </div>
-            </div>
+        <div class="details">
+                
         </div>
     </div>
 </div>

@@ -246,3 +246,59 @@ div[id$="-list"] li:focus, div[id^="update-"] li:focus {
     align-items: center;
     justify-content: center;
 }
+
+
+
+/* ------------------------------------ Employee Details Design --------------------------------------------------------*/
+.details-head{
+    display: flex;
+    align-items: center;
+}
+
+.image-round{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 40px;
+}
+
+.image-round img{
+    padding: 1px;
+    border-radius: 50%;
+}
+
+
+.name{
+    color: aqua;
+    font-size: 30px;
+}
+
+.designation{
+    color: #0af7b7f5;
+    font-size: 20px;
+}
+
+
+.details-table{
+    border:1px solid #00e3f7; 
+    overflow: hidden;
+    padding: 20px 30px;
+    margin: 30px 0;
+}
+
+.each-row{
+    border-bottom:1px solid #00e3f7; 
+    padding: 10px 0;
+}
+
+.each-row:last-child{
+    border-bottom: none;
+}
+
+
+.bold{
+    font-weight: 600;
+}
+
+

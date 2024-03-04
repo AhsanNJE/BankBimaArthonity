@@ -1,7 +1,7 @@
 @section('style')
     <style>
         .modal-subject {
-            width: 60%;
+            width: 80%;
         }
     </style>
 @endsection

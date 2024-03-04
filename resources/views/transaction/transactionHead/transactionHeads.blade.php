@@ -17,7 +17,7 @@
 
 
     <!-- table show -->
-    <div class="heads">
+    <div class="heads" style="overflow-x:auto;">
         @include('transaction.transactionHead.transactionHeadPagination')
     </div>
 

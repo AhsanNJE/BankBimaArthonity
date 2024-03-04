@@ -504,6 +504,16 @@ class EmployeeController extends Controller
     }//End Method
 
 
+    //Show All Employees
+    public function ShowEmployeeDetails(Request $req){
+        $employee = User_Info::with('Designation','Department','Location')->where('id', "=", $req->id)->first();
+        return response()->json([
+            'data'=>view('employee.details', compact('employee'))->render(),
+        ]);
+        return ;
+    }//End Method
+
+
 
     //Insert Employees
     public function InsertEmployees(Request $req){

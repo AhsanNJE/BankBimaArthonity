@@ -20,7 +20,7 @@
     </div>
     
     <!-- table show -->
-    <div class="supplier">
+    <div class="supplier" style="overflow-x:auto;">
         @include('supplier.supplierPagination')
     </div>
 

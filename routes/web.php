@@ -102,6 +102,7 @@ Route::controller(EmployeeController::class)->group(function(){
         ///////////// --------------- Employees routes ----------- ///////////////////
         //crud routes start 
         Route::get('/', 'ShowEmployees')->name('show.employees');
+        Route::get('/details', 'ShowEmployeeDetails')->name('show.employee.details');
         Route::post('/insert/employees', 'InsertEmployees')->name('insert.employees');
         Route::get('/edit/employees', 'EditEmployees')->name('edit.employees');
         Route::put('/update/employees', 'UpdateEmployees')->name('update.employees');
