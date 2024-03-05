@@ -10,6 +10,7 @@
             <th>Receive</th>
             <th>Payment</th>
             <th>Due</th>
+            <th>Due Collection</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -28,16 +29,14 @@
             <td> <span class="btn btn-info btn-sm waves-effect waves-light"> {{ round($item->receive) }}</span> </td>
             <td> <span class="btn btn-warning btn-sm waves-effect waves-light"> {{ round($item->payment) }}</span> </td>
             <td> <span class="btn btn-danger btn-sm waves-effect waves-light"> {{ round($item->due) }}</span> </td>
+            <td> <span class="btn btn-info btn-sm waves-effect waves-light"> {{ round($item->due_col) }}</span>
+            </td>
             <td>
-                <a href="{{ route('trans.details',$item->id) }}"
-                    class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light"> Details </a>
+                <a href="{{ route('trans.details',$item->id) }}" class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light"> Details </a>
 
-                <button type="button" class="btn btn-primary btn-sm rounded-pill waves-effect waves-light"
-                    data-bs-toggle="modal" data-bs-target="#signup-modal" id="{{ $item->id }}"
-                    onclick="transactionDue(this.id)">Pay Due</button>
+                <button type="button" class="btn btn-primary btn-sm rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#signup-modal" id="{{ $item->id }}" onclick="transactionDue(this.id)">Pay Due</button>
 
-                <a href="{{ route('trans.invoice',$item->tran_id) }}"
-                    class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">
+                <a href="{{ route('trans.invoice',$item->tran_id) }}" class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">
                     Invoice</a>
             </td>
         </tr>

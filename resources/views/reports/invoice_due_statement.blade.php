@@ -139,10 +139,11 @@
                                     <p><b>Total Due:</b> <span
                                             class="float-end text-danger text-bold">{{ $transMainInvoice->due }}</span>
                                     </p>
-                                    <p><b>Sub-total:</b> <span class="float-end">$4597.50</span></p>
-                                    <p><b>Discount (10%):</b> <span class="float-end"> &nbsp;&nbsp;&nbsp; $459.75</span>
+                                    <p><b>Sub-total:</b> <span class="float-end">{{ $transSum }}</span></p>
+                                    <p><b>Discount (10%):</b> <span class="float-end">
+                                            &nbsp;&nbsp;&nbsp;{{ ($transSum * 10)/100 }}</span>
                                     </p>
-                                    <h3>$4137.75 USD</h3>
+                                    <h3>${{ $transSum-(($transSum * 10)/100) }} USD</h3>
                                 </div>
                                 <div class="clearfix"></div>
                             </div> <!-- end col -->
