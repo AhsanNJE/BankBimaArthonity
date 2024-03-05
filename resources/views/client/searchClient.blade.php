@@ -23,6 +23,8 @@
                 <td>{{ $item->Location->upazila }}</td>
                 <td>{{ $item->address }}</td>
                 <td style="display: flex;gap:5px;">
+                    <button class="btn btn-info btn-sm open-modal showClientDetails" data-modal-id="showClientDetails"
+                        data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
                     <button class="btn btn-info btn-sm open-modal editClientModal" data-modal-id="editClientModal"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
                     <button class="btn btn-danger btn-sm deleteClient" data-id="{{ $item->id }}" id="delete"><i

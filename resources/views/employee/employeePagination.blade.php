@@ -24,7 +24,7 @@
                 <td>{{ $item->user_phone }}</td>
                 <td>{{ $item->Location->upazila }}</td>
                 <td>{{ $item->address }}</td>
-                <td><img src="/storage/profiles/{{ $item->image }}" alt="" height="50px" width="50px"></td>
+                <td><img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="50px" width="50px"></td>
                 <td>
                     @if ($item->status == 1)
                         <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Active</button>

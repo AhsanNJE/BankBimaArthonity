@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Client_Info;
 use App\Models\User_Info;
+use App\Models\Transaction_Main;
 
 class ClientController extends Controller
 {
@@ -15,6 +16,17 @@ class ClientController extends Controller
     public function ShowClients(){
         $client = User_Info::where('user_type','client')->orderBy('added_at','desc')->paginate(15);
         return view('client.clients', compact('client'));
+    }//End Method
+
+
+    //Show Client Details
+    public function ShowClientDetails(Request $req){
+        $client = User_Info::with('Location')->where('user_id', "=", $req->id)->first();
+        $transaction = Transaction_Main::where('tran_user', "=", $req->id)->get();
+        return response()->json([
+            'data'=>view('client.details', compact('client','transaction'))->render(),
+            "transaction"=> $transaction
+        ]);
     }//End Method
 
 

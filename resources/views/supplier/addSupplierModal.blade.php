@@ -1,3 +1,11 @@
+@section('style')
+    <style>
+        .modal-subject {
+            width: 80%;
+        }
+    </style>
+@endsection
+
 <div id="addSupplierModal" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">

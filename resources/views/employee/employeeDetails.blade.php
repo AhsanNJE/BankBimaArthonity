@@ -1,12 +1,3 @@
-@section('style')
-    <style>
-        .modal-subject {
-            width: 60%;
-        }
-    </style>
-@endsection
-
-
 <div id="showEmployeeDetails" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">

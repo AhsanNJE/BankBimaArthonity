@@ -29,6 +29,8 @@
 
     @include('client.editClientModal')
 
+    @include('client.clientDetails')
+
 @endsection
 
 

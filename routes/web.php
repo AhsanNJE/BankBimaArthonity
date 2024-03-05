@@ -145,6 +145,7 @@ Route::controller(SupplierController::class)->group(function(){
     ///////////// --------------- Suppliers routes ----------- ///////////////////
     //crud routes start
     Route::get('/suppliers', 'ShowSuppliers')->name('show.suppliers');
+    Route::get('/supplier/details', 'ShowSupplierDetails')->name('show.supplier.details');
     Route::post('/insert/suppliers', 'InsertSuppliers')->name('insert.suppliers');
     Route::get('/edit/suppliers', 'EditSuppliers')->name('edit.suppliers');
     Route::put('/update/suppliers', 'UpdateSuppliers')->name('update.suppliers');
@@ -178,6 +179,7 @@ Route::controller(ClientController::class)->group(function(){
     ///////////// --------------- Clients routes ----------- ///////////////////
     //crud routes start
     Route::get('/clients', 'ShowClients')->name('show.clients');
+    Route::get('/client/details', 'ShowClientDetails')->name('show.client.details');
     Route::post('/insert/clients', 'InsertClients')->name('insert.clients');
     Route::get('/edit/clients', 'EditClients')->name('edit.clients');
     Route::put('/update/clients', 'UpdateClients')->name('update.clients');

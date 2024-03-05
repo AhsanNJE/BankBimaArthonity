@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Supplier_Info;
 use App\Models\User_Info;
+use App\Models\Transaction_Main;
 
 class SupplierController extends Controller
 {
@@ -15,6 +16,16 @@ class SupplierController extends Controller
     public function ShowSuppliers(){
         $supplier = User_Info::where('user_type','supplier')->orderBy('added_at','desc')->paginate(15);
         return view('supplier.suppliers', compact('supplier'));
+    }//End Method
+
+
+    //Show Supplier Details
+    public function ShowSupplierDetails(Request $req){
+        $supplier = User_Info::with('Location')->where('user_id', "=", $req->id)->first();
+        $transaction = Transaction_Main::where('tran_user', "=", $req->id)->get();
+        return response()->json([
+            'data'=>view('supplier.details', compact('supplier','transaction'))->render(),
+        ]);
     }//End Method
 
 

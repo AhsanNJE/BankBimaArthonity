@@ -50,6 +50,10 @@
     color: white;
 }
 
+.details .caption{
+    background: #0b5baa;
+}
+
 
 .show-table td, th {
     border: 1px solid #dddddd;
@@ -253,6 +257,7 @@ div[id$="-list"] li:focus, div[id^="update-"] li:focus {
 .details-head{
     display: flex;
     align-items: center;
+    margin-top: 10px;
 }
 
 .image-round{
@@ -296,9 +301,33 @@ div[id$="-list"] li:focus, div[id^="update-"] li:focus {
     border-bottom: none;
 }
 
+.each-row div:nth-child(2){
+    border-right: 1px solid #00e3f7;
+}
 
 .bold{
     font-weight: 600;
+}
+
+
+.details ul li{
+    margin-bottom: 1px;
+    list-style: none;
+    background-color: #04f8c1;
+    padding: 5px 10px;
+    background-image: url('../images/angle-arrow-down.png');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 20px) center; /* Move the background image 20px from the right */
+    background-size: 20px;
+}
+
+.contact, .address, .payroll, .others, .transaction{
+    display: none;
+}
+
+
+.transaction{
+    margin: 20px 0;
 }
 
 
