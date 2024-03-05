@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction_Main;
 use App\Models\Transaction_Detail;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
@@ -43,7 +44,7 @@ class ReportController extends Controller
         
         $alldue = Transaction_Main::with('User')
         ->whereHas('User', function ($query) use ($request){
-            $query->where('user_type', 'client');
+            $query->where('user_type', 'employee');
             $query->where('user_name', 'like', '%'.$request->search_string.'%');
         })
         ->orderBy('id', 'desc')
@@ -111,6 +112,22 @@ class ReportController extends Controller
         return view('reports.invoice_due_statement',compact('transMainInvoice','transDetailsInvoice'));
 
    } // End Method 
+
+   //PDF Invoice
+   public function TransPdfInvoice($transpdfinvoice_id){
+
+    $transDetailsInvoice = Transaction_Detail::where('tran_id',$transpdfinvoice_id)->get();
+
+    $transMainInvoice = Transaction_Main::where('tran_id',$transpdfinvoice_id)->first();
+
+   $pdf = Pdf::loadView('reports.invoice_pdf', compact('transMainInvoice','transDetailsInvoice'))->setPaper('a4')->setOption([
+           'tempDir' => public_path(),
+           'chroot' => public_path(),
+
+   ]);
+    return $pdf->download('invoice.pdf');
+
+}// End Method 
 
     /////////////////////////////////////// For Client Due & Filter //////////////////////////
 

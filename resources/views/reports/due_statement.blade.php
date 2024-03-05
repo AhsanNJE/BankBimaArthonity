@@ -31,7 +31,17 @@
                                     required>
                             </div>
                             <div class="col-md-1 pt-4">
-                                <button type="submit" class="btn btn-primary">View</button>
+                                <button type="submit" class="btn btn-primary btn-sm">View</button>
+                            </div>
+
+                            <div class="col-md-1 pt-4">
+                                <a href="{{ route('client.due.transaction') }}" class="btn btn-secondary"> Client </a>
+                            </div>
+                            <div class="col-md-1 pt-4">
+                                <a href="{{ route('supplier.due.transaction') }}" class="btn btn-secondary">Supplier</a>
+                            </div>
+                            <div class="col-md-1 pt-4">
+                                <a href="#" class="btn btn-secondary">Employee</a>
                             </div>
                             <!-- <div class="col-md-5">
                                                 <label for="">Search:</label>

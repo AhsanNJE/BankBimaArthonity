@@ -99,7 +99,6 @@
                                                 <th>#SL:</th>
                                                 <th>Name:</th>
                                                 <th style="width: 10%">User Type</th>
-                                                <th style="width: 10%">Invoice</th>
                                                 <th style="width: 10%">Quantity</th>
                                                 <th style="width: 10%">Amount</th>
                                                 <th style="width: 10%">Total Amount</th>
@@ -112,13 +111,12 @@
                                         <tbody>
                                             @foreach($transDetailsInvoice as $key => $item)
                                             <tr>
-                                            <td>{{ $sl++ }}</td>
-                                            <td> {{ $item->User->user_name }} </td>
-                                            <td> {{ $item->User->user_type }} </td>
-                                            <td> {{ $item->invoice }} </td>
-                                            <td> {{ $item->quantity }} </td>
-                                            <td> {{ $item->	amount }} </td>
-                                            <td> {{ $item->tot_amount }} </td>
+                                                <td>{{ $sl++ }}</td>
+                                                <td> {{ $item->User->user_name }} </td>
+                                                <td> {{ $item->User->user_type }} </td>
+                                                <td> {{ $item->quantity }} </td>
+                                                <td> {{ $item->amount }} </td>
+                                                <td> {{ $item->tot_amount }} </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -138,6 +136,9 @@
                             </div> <!-- end col -->
                             <div class="col-sm-6">
                                 <div class="float-end">
+                                    <p><b>Total Due:</b> <span
+                                            class="float-end text-danger text-bold">{{ $transMainInvoice->due }}</span>
+                                    </p>
                                     <p><b>Sub-total:</b> <span class="float-end">$4597.50</span></p>
                                     <p><b>Discount (10%):</b> <span class="float-end"> &nbsp;&nbsp;&nbsp; $459.75</span>
                                     </p>
@@ -152,7 +153,9 @@
                             <div class="text-end d-print-none">
                                 <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i
                                         class="mdi mdi-printer me-1"></i> Print</a>
-                                <a href="#" class="btn btn-info waves-effect waves-light">Create Invoice</a>
+
+                                <a href="{{ url('trans/invoice-download/'.$item->tran_id) }}"
+                                    class="btn btn-info waves-effect waves-light"> PDF Invoice </a>
                             </div>
                         </div>
                     </div>
