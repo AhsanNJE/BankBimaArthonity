@@ -3,6 +3,9 @@
         .modal-subject {
             width: 80%;
         }
+        .details .caption{
+            background: #0b5baa;
+        }
     </style>
 @endsection
 

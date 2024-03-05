@@ -4,8 +4,6 @@
         <tr>
             <th>SL:</th>
             <th>Id</th>
-            <th>Invoice</th>
-            <th>Type</th>
             <th>Total</th>
             <th>Discount</th>
             <th>Balance</th>
@@ -20,8 +18,6 @@
             <tr>
                 <td>{{ $transaction->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
-                <td>{{ $item->invoice }}</td>
-                <td>{{ $item->tran_type }}</td>
                 <td>{{ $item->balance_amount }}</td>
                 <td>{{ $item->discount }}</td>
                 <td>{{ $item->net_amount }}</td>
@@ -41,8 +37,6 @@
         <tr>
             <th>SL:</th>
             <th>Id</th>
-            <th>Invoice</th>
-            <th>Type</th>
             <th>Total</th>
             <th>Discount</th>
             <th>Balance</th>

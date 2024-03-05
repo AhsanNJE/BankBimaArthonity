@@ -64,7 +64,7 @@ class TransactionController extends Controller
     public function InsertTransactionGroupes(Request $req){
         $req->validate([
             "groupeName" => 'required|unique:transaction__groupes,tran_groupe_name',
-            "type" => 'required|in:Payment,Receive,Both',
+            "type" => 'required|in:Payment,Receive,Invoice,Both',
         ]);
 
         Transaction_Groupe::insert([
@@ -95,7 +95,7 @@ class TransactionController extends Controller
 
         $req->validate([
             "groupeName" => ['required',Rule::unique('transaction__groupes', 'tran_groupe_name')->ignore($groupes->id)],
-            "type" => 'required|in:Payment,Receive,Both',
+            "type" => 'required|in:Payment,Receive,Invoice,Both',
         ]);
 
         $update = Transaction_Groupe::findOrFail($req->id)->update([
