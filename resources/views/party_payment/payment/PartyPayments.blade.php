@@ -30,7 +30,7 @@
 
 
     <!-- table show -->
-    <div class="party">
+    <div class="party" style="overflow-x:auto;">
         @include('party_payment.partyPaymentPagination')
     </div>
 

@@ -50,6 +50,7 @@ $(document).ready(function () {
                 $('#updateType').append(`<option value="" >Select Transaction With</option>
                                         <option value="Receive" ${res.groupes.tran_groupe_type === 'Receive' ? 'selected' : ''}>Receive</option>
                                         <option value="Payment" ${res.groupes.tran_groupe_type === 'Payment' ? 'selected' : ''}>Payment</option>
+                                        <option value="Invoice" ${res.groupes.tran_groupe_type === 'Invoice' ? 'selected' : ''}>Invoice</option>
                                         <option value="Both" ${res.groupes.tran_groupe_type === 'Both' ? 'selected' : ''}>Both</option>`);
                 
                 $('#updateGroupeName').focus();

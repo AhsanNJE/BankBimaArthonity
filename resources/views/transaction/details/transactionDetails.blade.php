@@ -31,7 +31,7 @@
 
 
     <!-- table show -->
-    <div class="details">
+    <div class="details" style="overflow-x:auto;">
         @include('transaction.details.transactionDetailsPagination')
     </div>
 

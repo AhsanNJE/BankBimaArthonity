@@ -20,13 +20,17 @@
     </div>
     
     <!-- table show -->
-    <div class="supplier">
+    <div class="supplier" style="overflow-x:auto;">
         @include('supplier.supplierPagination')
     </div>
 
 
-    @include('supplier.addSupplierModal')
-    @include('supplier.editSupplierModal')
+    @include('supplier.addSupplierModal');
+
+    @include('supplier.editSupplierModal');
+
+    @include('supplier.supplierDetails');
+    
 @endsection
 
 {{-- ajax part start from here --}}

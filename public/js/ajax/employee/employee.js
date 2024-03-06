@@ -2,6 +2,77 @@ $(document).ready(function () {
     $(document).on('click', '.add', function (e) {
         $('#name').focus();
     });
+
+    //Show Employee Details on details modal
+    $(document).on('click', '.showEmployeeDetails', function (e) {
+        let modal = $(this).attr('data-modal-id');
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/admin/employees/details",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $("#"+ modal).show();
+                $('.details').html(res.data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+
+    //Show Employee Details List toggle Functionality
+    $(document).on('click', '.details li', function(e){
+        let id = $(this).attr('data-id');
+        if(id == 1){
+            if($('.general').is(':visible')){
+                $('.general').hide()
+            }
+            else{
+                $('.general').show();
+                // $('.contact, .address, .payroll, .others').hide();
+            }
+        }
+        else if(id == 2){
+            if($('.contact').is(':visible')){
+                $('.contact').hide()
+            }
+            else{
+                $('.contact').show();
+                // $('.address, .payroll, .others').hide();
+            }
+        }
+        else if(id == 3){
+            if($('.address').is(':visible')){
+                $('.address').hide()
+            }
+            else{
+                $('.address').show();
+                // $('.contact, .payroll, .others').hide();
+            }
+        }
+        else if(id == 4){
+            if($('.payroll').is(':visible')){
+                $('.payroll').hide()
+            }
+            else{
+                $('.payroll').show();
+                // $('.contact, .address, .others').hide();
+            }
+        }
+        else if(id == 5){
+            if($('.others').is(':visible')){
+                $('.others').hide()
+            }
+            else{
+                $('.others').show();
+                // $('.contact, .address, .payroll').hide();
+            }
+        }
+    });
+
+
     /////////////// ------------------ Add Employee ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddEmployeeForm', function (e) {
         e.preventDefault();

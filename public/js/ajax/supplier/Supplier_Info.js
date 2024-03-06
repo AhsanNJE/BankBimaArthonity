@@ -2,6 +2,81 @@ $(document).ready(function () {
     $(document).on('click', '.add', function (e) {
         $('#type').focus();
     });
+
+
+
+    //Show Supplier Details on details modal
+    $(document).on('click', '.showSupplierDetails', function (e) {
+        let modal = $(this).attr('data-modal-id');
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/supplier/details",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $("#"+ modal).show();
+                $('.details').html(res.data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+
+
+    //Show Client Details List toggle Functionality
+    $(document).on('click', '.details li', function(e){
+        let id = $(this).attr('data-id');
+        if(id == 1){
+            if($('.general').is(':visible')){
+                $('.general').hide()
+            }
+            else{
+                $('.general').show();
+                // $('.contact, .address, .transaction, .others').hide();
+            }
+        }
+        else if(id == 2){
+            if($('.contact').is(':visible')){
+                $('.contact').hide()
+            }
+            else{
+                $('.contact').show();
+                // $('.address, .transaction, .others').hide();
+            }
+        }
+        else if(id == 3){
+            if($('.address').is(':visible')){
+                $('.address').hide()
+            }
+            else{
+                $('.address').show();
+                // $('.contact, .transaction, .others').hide();
+            }
+        }
+        else if(id == 4){
+            if($('.transaction').is(':visible')){
+                $('.transaction').hide()
+            }
+            else{
+                $('.transaction').show();
+                // $('.contact, .address, .others').hide();
+            }
+        }
+        else if(id == 5){
+            if($('.others').is(':visible')){
+                $('.others').hide()
+            }
+            else{
+                $('.others').show();
+                // $('.contact, .address, .transaction').hide();
+            }
+        }
+    });
+
+
+
     /////////////// ------------------ Add Supplier ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddSupplierForm', function (e) {
         e.preventDefault();
@@ -58,6 +133,13 @@ $(document).ready(function () {
                 $('#updateName').val(res.supplier.user_name);
                 $('#updateEmail').val(res.supplier.user_email);
                 $('#updatePhone').val(res.supplier.user_phone);
+
+                $('#updateGender').empty();
+                $('#updateGender').append(`<option value="male" ${res.supplier.gender === 'male' ? 'selected' : ''}>Male</option>
+                                         <option value="female" ${res.supplier.gender === 'female' ? 'selected' : ''}>Female</option>
+                                         <option value="others" ${res.supplier.gender === 'others' ? 'selected' : ''}>Others</option>`);
+
+
                 $('#updateLocation').val(res.supplier.location.upazila);
                 $('#updateLocation').attr('data-id',res.supplier.loc_id);
                 $('#updateAddress').val(res.supplier.address);

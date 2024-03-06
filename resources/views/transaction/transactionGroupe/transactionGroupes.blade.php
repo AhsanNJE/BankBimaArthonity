@@ -13,7 +13,7 @@
 
 
     <!-- table show -->
-    <div class="groupe">
+    <div class="groupe" style="overflow-x:auto;">
         @include('transaction.transactionGroupe.transactionGroupePagination')
     </div>
 

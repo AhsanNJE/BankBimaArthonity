@@ -2,6 +2,80 @@ $(document).ready(function () {
     $(document).on('click', '.add', function (e) {
         $('#type').focus();
     });
+
+
+    //Show Client Details on details modal
+    $(document).on('click', '.showClientDetails', function (e) {
+        let modal = $(this).attr('data-modal-id');
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/client/details",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $("#"+ modal).show();
+                $('.details').html(res.data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+
+
+
+    //Show Client Details List toggle Functionality
+    $(document).on('click', '.details li', function(e){
+        let id = $(this).attr('data-id');
+        if(id == 1){
+            if($('.general').is(':visible')){
+                $('.general').hide()
+            }
+            else{
+                $('.general').show();
+                // $('.contact, .address, .transaction, .others').hide();
+            }
+        }
+        else if(id == 2){
+            if($('.contact').is(':visible')){
+                $('.contact').hide()
+            }
+            else{
+                $('.contact').show();
+                // $('.address, .transaction, .others').hide();
+            }
+        }
+        else if(id == 3){
+            if($('.address').is(':visible')){
+                $('.address').hide()
+            }
+            else{
+                $('.address').show();
+                // $('.contact, .transaction, .others').hide();
+            }
+        }
+        else if(id == 4){
+            if($('.transaction').is(':visible')){
+                $('.transaction').hide()
+            }
+            else{
+                $('.transaction').show();
+                // $('.contact, .address, .others').hide();
+            }
+        }
+        else if(id == 5){
+            if($('.others').is(':visible')){
+                $('.others').hide()
+            }
+            else{
+                $('.others').show();
+                // $('.contact, .address, .transaction').hide();
+            }
+        }
+    });
+
+
     /////////////// ------------------ Add Client ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddClientForm', function (e) {
         e.preventDefault();

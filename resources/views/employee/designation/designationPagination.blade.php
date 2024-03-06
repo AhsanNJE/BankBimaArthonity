@@ -23,14 +23,6 @@
             </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th>SL:</th>
-            <th>Designation</th>
-            <th>Department</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>
 </table>
 
 <div class="center paginate" id="paginate">

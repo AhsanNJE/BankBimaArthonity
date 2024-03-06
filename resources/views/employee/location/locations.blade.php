@@ -18,7 +18,7 @@
 
 
     <!-- table show -->
-    <div class="location">
+    <div class="location" style="overflow-x:auto;">
         @include('employee.location.locationPagination')
     </div>
 

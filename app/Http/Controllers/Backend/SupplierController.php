@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Supplier_Info;
 use App\Models\User_Info;
+use App\Models\Transaction_Main;
 
 class SupplierController extends Controller
 {
@@ -15,6 +16,16 @@ class SupplierController extends Controller
     public function ShowSuppliers(){
         $supplier = User_Info::where('user_type','supplier')->orderBy('added_at','desc')->paginate(15);
         return view('supplier.suppliers', compact('supplier'));
+    }//End Method
+
+
+    //Show Supplier Details
+    public function ShowSupplierDetails(Request $req){
+        $supplier = User_Info::with('Location')->where('user_id', "=", $req->id)->first();
+        $transaction = Transaction_Main::where('tran_user', "=", $req->id)->get();
+        return response()->json([
+            'data'=>view('supplier.details', compact('supplier','transaction'))->render(),
+        ]);
     }//End Method
 
 
@@ -51,6 +62,7 @@ class SupplierController extends Controller
             "type" => 'required',
             "email" => 'required|email|unique:user__infos,user_email',
             "phone" => 'required|numeric|unique:user__infos,user_phone',
+            "gender" => 'required',
             "location" => 'required',
             "address" => 'required',
         ]);
@@ -67,6 +79,7 @@ class SupplierController extends Controller
             "user_name" => $req->name,
             "user_email" => $req->email,
             "user_phone" => $req->phone,
+            "gender" => $req->gender,
             "loc_id" => $req->location,
             "address" => $req->address,
             "user_type" => 'supplier',
@@ -97,6 +110,7 @@ class SupplierController extends Controller
             "name" => 'required',
             "email" => ['required','email',Rule::unique('user__infos', 'user_email')->ignore($supplier->id)],
             "phone" => ['required','numeric',Rule::unique('user__infos', 'user_phone')->ignore($supplier->id)],
+            "gender" => 'required',
             "address" => 'required',
             "location" => 'required',
             "type" => 'required'
@@ -108,6 +122,7 @@ class SupplierController extends Controller
             "user_email" => $req->email,
             "user_phone" => $req->phone,
             "loc_id" => $req->location,
+            "gender" => $req->gender,
             "address" => $req->address,
             "updated_at" => now()
         ]);

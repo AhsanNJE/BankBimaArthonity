@@ -29,36 +29,58 @@
                                         <span class="text-danger error" id="update_type_error"></span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="updateName">Client Name</label>
-                                    <input type="text" name="name" class="form-control" id="updateName">
-                                    <span class="text-danger error" id="update_name_error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="updateEmail">Email</label>
-                                    <input type="text" name="email" class="form-control" id="updateEmail">
-                                    <span class="text-danger error" id="update_email_error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="updatePhone">Phone</label>
-                                    <input type="text" name="phone" class="form-control" id="updatePhone">
-                                    <span class="text-danger error" id="update_phone_error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="updateLocation">Location</label>
-                                    <input type="text" name="location" class="form-control" id="updateLocation"
-                                        autocomplete="off">
-                                    <div id="update-location">
-                                        <ul>
-
-                                        </ul>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="updateName">Client Name</label>
+                                        <input type="text" name="name" class="form-control" id="updateName">
+                                        <span class="text-danger error" id="update_name_error"></span>
                                     </div>
-                                    <span class="text-danger error" id="update_location_error"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label for="updateAddress">Address</label>
-                                    <input type="text" name="address" class="form-control" id="updateAddress">
-                                    <span class="text-danger error" id="update_address_error"></span>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="updateEmail">Email</label>
+                                        <input type="text" name="email" class="form-control" id="updateEmail">
+                                        <span class="text-danger error" id="update_email_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="updatePhone">Phone</label>
+                                        <input type="text" name="phone" class="form-control" id="updatePhone">
+                                        <span class="text-danger error" id="update_phone_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="updateGender">Gender</label>
+                                        <select name="gender" id="updateGender">
+                                            <option value="">Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="others">Others</option>
+                                        </select>
+                                        <span class="text-danger error" id="update_gender_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="updateLocation">Location</label>
+                                        <input type="text" name="location" class="form-control" id="updateLocation"
+                                            autocomplete="off">
+                                        <div id="update-location">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="update_location_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="updateAddress">Address</label>
+                                        <input type="text" name="address" class="form-control" id="updateAddress">
+                                        <span class="text-danger error" id="update_address_error"></span>
+                                    </div>
                                 </div>
                                 <div class="center">
                                     <button type="submit" id="updateSupplier" class="btn btn-primary">Submit</button>

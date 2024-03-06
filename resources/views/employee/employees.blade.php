@@ -24,7 +24,7 @@
 
 
     <!-- table show -->
-    <div class="employee">
+    <div class="employee" style="overflow-x:auto;">
         @include('employee.employeePagination')
     </div>
 

@@ -504,6 +504,15 @@ class EmployeeController extends Controller
     }//End Method
 
 
+    //Show Employee Details
+    public function ShowEmployeeDetails(Request $req){
+        $employee = User_Info::with('Designation','Department','Location')->where('id', "=", $req->id)->first();
+        return response()->json([
+            'data'=>view('employee.details', compact('employee'))->render(),
+        ]);
+    }//End Method
+
+
 
     //Insert Employees
     public function InsertEmployees(Request $req){
@@ -519,7 +528,7 @@ class EmployeeController extends Controller
             "dob" => 'required',
             "nid" => 'required',
             "address" => 'required',
-            "image" => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+            "image" => 'image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         //generates Auto Increment Employee Id
@@ -531,6 +540,9 @@ class EmployeeController extends Controller
             $originalName = $req->file('image')->getClientOriginalName();
             $imageName = $id. '('. $req->name . ').' . $req->file('image')->getClientOriginalExtension();
             $imagePath = $req->file('image')->storeAs('public/profiles', $imageName);
+        }
+        else{
+            $imageName = null;
         }
 
         User_Info::insert([
@@ -587,7 +599,7 @@ class EmployeeController extends Controller
         
         if($req->image != null){
             $req->validate([
-                "image" => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+                "image" => 'image|mimes:jpg,jpeg,png,gif|max:2048',
             ]);
 
             //process the image name and store it to storage/app/public/profiles directory

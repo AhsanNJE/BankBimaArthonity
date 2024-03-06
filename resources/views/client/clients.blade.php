@@ -20,7 +20,7 @@
 
 
     <!-- table show -->
-    <div class="client">
+    <div class="client" style="overflow-x:auto;">
         @include('client.clientPagination')
     </div>
 
@@ -28,6 +28,8 @@
     @include('client.addClientModal')
 
     @include('client.editClientModal')
+
+    @include('client.clientDetails')
 
 @endsection
 

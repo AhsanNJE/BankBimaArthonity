@@ -23,14 +23,6 @@
             </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th>SL:</th>
-            <th>Transaction Groupe Name</th>
-            <th>Transaction Groupe Type</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>
 </table>
 
 <div class="center paginate" id="paginate">

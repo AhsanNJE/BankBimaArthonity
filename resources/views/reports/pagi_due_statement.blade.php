@@ -44,5 +44,6 @@
 
     </tbody>
 
+>>>>>>> 7fb98cba3699eaeb0790c3ec983bea9539fca89f
 </table>
 {{ $alldue->links() }}

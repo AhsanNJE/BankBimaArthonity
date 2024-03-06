@@ -17,7 +17,7 @@
 
 
     <!-- table show -->
-    <div class="designation">
+    <div class="designation" style="overflow-x:auto;">
         @include('employee.designation.designationPagination')
     </div>
 

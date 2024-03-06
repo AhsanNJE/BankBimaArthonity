@@ -83,15 +83,7 @@
                                         <label for="with">Transaction With</label>
                                         <select name="with" id="with">
                                             <option>Select Transaction With</option>
-                                            <option value="regular employee">Regular</option>
-                                            <option value="district employee">District Employee</option>
-                                            <option value="bit pion">Bit Pione</option>
-                                            <option value="newspaper client">Newpaper Client</option>
-                                            <option value="advertisement client">Advertisement Client</option>
-                                            <option value="magazine client">Magazine Client</option>
-                                            <option value="food supplier">Food Supplier</option>
-                                            <option value="stationary supplier">Stationary Supplier</option>
-                                            <option value="others">Others</option>
+                                            {{-- options will be display dynamically depending on transaction type --}}
                                         </select>
                                         <span class="text-danger error" id="head_error"></span>
                                     </div>
@@ -113,10 +105,7 @@
                                         <label for="groupe">Transaction Groupe</label>
                                         <select name="groupe" id="groupe">
                                             <option value="">Select Transaction Groupe</option>
-                                            @foreach ($groupes as $groupe)
-                                                <option value="{{ $groupe->id }}">{{ $groupe->tran_groupe_name }}
-                                                </option>
-                                            @endforeach
+                                            {{-- options will be display dynamically depending on transaction type --}}
                                         </select>
                                         <span class="text-danger error" id="groupe_error"></span>
                                     </div>
@@ -177,8 +166,8 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
-                                <div class="col-md-6">
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
                                     <table style="width: 100%">
                                         <tr>
                                             <td><label for="amountRP">Invoice Amount</label></td>

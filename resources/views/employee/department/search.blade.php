@@ -21,13 +21,6 @@
             </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th>SL:</th>
-            <th>Department Name</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>
 </table>
 
 

@@ -2,27 +2,45 @@ $(document).ready(function () {
     //get last transaction id by transaction type
     $(document).on('change', '#type', function (e) {
         let type = $('#type').val();
+        if (type === 'payment') {
+            $('#with').empty();
+            $('#with').append(`<option value="">Select Transaction With</option>
+                                <option value="regular employee">Regular</option>
+                                <option value="district employee">District Employee</option>
+                                <option value="bit pion" >Bit Pione</option>
+                                <option value="food supplier">Food Supplier</option>
+                                <option value="stationary supplier">Stationary Supplier</option>`);
+        }
+        else if(type == 'receive'){
+            $('#with').empty();
+            $('#with').append(`<option value="">Select Transaction With</option>
+                                <option value="newspaper client">Newpaper Client</option>
+                                <option value="advertisement client" >Advertisement Client</option>
+                                <option value="magazine client">Magazine Client</option>`);
+
+        }
         getTransactionId(type, '#tranId');
+        getTransactionGroupeByType(type, '#groupe')
     });
-    
+
     // Search by Date Range
-    $(document).on('change', '#startDate, #endDate', function(e){
+    $(document).on('change', '#startDate, #endDate', function (e) {
         e.preventDefault();
         let type = "";
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
-        searchTransaction(`/transaction/search/date`, {startDate:startDate, endDate:endDate, type:type})
+        searchTransaction(`/transaction/search/date`, { startDate: startDate, endDate: endDate, type: type })
     });
 
-    
+
     $(document).on('keyup', '#quantity, #amount', function (e) {
         let quantity = $('#quantity').val();
         let amount = $('#amount').val();
         let totalAmount = quantity * amount;
         $('#totAmount').val(totalAmount);
     });
-    
-    
+
+
     $(document).on('keyup', '#updateQuantity, #updateAmount', function (e) {
         let quantity = $('#updateQuantity').val();
         let amount = $('#updateAmount').val();
@@ -42,7 +60,7 @@ $(document).ready(function () {
 
         $('#netAmount').val(netAmount);
         $('#balance').val(balance);
-        
+
     });
 
 
@@ -51,7 +69,7 @@ $(document).ready(function () {
         $.ajax({
             url: "/transaction/get/heads/groupe",
             method: 'GET',
-            data: { groupe:groupe },
+            data: { groupe: groupe },
             success: function (res) {
                 $('#head').html(res);
             },
@@ -68,7 +86,7 @@ $(document).ready(function () {
         $.ajax({
             url: "/transaction/get/heads/groupe",
             method: 'GET',
-            data: { groupe:groupe },
+            data: { groupe: groupe },
             success: function (res) {
                 $('#updateHead').html(res);
             },
@@ -99,7 +117,7 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
+                    getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance');
                     $('#head').val('');
                     $('#quantity').val('1');
                     $('#amount').val('');
@@ -136,7 +154,7 @@ $(document).ready(function () {
         $.ajax({
             url: "/transaction/insert/main",
             method: 'POST',
-            data: { tranId:tranId, type:type, invoice:invoice, withs:withs, user:user, locations:locations, amountRP:amountRP,discount:discount, netAmount:netAmount, advance:advance, balance:balance },
+            data: { tranId: tranId, type: type, invoice: invoice, withs: withs, user: user, locations: locations, amountRP: amountRP, discount: discount, netAmount: netAmount, advance: advance, balance: balance },
             beforeSend: function () {
                 $(document).find('span.error').text('');
             },
@@ -168,9 +186,9 @@ $(document).ready(function () {
         $.ajax({
             url: `transaction/edit/main`,
             method: 'GET',
-            data: { id:id },
+            data: { id: id },
             success: function (res) {
-                
+
                 $('#id').val(res.transaction.id);
 
                 $('#updateType').empty();
@@ -196,7 +214,7 @@ $(document).ready(function () {
                                         <option value="stationary supplier" ${res.transaction.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>
                                         <option value="others" ${res.transaction.tran_type_with === 'others' ? 'selected' : 'disabled'}>Others</option>`);
 
-                $('#updateUser').attr('data-id',res.transaction.tran_user);
+                $('#updateUser').attr('data-id', res.transaction.tran_user);
                 $('#updateUser').val(res.transaction.user.user_name);
 
                 getTransactionGrid(res.transaction.tran_id, '.update_transaction_grid tbody');
@@ -205,16 +223,16 @@ $(document).ready(function () {
                 $('#updateTotalDiscount').val(res.transaction.discount);
                 $('#updateNetAmount').val(res.transaction.net_amount);
 
-                if(res.transaction.receive == null){
+                if (res.transaction.receive == null) {
                     $('#updateAdvance').val(res.transaction.payment);
                 }
-                else{
+                else {
                     $('#updateAdvance').val(res.transaction.receive);
                 }
-                
-                
+
+
                 $('#updateBalance').val(res.transaction.due);
-                
+
                 var modal = document.getElementById(modalId);
                 if (modal) {
                     modal.style.display = 'block';
@@ -236,7 +254,7 @@ $(document).ready(function () {
         $.ajax({
             url: "/transaction/edit/details",
             method: 'GET',
-            data: { id:id },
+            data: { id: id },
             success: function (res) {
                 $('#dId').val(res.transaction.id);
 
@@ -281,13 +299,13 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             cache: false,
-            beforeSend:function() {
-                $(document).find('span.error').text('');  
+            beforeSend: function () {
+                $(document).find('span.error').text('');
             },
             success: function (res) {
                 console.log(res);
                 if (res.status == "success") {
-                    getTransactionGrid(tranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateNetAmount', '#updateBalance', '#updateTotalDiscount', '#updateAdvance' );
+                    getTransactionGrid(tranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateNetAmount', '#updateBalance', '#updateTotalDiscount', '#updateAdvance');
                     $('#dId').val('');
                     $('#updateGroupe').val('');
                     $('#updateHead').val('');
@@ -321,9 +339,9 @@ $(document).ready(function () {
         $.ajax({
             url: `transaction/update/main`,
             method: 'PUT',
-            data: { id:id, type:type, amountRP:amountRP, totalDiscount:totalDiscount, netAmount:netAmount, advance:advance, balance:balance },
-            beforeSend:function() {
-                $(document).find('span.error').text('');  
+            data: { id: id, type: type, amountRP: amountRP, totalDiscount: totalDiscount, netAmount: netAmount, advance: advance, balance: balance },
+            beforeSend: function () {
+                $(document).find('span.error').text('');
             },
             success: function (res) {
                 console.log(res);
@@ -354,14 +372,14 @@ $(document).ready(function () {
             $.ajax({
                 url: `transaction/delete/details`,
                 method: 'DELETE',
-                data: { id:id },
+                data: { id: id },
                 success: function (res) {
                     if (res.status == "success") {
-                        if(updateTranId != ""){
-                            getTransactionGrid(updateTranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateNetAmount', '#updateBalance', '#updateTotalDiscount', '#updateAdvance' );
+                        if (updateTranId != "") {
+                            getTransactionGrid(updateTranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateNetAmount', '#updateBalance', '#updateTotalDiscount', '#updateAdvance');
                         }
-                        else if(tranId != ""){
-                            getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
+                        else if (tranId != "") {
+                            getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance');
                         }
                         $('.details').load(location.href + ' .details');
                         $('#search').val('');
@@ -382,7 +400,7 @@ $(document).ready(function () {
             $.ajax({
                 url: `/transaction/delete/main`,
                 method: 'DELETE',
-                data: { id:id },
+                data: { id: id },
                 success: function (res) {
                     if (res.status == "success") {
                         $('.details').load(location.href + ' .details');
@@ -402,7 +420,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[1];
-        searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type});
+        searchTransaction(`/transaction/pagination?page=${page}`, { startDate: startDate, endDate: endDate, type: type });
     });
 
 
@@ -415,17 +433,17 @@ $(document).ready(function () {
         let search = $(this).val();
         let type = "";
         let searchOption = $("#searchOption").val();
-        if(searchOption == "1"){
-            searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        if (searchOption == "1") {
+            searchTransaction(`/transaction/search/tranid`, { search: search, startDate: startDate, endDate: endDate, type: type })
         }
-        if(searchOption == "2"){
-            searchTransaction(`/transaction/search/invoice`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        if (searchOption == "2") {
+            searchTransaction(`/transaction/search/invoice`, { search: search, startDate: startDate, endDate: endDate, type: type })
         }
-        if(searchOption == "3"){
-            searchTransaction(`/transaction/search/with`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        if (searchOption == "3") {
+            searchTransaction(`/transaction/search/with`, { search: search, startDate: startDate, endDate: endDate, type: type })
         }
-        if(searchOption == "4"){
-            searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        if (searchOption == "4") {
+            searchTransaction(`/transaction/search/user`, { search: search, startDate: startDate, endDate: endDate, type: type })
         }
     });
 
@@ -444,19 +462,19 @@ $(document).ready(function () {
         let type = "";
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[1];
-        if(searchOption == "1"){
-            searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        if (searchOption == "1") {
+            searchTransaction(`/transaction/pagination/tranid?page=${page}`, { search: search, startDate: startDate, endDate: endDate, type: type })
         }
-        if(searchOption == "2"){
-            searchTransaction(`/transaction/pagination/invoice?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        if (searchOption == "2") {
+            searchTransaction(`/transaction/pagination/invoice?page=${page}`, { search: search, startDate: startDate, endDate: endDate, type: type })
         }
-        if(searchOption == "3"){
-            searchTransaction(`/transaction/pagination/with?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        if (searchOption == "3") {
+            searchTransaction(`/transaction/pagination/with?page=${page}`, { search: search, startDate: startDate, endDate: endDate, type: type })
         }
-        if(searchOption == "4"){
-            searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+        if (searchOption == "4") {
+            searchTransaction(`/transaction/pagination/user?page=${page}`, { search: search, startDate: startDate, endDate: endDate, type: type })
         }
-        
+
     });
 
 
@@ -466,31 +484,55 @@ $(document).ready(function () {
         $.ajax({
             url: "/transaction/get/tranid",
             method: 'GET',
-            data: {type:type},
+            data: { type: type },
             success: function (res) {
-                if(res.status === 'success'){
+                if (res.status === 'success') {
                     $(targetElement).val(res.id);
-                    getTransactionGrid(res.id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
+                    getTransactionGrid(res.id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance');
                 }
-                else{
+                else {
                     $(targetElement).val(res.tran_id);
                 }
-                
+
+            }
+        });
+    }
+
+
+
+    //get last transaction id by transaction type function
+    function getTransactionGroupeByType(type, targetElement) {
+        $.ajax({
+            url: "/transaction/get/groupeby/type",
+            method: 'GET',
+            data: { type: type },
+            success: function (res) {
+                if (res.status === 'success') {
+                    $(targetElement).html('');
+                    $(targetElement).append(`<option value="" >Select Transaction Groupe</option>`);
+                    $.each(res.groupes, function (key, groupe) {
+                        $(targetElement).append(`<option value="${groupe.id}">${groupe.tran_groupe_name}</option>`);
+                    });
+                }
+                else {
+                    $(targetElement).val(res.tran_id);
+                }
+
             }
         });
     }
 
 
     //Get Inserted Transacetion Grid By Transaction Id Function
-    function getTransactionGrid(tranId, grid, amount="",  total ="", balances= "", discount="", advances="") {
+    function getTransactionGrid(tranId, grid, amount = "", total = "", balances = "", discount = "", advances = "") {
         $.ajax({
             url: "/transaction/get/transactiongrid",
             method: 'GET',
-            data: {tranId:tranId},
+            data: { tranId: tranId },
             success: function (res) {
-                if(res.status === 'success'){
+                if (res.status === 'success') {
                     $(grid).html(res.data);
-                    
+
                     let transactions = res.transaction.data;
                     // Calculate total amount
                     let totalAmount = transactions.reduce((sum, transaction) => sum + transaction.tot_amount, 0);
@@ -504,10 +546,10 @@ $(document).ready(function () {
                     $(total).val(netAmount);
                     $(balances).val(balance);
                 }
-                else{
+                else {
                     $(grid).html('');
                 }
-                
+
             }
         });
     };
@@ -522,13 +564,13 @@ $(document).ready(function () {
             method: 'GET',
             data: data,
             success: function (res) {
-                if(res.status === 'success'){
+                if (res.status === 'success') {
                     $('.details').html(res.data);
-                    if(res.paginate){
+                    if (res.paginate) {
                         $('.details').append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
                     }
                 }
-                else{
+                else {
                     $('.details').html(`<span class="text-danger">Result not Found </span>`);
                 }
             }

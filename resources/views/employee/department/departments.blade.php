@@ -13,7 +13,7 @@
 
 
     <!-- table show -->
-    <div class="department">
+    <div class="department" style="overflow-x:auto;">
         @include('employee.department.departmentPagination')
     </div>
 

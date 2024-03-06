@@ -23,14 +23,6 @@
             </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th>SL:</th>
-            <th>Transaction Head Name</th>
-            <th>Transaction Groupe</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>
 </table>
 
 

@@ -33,6 +33,7 @@
                                             <option value="" >Select Transaction With</option>
                                             <option value="Receive">Receive</option>
                                             <option value="Payment">Payment</option>
+                                            <option value="Invoice">Invoice</option>
                                             <option value="Both">Both</option>
                                         </select>
                                         <span class="text-danger error" id="type_error"></span>
