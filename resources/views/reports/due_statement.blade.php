@@ -31,7 +31,7 @@
                                     required>
                             </div>
                             <div class="col-md-1 pt-4">
-                                <button type="submit" class="btn btn-primary">View</button>
+                                <button type="submit" class="btn btn-primary btn-sm">View</button>
                             </div>
                             <!-- <div class="col-md-5">
                                                 <label for="">Search:</label>
@@ -71,6 +71,7 @@
                                     <th>Receive</th>
                                     <th>Payment</th>
                                     <th>Due</th>
+                                    <th>Due Collection</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -92,6 +93,8 @@
                                             {{ round($item->payment) }}</span> </td>
                                     <td> <span class="btn btn-danger btn-sm waves-effect waves-light">
                                             {{ round($item->due) }}</span> </td>
+                                    <td> <span class="btn btn-info btn-sm waves-effect waves-light">
+                                            {{ round($item->due_col) }}</span> </td>
                                     <td>
 <<<<<<< HEAD
                                         <!-- <a href="#" class="btn btn-secondary rounded-pill waves-effect waves-light"> Details </a>  -->
@@ -108,96 +111,68 @@
                                             onclick="transactionDue(this.id)">Pay Due </button>
 
                                         <a href="{{ route('trans.invoice',$item->tran_id) }}"
-                                        class="btn btn-primary btn-sm rounded-pill waves-effect waves-light">
-                                        Invoice</a>
->>>>>>> 7fb98cba3699eaeb0790c3ec983bea9539fca89f
+                                            class="btn btn-primary btn-sm rounded-pill waves-effect waves-light">
+                                            Invoice</a>
                                     </td>
                                 </tr>
                                 @endforeach
 
                             </tbody>
-<<<<<<< HEAD
-=======
-                            
+
                         </table>
-                        
+
                         {{ $alldue->links() }}
                     </div> <!-- end card body-->
-                    
+
                     <table id="basic-datatable" class="table dt-responsive nowrap w-100">
-                            <thead>
-                              
-                            </thead>
+                        <thead>
+
+                        </thead>
 
 
-                            <tbody>
-                               
+                        <tbody>
 
-                            </tbody>
->>>>>>> 7fb98cba3699eaeb0790c3ec983bea9539fca89f
 
-                            <tfoot>
-                                @php
+                        </tbody>
 
-                                $total_amount = App\Models\Transaction_Main::sum('net_amount');
-                                $total_receive = App\Models\Transaction_Main::sum('receive');
-                                $total_payment = App\Models\Transaction_Main::sum('payment');
-                                $total_due = App\Models\Transaction_Main::sum('due');
+                        <tfoot>
+                            @php
 
-                                @endphp
-                                <tr>
-<<<<<<< HEAD
-                                    <th colspan="5">
-                                        <h4 class="text-right text-bold">Total : </h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-left text-bold">{{ $total_amount }}</h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-left text-bold">{{ $total_receive }}</h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-left text-bold">{{ $total_payment }}</h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-left text-bold">{{ $total_due }}</h4>
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        {{ $alldue->links() }}
-                    </div> <!-- end card body-->
-=======
-                                    <th>
-                                        <h4 class="text-right text-bold">Total : </h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-end text-bold">{{ $total_amount }}</h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-right text-bold">Receive : </h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-end text-bold">{{ $total_receive }}</h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-right text-bold">Payment : </h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-end text-bold">{{ $total_payment }}</h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-right text-bold">Due : </h4>
-                                    </th>
-                                    <th>
-                                        <h4 class="text-end text-bold">{{ $total_due }}</h4>
-                                    </th>
-                                    
-                                </tr>
-                            </tfoot>
-                        </table>
->>>>>>> 7fb98cba3699eaeb0790c3ec983bea9539fca89f
+                            $total_amount = App\Models\Transaction_Main::sum('net_amount');
+                            $total_receive = App\Models\Transaction_Main::sum('receive');
+                            $total_payment = App\Models\Transaction_Main::sum('payment');
+                            $total_due = App\Models\Transaction_Main::sum('due');
+
+                            @endphp
+                            <tr>
+                                <th>
+                                    <h4 class="text-right text-bold">Total : </h4>
+                                </th>
+                                <th>
+                                    <h4 class="text-end text-bold">{{ $total_amount }}</h4>
+                                </th>
+                                <th>
+                                    <h4 class="text-right text-bold">Receive : </h4>
+                                </th>
+                                <th>
+                                    <h4 class="text-end text-bold">{{ $total_receive }}</h4>
+                                </th>
+                                <th>
+                                    <h4 class="text-right text-bold">Payment : </h4>
+                                </th>
+                                <th>
+                                    <h4 class="text-end text-bold">{{ $total_payment }}</h4>
+                                </th>
+                                <th>
+                                    <h4 class="text-right text-bold">Due : </h4>
+                                </th>
+                                <th>
+                                    <h4 class="text-end text-bold">{{ $total_due }}</h4>
+                                </th>
+
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div> <!-- end card -->
             </div><!-- end col-->
         </div>

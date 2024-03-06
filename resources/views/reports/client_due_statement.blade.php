@@ -33,6 +33,10 @@
                             <div class="col-md-1 pt-4">
                                 <button type="submit" class="btn btn-primary">View</button>
                             </div>
+                            <div class="col-2 mt-2">
+                                <a href="{{ route('pending.all.due') }}" class="btn btn-info mb-2 text-left">
+                                    <i class="fa-solid fa-arrow-left"></i><b>Back</b></a>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -43,7 +47,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body" style="overflow-x:auto;">
+                    <div class="card-body">
 
 
                         <table id="basic-datatable" class="table dt-responsive nowrap w-100">
@@ -94,6 +98,10 @@
             </div><!-- end col-->
         </div>
         <!-- end row-->
+
+
+
+
     </div> <!-- container -->
 
 </div> <!-- content -->

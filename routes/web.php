@@ -39,8 +39,8 @@ Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name(
 
 // ********************************************** Employee Controller routes *************************************** //
 
-Route::controller(EmployeeController::class)->group(function(){
-    Route::prefix('/admin/employees')->group(function(){
+Route::controller(EmployeeController::class)->group(function () {
+    Route::prefix('/admin/employees')->group(function () {
 
 
         ///////////// --------------- Location routes ----------- ///////////////////
@@ -130,7 +130,6 @@ Route::controller(EmployeeController::class)->group(function(){
         Route::get('/search/pagination/designation', 'SearchEmployeeByDesignation');
         //search list routs
         Route::get('/get/employeeby/name', 'GetEmployeeByName')->name('get.employee.by.name');
-        
     });
 });
 
@@ -141,7 +140,7 @@ Route::controller(EmployeeController::class)->group(function(){
 
 // ********************************************** Supplier Controller routes *************************************** //
 
-Route::controller(SupplierController::class)->group(function(){
+Route::controller(SupplierController::class)->group(function () {
     ///////////// --------------- Suppliers routes ----------- ///////////////////
     //crud routes start
     Route::get('/suppliers', 'ShowSuppliers')->name('show.suppliers');
@@ -175,7 +174,7 @@ Route::controller(SupplierController::class)->group(function(){
 
 // ********************************************** Client Controller routes *************************************** //
 
-Route::controller(ClientController::class)->group(function(){
+Route::controller(ClientController::class)->group(function () {
     ///////////// --------------- Clients routes ----------- ///////////////////
     //crud routes start
     Route::get('/clients', 'ShowClients')->name('show.clients');
@@ -198,7 +197,7 @@ Route::controller(ClientController::class)->group(function(){
     Route::get('/client/location/pagination', 'SearchClientByLocation');
     Route::get('/client/address/pagination', 'SearchClientByAddress');
     //search list routs
-    
+
 
 });
 
@@ -210,8 +209,8 @@ Route::controller(ClientController::class)->group(function(){
 
 // ********************************************** Transaction Controller routes *************************************** //
 
-Route::controller(TransactionController::class)->group(function(){
-    Route::prefix('/transaction')->group(function(){
+Route::controller(TransactionController::class)->group(function () {
+    Route::prefix('/transaction')->group(function () {
         ////////////////////////// --------------- Transaction Groupes routes ----------- /////////////////////////
         //crud routes start
         Route::get('/groupes', 'ShowTransactionGroupes')->name('show.transaction.groupes');
@@ -280,21 +279,20 @@ Route::controller(TransactionController::class)->group(function(){
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/transactiongrid', 'GetTransactionGrid');
         Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
-        
+
 
         // Transactionn Receive Details Routes
         Route::get('/receive', 'ShowTransactionReceive')->name('show.transaction.receive');
-        
+
         // Transactionn Payment Details Routes
         Route::get('/payment', 'ShowTransactionPayment')->name('show.transaction.payment');
-
     });
 });
 
 
 
-Route::controller(PartyPaymentController::class)->group(function(){
-    Route::prefix('/party')->group(function(){
+Route::controller(PartyPaymentController::class)->group(function () {
+    Route::prefix('/party')->group(function () {
         //main crude Routes
         Route::get('/', 'ShowParty')->name('show.party');
         Route::post('/insert/party', 'InsertParty')->name('insert.party');
@@ -322,9 +320,9 @@ Route::controller(PartyPaymentController::class)->group(function(){
 
         // Party Payment Receive Details Routes
         Route::get('/receive', 'ShowReceiveParty')->name('show.party.receive');
-        
-        
-        
+
+
+
         // Party Payment Payment Details Routes
         Route::get('/payment', 'ShowPaymentParty')->name('show.party.payment');
     });
@@ -334,17 +332,18 @@ Route::controller(PartyPaymentController::class)->group(function(){
 /////////////////////////////////////// Report Controller All Routes ////////////////////////////////
 
 // Due Reports For Client & Supplier //
-Route::controller(ReportController::class)->group(function(){
+Route::controller(ReportController::class)->group(function () {
     //ALL
-    Route::get('/pending/all/due','PendingAllDue')->name('pending.all.due');
-    Route::post('/filter','Filter');
+    Route::get('/pending/all/due', 'PendingAllDue')->name('pending.all.due');
+    Route::post('/filter', 'Filter');
     Route::get('/pagination/pagination-data', 'Pagination');
     Route::get('/search/due/statement', 'SearchDueStatement')->name('search.due.statement');
-    Route::get('/trans/invoice/{transinvoice_id}','TransInvoice')->name('trans.invoice');
+    Route::get('/trans/invoice/{transinvoice_id}', 'TransInvoice')->name('trans.invoice');
+    Route::get('/trans/invoice-download/{transpdfinvoice_id}', 'TransPdfInvoice');
     //Pay All Due Statement Update
-    Route::get('/pending/all/due/{id}','PendingAllDueAjax');
-    Route::post('/trans/update/due','TransUpdateDue')->name('trans.update.due');
-    Route::get('/trans/details/{trans_id}','TransDetails')->name('trans.details');
+    Route::get('/pending/all/due/{id}', 'PendingAllDueAjax');
+    Route::post('/trans/update/due', 'TransUpdateDue')->name('trans.update.due');
+    Route::get('/trans/details/{trans_id}', 'TransDetails')->name('trans.details');
     //Client
     Route::get('/client/due/transaction', 'ClientDueTransaction')->name('client.due.transaction');
     Route::post('/client/filter', 'ClientFilter');
