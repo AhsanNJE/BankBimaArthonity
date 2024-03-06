@@ -119,10 +119,11 @@ class ReportController extends Controller
     {
 
         $transDetailsInvoice = Transaction_Detail::where('tran_id', $transpdfinvoice_id)->get();
+        $transSum = Transaction_Detail::where('tran_id', $transpdfinvoice_id)->sum('tot_amount');
 
         $transMainInvoice = Transaction_Main::where('tran_id', $transpdfinvoice_id)->first();
 
-        $pdf = Pdf::loadView('reports.invoice_pdf', compact('transMainInvoice', 'transDetailsInvoice'))->setPaper('a4')->setOption([
+        $pdf = Pdf::loadView('reports.invoice_pdf', compact('transMainInvoice', 'transDetailsInvoice','transSum'))->setPaper('a4')->setOption([
             'tempDir' => public_path(),
             'chroot' => public_path(),
 

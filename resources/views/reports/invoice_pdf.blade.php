@@ -136,8 +136,9 @@
     <table width="100%" style=" padding:0 10px 0 10px;">
         <tr>
             <td align="right">
-                <h2><span style="color: green;">Subtotal:</span>$ </h2>
-                <h2><span style="color: green;">Total:</span> $ </h2>
+                <h2><span style="color: green;">Subtotal:</span> {{ $transSum }}</h2>
+                <h2><span style="color: green;">Discount(10%):</span> {{ ($transSum * 10)/100 }}</h2>
+                <h2><span style="color: green;">Total:</span> {{ $transSum-(($transSum * 10)/100) }} TAKA</h2>
                 {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
             </td>
         </tr>

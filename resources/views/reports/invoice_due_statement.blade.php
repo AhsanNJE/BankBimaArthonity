@@ -143,7 +143,8 @@
                                     <p><b>Discount (10%):</b> <span class="float-end">
                                             &nbsp;&nbsp;&nbsp;{{ ($transSum * 10)/100 }}</span>
                                     </p>
-                                    <h3>${{ $transSum-(($transSum * 10)/100) }} USD</h3>
+                                    <p><b>Total:</b><span class="float-end">
+                                            &nbsp;&nbsp;&nbsp;{{ $transSum-(($transSum * 10)/100) }}</span></p>
                                 </div>
                                 <div class="clearfix"></div>
                             </div> <!-- end col -->
