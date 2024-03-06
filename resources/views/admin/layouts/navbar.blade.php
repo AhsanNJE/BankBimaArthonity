@@ -12,7 +12,7 @@
         <a href="#" class="nav-link">Contact</a>
       </li>
       <li class="breadcrumb-item active">
-        <a href="#" class='nav-link'>Logout</a>
+        <a href="{{ route('admin.logout') }}" class='nav-link'>Logout</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         @if(Session::has('error'))
@@ -23,6 +23,7 @@
           </button>
           </div>
         @endif
+        <!-- <h3>Login Admin Name:{{ Auth::guard('admin')->user()->name }}</h3> -->
       </li>
 
     </ul>
