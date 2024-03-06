@@ -26,7 +26,6 @@ Route::get('/', function () {
 
 
 
-
 // ********************************************** Admin Controller routes *************************************** //
 Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
 
