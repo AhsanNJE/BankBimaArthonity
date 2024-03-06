@@ -46,15 +46,11 @@
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Email</div>
                 <div class="col-md-4">{{$employee->user_email}}</div>
+            </div>
+            <div class="row each-row"> 
                 <div class="col-md-2 bold">Contact No</div>
                 <div class="col-md-4">{{$employee->user_phone}}</div>
             </div>
-            {{-- <div class="row each-row"> 
-                <div class="col-md-2 bold">Gender</div>
-                <div class="col-md-4">{{$employee->gender}}</div>
-                <div class="col-md-2 bold">DOB</div>
-                <div class="col-md-4">{{$employee->dob}}</div>
-            </div> --}}
         </div>
     </div>
 

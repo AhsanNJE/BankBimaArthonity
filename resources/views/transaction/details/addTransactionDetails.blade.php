@@ -166,8 +166,8 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
-                                <div class="col-md-6">
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
                                     <table style="width: 100%">
                                         <tr>
                                             <td><label for="amountRP">Invoice Amount</label></td>

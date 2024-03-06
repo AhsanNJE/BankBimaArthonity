@@ -37,10 +37,12 @@
     <div class="contact">
         <div class="details-table" style="">
             <div class="row each-row"> 
-                <div class="col-md-2 bold">Email</div>
-                <div class="col-md-4">{{$supplier->user_email}}</div>
-                <div class="col-md-2 bold">Contact No</div>
-                <div class="col-md-4">{{$supplier->user_phone}}</div>
+                <div class="col-md-3 bold">Email</div>
+                <div class="col-md-9">{{$supplier->user_email}}</div>
+            </div>
+            <div class="row each-row"> 
+                <div class="col-md-3 bold">Contact No</div>
+                <div class="col-md-9">{{$supplier->user_phone}}</div>
             </div>
         </div>
     </div>

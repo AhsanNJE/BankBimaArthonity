@@ -25,13 +25,4 @@
             </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th>SL:</th>
-            <th>Division</th>
-            <th>District</th>
-            <th>Upazila</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>
 </table>

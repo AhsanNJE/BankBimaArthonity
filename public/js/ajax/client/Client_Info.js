@@ -13,7 +13,6 @@ $(document).ready(function () {
             method: 'GET',
             data: {id:id},
             success: function (res) {
-                console.log(res.transaction)
                 $("#"+ modal).show();
                 $('.details').html(res.data)
             },

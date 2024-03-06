@@ -141,23 +141,12 @@ class PartyPaymentController extends Controller
                             if($totAmount != 0){
                                 if($tran->due <= $totAmount){
                                     $totAmount = $totAmount - $tran->due;
-                                    if($tran->due_col == null){
-                                        $nulldue = 0;
-                                        $dueCol = $nulldue + $tran->due;
-                                        Transaction_Main::findOrFail($tran->id)->update([
-                                            "due_col" => $dueCol,
-                                            "due" => 0,
-                                            "updated_at" => now()
-                                        ]);
-                                    }
-                                    else{
-                                        $dueCol = $tran->due_col + $tran->due;
-                                        Transaction_Main::findOrFail($tran->id)->update([
-                                            "due_col" => $dueCol,
-                                            "due" => 0,
-                                            "updated_at" => now()
-                                        ]);
-                                    }
+                                    $dueCol = $tran->due_col + $tran->due;
+                                    Transaction_Main::findOrFail($tran->id)->update([
+                                        "due_col" => $dueCol,
+                                        "due" => 0,
+                                        "updated_at" => now()
+                                    ]);
                                 }
                                 else if($tran->due > $totAmount){
                                     $remDue = $tran->due - $totAmount;                           

@@ -37,18 +37,14 @@
     <li data-id="2">Contact Information</li>
     <div class="contact">
         <div class="details-table" style="">
-            <div class="row each-row"> 
+            <div class="row each-row">
                 <div class="col-md-2 bold">Email</div>
                 <div class="col-md-4">{{$client->user_email}}</div>
+            </div>
+            <div class="row each-row">
                 <div class="col-md-2 bold">Contact No</div>
                 <div class="col-md-4">{{$client->user_phone}}</div>
             </div>
-            {{-- <div class="row each-row"> 
-                <div class="col-md-2 bold">Gender</div>
-                <div class="col-md-4">{{$employee->gender}}</div>
-                <div class="col-md-2 bold">DOB</div>
-                <div class="col-md-4">{{$employee->dob}}</div>
-            </div> --}}
         </div>
     </div>
 

@@ -133,6 +133,13 @@ $(document).ready(function () {
                 $('#updateName').val(res.supplier.user_name);
                 $('#updateEmail').val(res.supplier.user_email);
                 $('#updatePhone').val(res.supplier.user_phone);
+
+                $('#updateGender').empty();
+                $('#updateGender').append(`<option value="male" ${res.supplier.gender === 'male' ? 'selected' : ''}>Male</option>
+                                         <option value="female" ${res.supplier.gender === 'female' ? 'selected' : ''}>Female</option>
+                                         <option value="others" ${res.supplier.gender === 'others' ? 'selected' : ''}>Others</option>`);
+
+
                 $('#updateLocation').val(res.supplier.location.upazila);
                 $('#updateLocation').attr('data-id',res.supplier.loc_id);
                 $('#updateAddress').val(res.supplier.address);

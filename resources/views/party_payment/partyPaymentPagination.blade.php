@@ -29,17 +29,6 @@
             </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th>SL:</th>
-            <th>Id</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Transaction With</th>
-            <th>User</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>
 </table>
 
 <div class="center paginate" id="paginate">

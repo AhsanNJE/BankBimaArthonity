@@ -33,16 +33,4 @@
             </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th>SL:</th>
-            <th>Client Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Location</th>
-            <th>Address</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>
 </table>
