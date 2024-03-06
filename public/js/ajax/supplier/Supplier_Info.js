@@ -128,7 +128,8 @@ $(document).ready(function () {
 
                 $('#updateType').empty();
                 $('#updateType').append(`<option value="food supplier" ${res.supplier.tran_user_type === 'food supplier' ? 'selected' : ''}>Food Supplier</option>
-                                         <option value="stationary supplier" ${res.supplier.tran_user_type === 'stationary supplier' ? 'selected' : ''}>Stationary Supplier</option>`);
+                                         <option value="stationary supplier" ${res.supplier.tran_user_type === 'stationary supplier' ? 'selected' : ''}>Stationary Supplier</option>
+                                         <option value="newspaper supplier" ${res.supplier.tran_user_type === 'newspaper supplier' ? 'selected' : ''}>Newspaper Supplier</option>`);
                 $('#updateType').focus();
                 $('#updateName').val(res.supplier.user_name);
                 $('#updateEmail').val(res.supplier.user_email);

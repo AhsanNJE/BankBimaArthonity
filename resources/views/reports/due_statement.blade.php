@@ -52,11 +52,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-<<<<<<< HEAD
                     <div class="card-body table-data" style="overflow-x:auto;">
-=======
                     <div class="card-body table-data">
->>>>>>> 7fb98cba3699eaeb0790c3ec983bea9539fca89f
 
 
                         <table id="basic-datatable" class="table dt-responsive nowrap w-100">
@@ -96,11 +93,9 @@
                                     <td> <span class="btn btn-info btn-sm waves-effect waves-light">
                                             {{ round($item->due_col) }}</span> </td>
                                     <td>
-<<<<<<< HEAD
                                         <!-- <a href="#" class="btn btn-secondary rounded-pill waves-effect waves-light"> Details </a>  -->
                                         <a href="#" class="btn btn-dark btn-sm rounded-pill waves-effect waves-light">
                                             Pay Due </a>
-=======
                                         <a href="{{ route('trans.details',$item->id) }}"
                                             class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">
                                             Details </a>
@@ -184,8 +179,6 @@
     </div> <!-- container -->
 
 </div> <!-- content -->
-<<<<<<< HEAD
-=======
 
 <!-- PAY Due Modal -->
 <!-- Signup modal content -->
@@ -200,7 +193,6 @@
                         <h3> Pay Due Amount </h3>
                     </div>
                 </div>
->>>>>>> 7fb98cba3699eaeb0790c3ec983bea9539fca89f
 
 
                 <form class="px-3" method="post" action="{{ route('trans.update.due') }}">

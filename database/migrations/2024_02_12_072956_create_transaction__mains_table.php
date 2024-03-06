@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('invoice')->nullable();
             $table->unsignedBigInteger('loc_id')->nullable();
             $table->string('tran_type');
-            $table->float('balance_amount')->nullable();
+            $table->float('bill_amount')->nullable();
             $table->float('discount')->default('0');
             $table->float('net_amount')->nullable();
             $table->float('receive')->nullable();

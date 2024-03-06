@@ -66,6 +66,7 @@
                                             <option>Select Transaction With</option>
                                             <option value="food supplier">Food Supplier</option>
                                             <option value="stationary supplier">Stationary Supplier</option>
+                                            <option value="newspaper supplier">Newspaper Supplier</option>
                                         </select>
                                         <span class="text-danger error" id="head_error"></span>
                                     </div>
@@ -80,14 +81,6 @@
                                             </ul>
                                         </div>
                                         <span class="text-danger error" id="user_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="quantity">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="quantity"
-                                            value="1">
-                                        <span class="text-danger error" id="quantity_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-2">

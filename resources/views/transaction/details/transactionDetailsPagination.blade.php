@@ -21,7 +21,7 @@
                 <td>{{ $transaction->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
                 <td>{{ $item->User->user_name }}</td>
-                <td>{{ $item->balance_amount }}</td>
+                <td>{{ $item->bill_amount }}</td>
                 <td>{{ $item->discount }}</td>
                 <td>{{ $item->net_amount }}</td>
                 <td>{{ $item->receive }} {{ $item->payment }}</td>
@@ -37,6 +37,43 @@
             </tr>
         @endforeach
     </tbody>
+    @if($transaction->count() > 0)
+        <tfoot>
+            <tr>
+                @php
+                    $totalBillAmount = 0;
+                    $totalDiscount = 0;
+                    $totalNetAmount = 0;
+                    $totalReceive = 0;
+                    $totalPayment = 0;
+                    $totalDueCol = 0;
+                    $totalDueDiscount = 0;
+                    $totalDue = 0;
+                @endphp
+                @foreach ($transaction as $key => $item)
+                    @php
+                        $totalBillAmount += $item->bill_amount;
+                        $totalDiscount += $item->discount;
+                        $totalNetAmount += $item->net_amount;
+                        $totalReceive += $item->receive;
+                        $totalPayment += $item->payment;
+                        $totalDueCol += $item->due_col;
+                        $totalDueDiscount += $item->due_disc;
+                        $totalDue += $item->due;
+                    @endphp
+                @endforeach
+                <td colspan="3">Total:</td>
+                <td>{{ $totalBillAmount }}</td>
+                <td>{{ $totalDiscount }}</td>
+                <td>{{ $totalNetAmount }}</td>
+                <td>{{ $totalReceive }}{{ $totalPayment }}</td>
+                <td>{{ $totalDueCol }}</td>
+                <td>{{ $totalDueDiscount }}</td>
+                <td>{{ $totalDue }}</td>
+                <td></td>
+            </tr>    
+        </tfoot>      
+    @endif
 </table>
 
 <div class="center paginate" id="paginate">

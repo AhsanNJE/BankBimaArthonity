@@ -9,7 +9,8 @@ $(document).ready(function () {
                                 <option value="district employee">District Employee</option>
                                 <option value="bit pion" >Bit Pione</option>
                                 <option value="food supplier">Food Supplier</option>
-                                <option value="stationary supplier">Stationary Supplier</option>`);
+                                <option value="stationary supplier">Stationary Supplier</option>
+                                <option value="newspaper supplier">Newspaper Supplier</option>`);
         }
         else if(type == 'receive'){
             $('#with').empty();
@@ -212,6 +213,7 @@ $(document).ready(function () {
                                         <option value="magazine client" ${res.transaction.tran_type_with === 'magazine client' ? 'selected' : 'disabled'}>Magazine Client</option>
                                         <option value="food supplier" ${res.transaction.tran_type_with === 'food supplier' ? 'selected' : 'disabled'}>Food Supplier</option>
                                         <option value="stationary supplier" ${res.transaction.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>
+                                        <option value="newspaper supplier" ${res.transaction.tran_type_with === 'newspaper supplier' ? 'selected' : 'disabled'}>Newspaper Supplier</option>
                                         <option value="others" ${res.transaction.tran_type_with === 'others' ? 'selected' : 'disabled'}>Others</option>`);
 
                 $('#updateUser').attr('data-id', res.transaction.tran_user);
@@ -219,7 +221,7 @@ $(document).ready(function () {
 
                 getTransactionGrid(res.transaction.tran_id, '.update_transaction_grid tbody');
 
-                $('#updateAmountRP').val(res.transaction.balance_amount);
+                $('#updateAmountRP').val(res.transaction.bill_amount);
                 $('#updateTotalDiscount').val(res.transaction.discount);
                 $('#updateNetAmount').val(res.transaction.net_amount);
 

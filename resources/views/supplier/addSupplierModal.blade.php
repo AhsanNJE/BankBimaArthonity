@@ -37,6 +37,7 @@
                                             <option value="">Select Supplier Type</option>
                                             <option value="food supplier">Food Supplier</option>
                                             <option value="stationary supplier">Stationary Supplier</option>
+                                            <option value="newspaper supplier">Newspaper Supplier</option>
                                         </select>
                                         <span class="text-danger error" id="type_error"></span>
                                     </div>

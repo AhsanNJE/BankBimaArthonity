@@ -90,7 +90,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $item->tran_id }}</td>
                         <td>{{ $item->tran_type }}</td>
-                        <td>{{ $item->balance_amount }}</td>
+                        <td>{{ $item->bill_amount }}</td>
                         <td>{{ $item->discount }}</td>
                         <td>{{ $item->net_amount }}</td>
                         <td>{{ $item->receive }} {{ $item->payment }}</td>

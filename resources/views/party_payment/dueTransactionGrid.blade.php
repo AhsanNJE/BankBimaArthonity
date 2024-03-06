@@ -2,7 +2,7 @@
     <tr>
         <td>{{ $transaction->firstItem() + $key }}</td>
         <td>{{ $item->tran_id }}</td>
-        <td>{{ $item->balance_amount }}</td>
+        <td>{{ $item->bill_amount }}</td>
         <td>{{ $item->due }}</td>
         <td style="display: flex;gap:5px;">
             <button class="btn btn-primary btn-sm" data-id="{{ $item->id }}" id="edit"><i
