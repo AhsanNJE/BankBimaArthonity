@@ -23,7 +23,7 @@
                 <div class="col-md-2 bold">Gender</div>
                 <div class="col-md-4">{{$client->gender}}</div>
                 <div class="col-md-2 bold">Client Type</div>
-                <div class="col-md-4">{{$client->tran_user_type}}</div>
+                <div class="col-md-4">{{$client->Withs->tran_with_name}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">NID</div>
@@ -90,7 +90,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $item->tran_id }}</td>
                         <td>{{ $item->tran_type }}</td>
-                        <td>{{ $item->balance_amount }}</td>
+                        <td>{{ $item->bill_amount }}</td>
                         <td>{{ $item->discount }}</td>
                         <td>{{ $item->net_amount }}</td>
                         <td>{{ $item->receive }} {{ $item->payment }}</td>

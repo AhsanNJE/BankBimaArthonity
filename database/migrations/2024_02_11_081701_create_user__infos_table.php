@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->unsignedBigInteger('loc_id')->nullable();
             $table->string('user_type');
-            $table->string('tran_user_type')->nullable();
+            $table->unsignedBigInteger('tran_user_type')->nullable();
             $table->unsignedBigInteger('dept_id')->nullable();
             $table->unsignedBigInteger('designation_id')->nullable();
             $table->date('dob')->nullable();
@@ -35,6 +35,9 @@ return new class extends Migration
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
             $table->foreign('designation_id')->references('id')->on('designations')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+            $table->foreign('tran_user_type')->references('id')->on('transaction__withs')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
             $table->timestamp('added_at')->useCurrent();

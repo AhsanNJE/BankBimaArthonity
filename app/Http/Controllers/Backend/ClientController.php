@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Client_Info;
 use App\Models\User_Info;
 use App\Models\Transaction_Main;
+use App\Models\Transaction_With;
 
 class ClientController extends Controller
 {
@@ -15,13 +16,14 @@ class ClientController extends Controller
     //Show Clients
     public function ShowClients(){
         $client = User_Info::where('user_type','client')->orderBy('added_at','desc')->paginate(15);
-        return view('client.clients', compact('client'));
+        $tranwith = Transaction_With::where('user_type','Client')->get();
+        return view('client.clients', compact('client','tranwith'));
     }//End Method
 
 
     //Show Client Details
     public function ShowClientDetails(Request $req){
-        $client = User_Info::with('Location')->where('user_id', "=", $req->id)->first();
+        $client = User_Info::with('Location','Withs')->where('user_id', "=", $req->id)->first();
         $transaction = Transaction_Main::where('tran_user', "=", $req->id)->get();
         return response()->json([
             'data'=>view('client.details', compact('client','transaction'))->render(),
@@ -72,8 +74,10 @@ class ClientController extends Controller
     //Edit Client
     public function EditClients(Request $req){
         $client = User_Info::with('Location')->findOrFail($req->id);
+        $tranwith = Transaction_With::where('user_type','Client')->get();
         return response()->json([
             'client'=>$client,
+            'tranwith'=>$tranwith,
         ]);
     }//End Method
 

@@ -623,7 +623,7 @@ class TransactionController extends Controller
         }
 
         $update = Transaction_Main::findOrFail($req->id)->update([
-            "balance_amount" => $req->amountRP,
+            "bill_amount" => $req->amountRP,
             "discount" => $req->totalDiscount,
             "net_amount" => $req->netAmount,
             "receive" => $receive,

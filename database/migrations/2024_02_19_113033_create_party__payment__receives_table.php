@@ -24,6 +24,7 @@ return new class extends Migration
             $table->float('quantity')->default(1);
             $table->float('amount')->nullable();
             $table->float('tot_amount')->nullable();
+            $table->string('party_tran_id')->nullable();
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->onUpdate('cascade')
                     ->onDelete('set null');

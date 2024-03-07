@@ -85,14 +85,6 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="quantity">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="quantity"
-                                            value="1">
-                                        <span class="text-danger error" id="quantity_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
                                         <label for="amount">Amount</label>
                                         <input type="text" name="amount" class="form-control" id="amount">
                                         <span class="text-danger error" id="amount_error"></span>

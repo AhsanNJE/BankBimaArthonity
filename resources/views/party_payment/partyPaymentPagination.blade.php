@@ -4,10 +4,10 @@
         <tr>
             <th>SL:</th>
             <th>Id</th>
-            <th>Type</th>
-            <th>Amount</th>
             <th>Transaction With</th>
             <th>User</th>
+            <th>Amount</th>
+            <th>Transaction Ids</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -16,10 +16,18 @@
             <tr>
                 <td>{{ $party->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
-                <td>{{ $item->tran_type }}</td>
-                <td>{{ $item->amount }}</td>
                 <td>{{ $item->tran_type_with }}</td>
                 <td>{{ $item->User->user_name }}</td>
+                <td>{{ $item->amount }}</td>
+                <td>
+                    @php
+                        $values = explode(',', $item->party_tran_id);
+                    @endphp
+
+                    @foreach ($values as $value)
+                        {{ $value }} <br>
+                    @endforeach
+                </td>
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editParty" data-modal-id="editParty"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
@@ -29,6 +37,23 @@
             </tr>
         @endforeach
     </tbody>
+    @if($party->count() > 0)
+        <tfoot>
+            <tr>
+                @php
+                    $totalAmount = 0;
+                @endphp
+                @foreach ($party as $key => $item)
+                    @php
+                        $totalAmount += $item->amount;
+                    @endphp
+                @endforeach
+                <td colspan="4">Total:</td>
+                <td>{{ $totalAmount }}</td>
+                <td colspan="2"></td>
+            </tr>    
+        </tfoot>      
+    @endif
 </table>
 
 <div class="center paginate" id="paginate">

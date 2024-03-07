@@ -17,19 +17,15 @@ $(document).ready(function () {
     
     
     
-    $(document).on('keyup', '#quantity, #amount', function (e) {
-        let quantity = $('#quantity').val();
+    $(document).on('keyup', '#amount', function (e) {
         let amount = $('#amount').val();
-        let totalAmount = quantity * amount;
-        $('#totAmount').val(totalAmount);
+        $('#totAmount').val(amount);
     });
     
     
-    $(document).on('keyup', '#updateQuantity, #updateAmount', function (e) {
-        let quantity = $('#updateQuantity').val();
+    $(document).on('keyup', '#updateAmount', function (e) {
         let amount = $('#updateAmount').val();
-        let totalAmount = quantity * amount;
-        $('#updateTotAmount').val(totalAmount);
+        $('#updateTotAmount').val(amount);
     });
 
 
@@ -124,8 +120,12 @@ $(document).ready(function () {
 
                 $('#updateWith').empty();
                 $('#updateWith').append(`<option value="" disabled>Select Transaction With</option>
+                                        <option value="newspaper client" ${res.party.tran_type_with === 'newspaper client' ? 'selected' : 'disabled'}>Newpaper Client</option>
+                                        <option value="advertisement client" ${res.party.tran_type_with === 'advertisement client' ? 'selected' : 'disabled'}>Advertisement Client</option>
+                                        <option value="magazine client" ${res.party.tran_type_with === 'magazine client' ? 'selected' : 'disabled'}>Magazine Client</option>
                                         <option value="food supplier" ${res.party.tran_type_with === 'food supplier' ? 'selected' : 'disabled'}>Food Supplier</option>
-                                        <option value="stationary supplier" ${res.party.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>`);
+                                        <option value="stationary supplier" ${res.party.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>
+                                        <option value="newspaper supplier" ${res.party.tran_type_with === 'newspaper supplier' ? 'selected' : 'disabled'}>Newspaper Supplier</option>`);
 
                 $('#updateUser').attr('data-id',res.party.tran_user);
                 $('#updateUser').val(res.party.user.user_name);

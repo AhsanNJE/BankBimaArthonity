@@ -25,12 +25,12 @@
     </div>
 
 
-    @include('supplier.addSupplierModal');
+    @include('supplier.addSupplierModal')
 
-    @include('supplier.editSupplierModal');
+    @include('supplier.editSupplierModal')
 
-    @include('supplier.supplierDetails');
-    
+    @include('supplier.supplierDetails')
+
 @endsection
 
 {{-- ajax part start from here --}}

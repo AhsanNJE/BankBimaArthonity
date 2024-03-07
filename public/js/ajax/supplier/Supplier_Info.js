@@ -127,8 +127,11 @@ $(document).ready(function () {
                 $('#id').val(res.supplier.id);
 
                 $('#updateType').empty();
-                $('#updateType').append(`<option value="food supplier" ${res.supplier.tran_user_type === 'food supplier' ? 'selected' : ''}>Food Supplier</option>
-                                         <option value="stationary supplier" ${res.supplier.tran_user_type === 'stationary supplier' ? 'selected' : ''}>Stationary Supplier</option>`);
+                $('#updateType').empty();
+                $.each(res.tranwith, function (key, withs) {
+                    $('#updateType').append(`<option value="${withs.id}" ${res.supplier.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
+                });
+                
                 $('#updateType').focus();
                 $('#updateName').val(res.supplier.user_name);
                 $('#updateEmail').val(res.supplier.user_email);

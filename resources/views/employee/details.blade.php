@@ -27,7 +27,7 @@
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Employee Type</div>
-                <div class="col-md-4">{{$employee->tran_user_type}}</div>
+                <div class="col-md-4">{{$employee->Withs->tran_with_name}}</div>
                 <div class="col-md-2 bold">Department</div>
                 <div class="col-md-4">{{ $employee->department->dept_name}}</div>
             </div>

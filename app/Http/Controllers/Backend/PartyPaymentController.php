@@ -108,7 +108,6 @@ class PartyPaymentController extends Controller
             "with" => 'required',
             "user" => 'required',
             "amount" => 'required',
-            "quantity" => 'required',
             "totAmount" => 'required',
         ]);
 
@@ -139,6 +138,7 @@ class PartyPaymentController extends Controller
                     else{
                         foreach($transaction as $index => $tran) {
                             if($totAmount != 0){
+                                $ids[] = $tran->tran_id;
                                 if($tran->due <= $totAmount){
                                     $totAmount = $totAmount - $tran->due;
                                     $dueCol = $tran->due_col + $tran->due;
@@ -161,7 +161,9 @@ class PartyPaymentController extends Controller
                                 }
                             }
                         }
-                        
+
+                        $all_tran_id = implode(',', $ids);
+                        // dd($all_tran_id);
                         $party = Party_Payment_Receive::insert([
                             "tran_id" => $req->tranId,
                             "loc_id" => $req->location,
@@ -171,8 +173,8 @@ class PartyPaymentController extends Controller
                             "tran_type_with" => $req->with,
                             "tran_user" => $req->user,
                             "amount" => $req->amount,
-                            "quantity" => $req->quantity,
                             "tot_amount" => $req->totAmount,
+                            "party_tran_id" => $all_tran_id,
                         ]);
     
                         return response()->json([

@@ -108,7 +108,6 @@ class ReportController extends Controller
     // Invoice
     public function TransInvoice($transinvoice_id)
     {
-
         $transDetailsInvoice = Transaction_Detail::where('tran_id', $transinvoice_id)->get();
         $transSum = Transaction_Detail::where('tran_id', $transinvoice_id)->sum('tot_amount');
 
@@ -187,8 +186,100 @@ class ReportController extends Controller
 
 
 
+    // Show Report By groupe 
+    public function ReportByGroupe(){
+        //get unique transaction id where tran_type receive
+        $receive_id = Transaction_Detail::where('tran_type', 'receive')
+        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        ->orderBy('tran_date','asc')
+        ->distinct('tran_id')
+        ->pluck('tran_id');
+        
+        //get unique transaction id where tran_type payment
+        $payment_id = Transaction_Detail::where('tran_type', 'payment')
+        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        ->orderBy('tran_date','asc')
+        ->distinct('tran_id')
+        ->pluck('tran_id');
+
+        
+        $receive = [];
+        $receive_main = [];
+        foreach($receive_id as $key => $tranid){
+            $receive[$key] = Transaction_Detail::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+            $receive_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+        }
+        
+        $payment = [];
+        $payment_main = [];
+        foreach($payment_id as $key => $tranid){
+            $payment[$key] = Transaction_Detail::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+            $payment_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+        }
+        return view('reports.report_by_groupe.report_by_groupe', compact('receive','payment','receive_main','payment_main'));
+    } //End Method
 
 
+    // Report Invoice Details
+    public function ReportInvoiceDetails(Request $req)
+    {
+        $transDetailsInvoice = Transaction_Detail::where('tran_id', $req->id)->get();
+        $transSum = Transaction_Detail::where('tran_id', $req->id)->sum('tot_amount');
+        $transMainInvoice = Transaction_Main::where('tran_id', $req->id)->first();
+
+        return response()->json([
+            'status'=>'success',
+            'data'=> view('reports.report_by_groupe.details', compact('transMainInvoice', 'transDetailsInvoice', 'transSum'))->render(),
+        ]);
+    } // End Method 
+
+
+
+
+    // Show Report By groupe 
+    public function SearchReportByGroupeDate(Request $req){
+        //get unique transaction id where tran_type receive
+        $receive_id = Transaction_Detail::where('tran_type', 'receive')
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->orderBy('tran_date','asc')
+        ->distinct('tran_id')
+        ->pluck('tran_id');
+        
+        //get unique transaction id where tran_type payment
+        $payment_id = Transaction_Detail::where('tran_type', 'payment')
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->orderBy('tran_date','asc')
+        ->distinct('tran_id')
+        ->pluck('tran_id');
+
+        
+        $receive = [];
+        $receive_main = [];
+        foreach($receive_id as $key => $tranid){
+            $receive[$key] = Transaction_Detail::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+            $receive_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+        }
+        
+        $payment = [];
+        $payment_main = [];
+        foreach($payment_id as $key => $tranid){
+            $payment[$key] = Transaction_Detail::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+            $payment_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+        }
+
+        
+        if($receive->count() > 0 || $payment->count() > 0){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('reports.report_by_groupe.search', compact('receive','payment','receive_main','payment_main'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    } //End Method
 
 
 }
