@@ -219,7 +219,7 @@ $(document).ready(function () {
 
                 getTransactionGrid(res.transaction.tran_id, '.update_transaction_grid tbody');
 
-                $('#updateAmountRP').val(res.transaction.balance_amount);
+                $('#updateAmountRP').val(res.transaction.bill_amount);
                 $('#updateTotalDiscount').val(res.transaction.discount);
                 $('#updateNetAmount').val(res.transaction.net_amount);
 

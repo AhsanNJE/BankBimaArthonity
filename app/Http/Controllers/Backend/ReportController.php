@@ -46,6 +46,8 @@ class ReportController extends Controller
         $alldue = Transaction_Main::with('User')
             ->whereHas('User', function ($query) use ($request) {
                 $query->where('user_type', 'employee');
+                // ->orWhere('user_type', 'client')
+                // ->orWhere('user_type', 'supplier');
                 $query->where('user_name', 'like', '%' . $request->search_string . '%');
             })
             ->orderBy('id', 'desc')
@@ -118,12 +120,12 @@ class ReportController extends Controller
     public function TransPdfInvoice($transpdfinvoice_id)
     {
 
-        $transDetailsInvoice = Transaction_Detail::where('tran_id', $transpdfinvoice_id)->get();
-        $transSum = Transaction_Detail::where('tran_id', $transpdfinvoice_id)->sum('tot_amount');
+        $transDetailsPdfInvoice = Transaction_Detail::where('tran_id', $transpdfinvoice_id)->get();
+        $transPdfSum = Transaction_Detail::where('tran_id', $transpdfinvoice_id)->sum('tot_amount');
 
-        $transMainInvoice = Transaction_Main::where('tran_id', $transpdfinvoice_id)->first();
+        $transMainPdfInvoice = Transaction_Main::where('tran_id', $transpdfinvoice_id)->first();
 
-        $pdf = Pdf::loadView('reports.invoice_pdf', compact('transMainInvoice', 'transDetailsInvoice','transSum'))->setPaper('a4')->setOption([
+        $pdf = Pdf::loadView('reports.invoice_pdf', compact('transMainPdfInvoice', 'transDetailsPdfInvoice','transPdfSum'))->setPaper('a4')->setOption([
             'tempDir' => public_path(),
             'chroot' => public_path(),
 

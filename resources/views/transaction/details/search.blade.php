@@ -21,7 +21,7 @@
                 <td>{{ $transaction->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
                 <td>{{ $item->User->user_name }}</td>
-                <td>{{ $item->balance_amount }}</td>
+                <td>{{ $item->bill_amount }}</td>
                 <td>{{ $item->discount }}</td>
                 <td>{{ $item->net_amount }}</td>
                 <td>{{ $item->receive }} {{ $item->payment }}</td>

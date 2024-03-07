@@ -499,7 +499,7 @@ class TransactionController extends Controller
             "tran_type_with" => $req->withs,
             "tran_user" => $req->user,
             "loc_id" => $req->locations,
-            "balance_amount" => $req->amountRP,
+            "bill_amount" => $req->amountRP,
             "discount" => $req->discount,
             "net_amount" => $req->netAmount,
             "receive" => $receive,

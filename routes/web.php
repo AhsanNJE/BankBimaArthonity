@@ -20,7 +20,7 @@ use App\Http\Controllers\Backend\ReportController;
 |
 */
 
-/*------------------- Admin Controller ------------------*/
+/*---------------------------------- Admin Login -----------------------------------------------*/
 Route::prefix('admin')->group(function(){
 
     Route::get('/login', [AdminController::class, 'Index'])->name('login_from');
@@ -31,9 +31,7 @@ Route::prefix('admin')->group(function(){
     Route::post('/register/create', [AdminController::class, 'AdminRegisterCreate'])->name('admin.register.create');
 
 });
-
-/*-------------------End Admin Controller ------------------*/
-
+/*--------------------------------End Admin Login ----------------------------------------------*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,8 +39,6 @@ Route::get('/', function () {
 
 // ********************************************** Admin Controller routes *************************************** //
 // Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
-
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');

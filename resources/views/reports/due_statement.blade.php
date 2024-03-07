@@ -63,14 +63,16 @@
                                     <tr>
                                         <th>Sl</th>
                                         <th>Name</th>
-                                        <th>User Type</th>
-                                        <th>Invoice</th>
-                                        <th>Order Date</th>
+                                        <th>Tran Id</th>
+                                        <th>Tran Date</th>
                                         <th>Total</th>
-                                        <th>Receive</th>
-                                        <th>Payment</th>
+                                        <th>Discount</th>
+                                        <th>Net Total</th>
+                                        <th>Advance(R)</th>
+                                        <th>Advance(P)</th>
+                                        <th>Due Discount</th>
+                                        <th>Due Collect</th>
                                         <th>Due</th>
-                                        <th>Due Collection</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -81,19 +83,23 @@
                                     <tr>
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $item['User']['user_name'] }}</td>
-                                        <td>{{ $item['User']['user_type'] }}</td>
-                                        <td>{{ $item->invoice }}</td>
+                                        <td>{{ $item['tran_id'] }}</td>
                                         <td>{{ $item->tran_date }}</td>
+                                        <td>{{ $item->bill_amount }}</td>
                                         <td> <span class="btn btn-success btn-sm waves-effect waves-light">
-                                                {{ round($item->net_amount) }}</span> </td>
+                                                {{ round($item->discount) }}</span> </td>
                                         <td> <span class="btn btn-info btn-sm waves-effect waves-light">
+                                                {{ round($item->net_amount) }}</span> </td>
+                                        <td> <span class="btn btn-warning btn-sm waves-effect waves-light">
                                                 {{ round($item->receive) }}</span> </td>
                                         <td> <span class="btn btn-warning btn-sm waves-effect waves-light">
                                                 {{ round($item->payment) }}</span> </td>
                                         <td> <span class="btn btn-danger btn-sm waves-effect waves-light">
-                                                {{ round($item->due) }}</span> </td>
+                                                {{ round($item->due_disc) }}</span> </td>
                                         <td> <span class="btn btn-info btn-sm waves-effect waves-light">
                                                 {{ round($item->due_col) }}</span> </td>
+                                        <td> <span class="btn btn-info btn-sm waves-effect waves-light">
+                                                {{ round($item->due) }}</span> </td>
                                         <td>
 
 
@@ -190,7 +196,7 @@
                 <div class="modal-body">
                     <div class="text-center mt-2 mb-4 ">
                         <div class="auth-logo">
-                            n
+
                             <h3> Pay Due Amount </h3>
                         </div>
                     </div>
