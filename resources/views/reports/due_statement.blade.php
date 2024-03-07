@@ -52,235 +52,242 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body table-data" style="overflow-x:auto;">
-                    <div class="card-body table-data">
 
+                    <div class="card-body table-data" style="overflow-x:auto;">
+                        <div class="card-body table-data">
+
+
+
+                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Sl</th>
+                                        <th>Name</th>
+                                        <th>Tran Id</th>
+                                        <th>Tran Date</th>
+                                        <th>Total</th>
+                                        <th>Discount</th>
+                                        <th>Net Total</th>
+                                        <th>Advance(R)</th>
+                                        <th>Advance(P)</th>
+                                        <th>Due Discount</th>
+                                        <th>Due Collect</th>
+                                        <th>Due</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    @foreach($alldue as $key=> $item)
+                                    <tr>
+                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $item['User']['user_name'] }}</td>
+                                        <td>{{ $item['tran_id'] }}</td>
+                                        <td>{{ $item->tran_date }}</td>
+                                        <td>{{ $item->bill_amount }}</td>
+                                        <td> <span class="btn btn-success btn-sm waves-effect waves-light">
+                                                {{ round($item->discount) }}</span> </td>
+                                        <td> <span class="btn btn-info btn-sm waves-effect waves-light">
+                                                {{ round($item->net_amount) }}</span> </td>
+                                        <td> <span class="btn btn-warning btn-sm waves-effect waves-light">
+                                                {{ round($item->receive) }}</span> </td>
+                                        <td> <span class="btn btn-warning btn-sm waves-effect waves-light">
+                                                {{ round($item->payment) }}</span> </td>
+                                        <td> <span class="btn btn-danger btn-sm waves-effect waves-light">
+                                                {{ round($item->due_disc) }}</span> </td>
+                                        <td> <span class="btn btn-info btn-sm waves-effect waves-light">
+                                                {{ round($item->due_col) }}</span> </td>
+                                        <td> <span class="btn btn-info btn-sm waves-effect waves-light">
+                                                {{ round($item->due) }}</span> </td>
+                                        <td>
+
+
+                                            <a href="{{ route('trans.details',$item->id) }}"
+                                                class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">
+                                                Details </a>
+
+                                            <button type="button"
+                                                class="btn btn-success btn-sm rounded-pill waves-effect waves-light"
+                                                data-bs-toggle="modal" data-bs-target="#signup-modal"
+                                                id="{{ $item->id }}" onclick="transactionDue(this.id)">Pay Due
+                                            </button>
+
+                                            <a href="{{ route('trans.invoice',$item->tran_id) }}"
+                                                class="btn btn-primary btn-sm rounded-pill waves-effect waves-light">
+                                                Invoice</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+
+                                </tbody>
+
+                            </table>
+
+                            {{ $alldue->links() }}
+                        </div> <!-- end card body-->
 
                         <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                             <thead>
-                                <tr>
-                                    <th>Sl</th>
-                                    <th>Name</th>
-                                    <th>User Type</th>
-                                    <th>Invoice</th>
-                                    <th>Order Date</th>
-                                    <th>Total</th>
-                                    <th>Receive</th>
-                                    <th>Payment</th>
-                                    <th>Due</th>
-                                    <th>Due Collection</th>
-                                    <th>Action</th>
-                                </tr>
+
                             </thead>
 
 
                             <tbody>
-                                @foreach($alldue as $key=> $item)
-                                <tr>
-                                    <td>{{ $key+1 }}</td>
-                                    <td>{{ $item['User']['user_name'] }}</td>
-                                    <td>{{ $item['User']['user_type'] }}</td>
-                                    <td>{{ $item->invoice }}</td>
-                                    <td>{{ $item->tran_date }}</td>
-                                    <td> <span class="btn btn-success btn-sm waves-effect waves-light">
-                                            {{ round($item->net_amount) }}</span> </td>
-                                    <td> <span class="btn btn-info btn-sm waves-effect waves-light">
-                                            {{ round($item->receive) }}</span> </td>
-                                    <td> <span class="btn btn-warning btn-sm waves-effect waves-light">
-                                            {{ round($item->payment) }}</span> </td>
-                                    <td> <span class="btn btn-danger btn-sm waves-effect waves-light">
-                                            {{ round($item->due) }}</span> </td>
-                                    <td> <span class="btn btn-info btn-sm waves-effect waves-light">
-                                            {{ round($item->due_col) }}</span> </td>
-                                    <td>
-                                        <!-- <a href="#" class="btn btn-secondary rounded-pill waves-effect waves-light"> Details </a>  -->
-                                        <a href="#" class="btn btn-dark btn-sm rounded-pill waves-effect waves-light">
-                                            Pay Due </a>
-                                        <a href="{{ route('trans.details',$item->id) }}"
-                                            class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">
-                                            Details </a>
 
-                                        <button type="button"
-                                            class="btn btn-success btn-sm rounded-pill waves-effect waves-light"
-                                            data-bs-toggle="modal" data-bs-target="#signup-modal" id="{{ $item->id }}"
-                                            onclick="transactionDue(this.id)">Pay Due </button>
-
-                                        <a href="{{ route('trans.invoice',$item->tran_id) }}"
-                                            class="btn btn-primary btn-sm rounded-pill waves-effect waves-light">
-                                            Invoice</a>
-                                    </td>
-                                </tr>
-                                @endforeach
 
                             </tbody>
 
+                            <tfoot>
+                                @php
+
+                                $total_amount = App\Models\Transaction_Main::sum('net_amount');
+                                $total_receive = App\Models\Transaction_Main::sum('receive');
+                                $total_payment = App\Models\Transaction_Main::sum('payment');
+                                $total_due = App\Models\Transaction_Main::sum('due');
+
+                                @endphp
+                                <tr>
+                                    <th>
+                                        <h4 class="text-right text-bold">Total : </h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-end text-bold">{{ $total_amount }}</h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-right text-bold">Receive : </h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-end text-bold">{{ $total_receive }}</h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-right text-bold">Payment : </h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-end text-bold">{{ $total_payment }}</h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-right text-bold">Due : </h4>
+                                    </th>
+                                    <th>
+                                        <h4 class="text-end text-bold">{{ $total_due }}</h4>
+                                    </th>
+
+                                </tr>
+                            </tfoot>
                         </table>
-
-                        {{ $alldue->links() }}
-                    </div> <!-- end card body-->
-
-                    <table id="basic-datatable" class="table dt-responsive nowrap w-100">
-                        <thead>
-
-                        </thead>
-
-
-                        <tbody>
-
-
-                        </tbody>
-
-                        <tfoot>
-                            @php
-
-                            $total_amount = App\Models\Transaction_Main::sum('net_amount');
-                            $total_receive = App\Models\Transaction_Main::sum('receive');
-                            $total_payment = App\Models\Transaction_Main::sum('payment');
-                            $total_due = App\Models\Transaction_Main::sum('due');
-
-                            @endphp
-                            <tr>
-                                <th>
-                                    <h4 class="text-right text-bold">Total : </h4>
-                                </th>
-                                <th>
-                                    <h4 class="text-end text-bold">{{ $total_amount }}</h4>
-                                </th>
-                                <th>
-                                    <h4 class="text-right text-bold">Receive : </h4>
-                                </th>
-                                <th>
-                                    <h4 class="text-end text-bold">{{ $total_receive }}</h4>
-                                </th>
-                                <th>
-                                    <h4 class="text-right text-bold">Payment : </h4>
-                                </th>
-                                <th>
-                                    <h4 class="text-end text-bold">{{ $total_payment }}</h4>
-                                </th>
-                                <th>
-                                    <h4 class="text-right text-bold">Due : </h4>
-                                </th>
-                                <th>
-                                    <h4 class="text-end text-bold">{{ $total_due }}</h4>
-                                </th>
-
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div> <!-- end card -->
-            </div><!-- end col-->
-        </div>
-        <!-- end row-->
-
-
-
-
-    </div> <!-- container -->
-
-</div> <!-- content -->
-
-<!-- PAY Due Modal -->
-<!-- Signup modal content -->
-<div id="signup-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-body">
-                <div class="text-center mt-2 mb-4 ">
-                    <div class="auth-logo">
-
-                        <h3> Pay Due Amount </h3>
-                    </div>
-                </div>
-
-
-                <form class="px-3" method="post" action="{{ route('trans.update.due') }}">
-                    @csrf
-
-                    <input type="hidden" name="id" id="trans_due_id">
-                    <input type="hidden" name="pay" id="pay">
-
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Payable Due</label>
-                        <input class="form-control" type="text" id="due">
-                    </div>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Pay Now</label>
-                        <input class="form-control" type="text" name="due">
-                    </div>
-
-                    <div class="mb-3 text-center">
-                        <button class="btn btn-primary" type="submit">Update Due</button>
-                    </div>
-
-                </form>
-
+                    </div> <!-- end card -->
+                </div><!-- end col-->
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<script type="text/javascript">
-function transactionDue(id) {
-    $.ajax({
-        type: 'GET',
-        url: '/pending/all/due/' + id,
-        dataType: 'json',
-        success: function(data) {
-            // console.log(data)
-            $('#due').val(data.due);
-            $('#pay').val(data.payment);
-            $('#trans_due_id').val(data.id);
-        }
-    })
-}
-</script>
+            <!-- end row-->
 
 
-@endsection
-
-@section('ajax')
-
-<script>
-$(document).ready(function() {
-
-    $(document).on('click', '.pagination a', function(e) {
-        e.preventDefault();
-        let page = $(this).attr('href').split('page=')[1]
-        pagination(page);
 
 
-    });
+        </div> <!-- container -->
 
-    function pagination(page) {
+    </div> <!-- content -->
+    <!-- PAY Due Modal -->
+    <!-- Signup modal content -->
+    <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="text-center mt-2 mb-4 ">
+                        <div class="auth-logo">
+
+                            <h3> Pay Due Amount </h3>
+                        </div>
+                    </div>
+
+                    <form class="px-3" method="post" action="{{ route('trans.update.due') }}">
+                        @csrf
+
+                        <input type="hidden" name="id" id="trans_due_id">
+                        <input type="hidden" name="pay" id="pay">
+
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Payable Due</label>
+                            <input class="form-control" type="text" id="due">
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Pay Now</label>
+                            <input class="form-control" type="text" name="due">
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <button class="btn btn-primary" type="submit">Update Due</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script type="text/javascript">
+    function transactionDue(id) {
         $.ajax({
-            url: "/pagination/pagination-data?page=" + page,
-            success: function(res) {
-                $('.table-data').html(res);
-            }
-        });
-    }
-
-    //Searching due statement
-    $(document).on('keyup', function(e) {
-        e.preventDefault();
-        let search_string = $('#search').val();
-        $.ajax({
-            url: "{{ route('search.due.statement') }}",
-            method: 'GET',
-            data: {
-                search_string: search_string
-            },
-            success: function(res) {
-                $('.table-data').html(res);
-                if (res.status == 'nothing_found') {
-                    $('.table-data').html('<span class="text-danger">' + 'Nothing Found' +
-                        '</span>');
-                }
+            type: 'GET',
+            url: '/pending/all/due/' + id,
+            dataType: 'json',
+            success: function(data) {
+                // console.log(data)
+                $('#due').val(data.due);
+                $('#pay').val(data.payment);
+                $('#trans_due_id').val(data.id);
             }
         })
-    })
-});
-</script>
+    }
+    </script>
 
-@endsection
+
+    @endsection
+
+    @section('ajax')
+
+    <script>
+    $(document).ready(function() {
+
+        $(document).on('click', '.pagination a', function(e) {
+            e.preventDefault();
+            let page = $(this).attr('href').split('page=')[1]
+            pagination(page);
+
+
+        });
+
+        function pagination(page) {
+            $.ajax({
+                url: "/pagination/pagination-data?page=" + page,
+                success: function(res) {
+                    $('.table-data').html(res);
+                }
+            });
+        }
+
+        //Searching due statement
+        $(document).on('keyup', function(e) {
+            e.preventDefault();
+            let search_string = $('#search').val();
+            $.ajax({
+                url: "{{ route('search.due.statement') }}",
+                method: 'GET',
+                data: {
+                    search_string: search_string
+                },
+                success: function(res) {
+                    $('.table-data').html(res);
+                    if (res.status == 'nothing_found') {
+                        $('.table-data').html('<span class="text-danger">' +
+                            'Nothing Found' +
+                            '</span>');
+                    }
+                }
+            })
+        })
+    });
+    </script>
+
+    @endsection

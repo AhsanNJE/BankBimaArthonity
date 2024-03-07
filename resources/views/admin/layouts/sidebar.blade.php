@@ -276,7 +276,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('show.transaction.receive') }}" class="nav-link">
+              <a href="{{ route('show.transaction.payment') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Payment Statement</p>
               </a>
@@ -287,7 +287,7 @@
                 <p>All Due Statement</p>
               </a>
             </li>
-            <!-- <li class="nav-item">
+            <li class="nav-item">
               <a href="{{route('client.due.transaction')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>As Per Client</p>
@@ -298,7 +298,7 @@
                 <i class="far fa-circle nav-icon"></i>
                 <p>As Per Supllier</p>
               </a>
-            </li> -->
+            </li>
             <li class="nav-item">
               <a href="{{route('report.groupe')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>

@@ -139,12 +139,13 @@
                                     <p><b>Total Due:</b> <span
                                             class="float-end text-danger text-bold">{{ $transMainInvoice->due }}</span>
                                     </p>
-                                    <p><b>Sub-total:</b> <span class="float-end">{{ $transSum }}</span></p>
-                                    <p><b>Discount (10%):</b> <span class="float-end">
+                                    <p><b>Sub-total:</b> <span
+                                            class="float-end">&nbsp;&nbsp;&nbsp;{{ $transSum }}</span></p>
+                                    <!-- <p><b>Discount (10%):</b> <span class="float-end">
                                             &nbsp;&nbsp;&nbsp;{{ ($transSum * 10)/100 }}</span>
-                                    </p>
+                                    </p> -->
                                     <p><b>Total:</b><span class="float-end">
-                                            &nbsp;&nbsp;&nbsp;{{ $transSum-(($transSum * 10)/100) }}</span></p>
+                                            &nbsp;&nbsp;&nbsp;{{ $transSum }}</span></p>
                                 </div>
                                 <div class="clearfix"></div>
                             </div> <!-- end col -->
@@ -156,7 +157,7 @@
                                 <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i
                                         class="mdi mdi-printer me-1"></i> Print</a>
 
-                                <a href="{{ url('trans/invoice-download/'.$item->tran_id) }}"
+                                <a href="{{ url('/trans/invoice-download/'.$item->tran_id) }}"
                                     class="btn btn-info waves-effect waves-light"> PDF Invoice </a>
                             </div>
                         </div>

@@ -82,23 +82,23 @@
         <tr>
             <td>
                 <p class="font" style="margin-left: 20px;">
-                    <strong>Name: {{ $transMainInvoice->User->user_name }}</strong> <br>
-                    <strong>Email: {{ $transMainInvoice->User->user_email }}</strong> <br>
-                    <strong>Phone: {{ $transMainInvoice->User->user_phone }}</strong> <br>
+                    <strong>Name: {{ $transMainPdfInvoice->User->user_name }}</strong> <br>
+                    <strong>Email: {{ $transMainPdfInvoice->User->user_email }}</strong> <br>
+                    <strong>Phone: {{ $transMainPdfInvoice->User->user_phone }}</strong> <br>
 
-                    <strong>Address: {{ $transMainInvoice->User->address }}</strong>
+                    <strong>Address: {{ $transMainPdfInvoice->User->address }}</strong>
                     <!-- <strong>Shop Name:</strong> -->
 
                 </p>
             </td>
             <td>
                 <p class="font">
-                <h3><span style="color: green;">Invoice:</span> {{ $transMainInvoice->tran_id }}</h3>
-                Order Date: {{ $transMainInvoice->tran_date }}<br>
-                Order Status: {{ $transMainInvoice->tran_type }}<br>
+                <h3><span style="color: green;">Invoice:</span> {{ $transMainPdfInvoice->tran_id }}</h3>
+                Order Date: {{ $transMainPdfInvoice->tran_date }}<br>
+                Order Status: {{ $transMainPdfInvoice->tran_type }}<br>
                 <!-- Payment Status: <br> -->
-                Total Amount: {{ $transMainInvoice->net_amount }}<br>
-                Total Due: {{ $transMainInvoice->due }}</span>
+                Total Amount: {{ $transMainPdfInvoice->net_amount }}<br>
+                Total Due: {{ $transMainPdfInvoice->due }}</span>
                 </p>
             </td>
         </tr>
@@ -120,7 +120,7 @@
         </thead>
         <tbody>
 
-            @foreach($transDetailsInvoice as $key => $item)
+            @foreach($transDetailsPdfInvoice as $key => $item)
             <tr class="font">
                 <td align="center">{{ $key+1 }}</td>
                 <td align="center"> {{ $item->User->user_name }} </td>
@@ -136,9 +136,9 @@
     <table width="100%" style=" padding:0 10px 0 10px;">
         <tr>
             <td align="right">
-                <h2><span style="color: green;">Subtotal:</span> {{ $transSum }}</h2>
-                <h2><span style="color: green;">Discount(10%):</span> {{ ($transSum * 10)/100 }}</h2>
-                <h2><span style="color: green;">Total:</span> {{ $transSum-(($transSum * 10)/100) }} TAKA</h2>
+                <h2><span style="color: green;">Subtotal:</span> {{ $transPdfSum }}</h2>
+                <h2><span style="color: green;">Discount(10%):</span> {{ ($transPdfSum * 10)/100 }}</h2>
+                <h2><span style="color: green;">Total:</span> {{ $transPdfSum-(($transPdfSum * 10)/100) }} TAKA</h2>
                 {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
             </td>
         </tr>
