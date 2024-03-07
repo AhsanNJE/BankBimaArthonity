@@ -124,6 +124,24 @@
             </li>
           </ul>
         </li>
+        
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+          <i class="fa-solid fa-pen-to-square"></i>
+            <p>
+              Tran With
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('show.tranwith')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>All Tran With</p>
+              </a>
+            </li>
+          </ul>
+        </li>
 
         <li class="nav-item">
           <a href="#" class="nav-link">
@@ -281,7 +299,12 @@
                 <p>As Per Supllier</p>
               </a>
             </li> -->
-        
+            <li class="nav-item">
+              <a href="{{route('report.groupe')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Report By Groupe</p>
+              </a>
+            </li>
           </ul>
         </li>
 

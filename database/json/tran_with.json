@@ -1,0 +1,47 @@
+[
+    {
+        "tran_with_name": "Regular Employee",
+        "user_type": "Employee"
+    },
+    {
+        "tran_with_name": "Bit Pion",
+        "user_type": "Employee"
+    },
+    {
+        "tran_with_name": "District Employee",
+        "user_type": "Employee"
+    },
+    {
+        "tran_with_name": "Advertisement Client",
+        "user_type": "Client"
+    },
+    {
+        "tran_with_name": "Bank Client",
+        "user_type": "Client"
+    },
+    {
+        "tran_with_name": "Newspaper Client",
+        "user_type": "Client"
+    },
+    {
+        "tran_with_name": "Printing tools Supplier",
+        "user_type": "Supplier"
+    },
+    {
+        "tran_with_name": "Neewspaper Supplier",
+        "user_type": "Supplier"
+    },
+    {
+        "tran_with_name": "Food Supplier",
+        "user_type": "Supplier"
+    },
+    {
+        "tran_with_name": "Stationary Supplier",
+        "user_type": "Supplier"
+    },
+    {
+        "tran_with_name": "Bank",
+        "user_type": "Bank"
+    }
+    
+]

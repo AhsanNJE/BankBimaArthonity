@@ -197,9 +197,9 @@ $(document).ready(function () {
 
                 // Create options dynamically
                 $('#updateType').empty();
-                $('#updateType').append(`<option value="regular employee" ${res.employee.tran_user_type === 'regular employee' ? 'selected' : ''}>Regular</option>
-                                         <option value="district employee" ${res.employee.tran_user_type === 'district employee' ? 'selected' : ''}>District Employee</option>
-                                         <option value="bit pion" ${res.employee.tran_user_type === 'bit pion' ? 'selected' : ''}>Bit Pion</option>`);
+                $.each(res.tranwith, function (key, withs) {
+                    $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
+                });
 
                 $('#updateDepartment').val(res.employee.department.dept_name);
                 $('#updateDepartment').attr('data-id',res.employee.dept_id);

@@ -35,9 +35,9 @@
                                         <label for="type">Supplier Type</label>
                                         <select name="type" id="type">
                                             <option value="">Select Supplier Type</option>
-                                            <option value="food supplier">Food Supplier</option>
-                                            <option value="stationary supplier">Stationary Supplier</option>
-                                            <option value="newspaper supplier">Newspaper Supplier</option>
+                                            @foreach ($tranwith as $with)
+                                                <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
+                                            @endforeach
                                         </select>
                                         <span class="text-danger error" id="type_error"></span>
                                     </div>

@@ -22,7 +22,7 @@
                 <div class="col-md-2 bold">Gender</div>
                 <div class="col-md-4">{{$supplier->gender}}</div>
                 <div class="col-md-2 bold">Supplier Type</div>
-                <div class="col-md-4">{{$supplier->tran_user_type}}</div>
+                <div class="col-md-4">{{$supplier->Withs->tran_with_name}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">NID</div>

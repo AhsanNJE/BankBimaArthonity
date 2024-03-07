@@ -78,9 +78,9 @@
                                         <label for="type">Employee Type</label>
                                         <select name="type" id="type">
                                             <option value="">Select Employee Type</option>
-                                            <option value="regular employee">Regular</option>
-                                            <option value="district employee">District Employee</option>
-                                            <option value="bit pion">Bit Pione</option>
+                                            @foreach ($tranwith as $with)
+                                                <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
+                                            @endforeach
                                         </select>
                                         <span class="text-danger error" id="type_error"></span>
                                     </div>

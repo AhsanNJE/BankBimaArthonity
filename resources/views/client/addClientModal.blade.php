@@ -36,10 +36,9 @@
                                         <label for="type">Client Type</label>
                                         <select name="type" id="type">
                                             <option value="">Select client Type</option>
-                                            <option value="newspaper client">Newpaper Client</option>
-                                            <option value="advertisement client">Advertisement Client</option>
-                                            <option value="magazine client">Magazine Client</option>
-                                            <option value="others">Others</option>
+                                            @foreach ($tranwith as $with)
+                                                <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
+                                            @endforeach
                                         </select>
                                         <span class="text-danger error" id="type_error"></span>
                                     </div>

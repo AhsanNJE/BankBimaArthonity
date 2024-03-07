@@ -96,6 +96,23 @@ Route::controller(EmployeeController::class)->group(function () {
         Route::get('/designations/search/pagination/department', 'SearchDesignationsByDepartment');
         //search list routs
         Route::get('/get/designation/name/department', 'GetDesignationByNameAndDepartment');
+        
+        
+        
+        ///////////// --------------- Tran With routes ----------- ///////////////////
+        //crud routes start
+        Route::get('/tranwith', 'ShowTranWith')->name('show.tranwith');
+        Route::post('/insert/tranwith', 'InsertTranWith')->name('insert.tranwith');
+        Route::get('/edit/tranwith', 'EditTranWith')->name('edit.tranwith');
+        Route::put('/update/tranwith', 'UpdateTranWith')->name('update.tranwith');
+        Route::delete('/delete/tranwith', 'DeleteTranWith')->name('delete.tranwith');
+        //search routes start
+        Route::get('/search/tranwith', 'SearchTranWith')->name('search.tranwith');
+        Route::get('/search/tranwith/type', 'SearchTranWithByType')->name('search.tranwith.type');
+        //pagination routes start
+        Route::get('/tranwith/pagination', 'TranWithPagination');
+        Route::get('/tranwith/search/pagination', 'SearchTranWith');
+        Route::get('/tranwith/search/pagination/type', 'SearchTranWithByType');
 
 
 
@@ -197,8 +214,6 @@ Route::controller(ClientController::class)->group(function () {
     Route::get('/client/location/pagination', 'SearchClientByLocation');
     Route::get('/client/address/pagination', 'SearchClientByAddress');
     //search list routs
-
-
 });
 
 
@@ -350,4 +365,13 @@ Route::controller(ReportController::class)->group(function () {
     //Supplier
     Route::get('/supplier/due/transaction', 'SupplierDueTransaction')->name('supplier.due.transaction');
     Route::post('/supplier/filter', 'SupplierFilter');
+
+
+
+    Route::get('/report/groupe', 'ReportByGroupe')->name('report.groupe');
+    
+    Route::get('/report/invoice/details', 'ReportInvoiceDetails')->name('report.invoice.details');
+
+    // Search Routes
+    Route::get('/report/groupe/search/date', 'SearchReportByGroupeDate')->name('report.groupe');
 });

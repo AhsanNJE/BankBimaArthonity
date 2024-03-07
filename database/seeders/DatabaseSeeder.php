@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             DesignationSeeder::class,
             TransactionGroupeSeeder::class,
             TransactionHeadSeeder::class,
+            TransactionWithSeeder::class,
             
         ]);
     }

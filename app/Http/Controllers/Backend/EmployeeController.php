@@ -8,6 +8,7 @@ use App\Models\Employee_Info;
 use App\Models\Location_Info;
 use App\Models\Department_Info;
 use App\Models\User_Info;
+use App\Models\Transaction_With;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
@@ -495,18 +496,185 @@ class EmployeeController extends Controller
 
     /////////////////////////// --------------- Location Table Methods start ---------- //////////////////////////
     
+
+
+
+    /////////////////////////// --------------- Tran With Table Methods start ---------- //////////////////////////
+    
+    //Show All TranWith
+    public function ShowTranWith(){
+        $tranwith = Transaction_With::orderBy('added_at','desc')->paginate(15);
+        return view('tran_with.tranWith', compact('tranwith'));
+    }//End Method
+
+
+
+    //Get Tran With By Type
+    public function GetTranWithByType(Request $req){
+        $tranwith = Transaction_With::where('user_type', $req->type)
+        ->orderBy('user_type','asc')
+        ->get();
+
+        return response()->json([
+            'status'=>'success',
+            'tranwith'=>$tranwith,
+        ]);  
+
+    }//End Method
+
+
+
+    //Insert Tran With
+    public function InsertTranWith(Request $req){
+        $req->validate([
+            "name" => 'required|unique:transaction__withs,tran_with_name',
+            "type" => 'required|in:Client,Employee,Supplier,Bank,Others'
+        ]);
+
+        Transaction_With::insert([
+            "tran_with_name" => $req->name,
+            "user_type" => $req->type,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }//End Method
+
+
+
+    //Edit Tran With
+    public function EditTranWith(Request $req){
+        $tranwith = Transaction_With::findOrFail($req->id);
+        return response()->json([
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+
+
+    //Update Tran With
+    public function UpdateTranWith(Request $req){
+        $tranwith = Transaction_With::findOrFail($req->id);
+
+        $req->validate([
+            "name" => ['required',Rule::unique('transaction__withs', 'tran_with_name')->ignore($tranwith->id)],
+            "type"  => 'required'
+        ]);
+
+        $update = Transaction_With::findOrFail($req->id)->update([
+            "tran_with_name" => $req->name,
+            "user_type" => $req->type,
+            "updated_at" => now()
+        ]);
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+
+    //Delete Tran With
+    public function DeleteTranWith(Request $req){
+        Transaction_With::findOrFail($req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+
+
+    //Tran With Pagination
+    public function TranWithPagination(){
+        $tranwith = Transaction_With::orderBy('added_at','desc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('tran_with.tranWithPagination', compact('tranwith'))->render(),
+        ]);
+    }//End Method
+
+
+
+    //Designation Search
+    public function SearchTranWith(Request $req){
+        $tranwith = Transaction_With::where('tran_with_name', 'like', '%'.$req->search.'%')
+        ->orderBy('tran_with_name','asc')
+        ->paginate(15);
+
+        $paginationHtml = $tranwith->links()->toHtml();
+        
+        if($tranwith->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('tran_with.search', compact('tranwith'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+
+    //Designation Search
+    public function SearchTranWithByType(Request $req){
+        $tranwith = Transaction_With::where('user_type', 'like', '%' . $req->search . '%')
+        ->orderBy('user_type','asc')
+        ->paginate(15);
+
+        $paginationHtml = $tranwith->links()->toHtml();
+        
+        if($tranwith->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('tran_with.search', compact('tranwith'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    /////////////////////////// --------------- Tran With Table Methods start ---------- //////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     /////////////////////////// --------------- Employee Table Methods start ---------- //////////////////////////
     //Show All Employees
     public function ShowEmployees(){
         $employee = User_Info::where('user_type','employee')->orderBy('added_at','desc')->paginate(15);
-        return view('employee.employees', compact('employee'));
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('employee.employees', compact('employee','tranwith'));
     }//End Method
 
 
     //Show Employee Details
     public function ShowEmployeeDetails(Request $req){
-        $employee = User_Info::with('Designation','Department','Location')->where('id', "=", $req->id)->first();
+        $employee = User_Info::with('Designation','Department','Location','Withs')->where('id', "=", $req->id)->first();
         return response()->json([
             'data'=>view('employee.details', compact('employee'))->render(),
         ]);
@@ -572,8 +740,10 @@ class EmployeeController extends Controller
     //Edit Employees
     public function EditEmployees(Request $req){
         $employee = User_Info::with('Department','Designation','Location')->findOrFail($req->id);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
         return response()->json([
             'employee'=>$employee,
+            'tranwith'=>$tranwith,
         ]);
     }//End Method
 

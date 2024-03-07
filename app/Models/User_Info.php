@@ -23,6 +23,11 @@ class User_Info extends Model
         return $this->belongsTo(Designation::class,'designation_id','id');
     }
 
+
+    public function Withs(){
+        return $this->belongsTo(Transaction_With::class,'tran_user_type','id');
+    }
+
     ///// client base due find for user_type User_Info Table /////////
     
     public function transaction()
