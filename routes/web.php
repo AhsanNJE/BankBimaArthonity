@@ -307,6 +307,7 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/pagination/user', 'SearchTransactionByTranUser');
         //search list routs
         Route::get('/get/tranid', 'GetTransactionId');
+        Route::get('/get/tranwith', 'GetTransactionWith');
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/transactiongrid', 'GetTransactionGrid');
         Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
@@ -345,6 +346,7 @@ Route::controller(PartyPaymentController::class)->group(function () {
 
         //search list routs
         Route::get('/get/tranid', 'GetTransactionId');
+        Route::get('/get/tranwith', 'GetTransactionWith');
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/trandue/userid', 'GetTransactionDueByUserId');
 
@@ -385,10 +387,12 @@ Route::controller(ReportController::class)->group(function () {
 
 
     Route::get('/report/groupe', 'ReportByGroupe')->name('report.groupe');
-    
+    Route::get('/summary/report', 'SummaryReport')->name('summary.report');
+    Route::get('/party/summary/report', 'PartySummaryReport')->name('party.summary.report');
     Route::get('/report/invoice/details', 'ReportInvoiceDetails')->name('report.invoice.details');
 
     // Search Routes
-    Route::get('/report/groupe/search/date', 'SearchReportByGroupeDate')->name('report.groupe');
+    Route::get('/report/groupe/search/date', 'SearchReportByGroupeDate')->name('report.groupe.search.date');
+    Route::get('/party/summary/report/search/date', 'SearchPartySummaryReportByDate')->name('party.summary.report.date');
 });
 

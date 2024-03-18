@@ -653,6 +653,7 @@ $(document).ready(function () {
         let tranUserType = $('#with').val();
         let id = $(this).attr('data-id');
         UserKeyUp(e, tranUserType, tranUser, id, '#user', '#user-list ul');
+        $('.due-grid tbody, .due-grid tfoot').html('');
     });
 
 
@@ -681,6 +682,7 @@ $(document).ready(function () {
         $('#user').val(value);
         $('#user').attr('data-id', id);
         $('#user-list ul').html('');
+        getDueListByUserId(id, '.due-grid tbody');
     });
 
 
@@ -747,6 +749,7 @@ $(document).ready(function () {
         $('#updateUser').val(value);
         $('#updateUser').attr('data-id', id);
         $('#update-user ul').html('');
+        getDueListByUserId(id, '.due-grid tbody');
     });
 
 
@@ -853,7 +856,6 @@ $(document).ready(function () {
             e.preventDefault();
             let id = $(targetElement1).attr('data-id');
             getDueListByUserId(id, '.due-grid tbody');
-            console.log(id)
             $(targetElement2).html('');
             $(targetElement1).focus();
         }

@@ -101,10 +101,7 @@
                                         <label for="updateGroupe">Transaction Groupe</label>
                                         <select name="groupe" id="updateGroupe">
                                             <option value="">Select Transaction Groupe</option>
-                                            @foreach ($groupes as $groupe)
-                                                <option value="{{ $groupe->id }}">{{ $groupe->tran_groupe_name }}
-                                                </option>
-                                            @endforeach
+                                            {{-- options will be display dynamically --}}
                                         </select>
                                         <span class="text-danger error" id="update_groupe_error"></span>
                                     </div>

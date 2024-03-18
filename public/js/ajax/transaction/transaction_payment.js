@@ -4,6 +4,7 @@ $(document).ready(function () {
         let type = 'payment';
         $('#invoice').focus();
         getTransactionId(type, '#tranId');
+        getTransactionWith(type, '#with')
     });
 
 
@@ -183,13 +184,12 @@ $(document).ready(function () {
 
 
                 $('#updateWith').empty();
-                $('#updateWith').append(`<option value="" disabled>Select Transaction With</option>
-                                        <option value="regular employee" ${res.transaction.tran_type_with === 'regular employee' ? 'selected' : 'disabled'}>Regular</option>
-                                        <option value="district employee" ${res.transaction.tran_type_with === 'district employee' ? 'selected' : 'disabled'}>District Employee</option>
-                                        <option value="bit pion" ${res.transaction.tran_type_with === 'bit pion' ? 'selected' : 'disabled'}>Bit Pione</option>
-                                        <option value="food supplier" ${res.transaction.tran_type_with === 'food supplier' ? 'selected' : 'disabled'}>Food Supplier</option>
-                                        <option value="stationary supplier" ${res.transaction.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>`);
+                $('#updateWith').append(`<option value="" disabled>Select Transaction With</option>`);
+                $.each(res.tranwith, function (key, withs) {
+                    $('#updateWith').append(`<option value="${withs.id}" ${res.transaction.tran_type_with === withs.id ? 'selected' : 'disabled'}>${withs.tran_with_name}</option>`);
+                });
 
+                
                 $('#updateUser').attr('data-id',res.transaction.tran_user);
                 $('#updateUser').val(res.transaction.user.user_name);
 
@@ -468,6 +468,27 @@ $(document).ready(function () {
                     $(targetElement).val(res.tran_id);
                 }
                 
+            }
+        });
+    }
+
+
+    //get last transaction with by transaction type function
+    function getTransactionWith(type, targetElement) {
+        $.ajax({
+            url: "/transaction/get/tranwith",
+            method: 'GET',
+            data: { type: type },
+            success: function (res) {
+                if (res.status === 'success') {
+                    // Create options dynamically
+                    $(targetElement).empty();
+                    $(targetElement).append(`<option value="" }>Select Transaction With</option>`);
+                    $.each(res.tranwith, function (key, withs) {
+                        $(targetElement).append(`<option value="${withs.id}"}>${withs.tran_with_name}</option>`);
+                    });
+                }
+
             }
         });
     }

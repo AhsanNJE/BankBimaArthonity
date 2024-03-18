@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('invoice')->nullable();
             $table->unsignedBigInteger('loc_id')->nullable();
             $table->string('tran_type');
-            $table->string('tran_type_with')->nullable();
+            $table->unsignedBigInteger('tran_type_with')->nullable();
             $table->string('tran_user')->nullable();
             $table->unsignedBigInteger('tran_groupe_id')->nullable();
             $table->unsignedBigInteger('tran_head_id')->nullable();
@@ -25,6 +25,9 @@ return new class extends Migration
             $table->float('amount')->nullable();
             $table->float('tot_amount')->nullable();
             $table->foreign('loc_id')->references('id')->on('location__infos')
+                    ->onUpdate('cascade')
+                    ->onDelete('set null');
+            $table->foreign('tran_type_with')->references('id')->on('transaction__withs')
                     ->onUpdate('cascade')
                     ->onDelete('set null');
             $table->foreign('tran_groupe_id')->references('id')->on('transaction__groupes')

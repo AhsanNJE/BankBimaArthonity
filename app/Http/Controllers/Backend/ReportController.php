@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Transaction_Head;
 use App\Models\Transaction_Main;
 use App\Models\Transaction_Detail;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Transaction_Groupe;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class ReportController extends Controller
 {
@@ -189,18 +192,17 @@ class ReportController extends Controller
     // Show Report By groupe 
     public function ReportByGroupe(){
         //get unique transaction id where tran_type receive
-        $receive_id = Transaction_Detail::where('tran_type', 'receive')
-        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        $receive_id = Transaction_Detail::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
         ->orderBy('tran_date','asc')
         ->distinct('tran_id')
         ->pluck('tran_id');
         
-        //get unique transaction id where tran_type payment
-        $payment_id = Transaction_Detail::where('tran_type', 'payment')
-        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
-        ->orderBy('tran_date','asc')
-        ->distinct('tran_id')
-        ->pluck('tran_id');
+        // //get unique transaction id where tran_type payment
+        // $payment_id = Transaction_Detail::where('tran_type', 'payment')
+        // ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        // ->orderBy('tran_date','asc')
+        // ->distinct('tran_id')
+        // ->pluck('tran_id');
 
         
         $receive = [];
@@ -210,13 +212,13 @@ class ReportController extends Controller
             $receive_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
         }
         
-        $payment = [];
-        $payment_main = [];
-        foreach($payment_id as $key => $tranid){
-            $payment[$key] = Transaction_Detail::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
-            $payment_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
-        }
-        return view('reports.report_by_groupe.report_by_groupe', compact('receive','payment','receive_main','payment_main'));
+        // $payment = [];
+        // $payment_main = [];
+        // foreach($payment_id as $key => $tranid){
+        //     $payment[$key] = Transaction_Detail::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+        //     $payment_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+        // }
+        return view('reports.report_by_groupe.report_by_groupe', compact('receive','receive_main'));
     } //End Method
 
 
@@ -239,18 +241,17 @@ class ReportController extends Controller
     // Show Report By groupe 
     public function SearchReportByGroupeDate(Request $req){
         //get unique transaction id where tran_type receive
-        $receive_id = Transaction_Detail::where('tran_type', 'receive')
-        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        $receive_id = Transaction_Detail::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
         ->orderBy('tran_date','asc')
         ->distinct('tran_id')
         ->pluck('tran_id');
         
-        //get unique transaction id where tran_type payment
-        $payment_id = Transaction_Detail::where('tran_type', 'payment')
-        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
-        ->orderBy('tran_date','asc')
-        ->distinct('tran_id')
-        ->pluck('tran_id');
+        // //get unique transaction id where tran_type payment
+        // $payment_id = Transaction_Detail::where('tran_type', 'payment')
+        // ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        // ->orderBy('tran_date','asc')
+        // ->distinct('tran_id')
+        // ->pluck('tran_id');
 
         
         $receive = [];
@@ -260,18 +261,18 @@ class ReportController extends Controller
             $receive_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
         }
         
-        $payment = [];
-        $payment_main = [];
-        foreach($payment_id as $key => $tranid){
-            $payment[$key] = Transaction_Detail::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
-            $payment_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
-        }
+        // $payment = [];
+        // $payment_main = [];
+        // foreach($payment_id as $key => $tranid){
+        //     $payment[$key] = Transaction_Detail::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+        //     $payment_main[$key] = Transaction_Main::where('tran_id', $tranid)->orderBy('tran_date','asc')->paginate(15);
+        // }
 
         
-        if($receive->count() > 0 || $payment->count() > 0){
+        if(count($receive) > 0 ){
             return response()->json([
                 'status' => 'success',
-                'data' => view('reports.report_by_groupe.search', compact('receive','payment','receive_main','payment_main'))->render(),
+                'data' => view('reports.report_by_groupe.search', compact('receive','receive_main'))->render(),
             ]);
         }
         else{
@@ -282,4 +283,84 @@ class ReportController extends Controller
     } //End Method
 
 
+
+    // Show Summary Report  
+    public function SummaryReport(){
+        $groupes = Transaction_Groupe::orderBy('tran_groupe_name')->get();
+        $head_groupe = [];
+        foreach ($groupes as $key => $groupe) {
+            $head_groupe[$key] = Transaction_Head::where('groupe_id',$groupe->id)->orderBy('tran_head_name')->get();
+        }
+
+        // foreach ($head_groupe as $key => $heads) {
+        //     foreach ($heads as $key => $head) {
+        //         $head_groupe[$key] = Transaction_Head::where('groupe_id',$groupe->id)->orderBy('tran_head_name')->get();
+        //     }
+            
+        // }
+
+        // dd("groupe",$groupe, 'head', $heads);
+        return view('reports.summary_report.summary_report', compact('groupes','head_groupe'));
+    } //End Method
+
+
+    // Show Party Summary Report  
+    public function PartySummaryReport(){
+        $transactions = Transaction_Main::select(
+            'tran_type',
+            'tran_type_with',
+            'tran_user',
+            DB::raw('SUM(bill_amount) as total_bill_amount'),
+            DB::raw('SUM(discount) as total_discount'),
+            DB::raw('SUM(net_amount) as total_net_amount'),
+            DB::raw('SUM(receive) as total_receive'),
+            DB::raw('SUM(payment) as total_payment'),
+            DB::raw('SUM(due) as total_due'),
+            DB::raw('SUM(due_disc) as total_due_disc'),
+            DB::raw('SUM(due_col) as total_due_col')
+        )
+        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        ->groupBy('tran_type', 'tran_type_with', 'tran_user')
+        ->orderBy('tran_id','asc')
+        ->paginate(15);
+
+        return view('reports.summary_report.party_summary.party_summary_report', compact('transactions'));
+    } //End Method
+
+
+
+
+    // Show Party Summary Report By Date
+    public function SearchPartySummaryReportByDate(Request $req){
+        $transactions = Transaction_Main::select(
+            'tran_type',
+            'tran_type_with',
+            'tran_user',
+            DB::raw('SUM(bill_amount) as total_bill_amount'),
+            DB::raw('SUM(discount) as total_discount'),
+            DB::raw('SUM(net_amount) as total_net_amount'),
+            DB::raw('SUM(receive) as total_receive'),
+            DB::raw('SUM(payment) as total_payment'),
+            DB::raw('SUM(due) as total_due'),
+            DB::raw('SUM(due_disc) as total_due_disc'),
+            DB::raw('SUM(due_col) as total_due_col')
+        )
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->groupBy('tran_type', 'tran_type_with', 'tran_user')
+        ->orderBy('tran_id','asc')
+        ->paginate(15);
+        
+        // dd($transactions);
+        if($transactions->count() > 0){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('reports.summary_report.party_summary.search', compact('transactions'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'null',
+            ]);
+        }
+    } //End Method
 }

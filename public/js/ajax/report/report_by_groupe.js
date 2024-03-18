@@ -51,7 +51,7 @@ $(document).ready(function () {
                     }
                 }
                 else {
-                    $('.details').html(`<span class="text-danger">Result not Found </span>`);
+                    $('.report-groupe').html(`<span class="text-danger">Result not Found </span>`);
                 }
             }
         });

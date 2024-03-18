@@ -2,24 +2,7 @@ $(document).ready(function () {
     //get last transaction id by transaction type
     $(document).on('change', '#type', function (e) {
         let type = $('#type').val();
-        if (type === 'payment') {
-            $('#with').empty();
-            $('#with').append(`<option value="">Select Transaction With</option>
-                                <option value="regular employee">Regular</option>
-                                <option value="district employee">District Employee</option>
-                                <option value="bit pion" >Bit Pione</option>
-                                <option value="food supplier">Food Supplier</option>
-                                <option value="stationary supplier">Stationary Supplier</option>
-                                <option value="newspaper supplier">Newspaper Supplier</option>`);
-        }
-        else if(type == 'receive'){
-            $('#with').empty();
-            $('#with').append(`<option value="">Select Transaction With</option>
-                                <option value="newspaper client">Newpaper Client</option>
-                                <option value="advertisement client" >Advertisement Client</option>
-                                <option value="magazine client">Magazine Client</option>`);
-
-        }
+        getTransactionWith(type, '#with')
         getTransactionId(type, '#tranId');
         getTransactionGroupeByType(type, '#groupe')
     });
@@ -204,17 +187,11 @@ $(document).ready(function () {
 
 
                 $('#updateWith').empty();
-                $('#updateWith').append(`<option value="" disabled>Select Transaction With</option>
-                                        <option value="regular employee" ${res.transaction.tran_type_with === 'regular employee' ? 'selected' : 'disabled'}>Regular</option>
-                                        <option value="district employee" ${res.transaction.tran_type_with === 'district employee' ? 'selected' : 'disabled'}>District Employee</option>
-                                        <option value="bit pion" ${res.transaction.tran_type_with === 'bit pion' ? 'selected' : 'disabled'}>Bit Pione</option>
-                                        <option value="newspaper client" ${res.transaction.tran_type_with === 'newspaper client' ? 'selected' : 'disabled'}>Newpaper Client</option>
-                                        <option value="advertisement client" ${res.transaction.tran_type_with === 'advertisement client' ? 'selected' : 'disabled'}>Advertisement Client</option>
-                                        <option value="magazine client" ${res.transaction.tran_type_with === 'magazine client' ? 'selected' : 'disabled'}>Magazine Client</option>
-                                        <option value="food supplier" ${res.transaction.tran_type_with === 'food supplier' ? 'selected' : 'disabled'}>Food Supplier</option>
-                                        <option value="stationary supplier" ${res.transaction.tran_type_with === 'stationary supplier' ? 'selected' : 'disabled'}>Stationary Supplier</option>
-                                        <option value="newspaper supplier" ${res.transaction.tran_type_with === 'newspaper supplier' ? 'selected' : 'disabled'}>Newspaper Supplier</option>
-                                        <option value="others" ${res.transaction.tran_type_with === 'others' ? 'selected' : 'disabled'}>Others</option>`);
+                $('#updateWith').append(`<option value="" disabled>Select Transaction With</option>`);
+                $.each(res.tranwith, function (key, withs) {
+                    $('#updateWith').append(`<option value="${withs.id}" ${res.transaction.tran_type_with === withs.id ? 'selected' : 'disabled'}>${withs.tran_with_name}</option>`);
+                });
+                
 
                 $('#updateUser').attr('data-id', res.transaction.tran_user);
                 $('#updateUser').val(res.transaction.user.user_name);
@@ -494,6 +471,27 @@ $(document).ready(function () {
                 }
                 else {
                     $(targetElement).val(res.tran_id);
+                }
+
+            }
+        });
+    }
+
+
+    //get last transaction with by transaction type function
+    function getTransactionWith(type, targetElement) {
+        $.ajax({
+            url: "/transaction/get/tranwith",
+            method: 'GET',
+            data: { type: type },
+            success: function (res) {
+                if (res.status === 'success') {
+                    // Create options dynamically
+                    $(targetElement).empty();
+                    $(targetElement).append(`<option value="" }>Select Transaction With</option>`);
+                    $.each(res.tranwith, function (key, withs) {
+                        $(targetElement).append(`<option value="${withs.id}"}>${withs.tran_with_name}</option>`);
+                    });
                 }
 
             }
