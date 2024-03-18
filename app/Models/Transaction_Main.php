@@ -18,4 +18,8 @@ class Transaction_Main extends Model
     public function Location(){
         return $this->belongsTo(Location_Info::class,'loc_id','id');
     }
+
+    public function Withs(){
+        return $this->belongsTo(Transaction_With::class,'tran_type_with','id');
+    }
 }

@@ -3,6 +3,7 @@ $(document).ready(function () {
     $(document).on('change', '#type', function (e) {
         let type = $('#type').val();
         getTransactionId(type, '#tranId');
+        getTransactionWith(type, '#with')
     });
 
 
@@ -87,7 +88,7 @@ $(document).ready(function () {
                     $('#location').removeAttr('data-id');
                     $('#user').removeAttr('data-id');
                     $('.party').load(location.href + ' .party');
-                    $('.due-grid tbody').html('');
+                    $('.due-grid tbody, .due-grid tfoot').html('');
                     toastr.success('Party Payment Added Successfully', 'Added!');
                 }
             },
@@ -219,6 +220,28 @@ $(document).ready(function () {
                     $(targetElement).val(res.tran_id);
                 }
                 
+            }
+        });
+    }
+
+
+
+    //get last transaction with by transaction type function
+    function getTransactionWith(type, targetElement) {
+        $.ajax({
+            url: "/party/get/tranwith",
+            method: 'GET',
+            data: { type: type },
+            success: function (res) {
+                if (res.status === 'success') {
+                    // Create options dynamically
+                    $(targetElement).empty();
+                    $(targetElement).append(`<option value="" }>Select Transaction With</option>`);
+                    $.each(res.tranwith, function (key, withs) {
+                        $(targetElement).append(`<option value="${withs.id}"}>${withs.tran_with_name}</option>`);
+                    });
+                }
+
             }
         });
     }

@@ -49,7 +49,7 @@
         </tr>
         @endforeach
 
-        @foreach ($payment as $key => $items)
+        {{-- @foreach ($payment as $key => $items)
         <tr>
             <td>{{ $key + 1 }}</td>
             @foreach ($items as $item)                    
@@ -79,13 +79,13 @@
                 @foreach ($payment_main[$key] as $item)
                     <button class="btn btn-info btn-sm open-modal invoiceDetails" data-modal-id="invoiceDetails"
                         data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i>Invoice</button>
-                    {{-- <a href="{{ route('trans.details',$item->id) }}" class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light"> Details </a>
+                    <a href="{{ route('trans.details',$item->id) }}" class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light"> Details </a>
 
-                    <a href="{{ route('trans.invoice',$item->tran_id) }}" class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">Invoice</a> --}}
+                    <a href="{{ route('trans.invoice',$item->tran_id) }}" class="btn btn-secondary btn-sm rounded-pill waves-effect waves-light">Invoice</a>
                 @endforeach
             </td>
         </tr>
-        @endforeach
+        @endforeach --}}
     </tbody>
 </table>
 

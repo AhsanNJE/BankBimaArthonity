@@ -277,10 +277,7 @@ div[id$="-list"] li:focus, div[id^="update-"] li:focus {
     font-size: 30px;
 }
 
-.designation{
-    color: #0af7b7f5;
-    font-size: 20px;
-}
+
 
 
 .details-table{

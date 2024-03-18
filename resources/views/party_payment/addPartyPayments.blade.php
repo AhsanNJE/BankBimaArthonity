@@ -82,11 +82,6 @@
                                         <label for="with">Transaction With</label>
                                         <select name="with" id="with">
                                             <option>Select Transaction With</option>
-                                            <option value="newspaper client">Newpaper Client</option>
-                                            <option value="advertisement client">Advertisement Client</option>
-                                            <option value="magazine client">Magazine Client</option>
-                                            <option value="food supplier">Food Supplier</option>
-                                            <option value="stationary supplier">Stationary Supplier</option>
                                         </select>
                                         <span class="text-danger error" id="with_error"></span>
                                     </div>
@@ -153,9 +148,8 @@
                                                 <tr>
                                                     <th>SL:</th>
                                                     <th>Transaction Id</th>
-                                                    <th>Bill Amount</th>
+                                                    <th>Balance Amount</th>
                                                     <th>Due</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

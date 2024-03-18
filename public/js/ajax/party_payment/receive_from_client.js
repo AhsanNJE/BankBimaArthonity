@@ -3,6 +3,7 @@ $(document).ready(function () {
     $(document).on('click', '.add', function (e) {
         let type = "receive";
         getTransactionId(type, '#tranId');
+        getTransactionWith(type, '#with')
     });
     
 
@@ -223,6 +224,28 @@ $(document).ready(function () {
         });
     }
 
+
+
+
+    //get last transaction with by transaction type function
+    function getTransactionWith(type, targetElement) {
+        $.ajax({
+            url: "/party/get/tranwith",
+            method: 'GET',
+            data: { type: type },
+            success: function (res) {
+                if (res.status === 'success') {
+                    // Create options dynamically
+                    $(targetElement).empty();
+                    $(targetElement).append(`<option value="" }>Select Transaction With</option>`);
+                    $.each(res.tranwith, function (key, withs) {
+                        $(targetElement).append(`<option value="${withs.id}"}>${withs.tran_with_name}</option>`);
+                    });
+                }
+
+            }
+        });
+    }
 
 
     // Search Party Payment Details

@@ -23,13 +23,16 @@ return new class extends Migration
             $table->float('receive')->nullable();
             $table->float('payment')->nullable();
             $table->float('due')->nullable();
-            $table->string('tran_type_with')->nullable();
+            $table->unsignedBigInteger('tran_type_with')->nullable();
             $table->string('tran_user')->nullable();
             $table->float('due_col')->default(0)->nullable();
             $table->float('due_disc')->default(0)->nullable();
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+            $table->foreign('tran_type_with')->references('id')->on('transaction__withs')
+                    ->onUpdate('cascade')
+                    ->onDelete('set null');
             $table->foreign('tran_user')->references('user_id')->on('user__infos')
                     ->onUpdate('cascade')
                     ->onDelete('set null');

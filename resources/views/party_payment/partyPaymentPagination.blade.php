@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ $party->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
-                <td>{{ $item->tran_type_with }}</td>
+                <td>{{ $item->withs->tran_with_name }}</td>
                 <td>{{ $item->User->user_name }}</td>
                 <td>{{ $item->amount }}</td>
                 <td>

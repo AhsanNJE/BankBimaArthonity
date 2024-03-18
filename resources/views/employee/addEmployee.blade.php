@@ -3,6 +3,10 @@
         .modal-subject {
             width: 80%;
         }
+        .designation{
+            color: #0af7b7f5;
+            font-size: 20px;
+        }
     </style>
 @endsection
 

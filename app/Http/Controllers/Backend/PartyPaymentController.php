@@ -10,6 +10,7 @@ use App\Models\Transaction_Groupe;
 use App\Models\Transaction_Head;
 use App\Models\Transaction_Main;
 use App\Models\Transaction_Detail;
+use App\Models\Transaction_With;
 
 class PartyPaymentController extends Controller
 {
@@ -47,6 +48,29 @@ class PartyPaymentController extends Controller
         }
     }//End Method
 
+
+
+    //Get Transaction with by transaction Type
+    public function GetTransactionWith(Request $req){
+        if($req->type != ""){
+            if($req->type == 'receive'){
+                $tranwith = Transaction_With::where('user_type', 'Client')->get();
+
+                return response()->json([
+                    'status' => 'success',
+                    'tranwith' => $tranwith,
+                ]);
+            }
+            else if($req->type == "payment"){
+                $tranwith = Transaction_With::whereIn('user_type', ['Supplier', 'Employee'])->get();
+
+                return response()->json([
+                    'status' => 'success',
+                    'tranwith' => $tranwith,
+                ]);
+            }
+        }
+    }//End Method
 
 
     public function GetTransactionUser(Request $req){
@@ -347,10 +371,23 @@ class PartyPaymentController extends Controller
     // Get Party by Tran With
     public function SearchPartyByTranWith(Request $req){
         if($req->type == null ){
-            $party = Party_Payment_Receive::where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_type_with','asc')->paginate(15);
+            $party = Party_Payment_Receive::with('Withs')
+            ->whereHas('Withs', function ($query) use ($req) {
+                $query->where('tran_with_name', 'like', '%'.$req->search.'%');
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+            ->paginate(15);
         }
         else{
-            $party = Party_Payment_Receive::where('tran_type', $req->type)->where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_type_with','asc')->paginate(15);
+            $party = Party_Payment_Receive::with('Withs')
+            ->whereHas('Withs', function ($query) use ($req) {
+                $query->where('tran_with_name', 'like', '%'.$req->search.'%');
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->where('tran_type', $req->type)
+            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+            ->paginate(15);
         }
         
         $paginationHtml = $party->links()->toHtml();

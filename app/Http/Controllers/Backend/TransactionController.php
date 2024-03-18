@@ -9,6 +9,7 @@ use App\Models\Transaction_Groupe;
 use App\Models\Transaction_Head;
 use App\Models\Transaction_Detail;
 use App\Models\Transaction_Main;
+use App\Models\Transaction_With;
 use App\Models\User_Info;
 
 
@@ -348,8 +349,7 @@ class TransactionController extends Controller
     //Show All Transaction
     public function ShowTransactions(){
         $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
-        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
-        return view('transaction.details.transactionDetails', compact('transaction','groupes'));
+        return view('transaction.details.transactionDetails', compact('transaction'));
     }//End Method
 
 
@@ -372,6 +372,30 @@ class TransactionController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'id' => $id,
+                ]);
+            }
+        }
+    }//End Method
+
+
+
+    //Get Transaction with by transaction Type
+    public function GetTransactionWith(Request $req){
+        if($req->type != ""){
+            if($req->type == 'receive'){
+                $tranwith = Transaction_With::where('user_type', 'Client')->get();
+
+                return response()->json([
+                    'status' => 'success',
+                    'tranwith' => $tranwith,
+                ]);
+            }
+            else if($req->type == "payment"){
+                $tranwith = Transaction_With::whereIn('user_type', ['Supplier', 'Employee'])->get();
+
+                return response()->json([
+                    'status' => 'success',
+                    'tranwith' => $tranwith,
                 ]);
             }
         }
@@ -516,9 +540,11 @@ class TransactionController extends Controller
 
     //Edit Transaction Main
     public function EditTransactionMain(Request $req){
-        $transaction = Transaction_Main::with('Location','User')->where('tran_id', $req->id )->first();
+        $transaction = Transaction_Main::with('Location','User','withs')->where('tran_id', $req->id )->first();
+        $tranwith = Transaction_With::where('user_type', '=', $transaction->withs->user_type)->get();
         return response()->json([
             'transaction'=>$transaction,
+            'tranwith' =>$tranwith
         ]);
     }//End Method
 
@@ -756,10 +782,23 @@ class TransactionController extends Controller
     // Get Transaction by Tran With
     public function SearchTransactionByTranWith(Request $req){
         if($req->type == null ){
-            $transaction = Transaction_Main::where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_type_with','asc')->paginate(15);
+            $transaction = Transaction_Main::with('Withs')
+            ->whereHas('Withs', function ($query) use ($req) {
+                $query->where('tran_with_name', 'like', '%'.$req->search.'%');
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+            ->paginate(15);
         }
         else{
-            $transaction = Transaction_Main::where('tran_type', $req->type)->where('tran_type_with', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_type_with','asc')->paginate(15);
+            $transaction = Transaction_Main::with('Withs')
+            ->whereHas('Withs', function ($query) use ($req) {
+                $query->where('tran_with_name', 'like', '%'.$req->search.'%');
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->where('tran_type', $req->type)
+            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+            ->paginate(15);
         }
         
         $paginationHtml = $transaction->links()->toHtml();
