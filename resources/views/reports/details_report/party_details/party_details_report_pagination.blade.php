@@ -3,7 +3,7 @@
         <caption class="caption">Party Summary Report</caption>
         <tr>
             <th>SL:</th>
-            <th>Transaction Type</th>
+            <th>Transaction Id</th>
             <th>Tran With</th>
             <th>Tran User</th>
             <th>Bill Amount</th>
@@ -20,17 +20,17 @@
         @foreach ($transactions as $key => $transaction)
         <tr>
             <td>{{$transactions->firstItem() + $key}}</td>
-            <td>{{$transaction->tran_type}}</td>
+            <td>{{$transaction->tran_id}}</td>
             <td>{{$transaction->Withs->tran_with_name}}</td>
             <td>{{$transaction->User->user_name}}</td>
-            <td>{{$transaction->total_bill_amount}}</td>
-            <td>{{$transaction->total_discount}}</td>
-            <td>{{$transaction->total_net_amount}}</td>
-            <td>{{$transaction->total_receive}}</td>
-            <td>{{$transaction->total_payment}}</td>
-            <td>{{$transaction->total_due_col}}</td>
-            <td>{{$transaction->total_due_disc}}</td>
-            <td>{{$transaction->total_due}}</td>
+            <td>{{$transaction->bill_amount}}</td>
+            <td>{{$transaction->discount}}</td>
+            <td>{{$transaction->net_amount}}</td>
+            <td>{{$transaction->receive}}</td>
+            <td>{{$transaction->payment}}</td>
+            <td>{{$transaction->due_col}}</td>
+            <td>{{$transaction->due_disc}}</td>
+            <td>{{$transaction->due}}</td>
         </tr>
         @endforeach
     </tbody>
@@ -49,14 +49,14 @@
                 @endphp
                 @foreach ($transactions as $key => $item)
                     @php
-                        $totalBillAmount += $item->total_bill_amount;
-                        $totalDiscount += $item->total_discount;
-                        $totalNetAmount += $item->total_net_amount;
-                        $totalReceive += $item->total_receive;
-                        $totalPayment += $item->total_payment;
-                        $totalDueCol += $item->total_due_col;
-                        $totalDueDiscount += $item->total_due_disc;
-                        $totalDue += $item->total_due;
+                        $totalBillAmount += $item->bill_amount;
+                        $totalDiscount += $item->discount;
+                        $totalNetAmount += $item->net_amount;
+                        $totalReceive += $item->receive;
+                        $totalPayment += $item->payment;
+                        $totalDueCol += $item->due_col;
+                        $totalDueDiscount += $item->due_disc;
+                        $totalDue += $item->due;
                     @endphp
                 @endforeach
                 <td colspan="4">Total:</td>
@@ -73,3 +73,7 @@
     @endif
 </table>
 
+
+<div class="center paginate" id="paginate">
+    {!! $transactions->links() !!}
+</div>

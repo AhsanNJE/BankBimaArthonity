@@ -385,14 +385,20 @@ Route::controller(ReportController::class)->group(function () {
     Route::post('/supplier/filter', 'SupplierFilter');
 
 
-
+    Route::get('/report/invoice/details', 'ReportInvoiceDetails')->name('report.invoice.details');
     Route::get('/report/groupe', 'ReportByGroupe')->name('report.groupe');
     Route::get('/summary/report', 'SummaryReport')->name('summary.report');
     Route::get('/party/summary/report', 'PartySummaryReport')->name('party.summary.report');
-    Route::get('/report/invoice/details', 'ReportInvoiceDetails')->name('report.invoice.details');
-
+    Route::get('/party/details/report', 'PartyDetailsReport')->name('party.details.report');
+    //pagination routes
+    Route::get('/party/summary/report/pagination', 'PartySummaryReport');
+    Route::get('/party/summary/report/search/pagination', 'SearchPartySummaryReport');
+    Route::get('/party/details/report/pagination', 'PartyDetailsReport');
+    Route::get('/party/details/report/search/pagination', 'SearchPartyDetailsReport');
     // Search Routes
+    Route::get('/summary/report/search', 'SearchSummaryReport')->name('search.summary.report');
     Route::get('/report/groupe/search/date', 'SearchReportByGroupeDate')->name('report.groupe.search.date');
-    Route::get('/party/summary/report/search/date', 'SearchPartySummaryReportByDate')->name('party.summary.report.date');
+    Route::get('/party/summary/report/search', 'SearchPartySummaryReport')->name('party.summary.report.search');
+    Route::get('/party/details/report/search', 'SearchPartyDetailsReport')->name('party.details.report.search');
 });
 

@@ -312,6 +312,12 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="{{route('party.details.report')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Party Details Report</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{route('party.summary.report')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Party Summary Report</p>

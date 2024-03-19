@@ -19,7 +19,7 @@
     <tbody>
         @foreach ($transactions as $key => $transaction)
         <tr>
-            <td>{{$key + 1}}</td>
+            <td>{{$transactions->firstItem() + $key}}</td>
             <td>{{$transaction->tran_type}}</td>
             <td>{{$transaction->Withs->tran_with_name}}</td>
             <td>{{$transaction->User->user_name}}</td>
@@ -34,6 +34,43 @@
         </tr>
         @endforeach
     </tbody>
+    @if($transactions->count() > 0)
+        <tfoot>
+            <tr>
+                @php
+                    $totalBillAmount = 0;
+                    $totalDiscount = 0;
+                    $totalNetAmount = 0;
+                    $totalReceive = 0;
+                    $totalPayment = 0;
+                    $totalDueCol = 0;
+                    $totalDueDiscount = 0;
+                    $totalDue = 0;
+                @endphp
+                @foreach ($transactions as $key => $item)
+                    @php
+                        $totalBillAmount += $item->total_bill_amount;
+                        $totalDiscount += $item->total_discount;
+                        $totalNetAmount += $item->total_net_amount;
+                        $totalReceive += $item->total_receive;
+                        $totalPayment += $item->total_payment;
+                        $totalDueCol += $item->total_due_col;
+                        $totalDueDiscount += $item->total_due_disc;
+                        $totalDue += $item->total_due;
+                    @endphp
+                @endforeach
+                <td colspan="4">Total:</td>
+                <td>{{ $totalBillAmount }}</td>
+                <td>{{ $totalDiscount }}</td>
+                <td>{{ $totalNetAmount }}</td>
+                <td>{{ $totalReceive }}</td>
+                <td>{{ $totalPayment }}</td>
+                <td>{{ $totalDueCol }}</td>
+                <td>{{ $totalDueDiscount }}</td>
+                <td>{{ $totalDue }}</td>
+            </tr>    
+        </tfoot>      
+    @endif
 </table>
 
 

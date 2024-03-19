@@ -284,25 +284,118 @@ class ReportController extends Controller
 
 
 
-    // Show Summary Report  
+    // // Show Summary Report  
+    // public function SummaryReport(){
+        // $groupes = Transaction_Groupe::orderBy('tran_groupe_name')->get();
+        // $head_groupe = [];
+        // foreach ($groupes as $key => $groupe) {
+        //     $head_groupe[$key] = Transaction_Head::where('groupe_id',$groupe->id)->orderBy('tran_head_name')->get();
+        // }
+
+    //     // foreach ($head_groupe as $key => $heads) {
+    //     //     foreach ($heads as $key => $head) {
+    //     //         $head_groupe[$key] = Transaction_Head::where('groupe_id',$groupe->id)->orderBy('tran_head_name')->get();
+    //     //     }
+            
+    //     // }
+
+    //     // dd("groupe",$groupe, 'head', $heads);
+    //     return view('reports.summary_report.summary_report', compact('groupes','head_groupe'));
+    // } //End Method
+
+
+    ///////////////////////// --------------------------- Summary Report Part Start -------------------- /////////////////////////
+    //Show Summary Report
     public function SummaryReport(){
         $groupes = Transaction_Groupe::orderBy('tran_groupe_name')->get();
         $head_groupe = [];
         foreach ($groupes as $key => $groupe) {
             $head_groupe[$key] = Transaction_Head::where('groupe_id',$groupe->id)->orderBy('tran_head_name')->get();
         }
+    
+        $transactions = collect(); // Initialize an empty collection to store transactions
+    
+        foreach ($head_groupe as $heads) {
+            foreach ($heads as $head) {
+                $transaction = Transaction_Detail::select(
+                    'tran_type',
+                    'tran_groupe_id',
+                    'tran_head_id',
+                    DB::raw('SUM(quantity) as total_quantity'),
+                    // DB::raw('SUM(amount) as total_amount'),
+                    DB::raw('SUM(tot_amount) as total_tot_amount'),
+                )
+                ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+                ->where('tran_head_id', $head->id)
+                ->groupBy('tran_type','tran_groupe_id','tran_head_id')
+                ->orderBy('tran_id','asc')
+                ->get();
+                
+                $transactions = $transactions->merge($transaction); // Merge the current transactions with the collection
+            }
+        }
 
-        // foreach ($head_groupe as $key => $heads) {
-        //     foreach ($heads as $key => $head) {
-        //         $head_groupe[$key] = Transaction_Head::where('groupe_id',$groupe->id)->orderBy('tran_head_name')->get();
-        //     }
-            
-        // }
-
-        // dd("groupe",$groupe, 'head', $heads);
-        return view('reports.summary_report.summary_report', compact('groupes','head_groupe'));
+    
+        return view('reports.summary_report.summary_report', compact('transactions'));
     } //End Method
 
+
+    //Show Summary Report
+    public function SearchSummaryReport(Request $req){
+        $groupes = Transaction_Groupe::orderBy('tran_groupe_name')->get();
+        $head_groupe = [];
+        foreach ($groupes as $key => $groupe) {
+            $head_groupe[$key] = Transaction_Head::where('groupe_id',$groupe->id)->orderBy('tran_head_name')->get();
+        }
+    
+        $transactions = collect(); // Initialize an empty collection to store transactions
+    
+        foreach ($head_groupe as $heads) {
+            foreach ($heads as $head) {
+                $transaction = Transaction_Detail::select(
+                    'tran_type',
+                    'tran_groupe_id',
+                    'tran_head_id',
+                    DB::raw('SUM(quantity) as total_quantity'),
+                    // DB::raw('SUM(amount) as total_amount'),
+                    DB::raw('SUM(tot_amount) as total_tot_amount'),
+                )
+                ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+                ->where('tran_head_id', $head->id)
+                ->groupBy('tran_type','tran_groupe_id','tran_head_id')
+                ->orderBy('tran_id','asc')
+                ->get();
+                
+                $transactions = $transactions->merge($transaction); // Merge the current transactions with the collection
+            }
+        }
+
+
+        if($transactions->count() > 0){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('reports.summary_report.search', compact('transactions'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'null',
+            ]);
+        }
+
+        // dd($transactions);
+        return ;
+    } //End Method
+
+
+
+
+
+
+    ///////////////////////// --------------------------- Summary Report Part End -------------------- /////////////////////////
+
+
+    ///////////////////////// --------------------------- Party Summary Report Part Start -------------------- /////////////////////////
 
     // Show Party Summary Report  
     public function PartySummaryReport(){
@@ -323,16 +416,20 @@ class ReportController extends Controller
         ->groupBy('tran_type', 'tran_type_with', 'tran_user')
         ->orderBy('tran_id','asc')
         ->paginate(15);
+        
 
         return view('reports.summary_report.party_summary.party_summary_report', compact('transactions'));
     } //End Method
 
 
 
-
-    // Show Party Summary Report By Date
-    public function SearchPartySummaryReportByDate(Request $req){
-        $transactions = Transaction_Main::select(
+    // Search Party Summary Report
+    public function SearchPartySummaryReport(Request $req){
+        $transactions = Transaction_Main::with($req->searchOption == 1 ? 'User' : 'Withs')
+        ->whereHas($req->searchOption == 1 ? 'User' : 'Withs', function ($query) use ($req) {
+            $query->where($req->searchOption == 1 ? 'user_name' : 'tran_with_name', 'like', '%'.$req->search.'%');
+        })
+        ->select(
             'tran_type',
             'tran_type_with',
             'tran_user',
@@ -346,15 +443,20 @@ class ReportController extends Controller
             DB::raw('SUM(due_col) as total_due_col')
         )
         ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->when($req->type !== null, function ($query) use ($req) {
+            return $query->where('tran_type', $req->type);
+        })
         ->groupBy('tran_type', 'tran_type_with', 'tran_user')
-        ->orderBy('tran_id','asc')
+        ->orderBy('tran_date','asc')
         ->paginate(15);
         
-        // dd($transactions);
+        $paginationHtml = $transactions->links()->toHtml();
+
         if($transactions->count() > 0){
             return response()->json([
                 'status' => 'success',
                 'data' => view('reports.summary_report.party_summary.search', compact('transactions'))->render(),
+                'paginate' =>$paginationHtml
             ]);
         }
         else{
@@ -363,4 +465,50 @@ class ReportController extends Controller
             ]);
         }
     } //End Method
+
+
+    ///////////////////////// --------------------------- Party Summary Report Part End -------------------- /////////////////////////
+
+
+    ///////////////////////// --------------------------- Party Details Report Part Start -------------------- /////////////////////////
+    // Show Party Details Report  
+    public function PartyDetailsReport(){
+        $transactions = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        ->orderBy('tran_id','asc')
+        ->paginate(15);
+        return view('reports.details_report.party_details.party_details_report', compact('transactions'));
+    } //End Method
+
+
+    // Search Party Details Report
+    public function SearchPartyDetailsReport(Request $req){
+        $transactions = Transaction_Main::with($req->searchOption == 1 ? 'User' : 'Withs')
+        ->whereHas($req->searchOption == 1 ? 'User' : 'Withs', function ($query) use ($req) {
+            $query->where($req->searchOption == 1 ? 'user_name' : 'tran_with_name', 'like', '%'.$req->search.'%');
+        })
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->when($req->type !== null, function ($query) use ($req) {
+            return $query->where('tran_type', $req->type);
+        })
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $transactions->links()->toHtml();
+
+        if($transactions->count() > 0){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('reports.details_report.party_details.search', compact('transactions'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'null',
+            ]);
+        }
+    } //End Method
+
+
+    ///////////////////////// --------------------------- Party Details Report Part End -------------------- /////////////////////////
 }
