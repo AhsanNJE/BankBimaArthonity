@@ -1,47 +1,27 @@
 <table class="show-table">
     <thead>
-        <caption class="caption">Report By Groupes</caption>
+        <caption class="caption">Summary Report</caption>
         <tr>
             <th>SL:</th>
             <th>Transaction Groupe</th>
             <th>Transaction Head</th>
-            <th>Receive</th>
-            <th>Payment</th>
+            <th>Quantity</th>
+            {{-- <th>Price</th> --}}
+            <th>Total Amount</th>
         </tr>
     </thead>
     <tbody>
-        {{-- @foreach ($receive as $key => $items)
+        @foreach ($transactions as $key => $transaction)
         <tr>
-            <td>{{ $key + 1 }}</td>
-            @foreach ($items as $item)                    
-                @if ($loop->first)
-                    <td>{{ $item->Groupe->tran_groupe_name }}</td>
-                @endif        
-                @if ($loop->last)
-                    <td>
-                        @foreach ($items as $item)
-                            {{ $item->Head->tran_head_name }}<br>
-                        @endforeach
-                    </td>
-                @endif
-                
-            @endforeach
-            <td>
-                @foreach ($receive_main[$key] as $item)
-                    {{ $item->receive }}<br>
-                @endforeach
-            </td>
-            <td>
-                @foreach ($receive_main[$key] as $item)
-                    {{ $item->payment }}<br>
-                @endforeach
-            </td>
+            <td>{{$key + 1}}</td>
+            <td>{{$transaction->Groupe->tran_groupe_name}}</td>
+            <td>{{$transaction->Head->tran_head_name}}</td>
+            <td>{{$transaction->total_quantity}}</td>
+            {{-- <td>{{$transaction->total_amount}}</td> --}}
+            <td>{{$transaction->total_tot_amount}}</td>
         </tr>
-        @endforeach --}}
+        @endforeach
     </tbody>
 </table>
 
 
-{{-- <div class="center paginate" id="paginate">
-    {!! $client->links() !!}
-</div> --}}

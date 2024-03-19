@@ -44,8 +44,8 @@
 
 
     <!-- table show -->
-    <div class="party-summary" style="overflow-x:auto;">
-        @include('reports.summary_report.party_summary.party_summary_report_pagination')
+    <div class="party-details" style="overflow-x:auto;">
+        @include('reports.details_report.party_details.party_details_report_pagination')
     </div>
 
 @endsection
@@ -53,5 +53,5 @@
 
 <!-- ajax part start from here -->
 @section('ajax')
-    <script src="{{ asset('js/ajax/report/party_summary_report.js') }}"></script>
+    <script src="{{ asset('js/ajax/report/party_details_report.js') }}"></script>
 @endsection

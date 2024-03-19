@@ -5,37 +5,20 @@
             <th>SL:</th>
             <th>Transaction Groupe</th>
             <th>Transaction Head</th>
-            <th>Receive</th>
-            <th>Payment</th>
+            <th>Quantity</th>
+            {{-- <th>Price</th> --}}
+            <th>Total Amount</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($groupes as $key => $groupe)
+        @foreach ($transactions as $key => $transaction)
         <tr>
             <td>{{$key + 1}}</td>
-            <td>{{$groupe->tran_groupe_name}}</td>
-            <td>
-                <table class="show-table" style="">
-                    @foreach ($head_groupe[$key] as $heads)
-                    <tr>
-                        <td>
-                            {{$heads->tran_head_name}}
-                        </td>
-                    </tr>
-                    @endforeach
-                </table>
-            </td>
-            <td>
-                <table class="show-table" style="">
-                    @foreach ($head_groupe[$key] as $heads)
-                    <tr>
-                        <td>
-                            {{$heads->tran_head_name}}
-                        </td>
-                    </tr>
-                    @endforeach
-                </table>
-            </td>
+            <td>{{$transaction->Groupe->tran_groupe_name}}</td>
+            <td>{{$transaction->Head->tran_head_name}}</td>
+            <td>{{$transaction->total_quantity}}</td>
+            {{-- <td>{{$transaction->total_amount}}</td> --}}
+            <td>{{$transaction->total_tot_amount}}</td>
         </tr>
         @endforeach
     </tbody>

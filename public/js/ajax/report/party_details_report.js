@@ -5,7 +5,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let type = $('#typeOption').val();
-        searchTransaction(`/party/summary/report/search`, {startDate:startDate, endDate:endDate,type:type})
+        searchTransaction(`/party/details/report/search`, {startDate:startDate, endDate:endDate,type:type})
     });
     
     
@@ -15,11 +15,8 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let type = $('#typeOption').val();
-        searchTransaction(`/party/summary/report/search`, {startDate:startDate, endDate:endDate,type:type})
+        searchTransaction(`/party/details/report/search`, {startDate:startDate, endDate:endDate,type:type})
     });
-
-
-    
 
 
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
@@ -29,7 +26,7 @@ $(document).ready(function () {
         let endDate = $('#endDate').val();
         let type = $('#typeOption').val();
         let page = $(this).attr('href').split('page=')[1];
-        searchTransaction(`/party/summary/report/pagination?page=${page}`, { startDate: startDate, endDate: endDate, type: type });
+        searchTransaction(`/party/details/report/pagination?page=${page}`, { startDate: startDate, endDate: endDate, type: type });
     });
 
 
@@ -41,8 +38,9 @@ $(document).ready(function () {
         let type = $('#typeOption').val();
         let searchOption = $("#searchOption").val();
         let search = $(this).val();
-        searchTransaction(`/party/summary/report/search`, {startDate:startDate, endDate:endDate, type:type, searchOption:searchOption, search:search})
+        searchTransaction(`/party/details/report/search`, {startDate:startDate, endDate:endDate, type:type, searchOption:searchOption, search:search})
     });
+
 
 
     /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
@@ -55,9 +53,11 @@ $(document).ready(function () {
         let searchOption = $("#searchOption").val();
         let search = $(this).val();
         let page = $(this).attr('href').split('page=')[1];
-        searchTransaction(`/party/summary/report/search/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type, searchOption:searchOption, search:search})
+        searchTransaction(`/party/details/report/search/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type, searchOption:searchOption, search:search})
     });
 
+
+    
 
 
     // Search Transaction Details
@@ -68,13 +68,13 @@ $(document).ready(function () {
             data: data,
             success: function (res) {
                 if (res.status === 'success') {
-                    $('.party-summary').html(res.data);
+                    $('.party-details').html(res.data);
                     if (res.paginate) {
-                        $('.party-summary').append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                        $('.party-details').append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
                     }
                 }
                 else {
-                    $('.party-summary').html(`<span class="text-danger">Result not Found </span>`);
+                    $('.party-details').html(`<span class="text-danger">Result not Found </span>`);
                 }
             }
         });
