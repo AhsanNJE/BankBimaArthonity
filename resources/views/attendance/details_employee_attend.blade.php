@@ -1,6 +1,7 @@
 @extends('admin.layouts.layout')
 @section('admin')
 
+
 <div class="content">
 
     <!-- Start Content-->
@@ -12,12 +13,11 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <a href="{{ route('add.employee.attend') }}"
-                                class="btn btn-primary rounded-pill waves-effect waves-light m-2">Add Employee Attendance
-                            </a>
+                            <a href="{{ route('employee.attend.list') }}" class="btn btn-primary float-sm-right m-2"> <i
+                                    class="fas fa-list"></i> Employee Attendance List</a>
                         </ol>
                     </div>
-                    <h4 class="page-title">All Employee Attendance</h4>
+                    <h4 class="page-title">All Employee Attendence</h4>
                 </div>
             </div>
         </div>
@@ -33,22 +33,23 @@
                             <thead>
                                 <tr>
                                     <th>Sl</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
                                     <th>Date</th>
-                                    <th>Action</th>
+                                    <th>Attend Status</th>
                                 </tr>
                             </thead>
 
 
                             <tbody>
-                                @foreach($allData as $key=> $item)
+                                @foreach($details as $key=> $item)
                                 <tr>
                                     <td>{{ $key+1 }}</td>
-                                    <td>{{ date('Y-m-d', strtotime($item->date))  }}</td>
-                                    <td>
-                    <a href="{{ route('employee.attend.edit',$item->date) }}" class="btn btn-success rounded-pill waves-effect waves-light">Edit</a>
-                    <a href="{{ route('employee.attend.view',$item->date) }}" class="btn btn-danger rounded-pill waves-effect waves-light">View</a>
-
-                                    </td>
+                                    <td> <img src="{{ asset($item->employee->image) }}"
+                                            style="width:50px; height: 40px;"> </td>
+                                    <td>{{ $item['employee']['user_name'] }}</td>
+                                    <td>{{ date('Y-m-d',strtotime($item->date))  }}</td>
+                                    <td>{{  $item->attend_status }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
