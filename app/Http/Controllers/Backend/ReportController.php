@@ -49,7 +49,7 @@ class ReportController extends Controller
 
         $alldue = Transaction_Main::with('User')
             ->whereHas('User', function ($query) use ($request) {
-                $query->where('user_type', 'employee');
+                $query->whereIn('user_type', ['employee', 'supplier', 'client']);
                 // ->orWhere('user_type', 'client')
                 // ->orWhere('user_type', 'supplier');
                 $query->where('user_name', 'like', '%' . $request->search_string . '%');

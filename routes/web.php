@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\TransactionController;
 use App\Http\Controllers\Backend\PartyPaymentController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\PayRollController;
 
 /*
 |--------------------------------------------------------------------------
@@ -401,4 +402,14 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/party/summary/report/search', 'SearchPartySummaryReport')->name('party.summary.report.search');
     Route::get('/party/details/report/search', 'SearchPartyDetailsReport')->name('party.details.report.search');
 });
+
+///////////////////////////// PayRollController Controller ////////////////////////////////
+
+Route::controller(PayRollController::class)->group(function(){
+
+    ///Attendence All Route 
+    Route::get('/employee/attend/list','EmployeeAttendenceList')->name('employee.attend.list'); 
+    Route::get('/add/employee/attend','AddEmployeeAttendence')->name('add.employee.attend'); 
+    
+    });
 
