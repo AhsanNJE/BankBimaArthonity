@@ -63,6 +63,16 @@
     background-color: #F2F2F2;
 }
 
+
+.invoice-table{
+    width: 80%;
+}
+
+.invoice-table tr td:nth-child(2){
+    text-align: right !important;
+    letter-spacing: 0.02em;
+}
+
 /* ---------------------------------------- Table custom design end ----------------------------------------------------- */
 
 

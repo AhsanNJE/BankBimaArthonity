@@ -135,21 +135,24 @@ class PartyPaymentController extends Controller
             "totAmount" => 'required',
         ]);
 
+        // $discount = 0;
+        // if($req->discount != ""){
+        //     $discount 
+        // }
 
-        // dd($req->user);
         if($req->user != ""){
-            $transaction = Transaction_Main::where('tran_user', 'like', '%'.$req->user.'%')
+            $transaction = Transaction_Main::where('tran_user', $req->user)
             ->where('due', '>', 0)
             ->orderBy('tran_date','asc')
             ->get();
 
-            // dd($transaction);
             if($transaction){
                 $totAmount = $req->totAmount;
                 $totDue = 0;
                 foreach($transaction as $index => $tran) {
                     $totDue = $totDue + $tran->due;
                 }
+
                 if($totAmount != 0){
                     if($totDue < $totAmount){
                         return response()->json([
@@ -162,44 +165,69 @@ class PartyPaymentController extends Controller
                     else{
                         foreach($transaction as $index => $tran) {
                             if($totAmount != 0){
-                                $ids[] = $tran->tran_id;
                                 if($tran->due <= $totAmount){
-                                    $totAmount = $totAmount - $tran->due;
-                                    $dueCol = $tran->due_col + $tran->due;
+                                    $due = $tran->due - $req->discount;
+                                    $dueCol = $tran->due_col + $due;
+                                    $dueDiscount = $tran->due_disc + $req->discount;
                                     Transaction_Main::findOrFail($tran->id)->update([
                                         "due_col" => $dueCol,
+                                        "due_disc" => $dueDiscount,
                                         "due" => 0,
                                         "updated_at" => now()
                                     ]);
+
+
+                                    Party_Payment_Receive::insert([
+                                        "tran_id" => $req->tranId,
+                                        "loc_id" => $req->location,
+                                        "tran_type" => $req->type,
+                                        "tran_groupe_id" => $req->groupe,
+                                        "tran_head_id" => $req->head,
+                                        "tran_type_with" => $req->with,
+                                        "tran_user" => $req->user,
+                                        'bill_amount'=>$tran->due,
+                                        'discount'=>$req->discount ?? 0, // Assign 0 if $req->discount is null,
+                                        'net_amount'=>$due,
+                                        "amount" => $due,
+                                        'rem_due'=> 0,
+                                        "party_amount" => $req->totAmount,
+                                        "party_tran_id" => $tran->tran_id,
+                                    ]);
+
+                                    $totAmount = $totAmount - $tran->due;
                                 }
                                 else if($tran->due > $totAmount){
-                                    $remDue = $tran->due - $totAmount;                           
+                                    $due = $tran->due - $req->discount;
+                                    $remDue = $tran->due - $totAmount - $req->discount;                           
                                     $dueCol = $tran->due_col + $totAmount;
-    
+                                    $dueDiscount = $tran->due_disc + $req->discount;
                                     Transaction_Main::findOrFail($tran->id)->update([
                                         "due_col" => $dueCol,
+                                        "due_disc" => $dueDiscount,
                                         "due" => $remDue,
                                         "updated_at" => now()
+                                    ]);
+
+                                    Party_Payment_Receive::insert([
+                                        "tran_id" => $req->tranId,
+                                        "loc_id" => $req->location,
+                                        "tran_type" => $req->type,
+                                        "tran_groupe_id" => $req->groupe,
+                                        "tran_head_id" => $req->head,
+                                        "tran_type_with" => $req->with,
+                                        "tran_user" => $req->user,
+                                        'bill_amount'=>$tran->due,
+                                        'discount'=>$req->discount ?? 0, // Assign 0 if $req->discount is null,
+                                        'net_amount'=>$due,
+                                        "amount" => $totAmount,
+                                        'rem_due'=> $remDue,
+                                        "party_amount" => $req->totAmount,
+                                        "party_tran_id" => $tran->tran_id,
                                     ]);
                                     $totAmount = 0;
                                 }
                             }
                         }
-
-                        $all_tran_id = implode(',', $ids);
-                        // dd($all_tran_id);
-                        $party = Party_Payment_Receive::insert([
-                            "tran_id" => $req->tranId,
-                            "loc_id" => $req->location,
-                            "tran_type" => $req->type,
-                            "tran_groupe_id" => $req->groupe,
-                            "tran_head_id" => $req->head,
-                            "tran_type_with" => $req->with,
-                            "tran_user" => $req->user,
-                            "amount" => $req->amount,
-                            "tot_amount" => $req->totAmount,
-                            "party_tran_id" => $all_tran_id,
-                        ]);
     
                         return response()->json([
                             'status'=>'success',

@@ -4,6 +4,17 @@
         width: 100%;
         margin: 0;
     }
+    table{
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        margin: 20px 0;
+    }
+    table td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 2px 10px;
+    }
 </style>
 @endsection
 
@@ -32,7 +43,7 @@
                 <label for="searchOption">Search Option</label>
                 <select name="searchOption" id="searchOption">
                     <option value="1">Transaction User</option>
-                    <option value="2">Transaction With</option>
+                    <option value="2">Transaction Id</option>
                 </select>
             </div>
             <div class="col-md-3">
