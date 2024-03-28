@@ -113,6 +113,7 @@ $(document).ready(function () {
                     $('#totAmount').val('');
                     $("#head").focus();
                     $('.details').load(location.href + ' .details');
+                    
                     toastr.success('Transaction Added Successfully', 'Added!');
                 }
             },
@@ -154,6 +155,7 @@ $(document).ready(function () {
                     $('#user').removeAttr('data-id');
                     $('.transaction_grid tbody').html('');
                     $('.details').load(location.href + ' .details');
+                    $('#addTransaction').hide();
                     toastr.success('Transaction Added To Main TableSuccessfully', 'Added!');
                 }
             },
