@@ -2,18 +2,18 @@
     <div class="col-md-6">
         <div class="mt-3">
             <h4><b>Hello,</b>
-                <p>{{ $transMainInvoice->User->user_name }}</p>
+                <p>{{ $transactionMain->User->user_name }}</p>
             </h4>
         </div>
     </div><!-- end col -->
     <div class="col-md-4 offset-md-2">
         <div class="mt-3 float-end">
             <p><strong>Order Date : </strong> <span class="float-end">
-                    {{ date("Y-m-d", strtotime($transMainInvoice->tran_date)) }}</span></p>
+                    {{ date("Y-m-d", strtotime($transactionMain->tran_date)) }}</span></p>
             <p><strong>Order Status : </strong> <span class="float-end"><span
-                        class="badge bg-success">{{ $transMainInvoice->tran_type }}</span></span>
+                        class="badge bg-success">{{ $transactionMain->tran_type }}</span></span>
             </p>
-            <p><strong>Invoice No. : </strong> <span class="float-end"> {{ $transMainInvoice->tran_id }}</span></p>
+            <p><strong>Invoice No. : </strong> <span class="float-end"> {{ $transactionMain->tran_id }}</span></p>
         </div>
     </div><!-- end col -->
 </div>
@@ -23,10 +23,10 @@
     <div class="col-sm-6">
         <h6>Billing Address</h6>
         <address>
-            {{ $transMainInvoice->User->address }}
+            {{ $transactionMain->User->address }}
             <br>
-            <span title="Phone">Phone:</span> {{ $transMainInvoice->User->user_phone }}<br>
-            <span title="Email">Email:</span> {{ $transMainInvoice->User->user_email }}<br>
+            <span title="Phone">Phone:</span> {{ $transactionMain->User->user_phone }}<br>
+            <span title="Email">Email:</span> {{ $transactionMain->User->user_email }}<br>
         </address>
     </div>
 </div>
@@ -47,7 +47,7 @@
     <tbody>
         @foreach($transDetailsInvoice as $key => $item)
         <tr>
-            <td>{{ $key++ }}</td>
+            <td>{{ $key+1 }}</td>
             <td> {{ $item->Head->tran_head_name }} </td>
             <td> {{ $item->quantity }} </td>
             <td> {{ $item->amount }} </td>
@@ -59,18 +59,32 @@
 
 
 <div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-6 mt-4">
-        <div class="float-end">
-            <p><b>Total Due:</b> <span class="float-end text-danger text-bold">{{ $transMainInvoice->due }}</span>
-            </p>
-            <p><b>Sub-total:</b> <span class="float-end">{{ $transSum }}</span></p>
-            <p><b>Discount (10%):</b> <span class="float-end">
-                    &nbsp;&nbsp;&nbsp;{{ ($transSum * 10)/100 }}</span>
-            </p>
-            <p><b>Total:</b><span class="float-end">
-                    &nbsp;&nbsp;&nbsp;{{ $transSum-(($transSum * 10)/100) }}</span></p>
-        </div>
+    <div class="col-md-9"></div>
+    <div class="col-md-3 mt-4 float-end">
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <td width>Bill amount:</td>
+                        <td class="float-end">{{ number_format($transactionMain->bill_amount) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Discount:</td>
+                        <td class="float-end">{{ number_format($transactionMain->discount) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Net Amount:</td>
+                        <td class="float-end">{{ number_format($transactionMain->net_amount) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Advance:</td>
+                        <td class="float-end">{{ number_format($transactionMain->receive != null ? $transactionMain->receive : $transactionMain->payment ) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Due:</td>
+                        <td class="float-end">{{ number_format($transactionMain->net_amount-$transactionMain->receive- $transactionMain->payment) }}</td>
+                    </tr>
+                </thead>
+            </table>
     </div>
 </div>
 

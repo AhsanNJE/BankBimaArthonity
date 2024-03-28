@@ -149,6 +149,7 @@ $(document).ready(function () {
                     $('#user').removeAttr('data-id');
                     $('.transaction_grid tbody').html('');
                     $('.details').load(location.href + ' .details');
+                    $('#addTransaction').hide();
                     toastr.success('Transaction Added To Main TableSuccessfully', 'Added!');
                 }
             },

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('party__payment__receives', function (Blueprint $table) {
             $table->id();
-            $table->string('tran_id')->unique();
+            $table->string('tran_id');
             $table->string('invoice')->nullable();
             $table->unsignedBigInteger('loc_id')->nullable();
             $table->string('tran_type');
@@ -22,8 +22,12 @@ return new class extends Migration
             $table->unsignedBigInteger('tran_groupe_id')->nullable();
             $table->unsignedBigInteger('tran_head_id')->nullable();
             $table->float('quantity')->default(1);
+            $table->float('bill_amount');
+            $table->float('discount')->default(0);
+            $table->float('net_amount');
             $table->float('amount')->nullable();
-            $table->float('tot_amount')->nullable();
+            $table->float('rem_due')->default(0);
+            $table->float('party_amount')->nullable();
             $table->string('party_tran_id')->nullable();
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->onUpdate('cascade')

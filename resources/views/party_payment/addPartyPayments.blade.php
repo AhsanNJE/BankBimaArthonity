@@ -123,6 +123,13 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
+                                        <label for="discount">Discount</label>
+                                        <input type="text" name="discount" class="form-control" id="discount">
+                                        <span class="text-danger error" id="discount_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
                                         <label for="amount">Amount</label>
                                         <input type="text" name="amount" class="form-control" id="amount">
                                         <span class="text-danger error" id="amount_error"></span>
