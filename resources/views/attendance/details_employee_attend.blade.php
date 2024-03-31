@@ -45,7 +45,7 @@
                                 @foreach($details as $key=> $item)
                                 <tr>
                                     <td>{{ $key+1 }}</td>
-                                    <td> <img src="{{ asset($item->employee->image) }}"
+                                    <td> <img src="/storage/profiles/{{ $item->employee->image }}"
                                             style="width:50px; height: 40px;"> </td>
                                     <td>{{ $item['employee']['user_name'] }}</td>
                                     <td>{{ date('Y-m-d',strtotime($item->date))  }}</td>
