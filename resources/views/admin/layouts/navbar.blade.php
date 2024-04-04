@@ -23,7 +23,7 @@
           </button>
           </div>
         @endif
-        <!-- <h3>Login Admin Name:{{ Auth::guard('admin')->user()->name }}</h3> -->
+       
       </li>
 
     </ul>
