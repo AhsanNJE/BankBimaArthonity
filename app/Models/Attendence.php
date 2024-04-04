@@ -9,4 +9,11 @@ class Attendence extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public $timestamps = false;
+
+    public function employee(){
+        return $this->belongsTo(User_Info::class,'employee_id','id');
+    }
+
 }
