@@ -207,6 +207,30 @@
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-right-left"></i>
+                        <p>
+                            Payroll
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.payroll.setup')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Payroll Setup</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.payroll')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Payroll</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <hr>
 
 

@@ -7,6 +7,9 @@
             color: #0af7b7f5;
             font-size: 20px;
         }
+        .payroll table{
+            margin: 20px 0;
+        }
     </style>
 @endsection
 

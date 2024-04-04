@@ -180,7 +180,7 @@ $(document).ready(function () {
 
                 $('#updateTranId').val(res.transaction.tran_id);
                 $('#updateInvoice').val(res.transaction.invoice);
-                $('#updateLocation').val(res.transaction.location.upazila);
+                $('#updateLocation').val(res.transaction.location.thana);
                 $('#updateLocation').attr('data-id', res.transaction.loc_id);
 
 

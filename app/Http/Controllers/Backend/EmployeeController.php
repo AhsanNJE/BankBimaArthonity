@@ -8,6 +8,7 @@ use App\Models\Employee_Info;
 use App\Models\Location_Info;
 use App\Models\Department_Info;
 use App\Models\User_Info;
+use App\Models\Pay_Roll_Setup;
 use App\Models\Transaction_With;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -675,8 +676,9 @@ class EmployeeController extends Controller
     //Show Employee Details
     public function ShowEmployeeDetails(Request $req){
         $employee = User_Info::with('Designation','Department','Location','Withs')->where('id', "=", $req->id)->first();
+        $payroll = Pay_Roll_Setup::with('Head','Employee')->where('emp_id', $employee->user_id)->get();
         return response()->json([
-            'data'=>view('employee.details', compact('employee'))->render(),
+            'data'=>view('employee.details', compact('employee','payroll'))->render(),
         ]);
     }//End Method
 
