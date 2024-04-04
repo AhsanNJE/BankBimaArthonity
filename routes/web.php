@@ -406,13 +406,33 @@ Route::controller(ReportController::class)->group(function () {
 ///////////////////////////// PayRollController Controller ////////////////////////////////
 
 Route::controller(PayRollController::class)->group(function(){
-
     ///Attendence All Route 
     Route::get('/employee/attend/list','EmployeeAttendenceList')->name('employee.attend.list'); 
     Route::get('/add/employee/attend','AddEmployeeAttendence')->name('add.employee.attend'); 
     Route::post('/employee/attend/store','EmployeeAttendenceStore')->name('employee.attend.store'); 
     Route::get('/edit/employee/attend/{date}','EditEmployeeAttendence')->name('employee.attend.edit'); 
-    Route::get('/view/employee/attend/{date}','ViewEmployeeAttendence')->name('employee.attend.view'); 
-    
-    });
+    Route::get('/view/employee/attend/{date}','ViewEmployeeAttendence')->name('employee.attend.view');
+
+    // additional payroll crude routes
+    Route::get('/show/payroll/setup','ShowPayrollSetup')->name('show.payroll.setup'); 
+    Route::post('/insert/payroll/setup','AddPayrollSetup')->name('add.payroll.setup'); 
+    Route::get('/edit/payroll/setup','EditPayrollSetup')->name('edit.payroll.setup'); 
+    Route::put('/update/payroll/setup','UpdatePayrollSetup')->name('update.payroll.setup'); 
+    Route::delete('/delete/payroll/setup','DeletePayrollSetup')->name('delete.payroll.setup'); 
+    // additional payroll search and pagination routes
+    Route::get('/payroll/setup/pagination', 'PayrollSetupPagination');
+    Route::get('/search/payroll/setup','SearchPayrollSetup');
+
+
+    // payroll crude routes
+    Route::get('/show/payroll','ShowPayroll')->name('show.payroll'); 
+    Route::post('/insert/payroll','AddPayroll')->name('add.payroll'); 
+    Route::get('/edit/payroll','EditPayroll')->name('edit.payroll'); 
+    Route::put('/update/payroll','UpdatePayroll')->name('update.payroll'); 
+    Route::delete('/delete/payroll','DeletePayroll')->name('delete.payroll'); 
+    // payroll search and pagination routes
+    Route::get('/payroll/pagination', 'PayrollPagination');
+    Route::get('/payroll/get/user', 'GetPayrollByUserId');
+    Route::get('/search/payroll', 'SearchPayroll');
+});
 

@@ -683,6 +683,7 @@ $(document).ready(function () {
         $('#user').attr('data-id', id);
         $('#user-list ul').html('');
         getDueListByUserId(id, '.due-grid tbody');
+        getPayrollByUserId(id, '.payroll-grid tbody');
     });
 
 
@@ -718,7 +719,7 @@ $(document).ready(function () {
     //search Transaction User on edit modal
     $(document).on('keyup', '#updateUser', function (e) {
         let tranUser = $(this).val();
-        let tranUserType = $('#with').val();
+        let tranUserType = $('#updateWith').val();
         let id = $(this).attr('data-id');
         UserKeyUp(e, tranUserType, tranUser, id, '#updateUser', '#update-user ul');
     });
@@ -856,6 +857,7 @@ $(document).ready(function () {
             e.preventDefault();
             let id = $(targetElement1).attr('data-id');
             getDueListByUserId(id, '.due-grid tbody');
+            getPayrollByUserId(id, '.payroll-grid tbody');
             $(targetElement2).html('');
             $(targetElement1).focus();
         }
@@ -892,6 +894,31 @@ $(document).ready(function () {
                     $('.due-grid tfoot').html(`<tr>
                                                     <td colspan="4" style="text-align:right;"> Total Due: ${totalAmount}</td>
                                                 </tr>`)
+                }
+                else{
+                    $(grid).html('');
+                }
+                
+            }
+        });
+    }
+
+
+    function getPayrollByUserId(id, grid) {
+        $.ajax({
+            url: "/payroll/get/user",
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                if(res.status === 'success'){
+                    $(grid).html(res.data);
+                    
+                    // let transactions = res.transaction.data;
+                    // // Calculate total amount
+                    // let totalAmount = transactions.reduce((sum, transaction) => sum + transaction.due, 0);
+                    // $('.due-grid tfoot').html(`<tr>
+                    //                                 <td colspan="4" style="text-align:right;"> Total Due: ${totalAmount}</td>
+                    //                             </tr>`)
                 }
                 else{
                     $(grid).html('');
