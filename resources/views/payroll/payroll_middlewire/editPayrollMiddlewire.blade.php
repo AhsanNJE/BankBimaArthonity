@@ -1,15 +1,15 @@
-<div id="editPayrollSetup" class="modal-container">
+<div id="editPayrollMiddlewire" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">
-            <h3 class="center">Edit Payroll Setup</h3>
-            <span class="close-modal" data-modal-id="editPayrollSetup">&times;</span>
+            <h3 class="center">Edit Payroll Middlewire</h3>
+            <span class="close-modal" data-modal-id="editPayrollMiddlewire">&times;</span>
         </div>
 
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Edit Payroll Setup</h3>
+                        <h3 class="card-title">Edit Payroll Middlewire</h3>
                     </div>
                 </div>
                 <!-- form start -->
@@ -47,6 +47,11 @@
                                 <label for="updateAmount">Amount</label>
                                 <input type="text" name="amount" class="form-control" id="updateAmount">
                                 <span class="text-danger error" id="update_amount_error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateDate">Date</label>
+                                <input type="date" name="date" class="form-control" id="updateDate">
+                                <span class="text-danger error" id="update_date_error"></span>
                             </div>
                             <div class="center">
                                 <button type="submit" class="btn btn-primary" id="UpdatePayroll">Submit</button>

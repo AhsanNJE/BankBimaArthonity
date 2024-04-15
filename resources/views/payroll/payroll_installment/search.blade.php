@@ -1,30 +1,21 @@
 <table class="show-table">
     <thead>
-        <caption class="caption">Payroll Installment</caption>
+        <caption class="caption">Payroll / Salary Payment</caption>
         <tr>
             <th>SL:</th>
             <th>Employee Id</th>
-            <th>Payroll Category</th>
-            <th>Amount</th>
-            <th>Action</th>
+            <th>Employee Name</th>
+            <th>Salary</th>
         </tr>
     </thead>
     <tbody>
-        {{-- @foreach ($payroll as $key => $item)
+        @foreach ($payroll as $key => $item)
             <tr>
-                <td>{{ $payroll->firstItem() + $key }}</td>
-                <td>{{ $item->Employee->user_name }}</td>
-                <td>{{ $item->Head->tran_head_name }}</td>
-                <td>{{ $item->amount }}</td>
-                <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editPayrollSetup" data-modal-id="editPayrollSetup"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
-                            class="fas fa-trash"></i>Delete</button>
-                </td>
+                <td>{{ $key+1 }}</td>
+                <td>{{ $item['emp_id'] }}</td>
+                <td>{{ $item['emp_name'] }}</td>
+                <td>{{ number_format($item['salary'], 0, '.', ',') }}</td>
             </tr>
-        @endforeach --}}
+        @endforeach
     </tbody>
 </table>
-
-

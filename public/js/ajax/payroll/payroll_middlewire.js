@@ -4,14 +4,14 @@ $(document).ready(function () {
     });
 
 
-    /////////////// ------------------ Add Payroll Setup ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Add Payroll Middlewire ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddPayrollForm', function (e) {
         e.preventDefault();
         let user = $('#user').attr('data-id');
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         $.ajax({
-            url: "/insert/payroll/setup",
+            url: "/insert/payroll/middlewire",
             method: 'POST',
             processData: false,
             contentType: false,
@@ -23,11 +23,12 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#head').val('');
-                    $('#amount').val('');
                     $('#head').focus();
+                    $('#date').val('');
+                    $('#amount').val('');
                     $('#search').val('');
-                    $('.payroll-setup').load(location.href + ' .payroll-setup');
-                    getPayrollSetupByUserId(user , '.setup tbody')
+                    $('.payroll-middlewire').load(location.href + ' .payroll-middlewire');
+                    getPayrollMiddlewireByUserId(user, '.middlewire tbody') 
                     toastr.success('Payroll Added Successfully', 'Added!');
                 }
             },
@@ -43,17 +44,16 @@ $(document).ready(function () {
 
 
 
-    ///////////// ------------------ Edit Payroll Setup ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.editPayrollSetup', function () {
+    ///////////// ------------------ Edit Payroll Middlewire ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.editPayrollMiddlewire', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/edit/payroll/setup`,
+            url: `/edit/payroll/middlewire`,
             method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(res.payroll.id);
-
                 $('#updateWith').focus();
                 $('#updateWith').empty();
                 $.each(res.tranwith, function (key, withs) {
@@ -70,6 +70,8 @@ $(document).ready(function () {
                     $('#updateHead').append(`<option value="${head.id}" ${res.payroll.head_id === head.id ? 'selected' : ''}>${head.tran_head_name}</option>`);
                 });
 
+
+                $('#updateDate').val(res.payroll.date)
 
                 var modal = document.getElementById(modalId);
 
@@ -93,7 +95,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         $.ajax({
-            url: `/update/payroll/setup`,
+            url: `/update/payroll/middlewire`,
             method: 'POST',
             processData: false,
             contentType: false,
@@ -104,11 +106,11 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editPayrollSetup').hide();
+                    $('#editPayrollMiddlewire').hide();
                     $('#EditPayrollForm')[0].reset();
                     $('#search').val('');
-                    $('.payroll-setup').load(location.href + ' .payroll-setup');
-                    toastr.success('Payroll Setup Updated Successfully', 'Updated!');
+                    $('.payroll-middlewire').load(location.href + ' .payroll-middlewire');
+                    toastr.success('Payroll Middlewire Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {
@@ -126,16 +128,16 @@ $(document).ready(function () {
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Payroll Setup ??')) {
+        if (confirm('Are You Sure to Delete This Payroll Middlewire ??')) {
             $.ajax({
-                url: `/delete/payroll/setup`,
+                url: `/delete/payroll/middlewire`,
                 method: 'DELETE',
                 data: { id:id },
                 success: function (res) {
                     if (res.status == "success") {
-                        $('.payroll-setup').load(location.href + ' .payroll-setup');
+                        $('.payroll-middlewire').load(location.href + ' .payroll-middlewire');
                         $('#search').val('');
-                        toastr.success('Payroll Setup Deleted Successfully', 'Deleted!');
+                        toastr.success('Payroll Middlewire Deleted Successfully', 'Deleted!');
                     }
                 }
             });
@@ -148,7 +150,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadPayrollData(`/payroll/setup/pagination?page=${page}`, {}, '.payroll-setup');
+        loadPayrollData(`/payroll/middlewire/pagination?page=${page}`, {}, '.payroll-middlewire');
     });
 
 
@@ -158,7 +160,7 @@ $(document).ready(function () {
         e.preventDefault();
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
-        loadPayrollData(`/search/payroll/setup`, {search:search, searchOption:searchOption}, '.payroll-setup');
+        loadPayrollData(`/search/payroll/middlewire`, {search:search, searchOption:searchOption}, '.payroll-middlewire');
     });
 
 
@@ -170,7 +172,7 @@ $(document).ready(function () {
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
-        loadPayrollData(`/search/payroll/setup?page=${page}`, {search:search, searchOption:searchOption}, '.payroll-setup');
+        loadPayrollData(`/search/payroll/middlewire?page=${page}`, {search:search, searchOption:searchOption}, '.payroll-middlewire');
     });
 
 
@@ -195,11 +197,10 @@ $(document).ready(function () {
     }
 
 
-
-    //Get Payroll Setup By User Id
-    function getPayrollSetupByUserId(id, grid) {
+    //Get Payroll Middlewire By User Id
+    function getPayrollMiddlewireByUserId(id, grid) {
         $.ajax({
-            url: "/payroll/setup/get/user",
+            url: "/payroll/middlewire/get/user",
             method: 'GET',
             data: { id:id },
             success: function (res) {
@@ -213,8 +214,5 @@ $(document).ready(function () {
             }
         });
     }
-
-
-    
 
 });

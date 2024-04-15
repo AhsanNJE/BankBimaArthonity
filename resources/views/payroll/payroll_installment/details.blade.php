@@ -4,8 +4,8 @@
         <td>{{ $item->Head->tran_head_name }}</td>
         <td>{{ $item->amount }}</td>
         @if ($item->date != null)
-            <td>{{ date('m', strtotime($item->date)) }}</td>
-            <td>{{ date('Y', strtotime($item->date)) }}</td>
+            <td>{{ !empty($item->date) ? date('m', strtotime($item->date)) : '' }}</td>
+            <td>{{ !empty($item->date) ? date('Y', strtotime($item->date)) : '' }}</td>
         @else
             <td></td>
             <td></td>

@@ -1,6 +1,6 @@
 <table class="show-table">
     <thead>
-        <caption class="caption">Additional Payroll Details</caption>
+        <caption class="caption">Additional Payroll Middlewire</caption>
         <tr>
             <th>SL:</th>
             <th>Employee Id</th>
@@ -18,8 +18,16 @@
                 <td>{{ $item->Employee->user_name }}</td>
                 <td>{{ $item->Head->tran_head_name }}</td>
                 <td>{{ $item->amount }}</td>
+                @if ($item->date != null)
+                    <td>{{ date('m', strtotime($item->date)) }}</td>
+                    <td>{{ date('Y', strtotime($item->date)) }}</td>
+                @else
+                    <td></td>
+                    <td></td>
+                @endif
+                
                 <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editPayrollSetup" data-modal-id="editPayrollSetup"
+                    <button class="btn btn-info btn-sm open-modal editPayrollMiddlewire" data-modal-id="editPayrollMiddlewire"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
                     <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
                             class="fas fa-trash"></i>Delete</button>
@@ -29,4 +37,6 @@
     </tbody>
 </table>
 
-
+<div class="center paginate" id="paginate">
+    {!! $payroll->links() !!}
+</div>

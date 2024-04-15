@@ -50,8 +50,6 @@ class ReportController extends Controller
         $alldue = Transaction_Main::with('User')
             ->whereHas('User', function ($query) use ($request) {
                 $query->whereIn('user_type', ['employee', 'supplier', 'client']);
-                // ->orWhere('user_type', 'client')
-                // ->orWhere('user_type', 'supplier');
                 $query->where('user_name', 'like', '%' . $request->search_string . '%');
             })
             ->orderBy('id', 'desc')
@@ -250,7 +248,6 @@ class ReportController extends Controller
                     'tran_groupe_id',
                     'tran_head_id',
                     DB::raw('SUM(quantity) as total_quantity'),
-                    // DB::raw('SUM(amount) as total_amount'),
                     DB::raw('SUM(tot_amount) as total_tot_amount'),
                 )
                 ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
@@ -429,7 +426,6 @@ class ReportController extends Controller
             )
             ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
         )
-        
         ->orderBy('tran_id')
         ->orderBy('tran_date')
         ->paginate(15);
