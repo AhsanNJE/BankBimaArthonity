@@ -18,14 +18,6 @@
                 <td>{{ $item->Employee->user_name }}</td>
                 <td>{{ $item->Head->tran_head_name }}</td>
                 <td>{{ $item->amount }}</td>
-                @if ($item->date != null)
-                    <td>{{ date('m', strtotime($item->date)) }}</td>
-                    <td>{{ date('Y', strtotime($item->date)) }}</td>
-                @else
-                    <td></td>
-                    <td></td>
-                @endif
-                
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editPayrollSetup" data-modal-id="editPayrollSetup"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>

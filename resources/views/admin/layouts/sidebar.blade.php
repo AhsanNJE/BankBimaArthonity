@@ -223,9 +223,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{route('show.payroll.middlewire')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Payroll Middlewire</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('show.payroll')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Payroll</p>
+                                <p>Payroll / Salary Payment</p>
                             </a>
                         </li>
                     </ul>

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pay__roll__setups', function (Blueprint $table) {
+        Schema::create('pay__roll__middlewires', function (Blueprint $table) {
             $table->id();
             $table->string('emp_id');
             $table->unsignedBigInteger('head_id');
             $table->float('amount');
+            $table->date('date')->nullable();
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->foreign('emp_id')->references('user_id')->on('user__infos')
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pay__roll__setups');
+        Schema::dropIfExists('pay__roll__middlewires');
     }
 };

@@ -684,6 +684,8 @@ $(document).ready(function () {
         $('#user-list ul').html('');
         getDueListByUserId(id, '.due-grid tbody');
         getPayrollByUserId(id, '.payroll-grid tbody');
+        getPayrollSetupByUserId(id, '.setup tbody');
+        getPayrollMiddlewireByUserId(id, '.middlewire tbody');
     });
 
 
@@ -858,6 +860,8 @@ $(document).ready(function () {
             let id = $(targetElement1).attr('data-id');
             getDueListByUserId(id, '.due-grid tbody');
             getPayrollByUserId(id, '.payroll-grid tbody');
+            getPayrollSetupByUserId(id, '.setup tbody');
+            getPayrollMiddlewireByUserId(id, '.middlewire tbody');
             $(targetElement2).html('');
             $(targetElement1).focus();
         }
@@ -903,7 +907,7 @@ $(document).ready(function () {
         });
     }
 
-
+    //Get Payroll By User Id
     function getPayrollByUserId(id, grid) {
         $.ajax({
             url: "/payroll/get/user",
@@ -912,13 +916,43 @@ $(document).ready(function () {
             success: function (res) {
                 if(res.status === 'success'){
                     $(grid).html(res.data);
-                    
-                    // let transactions = res.transaction.data;
-                    // // Calculate total amount
-                    // let totalAmount = transactions.reduce((sum, transaction) => sum + transaction.due, 0);
-                    // $('.due-grid tfoot').html(`<tr>
-                    //                                 <td colspan="4" style="text-align:right;"> Total Due: ${totalAmount}</td>
-                    //                             </tr>`)
+                }
+                else{
+                    $(grid).html('');
+                }
+                
+            }
+        });
+    }
+
+    //Get Payroll Setup By User Id
+    function getPayrollSetupByUserId(id, grid) {
+        $.ajax({
+            url: "/payroll/setup/get/user",
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                if(res.status === 'success'){
+                    $(grid).html(res.data);
+                }
+                else{
+                    $(grid).html('');
+                }
+                
+            }
+        });
+    }
+
+
+    //Get Payroll Middlewire By User Id
+    function getPayrollMiddlewireByUserId(id, grid) {
+        $.ajax({
+            url: "/payroll/middlewire/get/user",
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                if(res.status === 'success'){
+                    $(grid).html(res.data);
                 }
                 else{
                     $(grid).html('');
@@ -930,12 +964,4 @@ $(document).ready(function () {
 
     ////////////// ------------------- Search Transaction user and add value to input ajax part end --------------- ////////////////////////////
 
-
-    // $(document).on('focusout', '#department, #designation, #location, #groupe, #user, #updateDepartment, #updateDesignation, #updateLocation, #updateGroupe, #updateUser', function() {
-    //     // Check if no li element within div[id$="-list"] or div[id^="update-"] has focus
-    //     if (!$('div[id$="-list"] li:focus').length && !$('div[id^="update-"] li:focus').length) {
-    //         $('div[id$="-list"] ul').html('');
-    //         $('div[id^="update-"] ul').html('');
-    //     }
-    // });
 });

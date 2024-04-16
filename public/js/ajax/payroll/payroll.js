@@ -5,29 +5,66 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Add Additional Payroll ajax part start ---------------- /////////////////////////////
-    $(document).on('submit', '#AddPayrollForm', function (e) {
+    // $(document).on('submit', '#AddPayrollForm', function (e) {
+    //     e.preventDefault();
+    //     let user = $('#user').attr('data-id');
+    //     let formData = new FormData(this);
+    //     formData.append('user', user === undefined ? '' : user);
+    //     $.ajax({
+    //         url: "/insert/payroll",
+    //         method: 'POST',
+    //         processData: false,
+    //         contentType: false,
+    //         cache: false,
+    //         data: formData,
+    //         beforeSend:function() {
+    //             $(document).find('span.error').text('');  
+    //         },
+    //         success: function (res) {
+    //             if (res.status == "success") {
+    //                 $('#AddPayrollForm')[0].reset();
+    //                 $('#with').focus();
+    //                 $('#user').removeAttr('data-id');
+    //                 $('.payroll-grid tbody').html('');
+    //                 $('#search').val('');
+    //                 $('.payroll-installment').load(location.href + ' .payroll-installment');
+    //                 toastr.success('Payroll Added Successfully', 'Added!');
+    //             }
+    //         },
+    //         error: function (err) {
+    //             console.log(err)
+    //             let error = err.responseJSON;
+    //             $.each(error.errors, function (key, value) {
+    //                 $('#' + key + "_error").text(value);
+    //             });
+    //         }
+    //     });
+    // });
+
+
+    $(document).on('click', '#PayrollProcess', function (e) {
         e.preventDefault();
-        let user = $('#user').attr('data-id');
-        let formData = new FormData(this);
-        formData.append('user', user === undefined ? '' : user);
+        // let user = $('#user').attr('data-id');
+        // let formData = new FormData(this);
+        // formData.append('user', user === undefined ? '' : user);
         $.ajax({
             url: "/insert/payroll",
             method: 'POST',
-            processData: false,
-            contentType: false,
-            cache: false,
-            data: formData,
-            beforeSend:function() {
-                $(document).find('span.error').text('');  
-            },
+            // processData: false,
+            // contentType: false,
+            // cache: false,
+            // data: formData,
+            // beforeSend:function() {
+            //     $(document).find('span.error').text('');  
+            // },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#AddPayrollForm')[0].reset();
-                    $('#with').focus();
-                    $('#user').removeAttr('data-id');
-                    $('.payroll-grid tbody').html('');
-                    $('#search').val('');
-                    $('.payroll-installment').load(location.href + ' .payroll-installment');
+                    // $('#AddPayrollForm')[0].reset();
+                    // $('#with').focus();
+                    // $('#user').removeAttr('data-id');
+                    // $('.payroll-grid tbody').html('');
+                    // $('#search').val('');
+                    // $('.payroll-installment').load(location.href + ' .payroll-installment');
                     toastr.success('Payroll Added Successfully', 'Added!');
                 }
             },
