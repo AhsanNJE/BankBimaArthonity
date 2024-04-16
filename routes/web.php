@@ -413,15 +413,28 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/edit/employee/attend/{date}','EditEmployeeAttendence')->name('employee.attend.edit'); 
     Route::get('/view/employee/attend/{date}','ViewEmployeeAttendence')->name('employee.attend.view');
 
-    // additional payroll crude routes
+    // payroll setup crude routes
     Route::get('/show/payroll/setup','ShowPayrollSetup')->name('show.payroll.setup'); 
     Route::post('/insert/payroll/setup','AddPayrollSetup')->name('add.payroll.setup'); 
     Route::get('/edit/payroll/setup','EditPayrollSetup')->name('edit.payroll.setup'); 
     Route::put('/update/payroll/setup','UpdatePayrollSetup')->name('update.payroll.setup'); 
     Route::delete('/delete/payroll/setup','DeletePayrollSetup')->name('delete.payroll.setup'); 
-    // additional payroll search and pagination routes
+    // payroll setup search and pagination routes
     Route::get('/payroll/setup/pagination', 'PayrollSetupPagination');
     Route::get('/search/payroll/setup','SearchPayrollSetup');
+    Route::get('/payroll/setup/get/user', 'GetPayrollSetupByUserId');
+
+
+    // payroll middlewire crude routes
+    Route::get('/show/payroll/middlewire','ShowPayrollMiddlewire')->name('show.payroll.middlewire'); 
+    Route::post('/insert/payroll/middlewire','AddPayrollMiddlewire')->name('add.payroll.middlewire'); 
+    Route::get('/edit/payroll/middlewire','EditPayrollMiddlewire')->name('edit.payroll.middlewire'); 
+    Route::put('/update/payroll/middlewire','UpdatePayrollMiddlewire')->name('update.payroll.middlewire'); 
+    Route::delete('/delete/payroll/middlewire','DeletePayrollMiddlewire')->name('delete.payroll.middlewire'); 
+    // payroll middlewire search and pagination routes
+    Route::get('/payroll/middlewire/pagination', 'PayrollMiddlewirePagination');
+    Route::get('/search/payroll/middlewire','SearchPayrollMiddlewire');
+    Route::get('/payroll/middlewire/get/user', 'GetPayrollMiddlewireByUserId');
 
 
     // payroll crude routes

@@ -1,15 +1,15 @@
-<div id="addPayrollSetup" class="modal-container">
+<div id="addPayrollMiddlewire" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">
-            <h3 class="center">Add Payroll Setup</h3>
-            <span class="close-modal" data-modal-id="addPayrollSetup">&times;</span>
+            <h3 class="center">Add Payroll Middlewire</h3>
+            <span class="close-modal" data-modal-id="addPayrollMiddlewire">&times;</span>
         </div>
 
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Add Payroll Setup</h3>
+                        <h3 class="card-title">Add Payroll Middlewire</h3>
                     </div>
                 </div>
                 <!-- form start -->
@@ -53,18 +53,25 @@
                                 <input type="text" name="amount" class="form-control" id="amount">
                                 <span class="text-danger error" id="amount_error"></span>
                             </div>
+                            <div class="form-group">
+                                <label for="date">Select Date</label>
+                                <input type="date" name="date" class="form-control" id="date">
+                                <span class="text-danger error" id="date_error"></span>
+                            </div>
                             <div class="center">
                                 <button type="submit" class="btn btn-primary" id="InsertPayroll">Submit</button>
                             </div>
                         </div>
                     </div>
                 </form>
-                <table class="show-table setup">
+                <table class="show-table middlewire">
                     <thead>
                         <tr>
                             <th>Sl:</th>
                             <th>Payroll Category</th>
                             <th>Amount</th>
+                            <th>Month</th>
+                            <th>Year</th>
                         </tr>
                     </thead>
                     <tbody>
