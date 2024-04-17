@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\TransactionController;
 use App\Http\Controllers\Backend\PartyPaymentController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\PayRollController;
+use App\Http\Controllers\Backend\InfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -449,3 +450,12 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/search/payroll', 'SearchPayroll');
 });
 
+////////////////////////// --------------- HR routes ----------- ///////////////////////////
+    // Route::get('show/newemployee', 'ShowNewEmployees')->name('show.newemployee');
+    Route::get('show/newemployee', [InfoController::class, 'ShowNewEmployees'])->name('show.newemployee');  
+    Route::post('insert/info', [InfoController::class, 'InsertEmployees'])->name('insert.info');  
+    Route::get('show/info', [InfoController::class, 'ShowEmployeesInfo'])->name('show.info');
+    Route::get('/new/employee', [InfoController::class, 'EmployeesInfo'])->name('employee.details');
+    Route::get('/employees/edit', [InfoController::class,'EmployeesEdit'])->name('employees.edit');
+    Route::put('/employees/update', [InfoController::class,'EmployeesUpdate'])->name('employees.update');
+    Route::delete('/employees/delete', [InfoController::class, 'EmployeesDelete'])->name('employees.delete');

@@ -237,7 +237,31 @@
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <!-- <i class="fa-solid fa-person"></i> -->
+                        <i class="fa-solid fa-users-line"></i>
+                        <p>
+                            HR
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.info')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Personal Details</p>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </li>
+
                 <hr>
+
+                
+
+            
 
 
                 <li class="nav-item">
