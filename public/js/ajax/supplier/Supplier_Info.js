@@ -5,7 +5,7 @@ $(document).ready(function () {
 
 
 
-    //Show Supplier Details on details modal
+    // Show Supplier Details on Details Modal
     $(document).on('click', '.showSupplierDetails', function (e) {
         let modal = $(this).attr('data-modal-id');
         let id = $(this).attr('data-id');
@@ -25,7 +25,7 @@ $(document).ready(function () {
 
 
 
-    //Show Client Details List toggle Functionality
+    // Show Client Details List Toggle Functionality
     $(document).on('click', '.details li', function(e){
         let id = $(this).attr('data-id');
         if(id == 1){
@@ -34,7 +34,6 @@ $(document).ready(function () {
             }
             else{
                 $('.general').show();
-                // $('.contact, .address, .transaction, .others').hide();
             }
         }
         else if(id == 2){
@@ -43,7 +42,6 @@ $(document).ready(function () {
             }
             else{
                 $('.contact').show();
-                // $('.address, .transaction, .others').hide();
             }
         }
         else if(id == 3){
@@ -52,7 +50,6 @@ $(document).ready(function () {
             }
             else{
                 $('.address').show();
-                // $('.contact, .transaction, .others').hide();
             }
         }
         else if(id == 4){
@@ -61,7 +58,6 @@ $(document).ready(function () {
             }
             else{
                 $('.transaction').show();
-                // $('.contact, .address, .others').hide();
             }
         }
         else if(id == 5){
@@ -70,14 +66,13 @@ $(document).ready(function () {
             }
             else{
                 $('.others').show();
-                // $('.contact, .address, .transaction').hide();
             }
         }
     });
 
 
 
-    /////////////// ------------------ Add Supplier ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Add Supplier Ajax Part Start ---------------- /////////////////////////////
     $(document).on('submit', '#AddSupplierForm', function (e) {
         e.preventDefault();
         let locations = $('#location').attr('data-id');
@@ -115,7 +110,7 @@ $(document).ready(function () {
 
 
 
-    ///////////// ------------------ Edit Supplier ajax part start ---------------- /////////////////////////////
+    ///////////// ------------------ Edit Supplier Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.editSupplierModal', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
@@ -161,7 +156,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Supplier ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Supplier Ajax Part Start ---------------- /////////////////////////////
     $(document).on('submit', '#EditSupplierForm', function (e) {
         e.preventDefault();
         let locations = $('#updateLocation').attr('data-id');
@@ -197,29 +192,49 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Delete Supplier ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Delete Supplier Ajax Part Start ---------------- /////////////////////////////
+    // Delete Button Functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Supplier ??')) {
-            $.ajax({
-                url: `/delete/suppliers`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.supplier').load(location.href + ' .supplier');
-                        $('#search').val('');
-                        toastr.success('Supplier Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
+
+    // Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    // Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/delete/suppliers`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.supplier').load(location.href + ' .supplier');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Supplier Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+    
+    
+    /////////////// ------------------ Delete Supplier Ajax Part End ---------------- /////////////////////////////
+    
+    
 
     
 
-    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
@@ -228,14 +243,14 @@ $(document).ready(function () {
 
 
 
-    //on select option search value will be remove
+    // On select option search value will be remove
     $(document).on('change', '#searchOption', function (e) {
         $('#search').val('');
     });
 
 
 
-    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
@@ -260,7 +275,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.search-paginate a', function (e) {
         e.preventDefault();
         $('.paginate').addClass('hidden');
@@ -286,7 +301,7 @@ $(document).ready(function () {
 
 
     
-    //supplier pagination data load function
+    // Supplier Data Load Function
     function loadSupplierData(url, data, targetElement) {
         $.ajax({
             url: url,

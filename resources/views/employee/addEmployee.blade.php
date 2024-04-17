@@ -10,6 +10,9 @@
         .payroll table{
             margin: 20px 0;
         }
+        .show-table td, th {
+            border: 1px solid #4f4a4a63;
+        }
     </style>
 @endsection
 

@@ -99,24 +99,44 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Delete Transaction Groupe ajax part start ---------------- /////////////////////////////
+    //Delete button functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Transaction Groupe ??')) {
-            $.ajax({
-                url: `/transaction/delete/groupes`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.groupe').load(location.href + ' .groupe');
-                        $('#search').val('');
-                        toastr.success('Transaction Groupes Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
+
+    //Cancel button functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    //Confirm button functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/transaction/delete/groupes`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.groupe').load(location.href + ' .groupe');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Transaction Groupes Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+    
+    
+    /////////////// ------------------ Delete Transaction Groupe ajax part End ---------------- /////////////////////////////
+    
+    
 
 
 

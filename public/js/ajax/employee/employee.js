@@ -3,7 +3,7 @@ $(document).ready(function () {
         $('#name').focus();
     });
 
-    //Show Employee Details on details modal
+    //Show Employee Details on Details Modal
     $(document).on('click', '.showEmployeeDetails', function (e) {
         let modal = $(this).attr('data-modal-id');
         let id = $(this).attr('data-id');
@@ -22,7 +22,7 @@ $(document).ready(function () {
     });
 
 
-    //Show Employee Details List toggle Functionality
+    // Show Employee Details List Toggle Functionality
     $(document).on('click', '.details li', function(e){
         let id = $(this).attr('data-id');
         if(id == 1){
@@ -31,7 +31,6 @@ $(document).ready(function () {
             }
             else{
                 $('.general').show();
-                // $('.contact, .address, .payroll, .others').hide();
             }
         }
         else if(id == 2){
@@ -40,7 +39,6 @@ $(document).ready(function () {
             }
             else{
                 $('.contact').show();
-                // $('.address, .payroll, .others').hide();
             }
         }
         else if(id == 3){
@@ -49,7 +47,6 @@ $(document).ready(function () {
             }
             else{
                 $('.address').show();
-                // $('.contact, .payroll, .others').hide();
             }
         }
         else if(id == 4){
@@ -58,7 +55,6 @@ $(document).ready(function () {
             }
             else{
                 $('.payroll').show();
-                // $('.contact, .address, .others').hide();
             }
         }
         else if(id == 5){
@@ -67,13 +63,12 @@ $(document).ready(function () {
             }
             else{
                 $('.others').show();
-                // $('.contact, .address, .payroll').hide();
             }
         }
     });
 
 
-    /////////////// ------------------ Add Employee ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Add Employee Ajax Part Start ---------------- /////////////////////////////
     $(document).on('submit', '#AddEmployeeForm', function (e) {
         e.preventDefault();
         let locations = $('#location').attr('data-id');
@@ -120,7 +115,7 @@ $(document).ready(function () {
 
 
 
-    //////////////////// --------------------- Show image when select file ---------------- /////////////////////
+    //////////////////// --------------------- Show Image When Select File ---------------- /////////////////////
     $(document).on('change','#image', function (e){
         let path = $(this).val();
         let extension = path.substring(path.lastIndexOf('.')+1).toLowerCase();
@@ -170,7 +165,7 @@ $(document).ready(function () {
 
 
 
-    ///////////// ------------------ Edit Employee ajax part start ---------------- /////////////////////////////
+    ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.editEmployee', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
@@ -186,7 +181,7 @@ $(document).ready(function () {
                 $('#updateEmail').val(res.employee.user_email);
                 $('#updatePhone').val(res.employee.user_phone);
 
-                // Create options dynamically based on the status value
+                // Create options dynamically
                 $('#updateGender').empty();
                 $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
                                          <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
@@ -221,7 +216,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Employees ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
     $(document).on('submit', '#EditEmployeeForm', function (e) {
         e.preventDefault();
         let locations = $('#updateLocation').attr('data-id');
@@ -261,29 +256,49 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////
+
+    /////////////// ------------------ Delete Employee Ajax Part Start ---------------- /////////////////////////////
+    // Delete Button Functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Employee ??')) {
-            $.ajax({
-                url: `/admin/employees/delete/employees`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.employee').load(location.href + ' .employee');
-                        $('#search').val('');
-                        toastr.success('Employee Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
 
+    // Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    // Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/admin/employees/delete/employees`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.employee').load(location.href + ' .employee');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Employee Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+    
+    
+    /////////////// ------------------ Delete Employee Ajax Part End ---------------- /////////////////////////////
 
 
-    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+
+
+    /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
@@ -292,14 +307,14 @@ $(document).ready(function () {
 
 
 
-    //on select option search value will be remove
+    // On select option search value will be remove
     $(document).on('change', '#searchOption', function (e) {
         $('#search').val('');
     });
 
 
 
-    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
@@ -335,7 +350,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.search-paginate a', function (e) {
         e.preventDefault();
         $('.paginate').addClass('hidden');
@@ -374,7 +389,7 @@ $(document).ready(function () {
 
 
 
-    //Employee data load function
+    // Employee Data Load Function
     function loadEmployeeData(url, data, targetElement) {
         $.ajax({
             url: url,

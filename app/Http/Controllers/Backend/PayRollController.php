@@ -416,18 +416,6 @@ class PayRollController extends Controller
             ];
         })
         ->values();
-
-        // dd($payroll);
-        
-        // $payroll = $payrolls->groupBy('emp_id')->map(function ($group) {
-        //     $totalAmount = $group->sum('amount');
-        //     return [
-        //         'emp_id' => $group->first()->emp_id,
-        //         'emp_name' => $group->first()->employee->user_name,
-        //         'salary' => $totalAmount
-        //     ];
-        // });
-        // $payroll = $payroll->values();
         
         $tranwith = Transaction_With::where('user_type','employee')->get();
         return view('payroll.payroll_installment.payroll',compact('payroll','tranwith'));
@@ -436,12 +424,7 @@ class PayRollController extends Controller
 
     // Add Payroll
     public function AddPayroll(Request $req){
-        // $req->validate([
-        //     "with" => 'required',
-        //     "user" => 'required',
-        // ]);
         $employees = User_Info::select('user_id','user_name','tran_user_type')->where('user_type','employee')->orderBy('added_at','asc')->get();
-        // dd($employee);
 
         if($employees != null){
             foreach ($employees as $key => $employee) {

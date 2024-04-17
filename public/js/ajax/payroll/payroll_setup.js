@@ -86,7 +86,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Payroll ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Payroll Setup ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#EditPayrollForm', function (e) {
         e.preventDefault();
         let user = $('#updateUser').attr('data-id');
@@ -122,25 +122,46 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Delete Supplier ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Delete Payroll Setup ajax part start ---------------- /////////////////////////////
+    //Delete button functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Payroll Setup ??')) {
-            $.ajax({
-                url: `/delete/payroll/setup`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.payroll-setup').load(location.href + ' .payroll-setup');
-                        $('#search').val('');
-                        toastr.success('Payroll Setup Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
+
+    //Cancel button functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    //Confirm button functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/delete/payroll/setup`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.payroll-setup').load(location.href + ' .payroll-setup');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Payroll Setup Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+
+    
+    
+    /////////////// ------------------ Delete Payroll Setup ajax part End ---------------- /////////////////////////////
+    
+    
 
     
 

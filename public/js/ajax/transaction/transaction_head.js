@@ -99,24 +99,45 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Delete Transaction Head ajax part start ---------------- /////////////////////////////
+    //Delete button functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Transaction Head ??')) {
-            $.ajax({
-                url: `/transaction/delete/heads`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.heads').load(location.href + ' .heads');
-                        $('#search').val('');
-                        toastr.success('Transaction Head Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
+
+    //Cancel button functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    //Confirm button functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/transaction/delete/heads`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.heads').load(location.href + ' .heads');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Transaction Head Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+
+    });
+    
+    
+    /////////////// ------------------ Delete Transaction Head ajax part End ---------------- /////////////////////////////
+    
+    
 
 
 

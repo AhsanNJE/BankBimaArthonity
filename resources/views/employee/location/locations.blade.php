@@ -27,6 +27,8 @@
 
     @include('employee.location.editLocation')
 
+    @include('employee.location.delete')
+
 @endsection
 
 

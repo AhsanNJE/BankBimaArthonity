@@ -88,7 +88,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Payroll ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Payroll Middelwire ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#EditPayrollForm', function (e) {
         e.preventDefault();
         let user = $('#updateUser').attr('data-id');
@@ -124,25 +124,46 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Delete Supplier ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Delete Payroll Middlewire ajax part start ---------------- /////////////////////////////
+    //Delete button functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Payroll Middlewire ??')) {
-            $.ajax({
-                url: `/delete/payroll/middlewire`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.payroll-middlewire').load(location.href + ' .payroll-middlewire');
-                        $('#search').val('');
-                        toastr.success('Payroll Middlewire Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
+
+    //Cancel button functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    //Confirm button functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/delete/payroll/middlewire`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.payroll-middlewire').load(location.href + ' .payroll-middlewire');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Payroll Middlewire Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+
+    
+    
+    /////////////// ------------------ Delete Payroll Middlewire ajax part End ---------------- /////////////////////////////
+    
+    
 
     
 
