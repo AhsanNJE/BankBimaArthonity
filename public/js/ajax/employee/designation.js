@@ -6,7 +6,7 @@ $(document).ready(function () {
         $('#department').val('');
     });
 
-    /////////////// ------------------ Add Designation ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Add Designation Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '#InsertDesignation', function (e) {
         e.preventDefault();
         let designations = $('#designations').val();
@@ -40,7 +40,7 @@ $(document).ready(function () {
 
 
 
-    ///////////// ------------------ Edit Designation ajax part start ---------------- /////////////////////////////
+    ///////////// ------------------ Edit Designation Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.editDesignation', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
@@ -65,7 +65,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Departments ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Designation Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '#UpdateDesignation', function (e) {
         e.preventDefault();
         let id = $('#id').val();
@@ -99,29 +99,50 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Delete Designation ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Delete Designation Ajax Part Start ---------------- /////////////////////////////
+    //Delete Button Functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Location ??')) {
-            $.ajax({
-                url: `/admin/employees/delete/designations`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.designation').load(location.href + ' .designation');
-                        $('#search').val('');
-                        toastr.success('Designation Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
 
+    //Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    //Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: `/admin/employees/delete/designations`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.designation').load(location.href + ' .designation');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Designation Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+    
+    
+    
+    /////////////// ------------------ Delete Designation Ajax Part End ---------------- /////////////////////////////
+    
+    
 
 
-    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+
+    /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
@@ -130,14 +151,14 @@ $(document).ready(function () {
 
 
 
-    //on select option search value will be remove
+    // On select option search value will be remove
     $(document).on('change', '#searchOption', function (e) {
         $('#search').val('');
     });
 
 
 
-    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
@@ -153,7 +174,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.search-paginate a', function (e) {
         e.preventDefault();
         $('.paginate').addClass('hidden');
@@ -171,7 +192,7 @@ $(document).ready(function () {
 
 
 
-    //Designation data load function
+    // Designation Data Load Function
     function loadDesignationData(url, data, targetElement) {
         $.ajax({
             url: url,

@@ -1,13 +1,11 @@
 <table class="show-table">
+    <caption class="caption">Additional Payroll Details</caption>
     <thead>
-        <caption class="caption">Additional Payroll Details</caption>
         <tr>
             <th>SL:</th>
             <th>Employee Id</th>
             <th>Payroll Category</th>
             <th>Amount</th>
-            <th>Month</th>
-            <th>Year</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -18,11 +16,13 @@
                 <td>{{ $item->Employee->user_name }}</td>
                 <td>{{ $item->Head->tran_head_name }}</td>
                 <td>{{ $item->amount }}</td>
-                <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editPayrollSetup" data-modal-id="editPayrollSetup"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
-                            class="fas fa-trash"></i>Delete</button>
+                <td>
+                    <div style="display: flex;gap:5px;">
+                        <button class="open-modal editPayrollSetup" data-modal-id="editPayrollSetup" id="edit"
+                            data-id="{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                        <button data-modal-id="deleteModal" data-id="{{ $item->id }}" id="delete"><i
+                            class="fas fa-trash"></i></button>
+                    </div>
                 </td>
             </tr>
         @endforeach

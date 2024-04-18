@@ -18,7 +18,7 @@ class PartyPaymentController extends Controller
     
     //Show All Party Payments
     public function ShowParty(){
-        $party = Party_Payment_Receive::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        $party = Party_Payment_Receive::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::get();
         return view('party_payment.partyPayments', compact('party','groupes'));
     }//End Method
@@ -135,10 +135,6 @@ class PartyPaymentController extends Controller
             "totAmount" => 'required',
         ]);
 
-        // $discount = 0;
-        // if($req->discount != ""){
-        //     $discount 
-        // }
 
         if($req->user != ""){
             $transaction = Transaction_Main::where('tran_user', $req->user)
@@ -330,10 +326,10 @@ class PartyPaymentController extends Controller
     //Party Pagination
     public function PartyPagination(Request $req){
         if($req->type == null ){
-            $party = Party_Payment_Receive::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+            $party = Party_Payment_Receive::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         }
         else{
-            $party = Party_Payment_Receive::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+            $party = Party_Payment_Receive::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         }
         return view('party_payment.partyPaymentPagination', compact('party'));
     }//End Method
@@ -482,7 +478,7 @@ class PartyPaymentController extends Controller
     /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
     //Show Party Payments Receive From Client
     public function ShowReceiveParty(){
-        $party = Party_Payment_Receive::where('tran_type', "receive")->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        $party = Party_Payment_Receive::where('tran_type', "receive")->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::get();
         return view('party_payment.receive.partyPayments', compact('party','groupes'));
     }//End Method
@@ -494,7 +490,7 @@ class PartyPaymentController extends Controller
     /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
     //Show Party Payments Payment To Supplier
     public function ShowPaymentParty(){
-        $party = Party_Payment_Receive::where('tran_type', "payment")->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        $party = Party_Payment_Receive::where('tran_type', "payment")->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::get();
         return view('party_payment.payment.partyPayments', compact('party','groupes'));
     }//End Method
