@@ -412,7 +412,6 @@ class TransactionController extends Controller
             ->take(10)
             ->get();
 
-            dd($users);
 
             if($users->count() > 0){
                 $list = "";
