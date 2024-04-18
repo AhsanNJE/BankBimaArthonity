@@ -452,9 +452,17 @@ Route::controller(PayRollController::class)->group(function(){
 
 ////////////////////////// --------------- HR routes ----------- ///////////////////////////
     // Route::get('show/newemployee', 'ShowNewEmployees')->name('show.newemployee');
-    Route::get('show/newemployee', [InfoController::class, 'ShowNewEmployees'])->name('show.newemployee');  
-    Route::post('insert/info', [InfoController::class, 'InsertEmployees'])->name('insert.info');  
-    Route::get('show/info', [InfoController::class, 'ShowEmployeesInfo'])->name('show.info');
+    Route::get('show/employee/personal', [InfoController::class, 'ShowEmployeesPersonal'])->name('show.employeepersonal');  
+    Route::get('show/employee/education', [InfoController::class, 'ShowEmployeesEducation'])->name('show.employeeeducation');  
+    Route::get('show/employee/training', [InfoController::class, 'ShowEmployeesTraining'])->name('show.employeetraining');  
+    Route::get('show/employee/experience', [InfoController::class, 'ShowEmployeesExperience'])->name('show.employeeexperience');  
+    Route::get('show/employee/organization', [InfoController::class, 'ShowEmployeesOrganization'])->name('show.employeeorganization');  
+    Route::post('insert/personal/info', [InfoController::class, 'InsertPersonalDetails'])->name('insertpersonal.info');  
+    Route::post('insert/education/info', [InfoController::class, 'InsertEducationDetails'])->name('inserteducation.info');
+    Route::post('insert/training/info', [InfoController::class, 'InsertTrainingDetails'])->name('inserttraining.info');
+    Route::post('insert/experience/info', [InfoController::class, 'InsertExperienceDetails'])->name('insertexperience.info');
+    Route::post('insert/organization/info', [InfoController::class, 'InsertOrganizationDetails'])->name('insertorganization.info');
+    Route::get('show/personal/info', [InfoController::class, 'ShowEmployeesPersonalInfo'])->name('show.personalinfo');
     Route::get('/new/employee', [InfoController::class, 'EmployeesInfo'])->name('employee.details');
     Route::get('/employees/edit', [InfoController::class,'EmployeesEdit'])->name('employees.edit');
     Route::put('/employees/update', [InfoController::class,'EmployeesUpdate'])->name('employees.update');

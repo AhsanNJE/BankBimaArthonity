@@ -1,5 +1,13 @@
 [
     {
+        "designation": "Chief Accountant",
+        "dept_id":1
+    },
+    {
+        "designation": "Junior Accountant",
+        "dept_id":1
+    },
+    {
         "designation": "Junior Editor",
         "dept_id":2
     },
@@ -17,11 +25,15 @@
     },
     {
         "designation": "Cleaner",
+        "dept_id":4
+    },
+    {
+        "designation": "Junior Reporter",
         "dept_id":5
     },
     {
-        "designation": "Chef",
-        "dept_id":4
+        "designation": "Chief Reporter",
+        "dept_id":5
     }
     
 ]

@@ -35,6 +35,8 @@
     
     @include('employee.employeeDetails')
 
+    @include('employee.delete')
+
 @endsection
 
 

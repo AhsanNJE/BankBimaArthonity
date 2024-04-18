@@ -18,7 +18,7 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Groupe Table Methods start ---------- //////////////////////////
     //Show All Transaction Groupes
     public function ShowTransactionGroupes(){
-        $groupes = Transaction_Groupe::orderBy('added_at','desc')->paginate(15);
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->paginate(15);
         return view('transaction.transactionGroupe.transactionGroupes', compact('groupes'));
     }//End Method
 
@@ -125,7 +125,7 @@ class TransactionController extends Controller
 
     //Transaction Groupes Pagination
     public function TransactionGroupePagination(){
-        $groupes = Transaction_Groupe::orderBy('added_at','desc')->paginate(15);
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('transaction.transactionGroupe.transactionGroupePagination', compact('groupes'))->render(),
@@ -165,8 +165,8 @@ class TransactionController extends Controller
     
     //Show All Transaction Heads
     public function ShowTransactionHeads(){
-        $groupes = Transaction_Groupe::orderBy('added_at','desc')->get();
-        $heads = Transaction_Head::orderBy('added_at','desc')->paginate(15);
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        $heads = Transaction_Head::orderBy('added_at','asc')->paginate(15);
         return view('transaction.transactionHead.transactionHeads', compact('heads', 'groupes'));
     }//End Method
 
@@ -234,7 +234,7 @@ class TransactionController extends Controller
 
     //Edit Transaction Heads
     public function EditTransactionHeads(Request $req){
-        $groupes = Transaction_Groupe::orderBy('added_at','desc')->get();
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
         $heads = Transaction_Head::with('Groupe')->findOrFail($req->id);
         return response()->json([
             'heads'=>$heads,
@@ -279,7 +279,7 @@ class TransactionController extends Controller
 
     //Transaction Heads Pagination
     public function TransactionHeadPagination(){
-        $heads = Transaction_Head::orderBy('added_at','desc')->paginate(15);
+        $heads = Transaction_Head::orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('transaction.transactionHead.transactionHeadPagination', compact('heads'))->render(),
@@ -348,7 +348,7 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Details Table Methods start ---------- //////////////////////////
     //Show All Transaction
     public function ShowTransactions(){
-        $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         return view('transaction.details.transactionDetails', compact('transaction'));
     }//End Method
 
@@ -407,10 +407,11 @@ class TransactionController extends Controller
     public function GetTransactionUser(Request $req){
         if($req->tranUserType != ""){
             $users = User_Info::where('user_name', 'like', '%'.$req->tranUser.'%')
-            ->where('tran_user_type', 'like', '%'.$req->tranUserType.'%')
+            ->where('tran_user_type', 'like', $req->tranUserType)
             ->orderBy('user_name','asc')
             ->take(10)
             ->get();
+
 
             if($users->count() > 0){
                 $list = "";
@@ -691,10 +692,10 @@ class TransactionController extends Controller
     //Transaction Pagination
     public function TransactionPagination(Request $req){
         if($req->type == null ){
-            $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+            $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         }
         else{
-            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         }
         return view('transaction.details.transactionPagination', compact('transaction'));
     }//End Method
@@ -866,7 +867,7 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Receive Methods start ---------- //////////////////////////
     //Show All Transaction Receive Details
     public function ShowTransactionReceive(){
-        $transaction = Transaction_Main::where('tran_type','receive')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        $transaction = Transaction_Main::where('tran_type','receive')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::where('tran_groupe_type', 'Receive')->orderBy('added_at','asc')->get();
         return view('transaction.details.receive.transactionReceive', compact('transaction','groupes'));
     }//End Method
@@ -879,7 +880,7 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Payment Methods start ---------- //////////////////////////
     //Show All Transaction Payment Details
     public function ShowTransactionPayment(){
-        $transaction = Transaction_Main::where('tran_type','payment')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','desc')->paginate(15);
+        $transaction = Transaction_Main::where('tran_type','payment')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::where('tran_groupe_type', 'Payment')->orderBy('added_at','asc')->get();
         return view('transaction.details.payment.transactionPayment', compact('transaction','groupes'));
     }//End Method

@@ -12,6 +12,10 @@
         "user_type": "Employee"
     },
     {
+        "tran_with_name": "General Client",
+        "user_type": "Client"
+    },
+    {
         "tran_with_name": "Advertisement Client",
         "user_type": "Client"
     },
@@ -22,6 +26,10 @@
     {
         "tran_with_name": "Newspaper Client",
         "user_type": "Client"
+    },
+    {
+        "tran_with_name": "General Supplier",
+        "user_type": "Supplier"
     },
     {
         "tran_with_name": "Printing tools Supplier",

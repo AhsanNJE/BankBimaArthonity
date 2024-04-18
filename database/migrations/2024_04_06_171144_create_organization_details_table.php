@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('joining_details', function (Blueprint $table) {
+        Schema::create('organization_details', function (Blueprint $table) {
             $table->id();
             $table->string('emp_id');
             $table->date('joining_date');
             $table->string('joining_location');
+            $table->string('dept_id');
             $table->string('department');
+            $table->string('designation_id');
             $table->string('designation');
             $table->timestamps();
             $table->foreign('emp_id')->references('employee_id')->on('personal_details')

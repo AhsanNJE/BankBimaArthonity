@@ -26,6 +26,8 @@
 
     @include('payroll.payroll_middlewire.editPayrollMiddlewire')
 
+    @include('payroll.payroll_middlewire.delete')
+
 @endsection
 
 

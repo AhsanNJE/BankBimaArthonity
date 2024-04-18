@@ -15,7 +15,7 @@ class SupplierController extends Controller
     /////////////////////////// --------------- Inventory Suppliers Methods start---------- //////////////////////////
     //Show Suppliers
     public function ShowSuppliers(){
-        $supplier = User_Info::where('user_type','supplier')->orderBy('added_at','desc')->paginate(15);
+        $supplier = User_Info::where('user_type','supplier')->orderBy('added_at','asc')->paginate(15);
         $tranwith = Transaction_With::where('user_type','Supplier')->get();
         return view('supplier.suppliers', compact('supplier','tranwith'));
     }//End Method
@@ -151,7 +151,7 @@ class SupplierController extends Controller
 
     //Supplier Pagination
     public function SupplierPagination(){
-        $supplier = User_Info::where('user_type','supplier')->orderBy('added_at','desc')->paginate(15);
+        $supplier = User_Info::where('user_type','supplier')->orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('supplier.supplierPagination', compact('supplier'))->render(),

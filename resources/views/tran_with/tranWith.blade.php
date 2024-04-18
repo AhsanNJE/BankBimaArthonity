@@ -26,6 +26,8 @@
 
     @include('tran_with.editTranWith')
 
+    @include('tran_with.delete')
+
 @endsection
 
 

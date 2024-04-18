@@ -23,7 +23,7 @@
 <body>
 <div class="container">
  <div class="center">
-        <form action="{{ route('show.info')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('show.personalinfo')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <!-- Display Personal Details -->
         @foreach($employeeinfo as $item)
@@ -70,7 +70,7 @@
             </div>    
 
             <!-- Display Education Details -->
-        <h4>Educational Details</h4>
+        <!-- <h4>Educational Details</h4>
             <div class="container bg-light text-dark my-4 py-3">
                 <div class="row">
                     <div class="col-md-4">
@@ -102,10 +102,10 @@
                     </div>
                 </div>
             </div>
-            
+             -->
 
             <!-- Display Training Details -->
-        <h4>Training Details</h4>
+        <!-- <h4>Training Details</h4>
             <div class="container bg-light text-dark my-4 py-3">
                 <div class="row">
                     <div class="col-md-4">
@@ -129,13 +129,12 @@
                     <div class="col-md-4">
                         <p>Training Year: {{ $item->trainingDetail->training_year }}</p>
                     </div>
-                    <!-- Add more fields as needed -->
                     </div>
                 </div>
-            </div>    
+            </div>     -->
 
             <!-- Display Experience Details -->
-        <h4>Experience Details</h4>
+        <!-- <h4>Experience Details</h4>
             <div class="container bg-light text-dark my-4 py-3">
                 <div class="row">
                     <div class="col-md-4">
@@ -157,11 +156,11 @@
                         <p>Company Location: {{ $item->experienceDetail->company_location }}</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <!-- Display Joining Details -->
-        <h4>Joining Details</h4>
+        <!-- <h4>Joining Details</h4>
             <div class="container bg-light text-dark my-4 py-3">
                 <div class="row">
                     <div class="col-md-4">
@@ -177,7 +176,7 @@
                         <p>Designation: {{ $item->joiningDetail->designation }}</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
             @endforeach
         </form>
     </div>

@@ -3,7 +3,7 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="NewEmployee">Add Employee</button>
+                <button class="open-modal add" data-modal-id="EmployeePersonal">Add Employee Personal Detail</button>
             </div>
             <div class="col-md-9 search">
                 <select name="searchOption" id="searchOption" class="select-small">
@@ -26,7 +26,7 @@
     <div class="employee" style="overflow-x:auto;">
         @include('hr.employeePage')
     </div>
-    @include('hr.employee')
+    @include('hr.personaldetail.employeePersonalDetail')
     @include('hr.employeeFullDetail')
     @endsection
 

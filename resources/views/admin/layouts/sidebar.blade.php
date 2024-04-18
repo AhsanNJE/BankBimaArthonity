@@ -248,9 +248,38 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('show.info')}}" class="nav-link">
+                            <a href="{{route('show.personalinfo')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Personal Details</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('show.employeeeducation')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Education Details</p>
+                            </a>
+                        </li>
+                         
+                        <li class="nav-item">
+                            <a href="{{route('show.employeetraining')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Training Details</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('show.employeeexperience')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Experience Details</p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="{{route('show.employeeorganization')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Organization Details</p>
                             </a>
                         </li>
                         

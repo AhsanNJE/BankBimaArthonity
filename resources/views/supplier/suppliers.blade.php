@@ -31,6 +31,8 @@
 
     @include('supplier.supplierDetails')
 
+    @include('supplier.delete')
+
 @endsection
 
 {{-- ajax part start from here --}}

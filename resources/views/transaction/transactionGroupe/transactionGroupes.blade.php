@@ -22,6 +22,8 @@
 
     @include('transaction.transactionGroupe.editTransactionGroupe')
 
+    @include('transaction.transactionGroupe.delete')
+
 @endsection
 
 

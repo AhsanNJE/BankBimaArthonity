@@ -1,17 +1,18 @@
 <?php
 
 namespace App\Http\Controllers\Backend;
-
-use App\Models\Designation;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use App\Models\Designation;
 use App\Models\Employee_Info;
 use App\Models\Location_Info;
 use App\Models\Department_Info;
 use App\Models\User_Info;
 use App\Models\Pay_Roll_Setup;
 use App\Models\Transaction_With;
-use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
+
 
 class EmployeeController extends Controller
 {
@@ -19,7 +20,7 @@ class EmployeeController extends Controller
     /////////////////////////// --------------- Departments Table Methods start ---------- //////////////////////////
     //Show All Departments
     public function ShowDepartments(){
-        $department = Department_Info::orderBy('added_at','desc')->paginate(15);
+        $department = Department_Info::orderBy('added_at','asc')->paginate(15);
         return view('employee.department.departments', compact('department'));
     }//End Method
 
@@ -108,7 +109,7 @@ class EmployeeController extends Controller
 
     //Department Pagination
     public function DepartmentPagination(){
-        $department = Department_Info::orderBy('added_at','desc')->paginate(15);
+        $department = Department_Info::orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('employee.department.departmentPagination', compact('department'))->render(),
@@ -151,7 +152,7 @@ class EmployeeController extends Controller
     
     //Show All Designations
     public function ShowDesignations(){
-        $designations = Designation::orderBy('added_at','desc')->paginate(15);
+        $designations = Designation::orderBy('added_at','asc')->paginate(15);
         return view('employee.designation.designations', compact('designations'));
     }//End Method
 
@@ -247,7 +248,7 @@ class EmployeeController extends Controller
 
     //Designation Pagination
     public function DesignationPagination(){
-        $designations = Designation::orderBy('added_at','desc')->paginate(15);
+        $designations = Designation::orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('employee.designation.designationPagination', compact('designations'))->render(),
@@ -317,7 +318,7 @@ class EmployeeController extends Controller
     
     //Show All Locations
     public function ShowLocations(){
-        $location = Location_Info::orderBy('added_at','desc')->paginate(15);
+        $location = Location_Info::orderBy('added_at','asc')->paginate(15);
         return view('employee.location.locations', compact('location'));
     }//End Method
 
@@ -413,7 +414,7 @@ class EmployeeController extends Controller
 
     //Location Pagination
     public function LocationPagination(){
-        $location = Location_Info::orderBy('added_at','desc')->paginate(15);
+        $location = Location_Info::orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('employee.location.locationPagination', compact('location'))->render(),
@@ -504,7 +505,7 @@ class EmployeeController extends Controller
     
     //Show All TranWith
     public function ShowTranWith(){
-        $tranwith = Transaction_With::orderBy('added_at','desc')->paginate(15);
+        $tranwith = Transaction_With::orderBy('added_at','asc')->paginate(15);
         return view('tran_with.tranWith', compact('tranwith'));
     }//End Method
 
@@ -589,7 +590,7 @@ class EmployeeController extends Controller
 
     //Tran With Pagination
     public function TranWithPagination(){
-        $tranwith = Transaction_With::orderBy('added_at','desc')->paginate(15);
+        $tranwith = Transaction_With::orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('tran_with.tranWithPagination', compact('tranwith'))->render(),
@@ -667,7 +668,7 @@ class EmployeeController extends Controller
     /////////////////////////// --------------- Employee Table Methods start ---------- //////////////////////////
     //Show All Employees
     public function ShowEmployees(){
-        $employee = User_Info::where('user_type','employee')->orderBy('added_at','desc')->paginate(15);
+        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
         $tranwith = Transaction_With::where('user_type','Employee')->get();
         return view('employee.employees', compact('employee','tranwith'));
     }//End Method
@@ -724,8 +725,6 @@ class EmployeeController extends Controller
             "loc_id" => $req->location,
             "user_type" => 'employee',
             "tran_user_type" => $req->type,
-            "dept_id" => $req->department,
-            "designation_id" => $req->designation,
             "dob" => $req->dob,
             "nid" => $req->nid,
             "address" => $req->address,
@@ -768,7 +767,8 @@ class EmployeeController extends Controller
         ]);
 
         $employee = User_Info::findOrFail($req->id);
-        
+        $path = 'public/profiles/'.$employee->image;
+        // dd($path);
         if($req->image != null){
             $req->validate([
                 "image" => 'image|mimes:jpg,jpeg,png,gif|max:2048',
@@ -776,7 +776,7 @@ class EmployeeController extends Controller
 
             //process the image name and store it to storage/app/public/profiles directory
             if ($req->hasFile('image') && $req->file('image')->isValid()) {
-                $originalName = $req->file('image')->getClientOriginalName();
+                Storage::delete($path);
                 $imageName = $req->empId. '('. $req->name . ').' . $req->file('image')->getClientOriginalExtension();
                 $imagePath = $req->file('image')->storeAs('public/profiles', $imageName);
             }
@@ -824,7 +824,7 @@ class EmployeeController extends Controller
 
     //Employee Pagination
     public function EmployeePagination(){
-        $employee = User_info::where('user_type','employee')->orderBy('added_at','desc')->paginate(15);
+        $employee = User_info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('employee.employeePagination', compact('employee'))->render(),
