@@ -115,7 +115,7 @@ $(document).ready(function () {
     // Confirm Button Functionality
     $(document).on('click', '#confirm', function (e) {
         e.preventDefault();
-        let id = $(this).data('id');
+        let id = $(this).attr('data-id');
         $.ajax({
             url: `/admin/employees/delete/locations`,
             method: 'DELETE',

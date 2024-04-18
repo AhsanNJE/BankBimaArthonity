@@ -19,7 +19,7 @@ class ReportController extends Controller
     public function PendingAllDue()
     {
 
-        $alldue = Transaction_Main::where('due', '>', '0')->orderBy('id', 'DESC')->paginate(2);
+        $alldue = Transaction_Main::where('due', '>', '0')->orderBy('id', 'asc')->paginate(2);
         return view('reports.due_statement', compact('alldue'));
     } // End Method 
 
@@ -30,7 +30,6 @@ class ReportController extends Controller
         $end_date = $request->end_date;
 
         $alldue = Transaction_Main::where('tran_date', '>=', $start_date)
-            // ->where('tran_date','<=',$end_date)
             ->paginate(2);
         return view('reports.due_statement', compact('alldue'));
     } //End Method
@@ -38,21 +37,19 @@ class ReportController extends Controller
     //pagination
     public function Pagination(Request $request)
     {
-
-        $alldue = Transaction_Main::where('due', '>', '0')->orderBy('id', 'DESC')->paginate(2);
+        $alldue = Transaction_Main::where('due', '>', '0')->orderBy('id', 'asc')->paginate(2);
         return view('reports.pagi_due_statement', compact('alldue'))->render();
     } //End Method
 
     //Searching
     public function SearchDueStatement(Request $request)
     {
-
         $alldue = Transaction_Main::with('User')
             ->whereHas('User', function ($query) use ($request) {
                 $query->whereIn('user_type', ['employee', 'supplier', 'client']);
                 $query->where('user_name', 'like', '%' . $request->search_string . '%');
             })
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->paginate(2);
 
         if ($alldue->count() >= 1) {
@@ -64,17 +61,17 @@ class ReportController extends Controller
         }
     } //End Method
 
+
     //Pay All Due
     public function PendingAllDueAjax($id)
     {
-
         $allduepay = Transaction_Main::findOrFail($id);
         return response()->json($allduepay);
     } // End Method  
 
+
     public function TransUpdateDue(Request $request)
     {
-
         $trans_due_id = $request->id;
         $due_amount = $request->due;
         $pay_amount = $request->pay;
@@ -99,6 +96,7 @@ class ReportController extends Controller
         return redirect()->route('pending.all.due')->with($notification);
     } // End Method 
 
+
     // Trans Details
     public function TransDetails($trans_id)
     {
@@ -106,6 +104,7 @@ class ReportController extends Controller
         $transDetails = Transaction_Main::where('id', $trans_id)->first();
         return view('reports.details_due_statement', compact('transDetails'));
     } // End Method 
+
 
     // Invoice
     public function TransInvoice($transinvoice_id)
@@ -282,7 +281,6 @@ class ReportController extends Controller
                     'tran_groupe_id',
                     'tran_head_id',
                     DB::raw('SUM(quantity) as total_quantity'),
-                    // DB::raw('SUM(amount) as total_amount'),
                     DB::raw('SUM(tot_amount) as total_tot_amount'),
                 )
                 ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])

@@ -141,7 +141,7 @@ $(document).ready(function () {
     //Confirm button functionality
     $(document).on('click', '#confirm', function (e) {
         e.preventDefault();
-        let id = $(this).data('id');
+        let id = $(this).attr('data-id');
         $.ajax({
             url: `/delete/payroll/setup`,
             method: 'DELETE',

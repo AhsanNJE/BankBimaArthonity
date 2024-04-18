@@ -20,7 +20,7 @@ class PayRollController extends Controller
     //Attendance All Method
     public function EmployeeAttendenceList(){
 
-        $allData = Attendence::select('date')->groupBy('date')->orderBy('id','desc')->get();
+        $allData = Attendence::select('date')->groupBy('date')->orderBy('id','asc')->get();
         return view('attendance.view_employee_attend',compact('allData'));
 
     } // End Method 

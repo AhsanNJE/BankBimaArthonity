@@ -203,7 +203,7 @@ $(document).ready(function () {
                 $('#updateDob').val(res.employee.dob);
                 $('#updateNid').val(res.employee.nid);
                 $('#updateAddress').val(res.employee.address);
-                $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}`).show();
+                $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
 
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -276,7 +276,7 @@ $(document).ready(function () {
     // Confirm Button Functionality
     $(document).on('click', '#confirm', function (e) {
         e.preventDefault();
-        let id = $(this).data('id');
+        let id = $(this).attr('data-id');
         $.ajax({
             url: `/admin/employees/delete/employees`,
             method: 'DELETE',

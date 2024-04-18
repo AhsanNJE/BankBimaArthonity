@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('nid')->nullable();
             $table->string('address')->nullable();
             $table->string('image')->nullable();
-            $table->tinyInteger('status')->default('0')->comment('1 for Active 0 for Inactive');
+            $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();

@@ -15,7 +15,7 @@ class ClientController extends Controller
     /////////////////////////// --------------- Client Methods start---------- //////////////////////////
     //Show Clients
     public function ShowClients(){
-        $client = User_Info::where('user_type','client')->orderBy('added_at','desc')->paginate(15);
+        $client = User_Info::where('user_type','client')->orderBy('added_at','asc')->paginate(15);
         $tranwith = Transaction_With::where('user_type','Client')->get();
         return view('client.clients', compact('client','tranwith'));
     }//End Method
@@ -128,7 +128,7 @@ class ClientController extends Controller
 
     //Client Pagination
     public function ClientPagination(){
-        $client = User_Info::where('user_type','client')->orderBy('added_at','desc')->paginate(15);
+        $client = User_Info::where('user_type','client')->orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
             'data' => view('client.clientPagination', compact('client'))->render(),
