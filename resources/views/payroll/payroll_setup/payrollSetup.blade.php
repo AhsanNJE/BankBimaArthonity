@@ -26,6 +26,8 @@
 
     @include('payroll.payroll_setup.editPayrollSetup')
 
+    @include('payroll.payroll_setup.delete')
+
 @endsection
 
 

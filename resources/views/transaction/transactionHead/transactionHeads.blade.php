@@ -26,6 +26,8 @@
 
     @include('transaction.transactionHead.editTransactionHead')
 
+    @include('transaction.transactionHead.delete')
+
 @endsection
 
 

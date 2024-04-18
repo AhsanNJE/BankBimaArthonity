@@ -1,6 +1,6 @@
 <table class="show-table">
+    <caption class="caption">Designation Details</caption>
     <thead>
-        <caption class="caption">Designation Details</caption>
         <tr>
             <th>SL:</th>
             <th>Designation</th>
@@ -14,11 +14,13 @@
                 <td>{{ $designations->firstItem() + $key }}</td>
                 <td>{{ $item->designation }}</td>
                 <td>{{ $item->Department->dept_name }}</td>
-                <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editDesignation" data-modal-id="editDesignation"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
-                            class="fas fa-trash"></i>Delete</button>
+                <td>
+                    <div style="display: flex;gap:5px;">
+                        <button class="open-modal editDesignation" data-modal-id="editDesignation" id="edit"
+                            data-id="{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                        <button data-modal-id="deleteModal" data-id="{{ $item->id }}" id="delete"><i
+                                class="fas fa-trash"></i></button>
+                    </div>
                 </td>
             </tr>
         @endforeach

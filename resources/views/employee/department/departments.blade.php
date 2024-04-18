@@ -22,6 +22,8 @@
 
     @include('employee.department.editDepartment')
 
+    @include('employee.department.delete')
+
 @endsection
 
 

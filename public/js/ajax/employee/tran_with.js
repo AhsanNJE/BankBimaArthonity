@@ -3,7 +3,7 @@ $(document).ready(function () {
         $("#name").focus();
     });
 
-    /////////////// ------------------ Add Tran With ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Add Tran With Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '#InsertTranWith', function (e) {
         e.preventDefault();
         let name = $('#name').val();
@@ -36,7 +36,7 @@ $(document).ready(function () {
 
 
 
-    ///////////// ------------------ Edit Tran With ajax part start ---------------- /////////////////////////////
+    ///////////// ------------------ Edit Tran With Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.editTranWith', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
@@ -47,7 +47,7 @@ $(document).ready(function () {
             success: function (res) {
                 $('#id').val(id);
                 $('#updateName').val(res.tranwith.tran_with_name);
-                // Create options dynamically based on the status value
+                // Create options dynamically
                 $('#updateType').empty();
                 $('#updateType').append(`<option value="Client" ${res.tranwith.user_type === 'Client' ? 'selected' : ''}>Client</option>
                                          <option value="Supplier" ${res.tranwith.user_type === 'Supplier' ? 'selected' : ''}>Supplier</option>
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Tran With ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Tran With Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '#UpdateTranWith', function (e) {
         e.preventDefault();
         let id = $('#id').val();
@@ -99,61 +99,81 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Delete Tran With ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Delete Tran With Ajax Part Start ---------------- /////////////////////////////
+    // Delete Button Functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This TranWith ??')) {
-            $.ajax({
-                url: `/admin/employees/delete/tranwith`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.tranwith').load(location.href + ' .tranwith');
-                        $('#search').val('');
-                        toastr.success('Tranwith Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
 
+    // Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    // Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: `/admin/employees/delete/tranwith`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.tranwith').load(location.href + ' .tranwith');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Tranwith Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+    
+    
+    /////////////// ------------------ Delete Tran With Ajax Part End ---------------- /////////////////////////////
+    
+    
 
 
-    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+
+    /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadDesignationData(`/admin/employees/tranwith/pagination?page=${page}`, {}, '.tranwith');
+        loadTranwithData(`/admin/employees/tranwith/pagination?page=${page}`, {}, '.tranwith');
     });
 
 
 
-    //on select option search value will be remove
+    // On select option search value will be remove
     $(document).on('change', '#searchOption', function (e) {
         $('#search').val('');
     });
 
 
 
-    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadDesignationData(`/admin/employees/search/tranwith`, {search:search}, '.tranwith')
+            loadTranwithData(`/admin/employees/search/tranwith`, {search:search}, '.tranwith')
         }
         else if(searchOption == "2"){
-            loadDesignationData(`/admin/employees/search/tranwith/type`, {search:search}, '.tranwith')
+            loadTranwithData(`/admin/employees/search/tranwith/type`, {search:search}, '.tranwith')
         }
         
     });
 
 
 
-    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.search-paginate a', function (e) {
         e.preventDefault();
         $('.paginate').addClass('hidden');
@@ -161,18 +181,18 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadDesignationData(`/admin/employees/tranwith/search/pagination?page=${page}`, {search:search}, '.tranwith');
+            loadTranwithData(`/admin/employees/tranwith/search/pagination?page=${page}`, {search:search}, '.tranwith');
         }
         else if(searchOption == "2"){
-            loadDesignationData(`/admin/employees/tranwith/search/pagination/type?page=${page}`, {search:search}, '.tranwith');
+            loadTranwithData(`/admin/employees/tranwith/search/pagination/type?page=${page}`, {search:search}, '.tranwith');
         }
         
     });
 
 
 
-    //Designation data load function
-    function loadDesignationData(url, data, targetElement) {
+    // TranWith Data Load Function
+    function loadTranwithData(url, data, targetElement) {
         $.ajax({
             url: url,
             data: data,

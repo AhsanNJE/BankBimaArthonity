@@ -1,6 +1,6 @@
 <table class="show-table">
+    <caption class="caption">Additional Payroll Middlewire</caption>
     <thead>
-        <caption class="caption">Additional Payroll Middlewire</caption>
         <tr>
             <th>SL:</th>
             <th>Employee Id</th>
@@ -26,11 +26,13 @@
                     <td></td>
                 @endif
                 
-                <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editPayrollMiddlewire" data-modal-id="editPayrollMiddlewire"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
-                            class="fas fa-trash"></i>Delete</button>
+                <td>
+                    <div style="display: flex;gap:5px;">
+                        <button class="open-modal editPayrollMiddlewire" data-modal-id="editPayrollMiddlewire" id="edit"
+                            data-id="{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                        <button data-modal-id="deleteModal" data-id="{{ $item->id }}" id="delete"><i
+                                class="fas fa-trash"></i></button>
+                    </div>
                 </td>
             </tr>
         @endforeach

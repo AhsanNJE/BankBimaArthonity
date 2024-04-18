@@ -4,8 +4,6 @@
     { "tran_groupe_name": "Advertisement", "tran_groupe_type":"Receive" },
     { "tran_groupe_name": "Party Payment And Receive", "tran_groupe_type":"Both" },
     { "tran_groupe_name": "Kitchen", "tran_groupe_type":"Invoice" },
-    { "tran_groupe_name": "Supplier", "tran_groupe_type":"Payment" },
-    { "tran_groupe_name": "Client", "tran_groupe_type":"Receive" },
     { "tran_groupe_name": "Utility", "tran_groupe_type":"Payment" },
     { "tran_groupe_name": "Stationary", "tran_groupe_type":"Invoice" },
     { "tran_groupe_name": "Miscellaneous", "tran_groupe_type":"Payment" }

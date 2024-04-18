@@ -30,6 +30,8 @@
     @include('client.editClientModal')
 
     @include('client.clientDetails')
+    
+    @include('client.delete')
 
 @endsection
 

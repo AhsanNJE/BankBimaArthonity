@@ -26,6 +26,8 @@
 
     @include('employee.designation.editDesignation')
 
+    @include('employee.designation.delete')
+
 @endsection
 
 

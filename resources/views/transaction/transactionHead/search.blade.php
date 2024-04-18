@@ -1,6 +1,6 @@
 <table class="show-table">
+    <caption class="caption">Designation Details</caption>
     <thead>
-        <caption class="caption">Designation Details</caption>
         <tr>
             <th>SL:</th>
             <th>Transaction Head Name</th>
@@ -14,15 +14,15 @@
                 <td>{{ $heads->firstItem() + $key }}</td>
                 <td>{{ $item->tran_head_name }}</td>
                 <td>{{ $item->Groupe->tran_groupe_name }}</td>
-                <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editTransactionHead" data-modal-id="editTransactionHead"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
-                            class="fas fa-trash"></i>Delete</button>
+                <td>
+                    <div style="display: flex;gap:5px;">
+                        <button class="open-modal editTransactionHead" data-modal-id="editTransactionHead" id="edit"
+                            data-id="{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                        <button data-modal-id="deleteModal" data-id="{{ $item->id }}" id="delete"><i
+                                class="fas fa-trash"></i></button>
+                    </div>
                 </td>
             </tr>
         @endforeach
     </tbody>
 </table>
-
-
