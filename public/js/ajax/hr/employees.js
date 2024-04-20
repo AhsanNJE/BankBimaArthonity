@@ -1,22 +1,204 @@
+//Personal Detail INput Field Empty Error
+$(document).on('submit', '#AddPersonalDetailForm', function (e) {
+    e.preventDefault();
+    let formData = new FormData(this);
+    
+    $.ajax({
+        url: "/insert/personal/info",
+        method: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: formData,
+        beforeSend:function() {
+            $(document).find('span.error').text('');  
+        },
+        success: function (res) {
+            console.log(res)
+            if (res.status == "success") {
+                $('#AddPersonalDetailForm')[0].reset();
+                $('#name').focus();
+                $('#search').val('');
+                $('.employee').load(location.href + ' .employee');
+                $('#previewImage').attr('src',`#`).hide();
+                toastr.success('Personal Detail Added Successfully', 'Added!');
+            }
+        },
+        error: function (err) {
+            console.log(err)
+            let error = err.responseJSON;
+            $.each(error.errors, function (key, value) {
+                $('#' + key + "_error").text(value);
+            });
+        }
+    });
+});
+
+//Education Detail INput Field Empty Error
+$(document).on('submit', '#AddEducationDetailForm', function (e) {
+    e.preventDefault();
+    let formData = new FormData(this);
+    
+    $.ajax({
+        url: "/insert/education/info",
+        method: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: formData,
+        beforeSend:function() {
+            $(document).find('span.error').text('');  
+        },
+        success: function (res) {
+            console.log(res)
+            if (res.status == "success") {
+                $('#AddEducationDetailForm')[0].reset();
+                $('#name').focus();
+                $('#search').val('');
+                $('.employee').load(location.href + ' .employee');
+                $('#previewImage').attr('src',`#`).hide();
+                toastr.success('Education Detail Added Successfully', 'Added!');
+            }
+        },
+        error: function (err) {
+            console.log(err)
+            let error = err.responseJSON;
+            $.each(error.errors, function (key, value) {
+                $('#' + key + "_error").text(value);
+            });
+        }
+    });
+});
+
+//Training Detail INput Field Empty Error
+$(document).on('submit', '#AddTrainingDetailForm', function (e) {
+    e.preventDefault();
+    let formData = new FormData(this);
+    
+    $.ajax({
+        url: "/insert/training/info",
+        method: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: formData,
+        beforeSend:function() {
+            $(document).find('span.error').text('');  
+        },
+        success: function (res) {
+            console.log(res)
+            if (res.status == "success") {
+                $('#AddTrainingDetailForm')[0].reset();
+                $('#name').focus();
+                $('#search').val('');
+                $('.employee').load(location.href + ' .employee');
+                $('#previewImage').attr('src',`#`).hide();
+                toastr.success('Education Detail Added Successfully', 'Added!');
+            }
+        },
+        error: function (err) {
+            console.log(err)
+            let error = err.responseJSON;
+            $.each(error.errors, function (key, value) {
+                $('#' + key + "_error").text(value);
+            });
+        }
+    });
+});
+
+
 $(document).ready(function () {
 
-    //Show Employee EmployeeDetails on details modal
-    $(document).on('click', '.EmployeeDetails', function (e) {
+    //Show Employee Personal Details on details modal
+    $(document).on('click', '.EmployeePersonalDetails', function (e) {
         let modal = $(this).attr('data-modal-id');
         let id = $(this).attr('data-id');
         $.ajax({
-            url: "/new/employee",
+            url: "/new/employee/personal",
             method: 'GET',
             data: {id:id},
             success: function (res) {
                 $("#"+ modal).show();
-                $('.employeedetails').html(res.data)
+                $('.employeepersonaldetails').html(res.data)
             },
             error: function (err) {
                 console.log(err)
             }
         });
     });
+
+     //Show Employee Education Details on details modal
+     $(document).on('click', '.EmployeeEducationDetails', function (e) {
+        let modal = $(this).attr('data-modal-id');
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/new/employee/education",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $("#"+ modal).show();
+                $('.employeeeducationdetails').html(res.data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+    //Show Employee Training Details on details modal
+     $(document).on('click', '.EmployeeTrainingDetails', function (e) {
+        let modal = $(this).attr('data-modal-id');
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/new/employee/training",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $("#"+ modal).show();
+                $('.employeetrainingdetails').html(res.data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+    //Show Employee Experience Details on details modal
+    $(document).on('click', '.EmployeeExperienceDetails', function (e) {
+        let modal = $(this).attr('data-modal-id');
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/new/employee/experience",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $("#"+ modal).show();
+                $('.employeeexperiencedetails').html(res.data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+    //Show Employee Organization Details on details modal
+    $(document).on('click', '.EmployeeOrganizationDetails', function (e) {
+        let modal = $(this).attr('data-modal-id');
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/new/employee/organization",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $("#"+ modal).show();
+                $('.employeeorganizationdetails').html(res.data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
 
     ///////////// ------------------ Edit Employee ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.EmployeeEdit', function () {

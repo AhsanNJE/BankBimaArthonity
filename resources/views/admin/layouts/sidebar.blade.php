@@ -255,21 +255,21 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{route('show.employeeeducation')}}" class="nav-link">
+                            <a href="{{route('show.educationinfo')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Education Details</p>
                             </a>
                         </li>
                          
                         <li class="nav-item">
-                            <a href="{{route('show.employeetraining')}}" class="nav-link">
+                            <a href="{{route('show.traininginfo')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Training Details</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{route('show.employeeexperience')}}" class="nav-link">
+                            <a href="{{route('show.experienceinfo')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Experience Details</p>
                             </a>
@@ -277,7 +277,7 @@
 
 
                         <li class="nav-item">
-                            <a href="{{route('show.employeeorganization')}}" class="nav-link">
+                            <a href="{{route('show.organizationinfo')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Organization Details</p>
                             </a>

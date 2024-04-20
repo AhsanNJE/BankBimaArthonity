@@ -22,9 +22,12 @@ return new class extends Migration
             $table->string('religion');
             $table->string('marital_status');
             $table->string('nationality');
+            $table->string('nid_no');
             $table->string('phn_no');
             $table->string('blood_group');
             $table->string('email');
+            $table->string('location_id');
+            $table->string('tran_user_type')->nullable();
             $table->text('address')->nullable();
             $table->binary('image')->nullable();
             $table->timestamps();

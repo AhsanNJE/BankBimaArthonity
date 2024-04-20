@@ -1,15 +1,15 @@
 <table class="show-table">
     <thead>
-        <caption class="caption">Employee Details</caption>
+        <caption class="caption">Employee Experience Details</caption>
         <tr>
             <th>SL:</th>
             <th>Id</th>
             <th>Name</th>
-            <th>Date of Birth</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
+            <th>Company Name</th>
+            <th>Designation</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Department</th>
             <th>Image</th>
             <th>Action</th>
         </tr>
@@ -18,13 +18,13 @@
         @foreach($employeeinfo as $key => $item)
             <tr>
                 <td>{{ $employeeinfo->firstItem() + $key }}</td>
-                <td>{{ $item->employee_id }}</td>
+                <td>{{ $item->emp_id }}</td>
                 <td>{{ $item->name }}</td>
-                <td>{{ $item->date_of_birth }}</td>
-                <td>{{ $item->gender }}</td>
-                <td>{{ $item->email }}</td>
-                <td>{{ $item->phn_no }}</td>
-                <td>{{ $item->address }}</td>
+                <td>{{ $item->experienceDetail->company_name }}</td>
+                <td>{{ $item->experienceDetail->designation }}</td>
+                <td>{{ $item->experienceDetail->start_date }}</td>
+                <td>{{ $item->experienceDetail->end_date }}</td>
+                <td>{{ $item->experienceDetail->department }}</td>
                 <td><img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="50px" width="50px"></td>
                 <td>
                     @if ($item->status == 1)
@@ -34,7 +34,7 @@
                     @endif
                 </td>
                 <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal EmployeeDetails" data-modal-id="EmployeeDetails"
+                    <button class="btn btn-info btn-sm open-modal EmployeeExperienceDetails" data-modal-id="EmployeeExperienceDetails"
                         data-id="{{ $item->id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
                     <button class="btn btn-info btn-sm open-modal EmployeeEdit" data-modal-id="EmployeeEdit"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>

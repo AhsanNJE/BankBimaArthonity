@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User_Info;
 use App\Models\PersonalDetail;
 use App\Models\EducationDetail;
 use App\Models\TrainingDetail;
 use App\Models\ExperienceDetail;
 use App\Models\OrganizationDetail;
+use App\Models\Transaction_With;
 
 
 class InfoController extends Controller
@@ -16,14 +18,14 @@ class InfoController extends Controller
     //Personal Detail View Show
     public function ShowEmployeesPersonal(){
 
-        return view('hr.personaldetail.employeePersonalDetail');
+        return view('hr.personaldetail.addPersonalDetail.');
 
     } // End Method 
 
     //Education Detail View Show
     public function ShowEmployeesEducation(){
 
-        return view('hr.educationdetail.employeeEducationDetail');
+        return view('hr.educationdetail.addEducationDetail');
 
     } // End Method 
 
@@ -31,7 +33,7 @@ class InfoController extends Controller
     //Training Detail View Show
     public function ShowEmployeesTraining(){
 
-        return view('hr.trainingdetail.employeeTrainingDetail');
+        return view('hr.trainingdetail.addTrainingDetail');
 
     } // End Method 
 
@@ -39,7 +41,7 @@ class InfoController extends Controller
     //Experience Detail View Show
     public function ShowEmployeesExperience(){
 
-        return view('hr.experiencedetail.employeeExperienceDetail');
+        return view('hr.experiencedetail.addExperienceDetail');
 
     } // End Method 
 
@@ -47,28 +49,24 @@ class InfoController extends Controller
     //Organization Detail View Show
     public function ShowEmployeesOrganization(){
 
-        return view('hr.organizationdetail.employeeOrganizationDetail');
+        return view('hr.organizationdetail.addOrganizationDetail');
 
     } // End Method 
 
 
-    public function InsertEmployees(Request $request){
+    // public function InsertEmployees(Request $request){
+    // $NewEmployee = PersonalDetail::orderBy('employee_id','desc')->first();
+    // $id = ($NewEmployee) ? 'E' . str_pad((intval(substr($NewEmployee->employee_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'E000000101';
 
-
-    $NewEmployee = PersonalDetail::orderBy('employee_id','desc')->first();
-    $id = ($NewEmployee) ? 'E' . str_pad((intval(substr($NewEmployee->employee_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'E000000101';
-
-    if ($request->hasFile('image') && $request->file('image')->isValid()) {
-        $originalName = $request->file('image')->getClientOriginalName();
-        $imageName = $id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
-        $imagePath = $request->file('image')->storeAs('public/profiles', $imageName);
-    }
-    else{
-        $imageName = null;
-    }
-
-    
-    }
+    // if ($request->hasFile('image') && $request->file('image')->isValid()) {
+    //     $originalName = $request->file('image')->getClientOriginalName();
+    //     $imageName = $id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
+    //     $imagePath = $request->file('image')->storeAs('public/profiles', $imageName);
+    // }
+    // else{
+    //     $imageName = null;
+    // }
+    // }
 
     public function InsertPersonalDetails(Request $request){
 
@@ -82,11 +80,12 @@ class InfoController extends Controller
             'religion' => 'required',
             'marital_status' => 'required',
             'nationality' => 'required',
+            'nid_no' => 'required|numeric',
             'phn_no' =>  'required|numeric|unique:user__infos,user_phone,phone',
             'blood_group' => 'required',
             'email' => 'required|email|unique:user__infos,user_email,email',
             'location_id'  => 'required',
-            'tran_user_type'=> 'required',
+            'type'=> 'required',
             'address' => 'required',
             'image' => 'required|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
@@ -114,30 +113,34 @@ class InfoController extends Controller
             "religion" => $request->religion,
             "marital_status" => $request->marital_status,
             "nationality" => $request->nationality,
+            "nid_no" => $request->nid_no,
             "phn_no" =>  $request->phn_no,
             "blood_group" => $request->blood_group,
             "email" => $request->email,
+            "location_id" => $request->location_id,
+            "tran_user_type" => $request->type,
             "address" => $request->address,
-            "image" => $request->image,
+            "image" => $imageName,
     ]);
 
     User_Info::insert([
         "user_id" => $id,
-        "user_name" => $req->name,
-        "user_email" => $req->email,
-        "user_phone" => $req->phn_no,
-        "gender" => $req->gender,
-        "loc_id" => $req->location_id,
+        "user_name" => $request->name,
+        "user_email" => $request->email,
+        "user_phone" => $request->phn_no,
+        "gender" => $request->gender,
+        "loc_id" => $request->location_id,
         "user_type" => 'employee',
-        "tran_user_type" => $req->type,
-        "dob" => $req->date_of_birth,
-        "nid" => $req->nid,
-        "address" => $req->address,
+        "tran_user_type" => $request->type,
+        "dob" => $request->date_of_birth,
+        "nid" => $request->nid_no,
+        "address" => $request->address,
         "image" => $imageName,
-    ]);
+    ]); 
 
-    return redirect()->route('show.personalinfo');
-        
+    return response()->json([
+        'status'=>'success',
+    ]);    
     }
 
     public function InsertEducationDetails(Request $request){
@@ -168,6 +171,8 @@ class InfoController extends Controller
             "batch" => $request->batch,
             "passing_year" =>  $request->passing_year,
         ]);
+
+        return redirect()->route('show.educationinfo');
 
     }
 
@@ -245,17 +250,76 @@ class InfoController extends Controller
     }
 
     public function ShowEmployeesPersonalInfo(Request $request){
-        $employeeinfo = PersonalDetail::paginate(15);
-        return view('hr.employeeDetails', compact('employeeinfo'));
+        $employeepersonal = PersonalDetail::paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.personaldetail.employeePersonalDetails', compact('employeepersonal','tranwith'));
 
     }
 
-    public function EmployeesInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+    public function EmployeesPersonalInfo(Request $request){
+        $employeepersonal = PersonalDetail::where('id', $request->id)->get();
         return response()->json([
-            'data'=>view('hr.personaldetail.employeePersonalInfo', compact('employeeinfo'))->render(),
+            'data'=>view('hr.personaldetail.employeePersonalInfo', compact('employeepersonal'))->render(),
         ]);
     }
+
+    public function ShowEmployeesEducationInfo(Request $request){
+        $employeeinfo = PersonalDetail::where('id', $request->id)->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.educationdetail.employeeEducationDetails', compact('employeeinfo','tranwith'));
+        
+    }
+
+    public function EmployeesEducationInfo(Request $request){
+        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+        return response()->json([
+            'data'=>view('hr.educationdetail.employeeEducationInfo', compact('employeeinfo'))->render(),
+        ]);
+    }
+
+    public function ShowEmployeesTrainingInfo(Request $request){
+        $employeeinfo = PersonalDetail::where('id', $request->id)->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.trainingdetail.employeeTrainingDetails', compact('employeeinfo','tranwith'));
+        
+    }
+
+    public function EmployeesTrainingInfo(Request $request){
+        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+        return response()->json([
+            'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeeinfo'))->render(),
+        ]);
+    }
+
+    public function ShowEmployeesExperienceInfo(Request $request){
+        $employeeinfo = PersonalDetail::where('id', $request->id)->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.experiencedetail.employeeExperienceDetails', compact('employeeinfo','tranwith'));
+        
+    }
+
+    public function EmployeesExperienceInfo(Request $request){
+        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+        return response()->json([
+            'data'=>view('hr.experiencedetail.employeeExperienceInfo', compact('employeeinfo'))->render(),
+        ]);
+    }
+
+    public function ShowEmployeesOrganizationInfo(Request $request){
+        $employeeinfo = PersonalDetail::where('id', $request->id)->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.organizationdetail.employeeOrganizationDetails', compact('employeeinfo','tranwith'));
+        
+    }
+
+    public function EmployeesOrganizationInfo(Request $request){
+        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+        return response()->json([
+            'data'=>view('hr.organizationdetail.employeeOrganizationInfo', compact('employeeinfo'))->render(),
+        ]);
+    }
+
+    
 
     //Edit Employees
     public function EmployeesEdit(Request $request){

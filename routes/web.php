@@ -451,7 +451,6 @@ Route::controller(PayRollController::class)->group(function(){
 });
 
 ////////////////////////// --------------- HR routes ----------- ///////////////////////////
-    // Route::get('show/newemployee', 'ShowNewEmployees')->name('show.newemployee');
     Route::get('show/employee/personal', [InfoController::class, 'ShowEmployeesPersonal'])->name('show.employeepersonal');  
     Route::get('show/employee/education', [InfoController::class, 'ShowEmployeesEducation'])->name('show.employeeeducation');  
     Route::get('show/employee/training', [InfoController::class, 'ShowEmployeesTraining'])->name('show.employeetraining');  
@@ -463,7 +462,15 @@ Route::controller(PayRollController::class)->group(function(){
     Route::post('insert/experience/info', [InfoController::class, 'InsertExperienceDetails'])->name('insertexperience.info');
     Route::post('insert/organization/info', [InfoController::class, 'InsertOrganizationDetails'])->name('insertorganization.info');
     Route::get('show/personal/info', [InfoController::class, 'ShowEmployeesPersonalInfo'])->name('show.personalinfo');
-    Route::get('/new/employee', [InfoController::class, 'EmployeesInfo'])->name('employee.details');
+    Route::get('show/education/info', [InfoController::class, 'ShowEmployeesEducationInfo'])->name('show.educationinfo');
+    Route::get('show/training/info', [InfoController::class, 'ShowEmployeesTrainingInfo'])->name('show.traininginfo');
+    Route::get('show/experience/info', [InfoController::class, 'ShowEmployeesExperienceInfo'])->name('show.experienceinfo');
+    Route::get('show/organization/info', [InfoController::class, 'ShowEmployeesOrganizationInfo'])->name('show.organizationinfo');
+    Route::get('/new/employee/personal', [InfoController::class, 'EmployeesPersonalInfo'])->name('employee.personaldetails');
+    Route::get('/new/employee/education', [InfoController::class, 'EmployeesEducationInfo'])->name('employee.educationdetails');
+    Route::get('/new/employee/training', [InfoController::class, 'EmployeesTrainingInfo'])->name('employee.trainingdetails');
+    Route::get('/new/employee/experience', [InfoController::class, 'EmployeesExperienceInfo'])->name('employee.experiencedetails');
+    Route::get('/new/employee/organization', [InfoController::class, 'EmployeesOrganizationInfo'])->name('employee.organizationdetails');
     Route::get('/employees/edit', [InfoController::class,'EmployeesEdit'])->name('employees.edit');
     Route::put('/employees/update', [InfoController::class,'EmployeesUpdate'])->name('employees.update');
     Route::delete('/employees/delete', [InfoController::class, 'EmployeesDelete'])->name('employees.delete');

@@ -21,18 +21,18 @@
     <title>Document</title>
 </head>
 <body>
-<div id= "NewEmployee" class="modal-container">
+<div id= "EmployeeOrganization" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">
-            <h3 class="center">Add Employee</h3>
-            <span class="close-modal" data-modal-id="NewEmployee">&times;</span>
+            <h3 class="center">Add Organization Detail</h3>
+            <span class="close-modal" data-modal-id="EmployeeOrganization">&times;</span>
         </div>
 
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Add Employee</h3>
+                        <h3 class="card-title">Add Organization Detail</h3>
                     </div>
                 </div>
                 
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="center">
-                    <button type="submit" id="NewEmployee" class="btn btn-primary">Save</button>
+                    <button type="submit" id="EmployeeOrganization" class="btn btn-primary">Save</button>
                 </div>
                 </form>
              </div>

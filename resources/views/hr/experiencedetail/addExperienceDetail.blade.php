@@ -21,18 +21,18 @@
     <title>Document</title>
 </head>
 <body>
-<div id= "NewEmployee" class="modal-container">
+<div id= "EmployeeExperience" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">
-            <h3 class="center">Add Employee</h3>
-            <span class="close-modal" data-modal-id="NewEmployee">&times;</span>
+            <h3 class="center">Add Experience Detail</h3>
+            <span class="close-modal" data-modal-id="EmployeeExperience">&times;</span>
         </div>
 
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Add Employee</h3>
+                        <h3 class="card-title">Add Experience Detail</h3>
                     </div>
                 </div>
                 
@@ -73,9 +73,9 @@
                             <input type="text" name="company_location" id="company_location" placeholder="Company Location" class="@error('company_location') is-invalid @enderror">
                             @error('company_location')<strong class="text-danger">{{ $message }}</strong>@enderror
                         </div>
-                        <!-- <div>
+                        <div>
                             <button type = "button" name = "addExperience" id = "addExperience" class="btn btn-primary">Add+</button>
-                        </div> -->
+                        </div>
                     </div>
                   </div>
                   <div class="center">
