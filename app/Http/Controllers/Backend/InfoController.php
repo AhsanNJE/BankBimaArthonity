@@ -245,7 +245,7 @@ class InfoController extends Controller
     }
 
     public function EmployeesTrainingInfo(Request $request){
-        $employeetraining = TrainingDetail::where('id', "=", $req->id)->get();
+        $employeetraining = TrainingDetail::where('id', "=", $request->id)->get();
         return response()->json([
             'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeetraining'))->render(),
         ]);

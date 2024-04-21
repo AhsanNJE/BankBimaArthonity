@@ -76,9 +76,38 @@
                             </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for = "department">Department</label>
+                                <input type="text" name="department" id="department" class="form-control">
+                                <div id="department-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="department_error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label for = "designation">Designation</label>
                                 <input type="text" name="designation" id="designation" class="form-control">
+                                <div id="designation-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
                                 <span class="text-danger error" id="designation_error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for = "location">Company Location</label>
+                                <input type="text" name="location" id="location"  class="form-control">
+                                <div id="location-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="location_error"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -95,30 +124,8 @@
                                 <span class="text-danger error" id="end_date_error"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for = "department">Department</label>
-                                <input type="text" name="department" id="department" class="form-control">
-                                <div id="department-list">
-                                    <ul>
-
-                                    </ul>
-                                </div>
-                                <span class="text-danger error" id="department_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for = "location">Company Location</label>
-                                <input type="text" name="location" id="location"  class="form-control">
-                                <div id="location-list">
-                                    <ul>
-
-                                    </ul>
-                                </div>
-                                <span class="text-danger error" id="location_error"></span>
-                            </div>
-                        </div>
+    
+                        
                     </div>
                         <div>
                             <button type = "button" name = "addExperience" id = "addExperience" class="btn btn-primary">Add+</button>

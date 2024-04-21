@@ -6,10 +6,11 @@
             <th>Id</th>
             <th>Name</th>
             <th>Company Name</th>
+            <th>Department</th>
             <th>Designation</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Department</th>
+            <th>Location</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -20,10 +21,11 @@
                 <td>{{ $item->emp_id }}</td>
                 <td>{{ $item->user->user_name }}</td>
                 <td>{{ $item->company_name }}</td>
-                <td>{{ $item->designation }}</td>
+                <td>{{ $item->Department->dept_name }}</td>
+                <td>{{ $item->Designation->designation }}</td>
                 <td>{{ $item->start_date }}</td>
                 <td>{{ $item->end_date }}</td>
-                <td>{{ $item->Department->dept_name }}</td>
+                <td>{{ $item->Location->upazila }}</td>
                 <td>
                     @if ($item->status == 1)
                         <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Active</button>

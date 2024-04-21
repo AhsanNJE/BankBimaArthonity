@@ -1,63 +1,41 @@
-@section('style')
-    <style>
-        .modal-subject {
-            width: 85%;
-        }
-        label {
-            font-size: 16px !important;
-            font-weight: normal !important;
-        }
-        .container {
-        background-color: #E8E8E8!important; 
-        }
-    </style>
-@endsection
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employee Information</title>
-</head>
-<body>
-<div class="container">
- <div class="center">
-        <form action="{{ route('show.personalinfo')}}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @foreach($employeetraining as $item)
-
-        <!-- Display Training Details -->
-        <h4>Training Details</h4>
-            <div class="container bg-light text-dark my-4 py-3">
-                <div class="row">
-                    <div class="col-md-4">
-                        <p>Training Title: {{ $item->training_title }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Country: {{ $item->country }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Topic: {{ $item->topic }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Institution Name: {{ $item->institution_name }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Start Date : {{ $item->start_date }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>End Date : {{ $item->end_date }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Training Year: {{ $item->training_year }}</p>
-                    </div>
-                    </div>
-                </div>
-            </div>    
-            @endforeach
-        </form>
-    </div>
-</div>
-</body>
-</html>
+<form action="{{ route('show.personalinfo')}}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <!-- Display Training Details -->
+    @foreach($employeetraining as $item)
+    <div class="general">
+        <div class="details-head">
+        <div class="image-round">
+            <img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="100px" width="100px">
+        </div>
+            <div class="highlight">
+                <span class="name"> {{$item->user->user_name}} </span><br>
+            </div>   
+        </div>
+        <div class="details-table" style="">
+            <div class="row each-row">
+                <div class="col-md-2 bold">Training Title</div>
+                <div class="col-md-4 bold">{{ $item->training_title }}</div>
+                <div class="col-md-2 bold">Country</div>
+                <div class="col-md-4 bold">{{ $item->country }}</div>
+            </div>
+            <div class="row each-row">
+                <div class="col-md-2 bold">Topic</div>
+                <div class="col-md-4 bold">{{ $item->topic }}</div>
+                <div class="col-md-2 bold">Institution Name</div>
+                <div class="col-md-4 bold">{{ $item->institution_name }}</div>
+            </div>
+            <div class="row each-row">
+                <div class="col-md-2 bold">Start Date</div>
+                <div class="col-md-4 bold">{{ $item->start_date }}</div>
+                <div class="col-md-2 bold">End Date</div>
+                <div class="col-md-4 bold">{{ $item->end_date }}</div>
+            </div>
+            <div class="row each-row">
+                <div class="col-md-2 bold">Training Year</div>
+                <div class="col-md-4 bold">{{ $item->training_year }}</div>
+            </div>
+        </div>
+    </div>    
+    @endforeach
+</form>
+    

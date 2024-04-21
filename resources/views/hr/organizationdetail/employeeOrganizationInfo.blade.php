@@ -1,54 +1,30 @@
-@section('style')
-    <style>
-        .modal-subject {
-            width: 85%;
-        }
-        label {
-            font-size: 16px !important;
-            font-weight: normal !important;
-        }
-        .container {
-        background-color: #E8E8E8!important; 
-        }
-    </style>
-@endsection
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employee Information</title>
-</head>
-<body>
-<div class="container">
- <div class="center">
-        <form action="{{ route('show.organizationinfo')}}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @foreach($employeeorganization as $item)
-
-            <!-- Display Organization Details -->
-        <h4>Organization Details</h4>
-            <div class="container bg-light text-dark my-4 py-3">
-                <div class="row">
-                    <div class="col-md-4">
-                        <p>Joining Date: {{ $item->joining_date }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Joining Location: {{ $item->Location->upazila }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Department: {{ $item->Department->dept_name }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Designation: {{ $item->Designation->designation }}</p>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </form>
+<form action="{{ route('show.organizationinfo')}}" method="POST" enctype="multipart/form-data">
+@csrf
+<!-- Display Organization Details -->
+@foreach($employeeorganization as $item)
+<div class="general">
+    <div class="details-head">
+        <div class="image-round">
+            <img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="100px" width="100px">
+        </div> 
+        <div class="highlight">
+            <span class="name"> {{$item->user->user_name}} </span><br>
+        </div>   
     </div>
-</div>
-
-</body>
-</html>
+    <div class="details-table" style="">
+        <div class="row each-row">
+            <div class="col-md-2 bold">Joining Date</div> 
+            <div class="col-md-4 bold">{{ $item->joining_date }}</div>
+            <div class="col-md-2 bold">Joining Location</div> 
+            <div class="col-md-4 bold">{{ $item->Location->upazila }}</div>
+        </div>
+        <div class="row each-row">
+            <div class="col-md-2 bold">Department</div> 
+            <div class="col-md-4 bold">{{ $item->Department->dept_name }}</div>
+            <div class="col-md-2 bold">Designation</div> 
+            <div class="col-md-4 bold">{{ $item->Designation->designation }}</div>
+        </div>
+    </div>
+</div>    
+    @endforeach
+</form>

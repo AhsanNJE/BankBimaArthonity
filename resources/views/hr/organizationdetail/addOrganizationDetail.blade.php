@@ -103,10 +103,10 @@
                                 <label for = "designation">Designation</label>
                                 <input type="text" name="designation" id="designation"  class="form-control">
                                 <div id="designation-list">
-                                            <ul>
+                                    <ul>
 
-                                            </ul>
-                                        </div>
+                                    </ul>
+                                </div>
                                 <span class="text-danger error" id="designation_name_error"></span>
                             </div>
                         </div>

@@ -4,10 +4,12 @@ $(document).on('submit', '#AddExperienceDetailForm', function (e) {
     let user = $('#user').attr('data-id');
     let locations = $('#location').attr('data-id');
     let department = $('#department').attr('data-id');
+    let designation = $('#designation').attr('data-id');
     let formData = new FormData(this);
     formData.append('user', user === undefined ? '' : user);
     formData.append('location', locations === undefined ? '' : locations);
     formData.append('department', department === undefined ? '' : department);
+    formData.append('designation', designation === undefined ? '' : designation);
     
     $.ajax({
         url: "/insert/experience/info",
@@ -26,6 +28,8 @@ $(document).on('submit', '#AddExperienceDetailForm', function (e) {
                 $('#name').focus();
                 $('#user').removeAttr('data-id');
                 $('#location').removeAttr('data-id');
+                $('#department').removeAttr('data-id');
+                $('#designation').removeAttr('data-id');
                 $('#search').val('');
                 $('.employee').load(location.href + ' .employee');
                 $('#previewImage').attr('src',`#`).hide();

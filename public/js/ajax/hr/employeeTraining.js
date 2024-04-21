@@ -2,7 +2,6 @@
 $(document).on('submit', '#AddTrainingDetailForm', function (e) {
     e.preventDefault();
     let user = $('#user').attr('data-id');
-    let locations = $('#location').attr('data-id');
     let formData = new FormData(this);
     formData.append('user', user === undefined ? '' : user);
     $.ajax({

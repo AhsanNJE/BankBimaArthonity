@@ -28,6 +28,8 @@ $(document).on('submit', '#AddOrganizationDetailForm', function (e) {
                 $('#name').focus();
                 $('#user').removeAttr('data-id');
                 $('#location').removeAttr('data-id');
+                $('#department').removeAttr('data-id');
+                $('#designation').removeAttr('data-id');
                 $('#search').val('');
                 $('.employee').load(location.href + ' .employee');
                 $('#previewImage').attr('src',`#`).hide();
