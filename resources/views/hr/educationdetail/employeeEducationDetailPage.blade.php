@@ -15,17 +15,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($employeeinfo as $key => $item)
+        @foreach($employeeeducation as $key => $item)
             <tr>
-                <td>{{ $employeeinfo->firstItem() + $key }}</td>
-                <td>{{ $item->educationDetail->emp_id }}</td>
+                <td>{{ $employeeeducation->firstItem() + $key }}</td>
+                <td>{{ $item->emp_id }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->educationDetail->level_of_education }}</td>
                 <td>{{ $item->educationDetail->degree_title }}</td>
                 <td>{{ $item->educationDetail->group }}</td>
                 <td>{{ $item->educationDetail->institution_name }}</td>
                 <td>{{ $item->educationDetail->cgpa }}</td>
-                <td><img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="50px" width="50px"></td>
                 <td>
                     @if ($item->status == 1)
                         <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Active</button>
@@ -47,5 +46,5 @@
 </table>
 
 <div class="center paginate" id="paginate">
-    {!! $employeeinfo->links() !!}
+    {!! $employeeeducation->links() !!}
 </div>

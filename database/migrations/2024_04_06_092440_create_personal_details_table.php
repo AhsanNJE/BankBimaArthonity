@@ -31,6 +31,13 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->binary('image')->nullable();
             $table->timestamps();
+
+            $table->foreign('location_id')->references('id')->on('location__infos')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+            $table->foreign('tran_user_type')->references('user_type')->on('transaction__withs')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
         });
         
     }

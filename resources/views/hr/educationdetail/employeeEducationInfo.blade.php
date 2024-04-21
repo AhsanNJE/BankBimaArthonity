@@ -26,7 +26,7 @@
         <form action="{{ route('show.educationinfo')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <!-- Display Personal Details -->
-        @foreach($employeeinfo as $item)
+        @foreach($employeeeducation as $item)
 
             <!-- Display Education Details -->
         <h4>Educational Details</h4>

@@ -37,37 +37,86 @@
                 </div>
                 
                 <!-- form start -->
-                <form action="{{ route('insertorganization.info')}}" method="POST" enctype="multipart/form-data">
+                <form id="AddOrganizationDetailForm" action="{{ route('insertorganization.info')}}" method="POST" enctype="multipart/form-data">
                     @csrf
-                <!-- Organization Details Section -->
-                <h4>Organization Details</h4>
-                <div class="container bg-light text-dark my-4 py-3">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for = "joining_date">Joining Date</label>
-                            <input type="date" name="joining_date" id="joining_date" placeholder="Joining Date" class="@error('joining_date') is-invalid @enderror">
-                            @error('joining_date')<strong class="text-danger">{{ $message }}</strong>@enderror
+                    <!-- Insert Organization Details Section -->
+                <div class="center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">  
+                                <div class="form-group">   
+                                    <label for="with">Employee Type</label>
+                                    <select name="with" id="with">
+                                        <option value="">Select Employee Type</option>
+                                        @foreach ($tranwith as $with)
+                                            <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger error" id="with_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="user">Name</label>
+                                    <input type="text" name="user" class="form-control" id="user" autocomplete="off">
+                                    <div id="user-list">
+                                        <ul>
+
+                                        </ul>
+                                    </div>
+                                    <span class="text-danger error" id="user_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for = "joining_date">Joining Date</label>
+                                    <input type="date" name="joining_date" id="joining_date" class="form-control">
+                                    <span class="text-danger error" id="joining_date_error"></span>
+                                </div>
+                            </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for = "location">Joining Location</label> 
+                                <input type="text" name="location" id="location" class="form-control">
+                                <div id="location-list">
+                                            <ul>
+
+                                            </ul>
+                                </div> 
+                                <span class="text-danger error" id="location_error"></span>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label for = "joining_location">Joining Location</label> 
-                            <input type="text" name="joining_location" id="joining_location" placeholder="Joining Location" class="@error('joining_location') is-invalid @enderror">
-                            @error('joining_location')<strong class="text-danger">{{ $message }}</strong>@enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for = "department">Department</label>
+                                <input type="text" name="department" id="department"  class="form-control">
+                                <div id="department-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="department_error"></span>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label for = "department1">Department</label>
-                            <input type="text" name="department1" id="department1" placeholder="Department" class="@error('department1') is-invalid @enderror">
-                            @error('department1')<strong class="text-danger">{{ $message }}</strong>@enderror
-                        </div>
-                        <div class="col-md-4">
-                            <label for = "designation1">Designation</label>
-                            <input type="text" name="designation1" id="designation1" placeholder="Designation" class="@error('designation1') is-invalid @enderror">
-                            @error('designation1')<strong class="text-danger">{{ $message }}</strong>@enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for = "designation">Designation</label>
+                                <input type="text" name="designation" id="designation"  class="form-control">
+                                <div id="designation-list">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                <span class="text-danger error" id="designation_name_error"></span>
+                            </div>
                         </div>
                     </div>
+                    </div>
+                 </div>
+                 <div class="center">
+                    <button type="submit" id="InsertOrganization" class="btn btn-primary">Save</button>
                 </div>
-                <div class="center">
-                    <button type="submit" id="EmployeeOrganization" class="btn btn-primary">Save</button>
-                </div>
+                </div> 
                 </form>
              </div>
         </div>

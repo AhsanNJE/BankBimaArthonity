@@ -11,4 +11,8 @@ class TrainingDetail extends Model
 
     protected $guarded = [];
 
+    public function User(){
+        return $this->belongsTo(User_Info::class,'emp_id','user_id');
+    }
+
 }

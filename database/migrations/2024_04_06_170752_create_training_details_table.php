@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->integer('training_year');
             $table->timestamps();
-            $table->foreign('emp_id')->references('employee_id')->on('personal_details')
+            $table->foreign('emp_id')->references('user_id')->on('user__infos')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
         });

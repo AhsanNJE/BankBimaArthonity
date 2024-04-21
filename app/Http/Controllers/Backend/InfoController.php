@@ -15,6 +15,13 @@ use App\Models\Transaction_With;
 
 class InfoController extends Controller
 {
+
+
+    ////////////////////////////////////       Employee Personal Detail         //////////////////////////////////////
+
+
+
+
     //Personal Detail View Show
     public function ShowEmployeesPersonal(){
 
@@ -22,55 +29,9 @@ class InfoController extends Controller
 
     } // End Method 
 
-    //Education Detail View Show
-    public function ShowEmployeesEducation(){
-
-        return view('hr.educationdetail.addEducationDetail');
-
-    } // End Method 
-
-
-    //Training Detail View Show
-    public function ShowEmployeesTraining(){
-
-        return view('hr.trainingdetail.addTrainingDetail');
-
-    } // End Method 
-
-
-    //Experience Detail View Show
-    public function ShowEmployeesExperience(){
-
-        return view('hr.experiencedetail.addExperienceDetail');
-
-    } // End Method 
-
-
-    //Organization Detail View Show
-    public function ShowEmployeesOrganization(){
-
-        return view('hr.organizationdetail.addOrganizationDetail');
-
-    } // End Method 
-
-
-    // public function InsertEmployees(Request $request){
-    // $NewEmployee = PersonalDetail::orderBy('employee_id','desc')->first();
-    // $id = ($NewEmployee) ? 'E' . str_pad((intval(substr($NewEmployee->employee_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'E000000101';
-
-    // if ($request->hasFile('image') && $request->file('image')->isValid()) {
-    //     $originalName = $request->file('image')->getClientOriginalName();
-    //     $imageName = $id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
-    //     $imagePath = $request->file('image')->storeAs('public/profiles', $imageName);
-    // }
-    // else{
-    //     $imageName = null;
-    // }
-    // }
-
     public function InsertPersonalDetails(Request $request){
 
-       //Validate Employee Personal Details
+        //Validate Employee Personal Details
         $request->validate([
             'name' => 'required',
             'fathers_name' => 'required',
@@ -84,15 +45,15 @@ class InfoController extends Controller
             'phn_no' =>  'required|numeric|unique:user__infos,user_phone,phone',
             'blood_group' => 'required',
             'email' => 'required|email|unique:user__infos,user_email,email',
-            'location_id'  => 'required',
+            'location'  => 'required',
             'type'=> 'required',
             'address' => 'required',
             'image' => 'required|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
-
+ 
         $NewEmployee = PersonalDetail::orderBy('employee_id','desc')->first();
         $id = ($NewEmployee) ? 'E' . str_pad((intval(substr($NewEmployee->employee_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'E000000101';
-
+ 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $originalName = $request->file('image')->getClientOriginalName();
             $imageName = $id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
@@ -101,7 +62,7 @@ class InfoController extends Controller
         else{
             $imageName = null;
         }
-
+ 
         //Insert Employee Personal Details
         PersonalDetail::insert([
             'employee_id' =>  $id,
@@ -117,136 +78,31 @@ class InfoController extends Controller
             "phn_no" =>  $request->phn_no,
             "blood_group" => $request->blood_group,
             "email" => $request->email,
-            "location_id" => $request->location_id,
+            "location_id" => $request->location,
             "tran_user_type" => $request->type,
             "address" => $request->address,
             "image" => $imageName,
-    ]);
-
-    User_Info::insert([
-        "user_id" => $id,
-        "user_name" => $request->name,
-        "user_email" => $request->email,
-        "user_phone" => $request->phn_no,
-        "gender" => $request->gender,
-        "loc_id" => $request->location_id,
-        "user_type" => 'employee',
-        "tran_user_type" => $request->type,
-        "dob" => $request->date_of_birth,
-        "nid" => $request->nid_no,
-        "address" => $request->address,
-        "image" => $imageName,
-    ]); 
-
-    return response()->json([
-        'status'=>'success',
-    ]);    
-    }
-
-    public function InsertEducationDetails(Request $request){
-
-        //Validate Employee Education Details
-        $request->validate([
-            'level_of_education' => 'required',
-            'degree_title' => 'required',
-            'group' => 'required',
-            'institution_name' => 'required',
-            'result' => 'required',
-            'scale' => 'required|numeric',
-            'cgpa' => 'required|numeric',
-            'batch' => 'required|numeric',
-            'passing_year' => 'required|numeric',
         ]);
-
-        //Insert Employee Education Details
-        EducationDetail::insert([
-            'emp_id' =>  $id,
-            "level_of_education" => $request->level_of_education,
-            "degree_title" => $request->degree_title,
-            "group" => $request->group,
-            "institution_name" => $request->institution_name,
-            "result" => $request->result,
-            "scale" => $request->scale,
-            "cgpa" => $request->cgpa,
-            "batch" => $request->batch,
-            "passing_year" =>  $request->passing_year,
-        ]);
-
-        return redirect()->route('show.educationinfo');
-
-    }
-
-    public function InsertTrainingDetails(Request $request){
-
-        //Validate Employee Training Details
-        $request->validate([
-            'training_title' => 'required',
-            'country' => 'required',
-            'topic' => 'required',
-            'institution_name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'training_year' => 'required|numeric',
-        ]);
-
-        //Insert Employee Training Details
-        TrainingDetail::insert([
-            'emp_id' =>  $id,
-            "training_title" => $request->training_title,
-            "country" =>  $request->country,
-            "topic" => $request->topic,
-            "institution_name" => $request->institution_name,
-            "start_date" => $request->start_date,
-            "end_date" => $request->end_date,
-            "training_year" => $request->training_year,
-        ]);
-
-    }
-
-    public function InsertExperienceDetails(Request $request){
-
-        //Validate Employee Experience Details
-        $request->validate([
-            'company_name' => 'required',
-            'designation' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'department' => 'required',
-            'company_location' => 'required',
-        ]);
-
-        //Insert Employee Experience Details
-        ExperienceDetail::insert([
-            'emp_id' =>  $id,
-            "company_name" => $request->company_name,
-            "designation" =>  $request->designation,
-            "start_date" => $request->start_date,
-            "end_date" => $request->end_date,
-            "department" => $request->department,
-            "company_location" => $request->company_location,
-        ]);
-
-    }
-
-    public function InsertOrganizationDetails(Request $request){
-
-        //Validate Employee Organization Details
-        $request->validate([
-            'joining_date' => 'required',
-            'joining_location' => 'required',
-            'department' => 'required',
-            'designation' => 'required',
-        ]);
-
-        //Insert Employee Joining Details
-        OrganizationDetail::insert([
-            'emp_id' =>  $id,
-            "joining_date" => $request->joining_date,
-            "joining_location" =>  $request->joining_location,
-            "department" => $request->department,
-            "designation" => $request->designation,
-        ]);
-
+ 
+        //Insert Info to User__Info 
+        User_Info::insert([
+            "user_id" => $id,
+            "user_name" => $request->name,
+            "user_email" => $request->email,
+            "user_phone" => $request->phn_no,
+            "gender" => $request->gender,
+            "loc_id" => $request->location,
+            "user_type" => 'employee',
+            "tran_user_type" => $request->type,
+            "dob" => $request->date_of_birth,
+            "nid" => $request->nid_no,
+            "address" => $request->address,
+            "image" => $imageName,
+        ]); 
+        
+        return response()->json([
+            'status'=>'success',
+        ]);  
     }
 
     public function ShowEmployeesPersonalInfo(Request $request){
@@ -263,59 +119,267 @@ class InfoController extends Controller
         ]);
     }
 
+
+
+
+
+    ////////////////////////////////////       Employee Education Detail         //////////////////////////////////////
+
+
+
+
+
+    //Education Detail View Show
+    public function ShowEmployeesEducation(){
+
+        return view('hr.educationdetail.addEducationDetail');
+
+    } // End Method 
+
+    public function InsertEducationDetails(Request $request){
+
+        //Validate Employee Education Details
+        $request->validate([
+            'user' => 'required',
+            'level_of_education' => 'required',
+            'degree_title' => 'required',
+            'group' => 'required',
+            'institution_name' => 'required',
+            'result' => 'required',
+            'scale' => 'required|numeric',
+            'cgpa' => 'required|numeric',
+            'batch' => 'required|numeric',
+            'passing_year' => 'required|numeric',
+        ]);
+
+
+        //Insert Employee Education Details
+        EducationDetail::insert([
+            'emp_id' =>  $request->user,
+            "level_of_education" => $request->level_of_education,
+            "degree_title" => $request->degree_title,
+            "group" => $request->group,
+            "institution_name" => $request->institution_name,
+            "result" => $request->result,
+            "scale" => $request->scale,
+            "cgpa" => $request->cgpa,
+            "batch" => $request->batch,
+            "passing_year" =>  $request->passing_year,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }
+
     public function ShowEmployeesEducationInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->paginate(15);
+        $employeeeducation = EducationDetail::paginate(15);
         $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.educationdetail.employeeEducationDetails', compact('employeeinfo','tranwith'));
+        return view('hr.educationdetail.employeeEducationDetails', compact('employeeeducation','tranwith'));
         
     }
 
     public function EmployeesEducationInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+        $employeeeducation = EducationDetail::get();
         return response()->json([
-            'data'=>view('hr.educationdetail.employeeEducationInfo', compact('employeeinfo'))->render(),
+            'data'=>view('hr.educationdetail.employeeEducationInfo', compact('employeeeducation'))->render(),
         ]);
     }
 
+
+
+
+
+    ////////////////////////////////////       Employee Training Detail         //////////////////////////////////////
+
+
+
+
+    
+
+
+    //Training Detail View Show
+    public function ShowEmployeesTraining(){
+
+        return view('hr.trainingdetail.addTrainingDetail');
+
+    } // End Method 
+
+    public function InsertTrainingDetails(Request $request){
+
+        //Validate Employee Training Details
+        $request->validate([
+            'user' => 'required',
+            'training_title' => 'required',
+            'country' => 'required',
+            'topic' => 'required',
+            'institution_name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'training_year' => 'required|numeric',
+        ]);
+
+        //Insert Employee Training Details
+        TrainingDetail::insert([
+            'emp_id' =>  $request->user,
+            "training_title" => $request->training_title,
+            "country" =>  $request->country,
+            "topic" => $request->topic,
+            "institution_name" => $request->institution_name,
+            "start_date" => $request->start_date,
+            "end_date" => $request->end_date,
+            "training_year" => $request->training_year,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]); 
+
+    }
+
     public function ShowEmployeesTrainingInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->paginate(15);
+        $employeetraining = TrainingDetail::paginate(15);
         $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.trainingdetail.employeeTrainingDetails', compact('employeeinfo','tranwith'));
+        return view('hr.trainingdetail.employeeTrainingDetails', compact('employeetraining','tranwith'));
         
     }
 
     public function EmployeesTrainingInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+        $employeetraining = TrainingDetail::where('id', "=", $req->id)->get();
         return response()->json([
-            'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeeinfo'))->render(),
+            'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeetraining'))->render(),
         ]);
     }
 
+
+
+
+
+    ////////////////////////////////////       Employee Experience Detail         //////////////////////////////////////
+
+
+
+
+    
+
+
+
+
+
+    //Experience Detail View Show
+    public function ShowEmployeesExperience(){
+
+        return view('hr.experiencedetail.addExperienceDetail');
+
+    } // End Method 
+
+    public function InsertExperienceDetails(Request $request){
+
+        //Validate Employee Experience Details
+        $request->validate([
+            'user' => 'required',
+            'company_name' => 'required',
+            'designation' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'department' => 'required',
+            'location' => 'required',
+        ]);
+
+        //Insert Employee Experience Details
+        ExperienceDetail::insert([
+            'emp_id' =>  $request->user,
+            "company_name" => $request->company_name,
+            "designation" =>  $request->designation,
+            "start_date" => $request->start_date,
+            "end_date" => $request->end_date,
+            "department" => $request->department,
+            "company_location" => $request->location,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]); 
+
+    }
+
     public function ShowEmployeesExperienceInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->paginate(15);
+        $employeeexperience = ExperienceDetail::where('id', $request->id)->paginate(15);
         $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.experiencedetail.employeeExperienceDetails', compact('employeeinfo','tranwith'));
+        return view('hr.experiencedetail.employeeExperienceDetails', compact('employeeexperience','tranwith'));
         
     }
 
     public function EmployeesExperienceInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+        $employeeexperience = ExperienceDetail::where('id', $request->id)->get();
         return response()->json([
-            'data'=>view('hr.experiencedetail.employeeExperienceInfo', compact('employeeinfo'))->render(),
+            'data'=>view('hr.experiencedetail.employeeExperienceInfo', compact('employeeexperience'))->render(),
         ]);
     }
 
+
+
+
+
+    ////////////////////////////////////       Employee Organization Detail         //////////////////////////////////////
+
+
+
+
+    
+
+
+
+
+
+
+
+    //Organization Detail View Show
+    public function ShowEmployeesOrganization(){
+
+        return view('hr.organizationdetail.addOrganizationDetail');
+
+    } // End Method 
+
+    
+    public function InsertOrganizationDetails(Request $request){
+
+        //Validate Employee Organization Details
+        $request->validate([
+            'user' => 'required',
+            'joining_date' => 'required',
+            'location' => 'required',
+            'department' => 'required',
+            'designation' => 'required',
+        ]);
+
+        //Insert Employee Joining Details
+        OrganizationDetail::insert([
+            'emp_id' =>  $request->user,
+            "joining_date" => $request->joining_date,
+            "joining_location" =>  $request->location,
+            "department" => $request->department,
+            "designation" => $request->designation,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]); 
+
+    }
+    
+
     public function ShowEmployeesOrganizationInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->paginate(15);
+        $employeeorganization = OrganizationDetail::paginate(15);
         $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.organizationdetail.employeeOrganizationDetails', compact('employeeinfo','tranwith'));
+        return view('hr.organizationdetail.employeeOrganizationDetails', compact('employeeorganization','tranwith'));
         
     }
 
     public function EmployeesOrganizationInfo(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->get();
+        $employeeorganization = OrganizationDetail::where('id', $request->id)->get();
         return response()->json([
-            'data'=>view('hr.organizationdetail.employeeOrganizationInfo', compact('employeeinfo'))->render(),
+            'data'=>view('hr.organizationdetail.employeeOrganizationInfo', compact('employeeorganization'))->render(),
         ]);
     }
 

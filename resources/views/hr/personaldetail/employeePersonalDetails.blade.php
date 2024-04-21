@@ -31,5 +31,6 @@
     @endsection
 
 @section('ajax')
-    <script src="{{ asset('js/ajax/hr/employees.js') }}"></script>
+    <script src="{{ asset('js/ajax/hr/employeePersonal.js') }}"></script>
+    <script src="{{ asset('js/ajax/search_by_input.js') }}"></script>
 @endsection

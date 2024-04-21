@@ -28,16 +28,18 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('image')->nullable();
             $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
+
+
             $table->foreign('loc_id')->references('id')->on('location__infos')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+            $table->foreign('tran_user_type')->references('user_type')->on('transaction__withs')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
             $table->foreign('dept_id')->references('id')->on('department__infos')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
             $table->foreign('designation_id')->references('id')->on('designations')
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
-            $table->foreign('tran_user_type')->references('id')->on('transaction__withs')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
             $table->timestamp('added_at')->useCurrent();

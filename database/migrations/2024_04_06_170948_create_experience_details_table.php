@@ -21,7 +21,13 @@ return new class extends Migration
             $table->string('department');
             $table->string('company_location');
             $table->timestamps();
-            $table->foreign('emp_id')->references('employee_id')->on('personal_details')
+            $table->foreign('emp_id')->references('user_id')->on('user__infos')
+                     ->cascadeOnUpdate()
+                     ->cascadeOnDelete();
+            $table->foreign('company_location')->references('id')->on('location__infos')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+            $table->foreign('department')->references('id')->on('department__infos')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
         });

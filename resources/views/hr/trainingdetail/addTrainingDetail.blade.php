@@ -43,6 +43,30 @@
                 <div class="center">
                     <div class="card-body">
                     <div class="row">
+                    <div class="col-md-6">  
+                                <div class="form-group">   
+                                    <label for="with">Employee Type</label>
+                                    <select name="with" id="with">
+                                        <option value="">Select Employee Type</option>
+                                        @foreach ($tranwith as $with)
+                                            <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger error" id="with_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="user">Name</label>
+                                    <input type="text" name="user" class="form-control" id="user" autocomplete="off">
+                                    <div id="user-list">
+                                        <ul>
+
+                                        </ul>
+                                    </div>
+                                    <span class="text-danger error" id="user_error"></span>
+                                </div>
+                            </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for = "training_title">Training Title</label>
@@ -66,9 +90,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for = "institution_name1">Institution Name</label>
-                                <input type="text" name="institution_name1" id="institution_name1" class="form-control">
-                                <span class="text-danger error" id="institution_name1_error"></span>
+                                <label for = "institution_name">Institution Name</label>
+                                <input type="text" name="institution_name" id="institution_name" class="form-control">
+                                <span class="text-danger error" id="institution_name_error"></span>
                             </div>
                         </div>
                         <div class="col-md-6">

@@ -134,9 +134,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for = "location_id">Location Id</label>
-                                        <input type="text" name="location_id" id="location_id" class="form-control">
-                                        <span class="text-danger error" id="location_id_error"></span>
+                                        <label for = "location">Location Id</label>
+                                        <input type="text" name="location" id="location" class="form-control">
+                                        <div id="location-list">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="location_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">  

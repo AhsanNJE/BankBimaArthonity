@@ -37,50 +37,98 @@
                 </div>
                 
                 <!-- form start -->
-                <form action="{{ route('insertexperience.info')}}" method="POST" enctype="multipart/form-data">
+                <form id="AddExperienceDetailForm" action="{{ route('insertexperience.info')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- Experience Details Section -->
-                <h4>Experience Details</h4>
-                <div class="container bg-light text-dark my-4 py-3">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for = "company_name">Company Name</label>
-                            <input type="text" name="company_name" id="company_name" placeholder="Company Name" class="@error('company_name') is-invalid @enderror">
-                            @error('company_name')<strong class="text-danger">{{ $message }}</strong>@enderror
+                <div class="center">
+                    <div class="card-body">
+                        <div class="row">
+                        <div class="col-md-6">  
+                                <div class="form-group">   
+                                    <label for="with">Employee Type</label>
+                                    <select name="with" id="with">
+                                        <option value="">Select Employee Type</option>
+                                        @foreach ($tranwith as $with)
+                                            <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger error" id="with_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="user">Name</label>
+                                    <input type="text" name="user" class="form-control" id="user" autocomplete="off">
+                                    <div id="user-list">
+                                        <ul>
+
+                                        </ul>
+                                    </div>
+                                    <span class="text-danger error" id="user_error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for = "company_name">Company Name</label>
+                                    <input type="text" name="company_name" id="company_name" class="form-control">
+                                    <span class="text-danger error" id="company_name_error"></span>
+                                </div>
+                            </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for = "designation">Designation</label>
+                                <input type="text" name="designation" id="designation" class="form-control">
+                                <span class="text-danger error" id="designation_error"></span>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label for = "designation">Designation</label>
-                            <input type="text" name="designation" id="designation" placeholder="Designation" class="@error('designation') is-invalid @enderror">
-                            @error('designation')<strong class="text-danger">{{ $message }}</strong>@enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date" id="start_date" class="form-control">
+                                <span class="text-danger error" id="start_date_error"></span>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label for="start_date">Start Date</label>
-                            <input type="date" name="start_date" id="start_date" placeholder="Start Date" class="@error('start_date') is-invalid @enderror">
-                            @error('start_date')<strong class="text-danger">{{ $message }}</strong>@enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date" id="end_date" class="form-control">
+                                <span class="text-danger error" id="end_date_error"></span>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label for="end_date">End Date</label>
-                            <input type="date" name="end_date" id="end_date" placeholder="End Date" class="@error('end_date') is-invalid @enderror">
-                            @error('end_date')<strong class="text-danger">{{ $message }}</strong>@enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for = "department">Department</label>
+                                <input type="text" name="department" id="department" class="form-control">
+                                <div id="department-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="department_error"></span>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label for = "department">Department</label>
-                            <input type="text" name="department" id="department" placeholder="Department" class="@error('department') is-invalid @enderror">
-                            @error('department')<strong class="text-danger">{{ $message }}</strong>@enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for = "location">Company Location</label>
+                                <input type="text" name="location" id="location"  class="form-control">
+                                <div id="location-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="location_error"></span>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label for = "company_location">Company Location</label>
-                            <input type="text" name="company_location" id="company_location" placeholder="Company Location" class="@error('company_location') is-invalid @enderror">
-                            @error('company_location')<strong class="text-danger">{{ $message }}</strong>@enderror
-                        </div>
+                    </div>
                         <div>
                             <button type = "button" name = "addExperience" id = "addExperience" class="btn btn-primary">Add+</button>
                         </div>
                     </div>
-                  </div>
-                  <div class="center">
-                    <button type="submit" id="NewEmployee" class="btn btn-primary">Save</button>
+                 </div>
+                 <div class="center">
+                    <button type="submit" id="InsertExperience" class="btn btn-primary">Save</button>
                 </div>
+                </div> 
                 </form>
              </div>
         </div>

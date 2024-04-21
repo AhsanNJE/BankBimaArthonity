@@ -25,32 +25,32 @@
  <div class="center">
         <form action="{{ route('show.personalinfo')}}" method="POST" enctype="multipart/form-data">
         @csrf
-        @foreach($employeeinfo as $item)
+        @foreach($employeetraining as $item)
 
         <!-- Display Training Details -->
         <h4>Training Details</h4>
             <div class="container bg-light text-dark my-4 py-3">
                 <div class="row">
                     <div class="col-md-4">
-                        <p>Training Title: {{ $item->trainingDetail->training_title }}</p>
+                        <p>Training Title: {{ $item->training_title }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Country: {{ $item->trainingDetail->country }}</p>
+                        <p>Country: {{ $item->country }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Topic: {{ $item->trainingDetail->topic }}</p>
+                        <p>Topic: {{ $item->topic }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Institution Name: {{ $item->trainingDetail->institution_name }}</p>
+                        <p>Institution Name: {{ $item->institution_name }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Start Date : {{ $item->trainingDetail->start_date }}</p>
+                        <p>Start Date : {{ $item->start_date }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>End Date : {{ $item->trainingDetail->end_date }}</p>
+                        <p>End Date : {{ $item->end_date }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Training Year: {{ $item->trainingDetail->training_year }}</p>
+                        <p>Training Year: {{ $item->training_year }}</p>
                     </div>
                     </div>
                 </div>

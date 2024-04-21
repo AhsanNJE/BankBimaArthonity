@@ -34,4 +34,6 @@ class User_Info extends Model
     {
         return $this->hasMany(Transaction_Main::class, 'tran_user', 'user_id');
     }
+
+    
 }

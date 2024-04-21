@@ -10,22 +10,20 @@
             <th>Institution Name</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Image</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($employeeinfo as $key => $item)
+        @foreach($employeetraining as $key => $item)
             <tr>
-                <td>{{ $employeeinfo->firstItem() + $key }}</td>
-                <td>{{ $item-trainingDetail->emp_id }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->trainingDetail->training_title }}</td>
-                <td>{{ $item->trainingDetail->topic }}</td>
-                <td>{{ $item->trainingDetail->institution_name }}</td>
-                <td>{{ $item->trainingDetail->start_date }}</td>
-                <td>{{ $item->trainingDetail->end_date }}</td>
-                <td><img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="50px" width="50px"></td>
+                <td>{{ $employeetraining->firstItem() + $key }}</td>
+                <td>{{ $item->emp_id }}</td>
+                <td>{{ $item->user->user_name }}</td>
+                <td>{{ $item->training_title }}</td>
+                <td>{{ $item->topic }}</td>
+                <td>{{ $item->institution_name }}</td>
+                <td>{{ $item->start_date }}</td>
+                <td>{{ $item->end_date }}</td>
                 <td>
                     @if ($item->status == 1)
                         <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Active</button>
@@ -47,5 +45,5 @@
 </table>
 
 <div class="center paginate" id="paginate">
-    {!! $employeeinfo->links() !!}
+    {!! $employeetraining->links() !!}
 </div>

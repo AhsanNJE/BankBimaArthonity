@@ -10,4 +10,8 @@ class EducationDetail extends Model
     use HasFactory;
     
     protected $guarded = [];
+    
+    public function User(){
+        return $this->belongsTo(User_Info::class,'emp_id','user_id');
+    }
 }

@@ -25,29 +25,29 @@
  <div class="center">
         <form action="{{ route('show.experienceinfo')}}" method="POST" enctype="multipart/form-data">
         @csrf
-        @foreach($employeeinfo as $item)
+        @foreach($employeeexperience as $item)
         
         <!-- Display Experience Details -->
         <h4>Experience Details</h4>
             <div class="container bg-light text-dark my-4 py-3">
                 <div class="row">
                     <div class="col-md-4">
-                        <p>Company Name: {{ $item->experienceDetail->company_name }}</p>
+                        <p>Company Name: {{ $item->company_name }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Designation: {{ $item->experienceDetail->designation }}</p>
+                        <p>Designation: {{ $item->designation }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Start Date : {{ $item->experienceDetail->start_date }}</p>
+                        <p>Start Date : {{ $item->start_date }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>End Date : {{ $item->experienceDetail->end_date }}</p>
+                        <p>End Date : {{ $item->end_date }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Department: {{ $item->experienceDetail->department }}</p>
+                        <p>Department: {{ $item->Department->dept_name }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>Company Location: {{ $item->experienceDetail->company_location }}</p>
+                        <p>Company Location: {{ $item->Location->Upazila }}</p>
                     </div>
                 </div>
             </div>

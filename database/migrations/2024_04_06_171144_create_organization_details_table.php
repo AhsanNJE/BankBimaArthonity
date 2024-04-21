@@ -16,12 +16,20 @@ return new class extends Migration
             $table->string('emp_id');
             $table->date('joining_date');
             $table->string('joining_location');
-            $table->string('dept_id');
-            $table->string('department');
-            $table->string('designation_id');
-            $table->string('designation');
+            $table->unsignedBigInteger('department');
+            $table->unsignedBigInteger('designation');
             $table->timestamps();
-            $table->foreign('emp_id')->references('employee_id')->on('personal_details')
+
+            $table->foreign('emp_id')->references('user_id')->on('user__infos')
+                     ->cascadeOnUpdate()
+                     ->cascadeOnDelete();
+            $table->foreign('joining_location')->references('id')->on('location__infos')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+            $table->foreign('department')->references('id')->on('department__infos')
+                     ->cascadeOnUpdate()
+                     ->cascadeOnDelete();
+             $table->foreign('designation')->references('id')->on('designations')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
         });

@@ -10,4 +10,20 @@ class OrganizationDetail extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function Department(){
+        return $this->belongsTo(Department_Info::class,'department','id');
+    }
+
+    public function Location(){
+        return $this->belongsTo(Location_Info::class,'joining_location','id');
+    }
+
+    public function Designation(){
+        return $this->belongsTo(Designation::class,'designation','id');
+    }
+
+    public function User(){
+        return $this->belongsTo(User_Info::class,'emp_id','user_id');
+    }
 }
