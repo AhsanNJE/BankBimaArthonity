@@ -22,6 +22,7 @@
         <!-- SidebarSearch Form -->
 
         <!-- Sidebar Menu -->
+
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
@@ -30,34 +31,323 @@
                     <a href="#" class="nav-link active">
                         <i class="fa-solid fa-house"></i>
                         <p>
-                            Administrator
+                            ADMINISTRATOR
                             <!-- <i class="right fas fa-angle-left"></i> -->
                         </p>
                     </a>
                 </li>
 
+                <!-- Transaction -->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <!-- <i class="fa-solid fa-person"></i> -->
-                        <i class="fa-solid fa-users-line"></i>
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            Employee
+                            TRANSACTIONS
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('show.employees')}}" class="nav-link">
+                            <a href="{{route('show.transaction')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>All Employee</p>
+                                <p>Transactions</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.transaction.receive')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Transaction Receive</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.transaction.payment')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Transaction Payment</p>
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <!-- Transaction With Bank -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        <p>
+                            TRANSACTION WITH BANK
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('employee.attend.list') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Attendance List</p>
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Transactions with Bank</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Party Payments -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-brands fa-cc-amazon-pay"></i>
+                        <p>
+                            PARTY PAYMENT
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.party')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Party Payments</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.party.receive')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Receive from Client</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.party.payment')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Payment to Supplier</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- HR & PAYROLL -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-house"></i>
+                        <p>HR & PAYROLL</p>
+                        <i class="fas fa-angle-left right"></i>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <!-- EMPLOYEE -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-people-roof"></i>
+                                <p>Employee</p>
+                                <!-- <i class="fas fa-angle-left right"></i> -->
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add New</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Educaton</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Experience</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('show.employees')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>View Employee Details</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('employee.attend.list') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Attendence List</p>
+                                    </a>
+                                </li>
+                                <!-- Add more submenu items as needed -->
+                            </ul>
+                        </li>
+                        <!-- PAYROLL -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-envelope"></i>
+                                <p>Payroll</p>
+                                <!-- <i class="fas fa-angle-left right"></i> -->
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.payroll.setup')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Payroll Setup</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('show.payroll.middlewire')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Payroll Middlewire</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('show.payroll')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Payroll / Salary Payment</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <p>SALARY GENERATION</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <p>VIEW SALARY</p>
+                                    </a>
+                                </li>
+                                <!-- Add more submenu items as needed -->
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-envelope"></i>
+                                <p>
+                                    Department
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.departments')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Department</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <p>
+                                    Designation
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.designations')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Designation</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- INVENTORY -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-right-left"></i>
+                        <p>INVENTORY</p>
+                        <i class="fas fa-angle-left right"></i>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <!-- EMPLOYEE -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-people-roof"></i>
+                                <p>inventory 1</p>
+                                <!-- <i class="fas fa-angle-left right"></i> -->
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add inventory</p>
+                                    </a>
+                                </li>
+                                <!-- Add more submenu items as needed -->
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-people-roof"></i>
+                                <p>inventory 2</p>
+                                <!-- <i class="fas fa-angle-left right"></i> -->
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add inventory</p>
+                                    </a>
+                                </li>
+                                <!-- Add more submenu items as needed -->
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-book-open"></i>
+                        <p>
+                            REPORTS & QUERIES:
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('show.transaction.receive') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Receive Statement</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('show.transaction.payment') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Payment Statement</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('pending.all.due')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Due Statement</p>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a href="{{route('client.due.transaction')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>As Per Client</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('supplier.due.transaction') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>As Per Supllier</p>
+                            </a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a href="{{route('report.groupe')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Report By Groupe</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('summary.report')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Summary Report</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('party.details.report')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Party Details Report</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('party.summary.report')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Party Summary Report</p>
                             </a>
                         </li>
                     </ul>
@@ -94,42 +384,6 @@
                             <a href="{{route('show.suppliers')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All Suppliers</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-envelope"></i>
-                        <p>
-                            Department
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.departments')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Department</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        <p>
-                            Designation
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.designations')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Designation</p>
                             </a>
                         </li>
                     </ul>
@@ -207,167 +461,13 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-right-left"></i>
-                        <p>
-                            Payroll
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.payroll.setup')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Payroll Setup</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('show.payroll.middlewire')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Payroll Middlewire</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('show.payroll')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Payroll / Salary Payment</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+
 
                 <hr>
 
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        <p>
-                            Transaction
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.transaction')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transactions</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('show.transaction.receive')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transaction Receive</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('show.transaction.payment')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transaction Payment</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-brands fa-cc-amazon-pay"></i>
-                        <p>
-                            Party Payments
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.party')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Party Payments</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('show.party.receive')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Receive from Client</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('show.party.payment')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Payment to Supplier</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-book-open"></i>
-                        <p>
-                            Reports:
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('show.transaction.receive') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Receive Statement</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('show.transaction.payment') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Payment Statement</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('pending.all.due')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Due Statement</p>
-                            </a>
-                        </li>
-                        <!-- <li class="nav-item">
-                            <a href="{{route('client.due.transaction')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>As Per Client</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('supplier.due.transaction') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>As Per Supllier</p>
-                            </a>
-                        </li> -->
-                        <li class="nav-item">
-                            <a href="{{route('report.groupe')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Report By Groupe</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('summary.report')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Summary Report</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('party.details.report')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Party Details Report</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('party.summary.report')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Party Summary Report</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
             </ul>
         </nav>
+
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
