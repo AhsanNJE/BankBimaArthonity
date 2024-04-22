@@ -21,7 +21,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
             $table->timestamps();
 
-            $table->foreign('emp_id')->references('user_id')->on('user__infos')
+            $table->foreign('emp_id')->references('employee_id')->on('personal_details')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
             $table->foreign('joining_location')->references('id')->on('location__infos')

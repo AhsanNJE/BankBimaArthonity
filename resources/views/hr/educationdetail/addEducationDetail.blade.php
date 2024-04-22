@@ -62,15 +62,13 @@
                             </div>
                         </div>
                     </div>
-                
                 <!-- form start -->
                     <form id='form1' class='education-form' action="{{ route('inserteducation.info')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <!-- Education Details Section -->
                         <div class="center">
                             <div class="card-body">
-                                <div class="row">
-                                    
+                                <div class="row"> 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for = "level_of_education">Level of Education</label>
@@ -134,7 +132,7 @@
                                             <span class="text-danger error" id="passing_year_error"></span>
                                         </div>
                                     </div>
-                                        <!-- Forms will be dynamically added here -->
+                                    <!-- Forms will be dynamically added here -->
                                 </div>
                             </div>
                         </div> 

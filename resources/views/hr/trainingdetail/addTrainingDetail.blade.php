@@ -62,74 +62,75 @@
                             </div>
                         </div>
                     </div>
-                <!-- form start -->
-                <form id='form2' class='education-form' action="{{ route('inserttraining.info')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <!-- Training Details Section -->
+                    <!-- form start -->
+                    <form id='form2' class='training-form' action="{{ route('inserttraining.info')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <!-- Training Details Section -->
+                        <div class="center">
+                            <div class="card-body">
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for = "training_title">Training Title</label>
+                                        <input type="text" name="training_title" id="training_title" class="form-control">
+                                        <span class="text-danger error" id="training_title_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for = "country">Country</label>
+                                        <input type="text" name="country" id="country" class="form-control">
+                                        <span class="text-danger error" id="country_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for = "topic">Topic</label>
+                                        <input type="text" name="topic" id="topic" class="form-control">
+                                        <span class="text-danger error" id="topic_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for = "institution_name">Institution Name</label>
+                                        <input type="text" name="institution_name" id="institution_name" class="form-control">
+                                        <span class="text-danger error" id="institution_name_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="start_date">Start Date</label>
+                                        <input type="date" name="start_date" id="start_date" class="form-control">
+                                        <span class="text-danger error" id="start_date_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="end_date">End Date</label>
+                                        <input type="date" name="end_date" id="end_date" class="form-control">
+                                        <span class="text-danger error" id="end_date_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for = "training_year">Training Year</label>
+                                        <input type="integer" name="training_year" id="training_year" class="form-control">
+                                        <span class="text-danger error" id="training_year_error"></span>
+                                    </div>
+                                </div>
+                                <!-- Forms will be dynamically added here -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+                <div>
+                    <button type = "button" name = "addTraining" id = "addTraining" class="btn btn-primary">Add+</button>
+                </div>
                 <div class="center">
-                    <div class="card-body">
-                        <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for = "training_title">Training Title</label>
-                                <input type="text" name="training_title" id="training_title" class="form-control">
-                                <span class="text-danger error" id="training_title_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for = "country">Country</label>
-                                <input type="text" name="country" id="country" class="form-control">
-                                <span class="text-danger error" id="country_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for = "topic">Topic</label>
-                                <input type="text" name="topic" id="topic" class="form-control">
-                                <span class="text-danger error" id="topic_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for = "institution_name">Institution Name</label>
-                                <input type="text" name="institution_name" id="institution_name" class="form-control">
-                                <span class="text-danger error" id="institution_name_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="start_date">Start Date</label>
-                                <input type="date" name="start_date" id="start_date" class="form-control">
-                                <span class="text-danger error" id="start_date_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="end_date">End Date</label>
-                                <input type="date" name="end_date" id="end_date" class="form-control">
-                                <span class="text-danger error" id="end_date_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for = "training_year">Training Year</label>
-                                <input type="integer" name="training_year" id="training_year" class="form-control">
-                                <span class="text-danger error" id="training_year_error"></span>
-                            </div>
-                        </div>
-                    </div>
-                        <div>
-                            <button type = "button" name = "addTraining" id = "addTraining" class="btn btn-primary">Add+</button>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="center">
                     <button type="submit" id="InsertTraining" class="btn btn-primary">Save</button>
                 </div>
-            </div>
-            </form>
-             </div>
+            </div>         
         </div>
     </div>
 </div>

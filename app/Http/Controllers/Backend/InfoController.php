@@ -166,7 +166,9 @@ class InfoController extends Controller
         $education->passing_year = $request->input('passing_year');
         $education->save();
     
-        return response()->json(['status' => 'success']);
+        return response()->json([
+            'status'=>'success',
+        ]); 
 }
 
     public function ShowEmployeesEducationInfo(Request $request){
@@ -228,7 +230,9 @@ class InfoController extends Controller
         $training->training_year = $request->input('training_year');
         $training->save();
     
-        return response()->json(['status' => 'success']);
+        return response()->json([
+            'status'=>'success',
+        ]); 
 
     }
 
@@ -275,22 +279,23 @@ class InfoController extends Controller
             'user' => 'required',
             'company_name' => 'required',
             'designation' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
             'department' => 'required',
             'location' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            
         ]);
 
-        //Insert Employee Experience Details
-        ExperienceDetail::insert([
-            'emp_id' =>  $request->user,
-            "company_name" => $request->company_name,
-            "designation" =>  $request->designation,
-            "start_date" => $request->start_date,
-            "end_date" => $request->end_date,
-            "department" => $request->department,
-            "company_location" => $request->location,
-        ]);
+         // Create a new Experience instance and save the data
+         $experience = new ExperienceDetail();
+         $experience->emp_id =  $request->input('user');
+         $experience->company_name = $request->input('company_name');
+         $experience->designation = $request->input('designation');
+         $experience->department = $request->input('department');
+         $experience->location = $request->input('location');
+         $experience->start_date = $request->input('start_date');
+         $experience->end_date = $request->input('end_date');
+         $experience->save();
 
         return response()->json([
             'status'=>'success',

@@ -10,7 +10,6 @@
             <th>Group</th>
             <th>Institution Name</th>
             <th>CGPA</th>
-            <th>Image</th>
             <th>Action</th>
         </tr>
     </thead>
