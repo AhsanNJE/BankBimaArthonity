@@ -33,7 +33,7 @@ return new class extends Migration
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
-            $table->foreign('tran_user_type')->references('user_type')->on('transaction__withs')
+            $table->foreign('tran_user_type')->references('id')->on('transaction__withs')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
             $table->foreign('dept_id')->references('id')->on('department__infos')

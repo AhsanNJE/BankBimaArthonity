@@ -35,38 +35,40 @@
                         <h3 class="card-title">Add Training Detail</h3>
                     </div>
                 </div>
-                
+                <div id="formContainer">
+                    <div class="row">
+                        <div class="col-md-6">  
+                            <div class="form-group">   
+                                <label for="with">Employee Type</label>
+                                <select name="with" id="with">
+                                    <option value="">Select Employee Type</option>
+                                    @foreach ($tranwith as $with)
+                                        <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
+                                    @endforeach
+                                </select>
+                                <span class="text-danger error" id="with_error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="user">Name</label>
+                                <input type="text" name="user" class="form-control" id="user" autocomplete="off">
+                                <div id="user-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="user_error"></span>
+                            </div>
+                        </div>
+                    </div>
                 <!-- form start -->
-                <form id="AddTrainingDetailForm" action="{{ route('inserttraining.info')}}" method="POST" enctype="multipart/form-data">
+                <form id='form2' class='education-form' action="{{ route('inserttraining.info')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- Training Details Section -->
                 <div class="center">
                     <div class="card-body">
-                    <div class="row">
-                    <div class="col-md-6">  
-                                <div class="form-group">   
-                                    <label for="with">Employee Type</label>
-                                    <select name="with" id="with">
-                                        <option value="">Select Employee Type</option>
-                                        @foreach ($tranwith as $with)
-                                            <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger error" id="with_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="user">Name</label>
-                                    <input type="text" name="user" class="form-control" id="user" autocomplete="off">
-                                    <div id="user-list">
-                                        <ul>
-
-                                        </ul>
-                                    </div>
-                                    <span class="text-danger error" id="user_error"></span>
-                                </div>
-                            </div>
+                        <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for = "training_title">Training Title</label>

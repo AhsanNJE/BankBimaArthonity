@@ -11,6 +11,10 @@ class OrganizationDetail extends Model
 
     protected $guarded = [];
 
+    public function User(){
+        return $this->belongsTo(User_Info::class,'emp_id','user_id');
+    }
+
     public function Department(){
         return $this->belongsTo(Department_Info::class,'department','id');
     }
@@ -21,9 +25,5 @@ class OrganizationDetail extends Model
 
     public function Designation(){
         return $this->belongsTo(Designation::class,'designation','id');
-    }
-
-    public function User(){
-        return $this->belongsTo(User_Info::class,'emp_id','user_id');
     }
 }

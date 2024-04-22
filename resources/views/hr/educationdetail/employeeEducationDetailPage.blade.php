@@ -19,12 +19,12 @@
             <tr>
                 <td>{{ $employeeeducation->firstItem() + $key }}</td>
                 <td>{{ $item->emp_id }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->educationDetail->level_of_education }}</td>
-                <td>{{ $item->educationDetail->degree_title }}</td>
-                <td>{{ $item->educationDetail->group }}</td>
-                <td>{{ $item->educationDetail->institution_name }}</td>
-                <td>{{ $item->educationDetail->cgpa }}</td>
+                <td>{{ $item->user->user_name }}</td>
+                <td>{{ $item->level_of_education }}</td>
+                <td>{{ $item->degree_title }}</td>
+                <td>{{ $item->group }}</td>
+                <td>{{ $item->institution_name }}</td>
+                <td>{{ $item->cgpa }}</td>
                 <td>
                     @if ($item->status == 1)
                         <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Active</button>

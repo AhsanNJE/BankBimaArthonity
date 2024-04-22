@@ -1,70 +1,46 @@
-@section('style')
-    <style>
-        .modal-subject {
-            width: 85%;
-        }
-        label {
-            font-size: 16px !important;
-            font-weight: normal !important;
-        }
-        .container {
-        background-color: #E8E8E8!important; 
-        }
-    </style>
-@endsection
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employee Information</title>
-</head>
-<body>
-<div class="container">
- <div class="center">
-        <form action="{{ route('show.educationinfo')}}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <!-- Display Personal Details -->
-        @foreach($employeeeducation as $item)
-
-            <!-- Display Education Details -->
-        <h4>Educational Details</h4>
-            <div class="container bg-light text-dark my-4 py-3">
-                <div class="row">
-                    <div class="col-md-4">
-                        <p>Level of Education: {{ $item->educationDetail->level_of_education }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Degree Title: {{ $item->educationDetail->degree_title }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Group: {{ $item->educationDetail->group }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Institution Name: {{ $item->educationDetail->institution_name }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Result: {{ $item->educationDetail->result }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Scale: {{ $item->educationDetail->scale }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>CGPA: {{ $item->educationDetail->cgpa }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Batch : {{ $item->educationDetail->batch }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Passing Year: {{ $item->educationDetail->passing_year }}</p>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </form>
+<form action="{{ route('show.educationinfo')}}" method="POST" enctype="multipart/form-data">
+@csrf
+<!-- Display Education Details -->
+@foreach($employeeeducation as $item)
+<div class="general">
+    <div class="details-head">
+        <div class="image-round">
+            <img src="/storage/profiles/{{ $item->user->image !== null ? $item->user->image : ($item->user->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="100px" width="100px">
+        </div> 
+        <div class="highlight">
+            <span class="name"> {{$item->user->user_name}} </span><br>
+        </div>   
     </div>
-</div>
-
-</body>
-</html>
+    <div class="details-table" style="">
+        <div class="row each-row">
+            <div class="col-md-2 bold">Level of Education</div> 
+            <div class="col-md-4 bold">{{ $item->level_of_education }}</div>
+            <div class="col-md-2 bold">Degree Title</div> 
+            <div class="col-md-4 bold">{{ $item->degree_title }}</div>
+        </div>
+        <div class="row each-row">
+            <div class="col-md-2 bold">Group</div> 
+            <div class="col-md-4 bold">{{ $item->group }}</div>
+            <div class="col-md-2 bold">Institution Name</div> 
+            <div class="col-md-4 bold">{{ $item->institution_name }}</div>
+        </div>
+        <div class="row each-row">
+            <div class="col-md-2 bold">Result</div> 
+            <div class="col-md-4 bold">{{ $item->result }}</div>
+            <div class="col-md-2 bold">Scale</div> 
+            <div class="col-md-4 bold">{{ $item->scale }}</div>
+        </div>
+        <div class="row each-row">
+            <div class="col-md-2 bold">CGPA</div> 
+            <div class="col-md-4 bold">{{ $item->cgpa }}</div>
+            <div class="col-md-2 bold">Batch</div> 
+            <div class="col-md-4 bold">{{ $item->batch }}</div>
+        </div>
+        <div class="row each-row">
+            <div class="col-md-2 bold">Passing Year</div> 
+            <div class="col-md-4 bold">{{ $item->passing_year }}</div>
+        </div>
+    </div>
+</div>    
+    @endforeach
+</form>

@@ -141,36 +141,33 @@ class InfoController extends Controller
         //Validate Employee Education Details
         $request->validate([
             'user' => 'required',
-            'level_of_education' => 'required',
-            'degree_title' => 'required',
-            'group' => 'required',
-            'institution_name' => 'required',
-            'result' => 'required',
+            'level_of_education' => 'required|string|max:255',
+            'degree_title' => 'required|string|max:255',
+            'group' => 'required|string|max:255',
+            'institution_name' => 'required|string|max:255',
+            'result' => 'required|string|max:255',
             'scale' => 'required|numeric',
             'cgpa' => 'required|numeric',
             'batch' => 'required|numeric',
             'passing_year' => 'required|numeric',
         ]);
-
-
-        //Insert Employee Education Details
-        EducationDetail::insert([
-            'emp_id' =>  $request->user,
-            "level_of_education" => $request->level_of_education,
-            "degree_title" => $request->degree_title,
-            "group" => $request->group,
-            "institution_name" => $request->institution_name,
-            "result" => $request->result,
-            "scale" => $request->scale,
-            "cgpa" => $request->cgpa,
-            "batch" => $request->batch,
-            "passing_year" =>  $request->passing_year,
-        ]);
-
-        return response()->json([
-            'status'=>'success',
-        ]);  
-    }
+    
+        // Create a new Education instance and save the data
+        $education = new EducationDetail();
+        $education->emp_id =  $request->input('user');
+        $education->level_of_education = $request->input('level_of_education');
+        $education->degree_title = $request->input('degree_title');
+        $education->group = $request->input('group');
+        $education->institution_name = $request->input('institution_name');
+        $education->result = $request->input('result');
+        $education->scale = $request->input('scale');
+        $education->cgpa = $request->input('cgpa');
+        $education->batch = $request->input('batch');
+        $education->passing_year = $request->input('passing_year');
+        $education->save();
+    
+        return response()->json(['status' => 'success']);
+}
 
     public function ShowEmployeesEducationInfo(Request $request){
         $employeeeducation = EducationDetail::paginate(15);
@@ -180,7 +177,7 @@ class InfoController extends Controller
     }
 
     public function EmployeesEducationInfo(Request $request){
-        $employeeeducation = EducationDetail::get();
+        $employeeeducation = EducationDetail::where('id', $request->id)->get();
         return response()->json([
             'data'=>view('hr.educationdetail.employeeEducationInfo', compact('employeeeducation'))->render(),
         ]);
@@ -219,21 +216,19 @@ class InfoController extends Controller
             'training_year' => 'required|numeric',
         ]);
 
-        //Insert Employee Training Details
-        TrainingDetail::insert([
-            'emp_id' =>  $request->user,
-            "training_title" => $request->training_title,
-            "country" =>  $request->country,
-            "topic" => $request->topic,
-            "institution_name" => $request->institution_name,
-            "start_date" => $request->start_date,
-            "end_date" => $request->end_date,
-            "training_year" => $request->training_year,
-        ]);
-
-        return response()->json([
-            'status'=>'success',
-        ]); 
+        // Create a new Training instance and save the data
+        $training = new TrainingDetail();
+        $training->emp_id =  $request->input('user');
+        $training->training_title = $request->input('training_title');
+        $training->country = $request->input('country');
+        $training->topic = $request->input('topic');
+        $training->institution_name = $request->input('institution_name');
+        $training->start_date = $request->input('start_date');
+        $training->end_date = $request->input('end_date');
+        $training->training_year = $request->input('training_year');
+        $training->save();
+    
+        return response()->json(['status' => 'success']);
 
     }
 
@@ -304,7 +299,7 @@ class InfoController extends Controller
     }
 
     public function ShowEmployeesExperienceInfo(Request $request){
-        $employeeexperience = ExperienceDetail::where('id', $request->id)->paginate(15);
+        $employeeexperience = ExperienceDetail::paginate(15);
         $tranwith = Transaction_With::where('user_type','Employee')->get();
         return view('hr.experiencedetail.employeeExperienceDetails', compact('employeeexperience','tranwith'));
         

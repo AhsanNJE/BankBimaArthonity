@@ -26,16 +26,17 @@ return new class extends Migration
             $table->string('phn_no');
             $table->string('blood_group');
             $table->string('email');
-            $table->string('location_id');
-            $table->string('tran_user_type')->nullable();
+            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('tran_user_type')->nullable();
             $table->text('address')->nullable();
             $table->binary('image')->nullable();
+            $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
             $table->timestamps();
 
             $table->foreign('location_id')->references('id')->on('location__infos')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
-            $table->foreign('tran_user_type')->references('user_type')->on('transaction__withs')
+            $table->foreign('tran_user_type')->references('id')->on('transaction__withs')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
         });

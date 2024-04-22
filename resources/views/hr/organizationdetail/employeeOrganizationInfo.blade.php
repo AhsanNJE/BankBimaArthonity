@@ -5,7 +5,7 @@
 <div class="general">
     <div class="details-head">
         <div class="image-round">
-            <img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="100px" width="100px">
+            <img src="/storage/profiles/{{ $item->user->image !== null ? $item->user->image : ($item->user->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="100px" width="100px">
         </div> 
         <div class="highlight">
             <span class="name"> {{$item->user->user_name}} </span><br>

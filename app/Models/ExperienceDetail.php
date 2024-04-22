@@ -19,7 +19,11 @@ class ExperienceDetail extends Model
         return $this->belongsTo(Department_Info::class,'department','id');
     }
 
+    public function Designation(){
+        return $this->belongsTo(Designation::class,'designation','id');
+    }
+
     public function Location(){
-        return $this->belongsTo(Location_Info::class,'company_location	','id');
+        return $this->belongsTo(Location_Info::class,'company_location','id');
     }
 }

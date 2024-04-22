@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('cgpa');
             $table->integer('batch');
             $table->integer('passing_year');
+            $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
             $table->timestamps();
             $table->foreign('emp_id')->references('employee_id')->on('personal_details')
                      ->cascadeOnUpdate()

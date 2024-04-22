@@ -26,9 +26,9 @@ class PersonalDetail extends Model
         return $this->belongsTo(ExperienceDetail::class, 'employee_id', 'emp_id');
     }
 
-    public function joiningDetail()
+    public function organizationDetail()
     {
-        return $this->belongsTo(JoiningDetail::class, 'employee_id', 'emp_id');
+        return $this->belongsTo(OrganizationDetail::class, 'employee_id', 'emp_id');
     }
 
 

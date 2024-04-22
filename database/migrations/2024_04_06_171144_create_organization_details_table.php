@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('emp_id');
             $table->date('joining_date');
-            $table->string('joining_location');
+            $table->unsignedBigInteger('joining_location');
             $table->unsignedBigInteger('department');
             $table->unsignedBigInteger('designation');
+            $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
             $table->timestamps();
 
             $table->foreign('emp_id')->references('user_id')->on('user__infos')

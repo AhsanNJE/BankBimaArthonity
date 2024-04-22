@@ -71,10 +71,12 @@ $(document).ready(function () {
     /////////////// ------------------ Add Employee Ajax Part Start ---------------- /////////////////////////////
     $(document).on('submit', '#AddEmployeeForm', function (e) {
         e.preventDefault();
+        let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let department = $('#department').attr('data-id');
         let designation = $('#designation').attr('data-id');
         let formData = new FormData(this);
+        formData.append('user', user === undefined ? '' : user);
         formData.append('department', department === undefined ? '' : department);
         formData.append('location', locations === undefined ? '' : locations);
         formData.append('designation', designation === undefined ? '' : designation);
@@ -93,6 +95,7 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     $('#AddEmployeeForm')[0].reset();
                     $('#name').focus();
+                    $('#user').removeAttr('data-id');
                     $('#location').removeAttr('data-id');
                     $('#department').removeAttr('data-id');
                     $('#designation').removeAttr('data-id');

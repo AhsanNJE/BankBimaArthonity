@@ -20,7 +20,7 @@
                 <td>{{ $item->user->user_name }}</td>
                 <td>{{ $item->joining_date }}</td>
                 <td>{{ $item->Location->upazila }}</td>
-                <td>{{  $item->Department->dept_name }}</td>
+                <td>{{ $item->Department->dept_name }}</td>
                 <td>{{ $item->Designation->designation }}</td>
                 <td>
                     @if ($item->status == 1)

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('training_year');
+            $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
             $table->timestamps();
             $table->foreign('emp_id')->references('user_id')->on('user__infos')
                      ->cascadeOnUpdate()
