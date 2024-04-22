@@ -80,17 +80,17 @@ class PayRollController extends Controller
 
 
 
-    //Get Payroll Setup By User iD
-    public function GetPayrollSetupByUserId(Request $req){
-        $setup = Pay_Roll_Setup::with('Head')
-        ->where('emp_id', $req->id)
-        ->get();
+    // //Get Payroll Setup By User iD
+    // public function GetPayrollSetupByUserId(Request $req){
+    //     $setup = Pay_Roll_Setup::with('Head')
+    //     ->where('emp_id', $req->id)
+    //     ->get();
 
-        return response()->json([
-            'status'=> 'success',
-            'data'=> view('payroll.payroll_setup.details',compact('setup'))->render(),
-        ]); 
-    }
+    //     return response()->json([
+    //         'status'=> 'success',
+    //         'data'=> view('payroll.payroll_setup.details',compact('setup'))->render(),
+    //     ]); 
+    // }
 
 
 
@@ -122,15 +122,9 @@ class PayRollController extends Controller
         ->orderBy('emp_id')
         ->paginate(15);
         
-        
-        
-        
-        // Pay_Roll_Setup::with('Head')
-        // ->where('emp_id', $req->id)
-        // ->get();
         return response()->json([
             'status'=> 'success',
-            'data'=> view('payroll.payroll_installment.details',compact('payrolls'))->render(),
+            'data'=> view('payroll.details',compact('payrolls'))->render(),
         ]); 
     } // End Method 
 
@@ -143,6 +137,21 @@ class PayRollController extends Controller
             "user" => 'required',
             "head" => 'required',
             "amount" => 'required',
+        ]);
+
+
+        $req->validate([
+            'head' => [
+                'required',
+                function ($attribute, $value, $fail) use ($req) {
+                    $count = Pay_Roll_Setup::where('emp_id', $req->user)
+                        ->where('head_id', $req->head)
+                        ->count();
+                    if ($count > 0) {
+                        $fail('This Payroll Setup is already exists for this user.');
+                    }
+                },
+            ],
         ]);
 
         
@@ -260,17 +269,17 @@ class PayRollController extends Controller
 
 
 
-    //Get Payroll Middlewire By User iD
-    public function GetPayrollMiddlewireByUserId(Request $req){
-        $middlewire = Pay_Roll_Middlewire::with('Head')
-        ->where('emp_id', $req->id)
-        ->get();
+    // //Get Payroll Middlewire By User iD
+    // public function GetPayrollMiddlewireByUserId(Request $req){
+    //     $middlewire = Pay_Roll_Middlewire::with('Head')
+    //     ->where('emp_id', $req->id)
+    //     ->get();
 
-        return response()->json([
-            'status'=> 'success',
-            'data'=> view('payroll.payroll_middlewire.details',compact('middlewire'))->render(),
-        ]); 
-    }
+    //     return response()->json([
+    //         'status'=> 'success',
+    //         'data'=> view('payroll.payroll_middlewire.details',compact('middlewire'))->render(),
+    //     ]); 
+    // }
 
 
 
@@ -396,14 +405,12 @@ class PayRollController extends Controller
         $currentYear = Carbon::now()->year; // Get the current date in 'Y-m-d' format
         $currentMonth = Carbon::now()->month;
         $payroll = Pay_Roll_Setup::with('Employee')
-        ->select('emp_id', 'amount', \DB::raw('0 as date'))
-        ->union(
+        ->select('emp_id', 'amount', \DB::raw('NULL as date')) // Use NULL instead of 0 as default value for date
+        ->unionall(
             Pay_Roll_Middlewire::select('emp_id', 'amount', 'date')
-            ->where(function ($query) use ($currentYear, $currentMonth) {
-                $query->whereYear('date', $currentYear)
-                    ->whereMonth('date', $currentMonth)
-                    ->orWhereNull('date');
-            })
+                ->whereYear('date', $currentYear)
+                ->whereMonth('date', $currentMonth)
+                ->orWhereNull('date')
         )
         ->orderBy('emp_id')
         ->get()
@@ -422,7 +429,7 @@ class PayRollController extends Controller
     } // End Method 
 
 
-    // Add Payroll
+    // Add Payroll / Process Payroll
     public function AddPayroll(Request $req){
         $employees = User_Info::select('user_id','user_name','tran_user_type')->where('user_type','employee')->orderBy('added_at','asc')->get();
 
@@ -433,7 +440,7 @@ class PayRollController extends Controller
             
                 $payrolls = Pay_Roll_Setup::select('emp_id','head_id','amount',\DB::raw('0 as date'))
                 ->where('emp_id', $employee->user_id)
-                ->union(
+                ->unionall(
                     Pay_Roll_Middlewire::select('emp_id','head_id','amount','date')
                     ->where('emp_id', $employee->user_id)
                     ->where(function ($query) use ($currentYear, $currentMonth) {
@@ -444,18 +451,18 @@ class PayRollController extends Controller
                 )
                 ->orderBy('emp_id')
                 ->get();
-                
 
-                $transaction = Transaction_Main::where('tran_type', 'payment')->latest('tran_id')->first();
-                $id = ($transaction) ? 'P' . str_pad((intval(substr($transaction->tran_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'P000000001';
+                $transaction = Transaction_Main::where('tran_method', '3')->latest('tran_id')->first();
+                $id = ($transaction) ? 'PRP' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PRP000000001';
                 
-                if($payrolls != null){
+                if($payrolls->count() > 0){
                     $salary = 0;
                     foreach ($payrolls as $key => $payroll) {
                         $salary += $payroll->amount; 
                         
                         Transaction_Detail::insert([
                             'tran_id'=>$id,
+                            'tran_method'=> '3',
                             'tran_type'=> 'payment',
                             'tran_type_with'=> $employee->tran_user_type,
                             'tran_user'=> $employee->user_id,
@@ -469,6 +476,7 @@ class PayRollController extends Controller
 
                     Transaction_Main::insert([
                         'tran_id'=>$id,
+                        'tran_method'=> '3',
                         'tran_type'=> 'payment',
                         'tran_type_with'=> $employee->tran_user_type,
                         'tran_user'=> $employee->user_id,

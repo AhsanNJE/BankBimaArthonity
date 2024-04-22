@@ -12,16 +12,12 @@
 
 <div id="addTransaction" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Payment Receive From Client</h3>
-            <span class="close-modal" data-modal-id="addTransaction">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Payment Receive From Client</h3>
+                        <span class="close-modal" data-modal-id="addTransaction">&times;</span>
                     </div>
                 </div>
 

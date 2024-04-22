@@ -6,6 +6,8 @@
             <th>SL:</th>
             <th>Transaction With Name</th>
             <th>User Type</th>
+            <th>Transaction Type</th>
+            <th>Transaction Method</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -15,6 +17,8 @@
                 <td>{{ $key+ 1}}</td>
                 <td>{{ $item->tran_with_name }}</td>
                 <td>{{ $item->user_type }}</td>
+                <td>{{ $item->Type->type_name }}</td>
+                <td>{{ $item->tran_method }}</td>
                 <td>
                     <div style="display: flex;gap:5px;">
                         <button class="btn btn-info btn-sm open-modal editTranWith" data-modal-id="editTranWith" id="edit"
@@ -27,7 +31,3 @@
         @endforeach
     </tbody>
 </table>
-
-<div class="center paginate" id="paginate">
-    {!! $tranwith->links() !!}
-</div>

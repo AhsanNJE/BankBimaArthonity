@@ -8,10 +8,12 @@ $(document).ready(function () {
         e.preventDefault();
         let name = $('#name').val();
         let type = $('#type').val();
+        let tranType = $('#tranType').val();
+        let tranMethod = $('#tranMethod').val();
         $.ajax({
-            url: "/admin/employees/insert/tranwith",
+            url: "/transaction/insert/tranwith",
             method: 'POST',
-            data: { name:name, type:type },
+            data: { name:name, type:type, tranType:tranType, tranMethod:tranMethod },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -41,7 +43,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/admin/employees/edit/tranwith`,
+            url: `/transaction/edit/tranwith`,
             method: 'GET',
             data: { id:id },
             success: function (res) {
@@ -54,6 +56,19 @@ $(document).ready(function () {
                                          <option value="Employee" ${res.tranwith.user_type === 'Employee' ? 'selected' : ''}>Employee</option>
                                          <option value="Bank" ${res.tranwith.user_type === 'Bank' ? 'selected' : ''}>Bank</option>
                                          <option value="Others" ${res.tranwith.user_type === 'Others' ? 'selected' : ''}>Others</option>`);
+                
+                $('#updateTranType').html('');
+                $('#updateTranType').append(`<option value="" >Select Transaction Type</option>`);
+                $.each(res.types, function (key, type) {
+                    $('#updateTranType').append(`<option value="${type.id}" ${res.tranwith.tran_type === type.id ? 'selected' : ''}>${type.type_name}</option>`);
+                });
+
+                $('#updateTranMethod').html('');
+                $('#updateTranMethod').append(`<option value="Receive" ${res.tranwith.tran_method === 'Receive' ? 'selected' : ''}>Receive</option>
+                                         <option value="Payment" ${res.tranwith.tran_method === 'Payment' ? 'selected' : ''}>Payment</option>
+                                         <option value="Both" ${res.tranwith.tran_method === 'Both' ? 'selected' : ''}>Both</option>`);
+                
+                
                 $('#updateName').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -71,11 +86,13 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $('#id').val();
         let name = $('#updateName').val();
-        let type = $('#updateType').val()
+        let type = $('#updateType').val();
+        let tranType = $('#updateTranType').val();
+        let tranMethod = $('#updateTranMethod').val();
         $.ajax({
-            url: `/admin/employees/update/tranwith`,
+            url: `/transaction/update/tranwith`,
             method: 'PUT',
-            data: { name: name, type:type, id:id },
+            data: { name: name, type:type, tranType:tranType, tranMethod:tranMethod, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -120,7 +137,7 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $(this).attr('data-id');
         $.ajax({
-            url: `/admin/employees/delete/tranwith`,
+            url: `/transaction/delete/tranwith`,
             method: 'DELETE',
             data: { id:id },
             success: function (res) {
@@ -145,7 +162,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadTranwithData(`/admin/employees/tranwith/pagination?page=${page}`, {}, '.tranwith');
+        loadTranwithData(`/transaction/tranwith/pagination?page=${page}`, {}, '.tranwith');
     });
 
 
@@ -163,10 +180,10 @@ $(document).ready(function () {
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadTranwithData(`/admin/employees/search/tranwith`, {search:search}, '.tranwith')
+            loadTranwithData(`/transaction/search/tranwith`, {search:search}, '.tranwith')
         }
         else if(searchOption == "2"){
-            loadTranwithData(`/admin/employees/search/tranwith/type`, {search:search}, '.tranwith')
+            loadTranwithData(`/transaction/search/tranwith/type`, {search:search}, '.tranwith')
         }
         
     });
@@ -181,10 +198,10 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadTranwithData(`/admin/employees/tranwith/search/pagination?page=${page}`, {search:search}, '.tranwith');
+            loadTranwithData(`/transaction/tranwith/search/pagination?page=${page}`, {search:search}, '.tranwith');
         }
         else if(searchOption == "2"){
-            loadTranwithData(`/admin/employees/tranwith/search/pagination/type?page=${page}`, {search:search}, '.tranwith');
+            loadTranwithData(`/transaction/tranwith/search/pagination/type?page=${page}`, {search:search}, '.tranwith');
         }
         
     });

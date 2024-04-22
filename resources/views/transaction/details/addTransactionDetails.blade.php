@@ -12,16 +12,12 @@
 
 <div id="addTransaction" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Transaction</h3>
-            <span class="close-modal" data-modal-id="addTransaction">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Transaction</h3>
+                        <span class="close-modal" data-modal-id="addTransaction">&times;</span>
                     </div>
                 </div>
 
@@ -41,6 +37,18 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
+                                        <label for="method">Transaction Method</label>
+                                        <select name="method" id="method">
+                                            <option value="">Select Method</option>
+                                            @foreach ($types as $type)
+                                                <option value="{{ $type->id }}">{{ $type->type_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger error" id="method_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label for="type">Transaction Type</label>
                                         <select name="type" id="type">
                                             <option value="">Select Type</option>
@@ -50,6 +58,7 @@
                                         <span class="text-danger error" id="type_error"></span>
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="tranId">Transaction Id</label>

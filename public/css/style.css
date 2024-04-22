@@ -168,7 +168,7 @@ thead tr{
     cursor: pointer;
     position: absolute;
     right: 25px;
-    top: 10px;
+    /* top: 10px; */
 }
 
 .close-modal:hover {

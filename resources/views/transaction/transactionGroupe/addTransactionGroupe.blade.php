@@ -1,15 +1,11 @@
 <div id="addTransactionGroupe" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Transaction Groupes</h3>
-            <span class="close-modal" data-modal-id="addTransactionGroupe">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Transaction Groupes</h3>
+                        <span class="close-modal" data-modal-id="addTransactionGroupe">&times;</span>
                     </div>
                 </div>
                 
@@ -28,13 +24,13 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-groupe">
-                                        <label for="type">Groupe Type</label>
+                                        <label for="type">Transaction Type</label>
                                         <select name="type" id="type">
-                                            <option value="" >Select Transaction With</option>
-                                            <option value="Receive">Receive</option>
-                                            <option value="Payment">Payment</option>
-                                            <option value="Invoice">Invoice</option>
-                                            <option value="Both">Both</option>
+                                            <option value="" >Select Transaction Type</option>
+                                            @foreach ($types as $type)
+                                                <option value="{{ $type->id }}">{{ $type->type_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                         <span class="text-danger error" id="type_error"></span>
                                     </div>

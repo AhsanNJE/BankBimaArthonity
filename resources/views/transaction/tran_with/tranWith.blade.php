@@ -18,20 +18,20 @@
 
     <!-- table show -->
     <div class="tranwith" style="overflow-x:auto;">
-        @include('tran_with.tranWithPagination')
+        @include('transaction.tran_with.tranWithPagination')
     </div>
 
 
-    @include('tran_with.addTranWith')
+    @include('transaction.tran_with.addTranWith')
 
-    @include('tran_with.editTranWith')
+    @include('transaction.tran_with.editTranWith')
 
-    @include('tran_with.delete')
+    @include('transaction.tran_with.delete')
 
 @endsection
 
 
 <!-- ajax part start from here -->
 @section('ajax')
-    <script src="{{ asset('js/ajax/employee/tran_with.js') }}"></script>
+    <script src="{{ asset('js/ajax/transaction/tran_with.js') }}"></script>
 @endsection

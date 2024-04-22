@@ -3,7 +3,7 @@
         <div class="modal-heading">
             <div class="center icon-center"><i class="fa-solid fa-circle-exclamation"></i></div>
             <h3 class="center">Are you sure?</h3>
-            <span class="close-modal" data-modal-id="confirmPayrollModal">&times;</span>
+            <span class="close-modal" data-modal-id="confirmPayrollModal" style="top: 10px;">&times;</span>
         </div>
         <p>Are you sure you want to process this payroll?</p>
         <p>Please double-check everything before confirming.</p>

@@ -1,10 +1,19 @@
 [
-    { "tran_groupe_name": "Salary", "tran_groupe_type":"Payment" },
-    { "tran_groupe_name": "Printing Tools", "tran_groupe_type":"Payment" },
-    { "tran_groupe_name": "Advertisement", "tran_groupe_type":"Receive" },
-    { "tran_groupe_name": "Party Payment And Receive", "tran_groupe_type":"Both" },
-    { "tran_groupe_name": "Kitchen", "tran_groupe_type":"Invoice" },
-    { "tran_groupe_name": "Utility", "tran_groupe_type":"Payment" },
-    { "tran_groupe_name": "Stationary", "tran_groupe_type":"Invoice" },
-    { "tran_groupe_name": "Miscellaneous", "tran_groupe_type":"Payment" }
+    { "tran_groupe_name": "Salary", "tran_groupe_type":"3" },
+    { "tran_groupe_name": "Party Payment And Receive", "tran_groupe_type":"2" },
+    { "tran_groupe_name": "Printing Tools", "tran_groupe_type":"1" },
+    { "tran_groupe_name": "Advertisement", "tran_groupe_type":"1" },
+    { "tran_groupe_name": "Kitchen", "tran_groupe_type":"6" },
+    { "tran_groupe_name": "Utility", "tran_groupe_type":"1" },
+    { "tran_groupe_name": "Miscellaneous", "tran_groupe_type":"1" },
+    { "tran_groupe_name": "Pen", "tran_groupe_type":"5" },
+    { "tran_groupe_name": "Pencil", "tran_groupe_type":"5" },
+    { "tran_groupe_name": "Paper", "tran_groupe_type":"5" },
+    { "tran_groupe_name": "Stapler", "tran_groupe_type":"5" },
+    { "tran_groupe_name": "Notebook", "tran_groupe_type":"5" },
+    { "tran_groupe_name": "Tablet", "tran_groupe_type":"7" },
+    { "tran_groupe_name": "Capsule", "tran_groupe_type":"7" },
+    { "tran_groupe_name": "Injection", "tran_groupe_type":"7" },
+    { "tran_groupe_name": "Shyrup", "tran_groupe_type":"7" }
+    
 ]

@@ -3,7 +3,7 @@
         <div class="modal-heading">
             <div class="center icon-center"><i class="fa-solid fa-circle-exclamation"></i></div>
             <h3 class="center">Are you sure?</h3>
-            <span class="close-modal" data-modal-id="deleteModal">&times;</span>
+            <span class="close-modal" data-modal-id="deleteModal" style="top: 10px;">&times;</span>
         </div>
         <p class="center">Are you sure you want to delete this Payroll Middlewire?</p>
         <div class="d-flex justify-content-center confirm-button">

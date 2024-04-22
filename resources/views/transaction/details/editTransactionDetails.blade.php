@@ -8,16 +8,12 @@
 
 <div id="editTransaction" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Edit Transaction</h3>
-            <span class="close-modal" data-modal-id="editTransaction">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Edit Transaction</h3>
+                        <span class="close-modal" data-modal-id="editTransaction">&times;</span>
                     </div>
                 </div>
 
@@ -45,6 +41,15 @@
                                             
                                         </select>
                                         <span class="text-danger error" id="update_type_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="updateMetod">Transaction Method</label>
+                                        <select name="method" id="updateMethod">
+                                            
+                                        </select>
+                                        <span class="text-danger error" id="update_method_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">

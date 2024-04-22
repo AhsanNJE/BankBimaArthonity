@@ -1,15 +1,11 @@
 <div id="editTransactionGroupe" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Edit Transaction Groupe</h3>
-            <span class="close-modal" data-modal-id="editTransactionGroupe">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Edit Transaction Groupe</h3>
+                        <span class="close-modal" data-modal-id="editTransactionGroupe">&times;</span>
                     </div>
                 </div>
                 
@@ -30,7 +26,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-groupe">
-                                    <label for="updateType">Groupe Type</label>
+                                    <label for="updateType">Transaction Type</label>
                                     <select name="type" id="updateType">
                                         {{-- options will be display dynamically --}}
                                     </select>

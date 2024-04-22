@@ -5,21 +5,302 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Transaction_Type;
+use App\Models\Transaction_With;
 use App\Models\Transaction_Groupe;
 use App\Models\Transaction_Head;
 use App\Models\Transaction_Detail;
 use App\Models\Transaction_Main;
-use App\Models\Transaction_With;
 use App\Models\User_Info;
 
 
 class TransactionController extends Controller
 {
+    /////////////////////////// --------------- Transaction Types Table Methods start ---------- //////////////////////////
+    //Show All Transaction Types
+    public function ShowTransactionTypes(){
+        $types = Transaction_Type::orderBy('added_at','asc')->paginate(15);
+        return view('transaction.type.transactionTypes', compact('types'));
+    }//End Method
+
+
+
+    //Get Transaction Types
+    public function GetTransactionType(){
+        $types = Transaction_Type::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => "success",
+            'types'=> $types,
+        ]);
+    }//End Method
+
+
+
+    //Insert Transaction Types
+    public function InsertTransactionTypes(Request $req){
+        $req->validate([
+            "typeName" => 'required|unique:transaction__types,type_name',
+        ]);
+
+        Transaction_Type::insert([
+            "type_name" => $req->typeName,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }//End Method
+
+
+
+    //Edit Transaction Typess
+    public function EditTransactionTypes(Request $req){
+        $types = Transaction_Type::findOrFail($req->id);
+        return response()->json([
+            'types'=>$types,
+        ]);
+    }//End Method
+
+
+
+    //Update Transaction Types
+    public function UpdateTransactionTypes(Request $req){
+        $types = Transaction_Type::findOrFail($req->id);
+
+        $req->validate([
+            "typeName" => ['required',Rule::unique('transaction__types', 'type_name')->ignore($types->id)],
+        ]);
+
+        $update = Transaction_Type::findOrFail($req->id)->update([
+            "type_name" => $req->typeName,
+            "updated_at" => now()
+        ]);
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+
+    //Delete Transaction Types
+    public function DeleteTransactionTypes(Request $req){
+        Transaction_Type::findOrFail($req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+
+
+    //Transaction Types Pagination
+    public function TransactionTypePagination(){
+        $types = Transaction_Type::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('transaction.type.transactionTypePagination', compact('types'))->render(),
+        ]);
+    }//End Method
+
+
+
+    //Transaction Types Search
+    public function SearchTransactionTypes(Request $req){
+        $types = Transaction_Type::where('type_name', 'like', '%'.$req->search.'%')
+        ->orderBy('type_name','asc')
+        ->paginate(15);
+
+        $paginationHtml = $types->links()->toHtml();
+        
+        if($types->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('transaction.type.search', compact('types'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    /////////////////////////// --------------- Transaction Types Table Methods End ---------- //////////////////////////
+
+
+
+    /////////////////////////// --------------- Tran With Table Methods start ---------- //////////////////////////
+    
+    //Show All TranWith
+    public function ShowTranWith(){
+        $tranwith = Transaction_With::orderBy('added_at','asc')->paginate(15);
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
+        return view('transaction.tran_with.tranWith', compact('tranwith','types'));
+    }//End Method
+
+
+
+    //Get Tran With By Type
+    public function GetTranWithByType(Request $req){
+        $tranwith = Transaction_With::where('user_type', $req->type)
+        ->orderBy('user_type','asc')
+        ->get();
+
+        return response()->json([
+            'status'=>'success',
+            'tranwith'=>$tranwith,
+        ]);  
+
+    }//End Method
+
+
+
+    //Insert Tran With
+    public function InsertTranWith(Request $req){
+        $req->validate([
+            "name" => 'required|unique:transaction__withs,tran_with_name',
+            "type" => 'required|in:Client,Employee,Supplier,Bank,Others',
+            "tranType" => 'required',
+            "tranMethod" => 'required',
+        ]);
+
+        Transaction_With::insert([
+            "tran_with_name" => $req->name,
+            "user_type" => $req->type,
+            "tran_type" => $req->tranType,
+            "tran_method" => $req->tranMethod,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }//End Method
+
+
+
+    //Edit Tran With
+    public function EditTranWith(Request $req){
+        $tranwith = Transaction_With::findOrFail($req->id);
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
+        return response()->json([
+            'tranwith'=>$tranwith,
+            'types'=>$types,
+        ]);
+    }//End Method
+
+
+
+    //Update Tran With
+    public function UpdateTranWith(Request $req){
+        $tranwith = Transaction_With::findOrFail($req->id);
+
+        $req->validate([
+            "name" => ['required',Rule::unique('transaction__withs', 'tran_with_name')->ignore($tranwith->id)],
+            "type"  => 'required',
+            "tranType" => 'required',
+            "tranMethod" => 'required',
+        ]);
+
+        $update = Transaction_With::findOrFail($req->id)->update([
+            "tran_with_name" => $req->name,
+            "user_type" => $req->type,
+            "tran_type" => $req->tranType,
+            "tran_method" => $req->tranMethod,
+            "updated_at" => now()
+        ]);
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+
+    //Delete Tran With
+    public function DeleteTranWith(Request $req){
+        Transaction_With::findOrFail($req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+
+
+    //Tran With Pagination
+    public function TranWithPagination(){
+        $tranwith = Transaction_With::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('transaction.tran_with.tranWithPagination', compact('tranwith'))->render(),
+        ]);
+    }//End Method
+
+
+
+    //Transaction With Search By Name
+    public function SearchTranWith(Request $req){
+        $tranwith = Transaction_With::where('tran_with_name', 'like', '%'.$req->search.'%')
+        ->orderBy('tran_with_name','asc')
+        ->paginate(15);
+
+        $paginationHtml = $tranwith->links()->toHtml();
+        
+        if($tranwith->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('transaction.tran_with.search', compact('tranwith'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+
+    //Transaction With Search By Type
+    public function SearchTranWithByType(Request $req){
+        $tranwith = Transaction_With::where('user_type', 'like', '%' . $req->search . '%')
+        ->orderBy('user_type','asc')
+        ->paginate(15);
+
+        $paginationHtml = $tranwith->links()->toHtml();
+        
+        if($tranwith->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('transaction.tran_with.search', compact('tranwith'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    /////////////////////////// --------------- Tran With Table Methods start ---------- //////////////////////////
+
+
+
+
+
     /////////////////////////// --------------- Transaction Groupe Table Methods start ---------- //////////////////////////
     //Show All Transaction Groupes
     public function ShowTransactionGroupes(){
         $groupes = Transaction_Groupe::orderBy('added_at','asc')->paginate(15);
-        return view('transaction.transactionGroupe.transactionGroupes', compact('groupes'));
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
+        return view('transaction.transactionGroupe.transactionGroupes', compact('groupes','types'));
     }//End Method
 
 
@@ -65,7 +346,7 @@ class TransactionController extends Controller
     public function InsertTransactionGroupes(Request $req){
         $req->validate([
             "groupeName" => 'required|unique:transaction__groupes,tran_groupe_name',
-            "type" => 'required|in:Payment,Receive,Invoice,Both',
+            "type" => 'required|numeric',
         ]);
 
         Transaction_Groupe::insert([
@@ -83,8 +364,10 @@ class TransactionController extends Controller
     //Edit Transaction Groupes
     public function EditTransactionGroupes(Request $req){
         $groupes = Transaction_Groupe::findOrFail($req->id);
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
         return response()->json([
             'groupes'=>$groupes,
+            'types'=>$types,
         ]);
     }//End Method
 
@@ -96,7 +379,7 @@ class TransactionController extends Controller
 
         $req->validate([
             "groupeName" => ['required',Rule::unique('transaction__groupes', 'tran_groupe_name')->ignore($groupes->id)],
-            "type" => 'required|in:Payment,Receive,Invoice,Both',
+            "type" => 'required|numeric',
         ]);
 
         $update = Transaction_Groupe::findOrFail($req->id)->update([
@@ -349,7 +632,8 @@ class TransactionController extends Controller
     //Show All Transaction
     public function ShowTransactions(){
         $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        return view('transaction.details.transactionDetails', compact('transaction'));
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
+        return view('transaction.details.transactionDetails', compact('transaction','types'));
     }//End Method
 
 
@@ -495,6 +779,7 @@ class TransactionController extends Controller
     public function InsertTransactionMain(Request $req){
         $req->validate([
             "tranId" => 'required|unique:transaction__mains,tran_id',
+            "method" => 'required',
             "type" => 'required',
             "invoice" => 'required',
             "withs" => 'required',
@@ -520,6 +805,7 @@ class TransactionController extends Controller
         Transaction_Main::insert([
             "tran_id" => $req->tranId,
             "tran_type" => $req->type,
+            "tran_method" => $req->method,
             "invoice" => $req->invoice,
             "tran_type_with" => $req->withs,
             "tran_user" => $req->user,
@@ -543,9 +829,11 @@ class TransactionController extends Controller
     public function EditTransactionMain(Request $req){
         $transaction = Transaction_Main::with('Location','User','withs')->where('tran_id', $req->id )->first();
         $tranwith = Transaction_With::where('user_type', '=', $transaction->withs->user_type)->get();
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
         return response()->json([
             'transaction'=>$transaction,
-            'tranwith' =>$tranwith
+            'tranwith' =>$tranwith,
+            "types" =>$types
         ]);
     }//End Method
 

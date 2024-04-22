@@ -3,9 +3,9 @@
         <div class="modal-heading">
             <div class="center icon-center"><i class="fa-solid fa-circle-exclamation"></i></div>
             <h3 class="center">Are you sure?</h3>
-            <span class="close-modal" data-modal-id="deleteModal">&times;</span>
+            <span class="close-modal" data-modal-id="deleteModal" style="top: 10px;">&times;</span>
         </div>
-        <p class="center">Are you sure you want to delete this Tranwith?</p>
+        <p class="center">Are you sure you want to delete this Transaction Type?</p>
         <div class="d-flex justify-content-center confirm-button">
             <button type="button" class="btn btn-primary w-25 mr-4"  id="confirm">Yes</button>
             <button type="button" class="btn btn-secondary w-25" id="cancel" data-dismiss="modal">No</button>

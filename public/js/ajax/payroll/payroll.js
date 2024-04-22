@@ -41,6 +41,50 @@ $(document).ready(function () {
     
 
 
+    /////////////// ------------------ Payroll Edit Part Ajax end here ---------------- /////////////////////////////
+    // $(document).on('click', '.editPayrollSetup', function () {
+    //     let modalId = $(this).data('modal-id');
+    //     let id = $(this).data('id');
+    //     $.ajax({
+    //         url: `/edit/payroll/setup`,
+    //         method: 'GET',
+    //         data: { id:id },
+    //         success: function (res) {
+    //             $('#id').val(res.payroll.id);
+
+    //             $('#updateWith').focus();
+    //             $('#updateWith').empty();
+    //             $.each(res.tranwith, function (key, withs) {
+    //                 $('#updateWith').append(`<option value="${withs.id}">${withs.tran_with_name}</option>`);
+    //             });
+                
+    //             $('#updateUser').val(res.payroll.employee.user_name);
+    //             $('#updateUser').attr('data-id', res.payroll.emp_id);
+    //             $('#updateAmount').val(res.payroll.amount);
+                
+
+    //             $('#updateHead').empty();
+    //             $.each(res.heads, function (key, head) {
+    //                 $('#updateHead').append(`<option value="${head.id}" ${res.payroll.head_id === head.id ? 'selected' : ''}>${head.tran_head_name}</option>`);
+    //             });
+
+
+    //             var modal = document.getElementById(modalId);
+
+    //             if (modal) {
+    //                 modal.style.display = 'block';
+    //             }
+    //         },
+    //         error: function (err) {
+    //             console.log(err);
+    //         }
+    //     });
+    // });
+    
+    /////////////// ------------------ Payroll Process Part Ajax end here ---------------- /////////////////////////////
+    
+    
+    
     /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();

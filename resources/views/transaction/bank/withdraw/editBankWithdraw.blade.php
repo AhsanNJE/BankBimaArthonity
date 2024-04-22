@@ -1,20 +1,16 @@
-<div id="addTranWith" class="modal-container">
+<div id="editBankWithdraw" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Tran With</h3>
-            <span class="close-modal" data-modal-id="addTranWith">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Add Tran With</h3>
+                        <h3 class="card-title">Edit Bank Withdraw</h3>
+                        <span class="close-modal" data-modal-id="editBankWithdraw">&times;</span>
                     </div>
                 </div>
                 
                 <!-- form start -->
-                <form id="AddTranWithForm" method="post">
+                {{-- <form id="AddTranWithForm" method="post">
                     @csrf
                     <div class="center">
                         <div class="card-body">
@@ -46,7 +42,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>

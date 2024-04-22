@@ -46,13 +46,13 @@ $(document).ready(function () {
             success: function (res) {
                 $('#id').val(id);
                 $('#updateGroupeName').val(res.groupes.tran_groupe_name);
-                $('#updateType').empty();
-                $('#updateType').append(`<option value="" >Select Transaction With</option>
-                                        <option value="Receive" ${res.groupes.tran_groupe_type === 'Receive' ? 'selected' : ''}>Receive</option>
-                                        <option value="Payment" ${res.groupes.tran_groupe_type === 'Payment' ? 'selected' : ''}>Payment</option>
-                                        <option value="Invoice" ${res.groupes.tran_groupe_type === 'Invoice' ? 'selected' : ''}>Invoice</option>
-                                        <option value="Both" ${res.groupes.tran_groupe_type === 'Both' ? 'selected' : ''}>Both</option>`);
+                $('#updateType').html('');
+                $('#updateType').append(`<option value="" >Select Transaction Type</option>`);
+                $.each(res.types, function (key, type) {
+                    $('#updateType').append(`<option value="${type.id}" ${res.groupes.tran_groupe_type == type.id ? 'selected' : ''}>${type.type_name}</option>`);
+                });
                 
+
                 $('#updateGroupeName').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';

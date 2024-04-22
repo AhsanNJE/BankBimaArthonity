@@ -113,23 +113,6 @@ Route::controller(EmployeeController::class)->group(function () {
         Route::get('/designations/search/pagination/department', 'SearchDesignationsByDepartment');
         //search list routs
         Route::get('/get/designation/name/department', 'GetDesignationByNameAndDepartment');
-        
-        
-        
-        ///////////// --------------- Tran With routes ----------- ///////////////////
-        //crud routes start
-        Route::get('/tranwith', 'ShowTranWith')->name('show.tranwith');
-        Route::post('/insert/tranwith', 'InsertTranWith')->name('insert.tranwith');
-        Route::get('/edit/tranwith', 'EditTranWith')->name('edit.tranwith');
-        Route::put('/update/tranwith', 'UpdateTranWith')->name('update.tranwith');
-        Route::delete('/delete/tranwith', 'DeleteTranWith')->name('delete.tranwith');
-        //search routes start
-        Route::get('/search/tranwith', 'SearchTranWith')->name('search.tranwith');
-        Route::get('/search/tranwith/type', 'SearchTranWithByType')->name('search.tranwith.type');
-        //pagination routes start
-        Route::get('/tranwith/pagination', 'TranWithPagination');
-        Route::get('/tranwith/search/pagination', 'SearchTranWith');
-        Route::get('/tranwith/search/pagination/type', 'SearchTranWithByType');
 
 
 
@@ -243,6 +226,40 @@ Route::controller(ClientController::class)->group(function () {
 
 Route::controller(TransactionController::class)->group(function () {
     Route::prefix('/transaction')->group(function () {
+        ////////////////////////// --------------- Transaction Types routes ----------- /////////////////////////
+        //crud routes start
+        Route::get('/types', 'ShowTransactionTypes')->name('show.transaction.types');
+        Route::post('/insert/types', 'InsertTransactionTypes')->name('insert.transaction.types');
+        Route::get('/edit/types', 'EditTransactionTypes')->name('edit.transaction.types');
+        Route::put('/update/types', 'UpdateTransactionTypes')->name('update.transaction.types');
+        Route::delete('/delete/types', 'DeleteTransactionTypes')->name('delete.transaction.types');
+        //search routes start
+        Route::get('/search/types', 'SearchTransactionTypes')->name('search.transaction.types');
+        //pagination routes start
+        Route::get('/types/pagination', 'TransactionTypePagination');
+        Route::get('/types/search/pagination', 'SearchTransactionTypes');
+        //search list routs
+        Route::get('/get/types', 'GetTransactionType');
+
+
+
+        ///////////// --------------- Tran With routes ----------- ///////////////////
+        //crud routes start
+        Route::get('/tranwith', 'ShowTranWith')->name('show.tranwith');
+        Route::post('/insert/tranwith', 'InsertTranWith')->name('insert.tranwith');
+        Route::get('/edit/tranwith', 'EditTranWith')->name('edit.tranwith');
+        Route::put('/update/tranwith', 'UpdateTranWith')->name('update.tranwith');
+        Route::delete('/delete/tranwith', 'DeleteTranWith')->name('delete.tranwith');
+        //search routes start
+        Route::get('/search/tranwith', 'SearchTranWith')->name('search.tranwith');
+        Route::get('/search/tranwith/type', 'SearchTranWithByType')->name('search.tranwith.type');
+        //pagination routes start
+        Route::get('/tranwith/pagination', 'TranWithPagination');
+        Route::get('/tranwith/search/pagination', 'SearchTranWith');
+        Route::get('/tranwith/search/pagination/type', 'SearchTranWithByType');
+
+
+        
         ////////////////////////// --------------- Transaction Groupes routes ----------- /////////////////////////
         //crud routes start
         Route::get('/groupes', 'ShowTransactionGroupes')->name('show.transaction.groupes');
@@ -258,7 +275,6 @@ Route::controller(TransactionController::class)->group(function () {
         //search list routs
         Route::get('/get/groupeby/name', 'GetTransactionGroupeByName');
         Route::get('/get/groupeby/type', 'GetTransactionGroupeByType');
-
 
 
 
@@ -280,6 +296,7 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/get/heads/groupe', 'GetTransactionHeadByGroupe');
 
 
+        
         ////////////////////////// --------------- Transaction Details routes ----------- ///////////////////////////
         //main crude Routes
         Route::get('/', 'ShowTransactions')->name('show.transaction');
@@ -319,6 +336,23 @@ Route::controller(TransactionController::class)->group(function () {
 
         // Transactionn Payment Details Routes
         Route::get('/payment', 'ShowTransactionPayment')->name('show.transaction.payment');
+
+
+
+        ////////////////////////// --------------- Bank Transaction routes ----------- ///////////////////////////
+        //bank transaction crude Routes
+        Route::get('/bank', 'ShowTransactions')->name('show.transaction');
+        Route::post('/insert/main', 'InsertTransactionMain')->name('insert.transaction.main');
+        Route::get('/edit/main', 'EditTransactionMain')->name('edit.transaction.main');
+        Route::put('/update/main', 'UpdateTransactionMain')->name('update.transaction.main');
+        Route::delete('/delete/main', 'DeleteTransactionMain')->name('delete.transaction.main');
+
+
+
+        ////////////////////////// --------------- Produt Transaction routes ----------- ///////////////////////////
+
+
+
     });
 });
 

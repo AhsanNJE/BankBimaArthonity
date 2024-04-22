@@ -684,8 +684,8 @@ $(document).ready(function () {
         $('#user-list ul').html('');
         getDueListByUserId(id, '.due-grid tbody');
         getPayrollByUserId(id, '.payroll-grid tbody');
-        getPayrollSetupByUserId(id, '.setup tbody');
-        getPayrollMiddlewireByUserId(id, '.middlewire tbody');
+        // getPayrollSetupByUserId(id, '.setup tbody');
+        // getPayrollMiddlewireByUserId(id, '.middlewire tbody');
     });
 
 
@@ -860,8 +860,8 @@ $(document).ready(function () {
             let id = $(targetElement1).attr('data-id');
             getDueListByUserId(id, '.due-grid tbody');
             getPayrollByUserId(id, '.payroll-grid tbody');
-            getPayrollSetupByUserId(id, '.setup tbody');
-            getPayrollMiddlewireByUserId(id, '.middlewire tbody');
+            // getPayrollSetupByUserId(id, '.setup tbody');
+            // getPayrollMiddlewireByUserId(id, '.middlewire tbody');
             $(targetElement2).html('');
             $(targetElement1).focus();
         }
@@ -925,42 +925,42 @@ $(document).ready(function () {
         });
     }
 
-    //Get Payroll Setup By User Id
-    function getPayrollSetupByUserId(id, grid) {
-        $.ajax({
-            url: "/payroll/setup/get/user",
-            method: 'GET',
-            data: { id:id },
-            success: function (res) {
-                if(res.status === 'success'){
-                    $(grid).html(res.data);
-                }
-                else{
-                    $(grid).html('');
-                }
+    // //Get Payroll Setup By User Id
+    // function getPayrollSetupByUserId(id, grid) {
+    //     $.ajax({
+    //         url: "/payroll/setup/get/user",
+    //         method: 'GET',
+    //         data: { id:id },
+    //         success: function (res) {
+    //             if(res.status === 'success'){
+    //                 $(grid).html(res.data);
+    //             }
+    //             else{
+    //                 $(grid).html('');
+    //             }
                 
-            }
-        });
-    }
+    //         }
+    //     });
+    // }
 
 
-    //Get Payroll Middlewire By User Id
-    function getPayrollMiddlewireByUserId(id, grid) {
-        $.ajax({
-            url: "/payroll/middlewire/get/user",
-            method: 'GET',
-            data: { id:id },
-            success: function (res) {
-                if(res.status === 'success'){
-                    $(grid).html(res.data);
-                }
-                else{
-                    $(grid).html('');
-                }
+    // //Get Payroll Middlewire By User Id
+    // function getPayrollMiddlewireByUserId(id, grid) {
+    //     $.ajax({
+    //         url: "/payroll/middlewire/get/user",
+    //         method: 'GET',
+    //         data: { id:id },
+    //         success: function (res) {
+    //             if(res.status === 'success'){
+    //                 $(grid).html(res.data);
+    //             }
+    //             else{
+    //                 $(grid).html('');
+    //             }
                 
-            }
-        });
-    }
+    //         }
+    //     });
+    // }
 
     ////////////// ------------------- Search Transaction user and add value to input ajax part end --------------- ////////////////////////////
 
