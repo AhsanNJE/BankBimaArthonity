@@ -286,16 +286,16 @@ class InfoController extends Controller
             
         ]);
 
-         // Create a new Experience instance and save the data
-         $experience = new ExperienceDetail();
-         $experience->emp_id =  $request->input('user');
-         $experience->company_name = $request->input('company_name');
-         $experience->designation = $request->input('designation');
-         $experience->department = $request->input('department');
-         $experience->location = $request->input('location');
-         $experience->start_date = $request->input('start_date');
-         $experience->end_date = $request->input('end_date');
-         $experience->save();
+        ExperienceDetail::insert([
+            'emp_id' =>  $request->user,
+            "company_name" => $request->company_name,
+            "designation" =>  $request->designation,
+            "department" => $request->department,
+            "company_location" => $request->location,
+            "start_date" => $request->start_date,
+            "end_date" => $request->end_date,
+        ]);
+
 
         return response()->json([
             'status'=>'success',

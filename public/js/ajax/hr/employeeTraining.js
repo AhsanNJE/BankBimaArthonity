@@ -149,6 +149,96 @@ $(document).ready(function () {
         return form;
     }
 
+    ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.editEmployee', function () {
+        let modalId = $(this).data('modal-id');
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/admin/employees/edit/employees`,
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                $('#id').val(id);
+                $('#empId').val(res.employee.user_id);
+                $('#updateName').val(res.employee.user_name);
+                $('#updateName').focus();
+                $('#updateEmail').val(res.employee.user_email);
+                $('#updatePhone').val(res.employee.user_phone);
+
+                // Create options dynamically
+                $('#updateGender').empty();
+                $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
+                                         <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
+                                         <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
+
+                $('#updateLocation').val(res.employee.location.upazila);
+                $('#updateLocation').attr('data-id',res.employee.loc_id);
+
+                // Create options dynamically
+                $('#updateType').empty();
+                $.each(res.tranwith, function (key, withs) {
+                    $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
+                });
+
+                $('#updateDepartment').val(res.employee.department.dept_name);
+                $('#updateDepartment').attr('data-id',res.employee.dept_id);
+                $('#updateDesignation').val(res.employee.designation.designation);
+                $('#updateDesignation').attr('data-id',res.employee.designation_id);
+                $('#updateDob').val(res.employee.dob);
+                $('#updateNid').val(res.employee.nid);
+                $('#updateAddress').val(res.employee.address);
+                $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
+
+                var modal = document.getElementById(modalId);
+                modal.style.display = 'block';
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+
+
+    /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('submit', '#EditEmployeeForm', function (e) {
+        e.preventDefault();
+        let locations = $('#updateLocation').attr('data-id');
+        let department = $('#updateDepartment').attr('data-id');
+        let designation = $('#updateDesignation').attr('data-id');
+        let formData = new FormData(this);
+        formData.append('location',locations);
+        formData.append('department',department);
+        formData.append('designation',designation);
+        $.ajax({
+            url: `/admin/employees/update/employees`,
+            method: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            beforeSend:function() {
+                $(document).find('span.error').text('');  
+            },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('#editEmployee').hide();
+                    $('#EditEmployeeForm')[0].reset();
+                    $('#search').val('');
+                    $('.employee').load(location.href + ' .employee');
+                    toastr.success('Employee Updated Successfully', 'Updated!');
+                }
+            },
+            error: function (err) {
+                let error = err.responseJSON;
+                $.each(error.errors, function (key, value) {
+                    $('#update_' + key + "_error").text(value);
+                })
+            }
+        });
+    });
+
+
     /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();

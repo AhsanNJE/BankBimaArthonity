@@ -39,6 +39,12 @@ class User_Info extends Model
         return $this->belongsTo(EducationDetail::class, 'user_id', 'emp_id');
     }
 
+    public function educationDetails()
+    {
+        return $this->hasMany(EducationDetail::class);
+    }
+
+
     public function trainingDetail()
     {
         return $this->belongsTo(TrainingDetail::class, 'user_id', 'emp_id');

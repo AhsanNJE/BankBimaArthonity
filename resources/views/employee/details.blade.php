@@ -119,7 +119,7 @@
     </div>
 
 
-    <!-- {{-- Experience Details part starts --}}
+    {{-- Experience Details part starts --}}
     <li data-id="3">Experience Details</li>
     <div class="experience">
         <div class="details-table" style="">
@@ -142,7 +142,7 @@
                 <div class="col-md-4">{{$employee->experienceDetail->Location->upazila}}</div>
             </div>
         </div>
-    </div> -->
+    </div>
 
 
     {{-- Organization Details part starts --}}
