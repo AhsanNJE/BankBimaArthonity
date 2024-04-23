@@ -42,19 +42,6 @@
                                         <span class="text-danger error" id="tranId_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="location">Location</label>
-                                        <input type="text" name="location" class="form-control" id="location"
-                                            autocomplete="off">
-                                        <div id="location-list">
-                                            <ul>
-
-                                            </ul>
-                                        </div>
-                                        <span class="text-danger error" id="location_error"></span>
-                                    </div>
-                                </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="with">Transaction With</label>
@@ -79,10 +66,23 @@
                                         <span class="text-danger error" id="user_error"></span>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="location">Location</label>
+                                        <input type="text" name="location" class="form-control" id="location"
+                                            autocomplete="off">
+                                        <div id="location-list">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="location_error"></span>
+                                    </div>
+                                </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="discount">Discount</label>
-                                        <input type="text" name="discount" class="form-control" id="discount">
+                                        <input type="text" name="discount" class="form-control" id="discount" value="0">
                                         <span class="text-danger error" id="discount_error"></span>
                                     </div>
                                 </div>
@@ -115,7 +115,6 @@
                                                     <th>Transaction Id</th>
                                                     <th>Bill Amount</th>
                                                     <th>Due</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

@@ -31,14 +31,14 @@
 
 
     <!-- table show -->
-    <div class="details" style="overflow-x:auto;">
-        @include('transaction.details.transactionDetailsPagination')
+    <div class="transactions" style="overflow-x:auto;">
+        @include('transaction.general.transactionPagination')
     </div>
 
 
-    @include('transaction.details.addTransactionDetails')
+    @include('transaction.general.addTransaction')
 
-    @include('transaction.details.editTransactionDetails')
+    @include('transaction.general.editTransaction')
 
 @endsection
 

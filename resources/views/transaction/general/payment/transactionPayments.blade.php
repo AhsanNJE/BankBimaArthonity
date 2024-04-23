@@ -3,7 +3,7 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="addTransaction">Add Transaction Payment</button>
+                <button class="open-modal add" data-modal-id="addTransactionPayment">Add Transaction Payment</button>
             </div>
             <div class="col-md-2">
                 <label for="startDate">Start Date</label>
@@ -31,20 +31,20 @@
 
 
     <!-- table show -->
-    <div class="details" style="overflow-x:auto;">
-        @include('transaction.details.transactionDetailsPagination')
+    <div class="transaction-payment" style="overflow-x:auto;">
+        @include('transaction.general.transactionPagination')
     </div>
 
 
-    @include('transaction.details.payment.addTransactionPayment')
+    @include('transaction.general.payment.addTransactionPayment')
 
-    @include('transaction.details.payment.editTransactionPayment')
+    @include('transaction.general.payment.editTransactionPayment')
 
 @endsection
 
 
 <!-- ajax part start from here -->
 @section('ajax')
-    <script src="{{ asset('js/ajax/transaction/transaction_payment.js') }}"></script>
+    <script src="{{ asset('js/ajax/transaction/general/transaction_payment.js') }}"></script>
     <script src="{{ asset('js/ajax/search_by_input.js') }}"></script>
 @endsection

@@ -452,7 +452,7 @@ class PayRollController extends Controller
                 ->orderBy('emp_id')
                 ->get();
 
-                $transaction = Transaction_Main::where('tran_method', '3')->latest('tran_id')->first();
+                $transaction = Transaction_Main::where('tran_type', '3')->latest('tran_id')->first();
                 $id = ($transaction) ? 'PRP' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PRP000000001';
                 
                 if($payrolls->count() > 0){
@@ -462,8 +462,8 @@ class PayRollController extends Controller
                         
                         Transaction_Detail::insert([
                             'tran_id'=>$id,
-                            'tran_method'=> '3',
-                            'tran_type'=> 'payment',
+                            'tran_type'=> '3',
+                            'tran_method'=> 'Payment',
                             'tran_type_with'=> $employee->tran_user_type,
                             'tran_user'=> $employee->user_id,
                             'tran_groupe_id'=> '1',
@@ -476,8 +476,8 @@ class PayRollController extends Controller
 
                     Transaction_Main::insert([
                         'tran_id'=>$id,
-                        'tran_method'=> '3',
-                        'tran_type'=> 'payment',
+                        'tran_type'=> '3',
+                        'tran_method'=> 'Payment',
                         'tran_type_with'=> $employee->tran_user_type,
                         'tran_user'=> $employee->user_id,
                         'bill_amount'=> $salary,

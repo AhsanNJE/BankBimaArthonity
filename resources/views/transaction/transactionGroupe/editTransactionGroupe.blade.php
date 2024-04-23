@@ -33,6 +33,16 @@
                                     <span class="text-danger error" id="update_type_error"></span>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-groupe">
+                                    <label for="updateMethod">Transaction Method</label>
+                                    <select name="method" id="updateMethod">
+                                        <option value="" >Select Transaction Method</option>
+
+                                    </select>
+                                    <span class="text-danger error" id="update_method_error"></span>
+                                </div>
+                            </div>
                             <div class="center">
                                 <button type="submit" id="UpdateTransactionGroupe" class="btn btn-primary">Submit</button>
                             </div>

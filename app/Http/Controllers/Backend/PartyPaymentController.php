@@ -24,80 +24,6 @@ class PartyPaymentController extends Controller
     }//End Method
 
 
-    //Get Transaction id by transaction Type
-    public function GetTransactionId(Request $req){
-        if($req->type != ""){
-            if($req->type == 'receive'){
-                $party = Party_Payment_Receive::where('tran_type', 'receive')->latest('tran_id')->first();
-                $id = ($party) ? 'PR' . str_pad((intval(substr($party->tran_id, 2)) + 1), 8, '0', STR_PAD_LEFT) : 'PR00000001';
-
-                return response()->json([
-                    'status' => 'success',
-                    'id' => $id,
-                ]);
-            }
-            else if($req->type == "payment"){
-                $party = Party_Payment_Receive::where('tran_type', 'payment')->latest('tran_id')->first();
-                $id = ($party) ? 'PP' . str_pad((intval(substr($party->tran_id, 2)) + 1), 8, '0', STR_PAD_LEFT) : 'PP00000001';
-
-                return response()->json([
-                    'status' => 'success',
-                    'id' => $id,
-                ]);
-            }
-        }
-    }//End Method
-
-
-
-    //Get Transaction with by transaction Type
-    public function GetTransactionWith(Request $req){
-        if($req->type != ""){
-            if($req->type == 'receive'){
-                $tranwith = Transaction_With::where('user_type', 'Client')->get();
-
-                return response()->json([
-                    'status' => 'success',
-                    'tranwith' => $tranwith,
-                ]);
-            }
-            else if($req->type == "payment"){
-                $tranwith = Transaction_With::whereIn('user_type', ['Supplier', 'Employee'])->get();
-
-                return response()->json([
-                    'status' => 'success',
-                    'tranwith' => $tranwith,
-                ]);
-            }
-        }
-    }//End Method
-
-
-    public function GetTransactionUser(Request $req){
-        if($req->tranUserType != ""){
-            $users = User_Info::where('user_name', 'like', '%'.$req->tranUser.'%')
-            ->where('tran_user_type', 'like', '%'.$req->tranUserType.'%')
-            ->orderBy('user_name','asc')
-            ->take(10)
-            ->get();
-
-            if($users->count() > 0){
-                $list = "";
-                foreach($users as $index => $user) {
-                    $list .= '<li tabindex="'.($index + 1).'" data-id="'.$user->user_id.'">'.$user->user_name.'</li>';
-                }
-            }
-            else{
-                $list = '<li>No Data Found</li>';
-            }
-            return $list;
-        }
-        else{
-            return '<li>Select Transaction with first</li>';
-        }
-    }
-
-
     //Get Transacetion Due Grid By User Id
     public function GetTransactionDueByUserId(Request $req){
         if($req->id != ""){
@@ -127,6 +53,7 @@ class PartyPaymentController extends Controller
             "tranId" => 'required',
             "location" => 'required|numeric',
             "type" => 'required',
+            "method" => 'required',
             "groupe" => 'required',
             "head" => 'required',
             "with" => 'required',
@@ -177,6 +104,7 @@ class PartyPaymentController extends Controller
                                         "tran_id" => $req->tranId,
                                         "loc_id" => $req->location,
                                         "tran_type" => $req->type,
+                                        "tran_method" => $req->method,
                                         "tran_groupe_id" => $req->groupe,
                                         "tran_head_id" => $req->head,
                                         "tran_type_with" => $req->with,
@@ -208,6 +136,7 @@ class PartyPaymentController extends Controller
                                         "tran_id" => $req->tranId,
                                         "loc_id" => $req->location,
                                         "tran_type" => $req->type,
+                                        "tran_method" => $req->method,
                                         "tran_groupe_id" => $req->groupe,
                                         "tran_head_id" => $req->head,
                                         "tran_type_with" => $req->with,
@@ -478,7 +407,7 @@ class PartyPaymentController extends Controller
     /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
     //Show Party Payments Receive From Client
     public function ShowReceiveParty(){
-        $party = Party_Payment_Receive::where('tran_type', "receive")->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $party = Party_Payment_Receive::where('tran_method', "Receive")->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::get();
         return view('party_payment.receive.partyPayments', compact('party','groupes'));
     }//End Method
@@ -490,7 +419,7 @@ class PartyPaymentController extends Controller
     /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
     //Show Party Payments Payment To Supplier
     public function ShowPaymentParty(){
-        $party = Party_Payment_Receive::where('tran_type', "payment")->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $party = Party_Payment_Receive::where('tran_method', "Payment")->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::get();
         return view('party_payment.payment.partyPayments', compact('party','groupes'));
     }//End Method

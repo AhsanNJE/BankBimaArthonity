@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tran_groupe_name');
             $table->unsignedBigInteger('tran_groupe_type');
+            $table->string('tran_method');
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
 

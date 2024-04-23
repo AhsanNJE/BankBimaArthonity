@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('party__payment__receives', function (Blueprint $table) {
             $table->id();
             $table->string('tran_id');
-            $table->unsignedBigInteger('tran_method');
-            $table->string('tran_type');
+            $table->unsignedBigInteger('tran_type');
+            $table->string('tran_method');
             $table->string('invoice')->nullable();
             $table->unsignedBigInteger('loc_id')->nullable();
             $table->unsignedBigInteger('tran_type_with')->nullable();
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->nullable();
             
             // Foreignkey Decleration
-            $table->foreign('tran_method')->references('id')->on('transaction__types')
+            $table->foreign('tran_type')->references('id')->on('transaction__types')
                     ->onUpdate('cascade');
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->onUpdate('cascade')

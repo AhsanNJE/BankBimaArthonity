@@ -7,10 +7,11 @@ $(document).ready(function () {
         e.preventDefault();
         let groupeName = $('#groupeName').val();
         let type = $('#type').val();
+        let method = $('#method').val();
         $.ajax({
             url: "/transaction/insert/groupes",
             method: 'POST',
-            data: { groupeName:groupeName, type:type },
+            data: { groupeName:groupeName, type:type, method:method },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -51,6 +52,13 @@ $(document).ready(function () {
                 $.each(res.types, function (key, type) {
                     $('#updateType').append(`<option value="${type.id}" ${res.groupes.tran_groupe_type == type.id ? 'selected' : ''}>${type.type_name}</option>`);
                 });
+
+
+                $('#updateMethod').empty();
+                $('#updateMethod').append(`<option value="" >Select Transaction Method</option>
+                                         <option value="Receive" ${res.groupes.tran_method === 'Receive' ? 'selected' : ''}>Receive</option>
+                                         <option value="Payment" ${res.groupes.tran_method === 'Payment' ? 'selected' : ''}>Payment</option>
+                                         <option value="Both" ${res.groupes.tran_method === 'Both' ? 'selected' : ''}>Both</option>`);
                 
 
                 $('#updateGroupeName').focus();
@@ -71,10 +79,11 @@ $(document).ready(function () {
         let id = $('#id').val();
         let groupeName = $('#updateGroupeName').val();
         let type = $('#updateType').val();
+        let method = $('#updateMethod').val();
         $.ajax({
             url: `/transaction/update/groupes`,
             method: 'PUT',
-            data: { groupeName: groupeName, type:type, id:id },
+            data: { groupeName: groupeName, type:type, method:method, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
