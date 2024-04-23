@@ -34,7 +34,7 @@
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal EmployeeEducationDetails" data-modal-id="EmployeeEducationDetails"
                         data-id="{{ $item->id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
-                    <button class="btn btn-info btn-sm open-modal EmployeeEdit" data-modal-id="EmployeeEdit"
+                    <button class="btn btn-info btn-sm open-modal editEducationDetail" data-modal-id="editEducationDetail"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
                     <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
                             class="fas fa-trash"></i>Delete</button>
