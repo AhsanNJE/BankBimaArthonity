@@ -423,7 +423,7 @@
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            Transaction Type
+                            Main Head
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
