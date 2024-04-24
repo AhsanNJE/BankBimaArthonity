@@ -24,7 +24,7 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     $('#head').val('');
                     $('#head').focus();
-                    $('#date').val('');
+                    // $('#date').val('');
                     $('#amount').val('');
                     $('#search').val('');
                     $('.payroll-middlewire').load(location.href + ' .payroll-middlewire');

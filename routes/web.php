@@ -113,26 +113,8 @@ Route::controller(EmployeeController::class)->group(function () {
         Route::get('/designations/search/pagination/department', 'SearchDesignationsByDepartment');
         //search list routs
         Route::get('/get/designation/name/department', 'GetDesignationByNameAndDepartment');
-        
-        
-        
-        ///////////// --------------- Tran With routes ----------- ///////////////////
-        //crud routes start
-        Route::get('/tranwith', 'ShowTranWith')->name('show.tranwith');
-        Route::post('/insert/tranwith', 'InsertTranWith')->name('insert.tranwith');
-        Route::get('/edit/tranwith', 'EditTranWith')->name('edit.tranwith');
-        Route::put('/update/tranwith', 'UpdateTranWith')->name('update.tranwith');
-        Route::delete('/delete/tranwith', 'DeleteTranWith')->name('delete.tranwith');
-        //search routes start
-        Route::get('/search/tranwith', 'SearchTranWith')->name('search.tranwith');
-        Route::get('/search/tranwith/type', 'SearchTranWithByType')->name('search.tranwith.type');
-        //pagination routes start
-        Route::get('/tranwith/pagination', 'TranWithPagination');
-        Route::get('/tranwith/search/pagination', 'SearchTranWith');
-        Route::get('/tranwith/search/pagination/type', 'SearchTranWithByType');
 
-
-
+        
         ///////////// --------------- Employees routes ----------- ///////////////////
         //crud routes start 
         Route::get('/', 'ShowEmployees')->name('show.employees');
