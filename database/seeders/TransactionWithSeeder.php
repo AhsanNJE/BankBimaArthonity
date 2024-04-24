@@ -21,6 +21,8 @@ class TransactionWithSeeder extends Seeder
             Transaction_With::create([
                 "tran_with_name"=>$withs->tran_with_name,
                 "user_type"=>$withs->user_type,
+                "tran_type"=>$withs->tran_type,
+                "tran_method"=>$withs->tran_method,
             ]);
         });
     }

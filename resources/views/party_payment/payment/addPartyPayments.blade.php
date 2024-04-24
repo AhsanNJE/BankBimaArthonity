@@ -12,16 +12,12 @@
 
 <div id="addTransaction" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Payment to Supplier</h3>
-            <span class="close-modal" data-modal-id="addTransaction">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Payment to Supplier</h3>
+                        <span class="close-modal" data-modal-id="addTransaction">&times;</span>
                     </div>
                 </div>
 
@@ -44,19 +40,6 @@
                                         <label for="tranId">Transaction Id</label>
                                         <input type="text" name="tranId" class="form-control" id="tranId">
                                         <span class="text-danger error" id="tranId_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="location">Location</label>
-                                        <input type="text" name="location" class="form-control" id="location"
-                                            autocomplete="off">
-                                        <div id="location-list">
-                                            <ul>
-
-                                            </ul>
-                                        </div>
-                                        <span class="text-danger error" id="location_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -83,10 +66,23 @@
                                         <span class="text-danger error" id="user_error"></span>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="location">Location</label>
+                                        <input type="text" name="location" class="form-control" id="location"
+                                            autocomplete="off">
+                                        <div id="location-list">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="location_error"></span>
+                                    </div>
+                                </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="discount">Discount</label>
-                                        <input type="text" name="discount" class="form-control" id="discount">
+                                        <input type="text" name="discount" class="form-control" id="discount" value="0">
                                         <span class="text-danger error" id="discount_error"></span>
                                     </div>
                                 </div>
@@ -119,7 +115,6 @@
                                                     <th>Transaction Id</th>
                                                     <th>Bill Amount</th>
                                                     <th>Due</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

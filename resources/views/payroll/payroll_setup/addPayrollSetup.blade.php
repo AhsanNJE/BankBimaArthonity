@@ -1,15 +1,11 @@
 <div id="addPayrollSetup" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Payroll Setup</h3>
-            <span class="close-modal" data-modal-id="addPayrollSetup">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Payroll Setup</h3>
+                        <span class="close-modal" data-modal-id="addPayrollSetup">&times;</span>
                     </div>
                 </div>
                 <!-- form start -->
@@ -59,12 +55,15 @@
                         </div>
                     </div>
                 </form>
-                <table class="show-table setup">
+                <table class="show-table payroll-grid">
                     <thead>
+                        {{-- <caption class="caption">Payroll Details</caption> --}}
                         <tr>
                             <th>Sl:</th>
                             <th>Payroll Category</th>
                             <th>Amount</th>
+                            <th>Month</th>
+                            <th>Year</th>
                         </tr>
                     </thead>
                     <tbody>

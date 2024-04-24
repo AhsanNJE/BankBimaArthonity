@@ -1,15 +1,11 @@
 <div id="addTransactionHead" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Transaction Heads</h3>
-            <span class="close-modal" data-modal-id="addTransactionHead">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Transaction Head</h3>
+                        <span class="close-modal" data-modal-id="addTransactionHead">&times;</span>
                     </div>
                 </div>
                 

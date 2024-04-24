@@ -115,6 +115,7 @@ Route::controller(EmployeeController::class)->group(function () {
         Route::get('/get/designation/name/department', 'GetDesignationByNameAndDepartment');
         
         
+        
         ///////////// --------------- Tran With routes ----------- ///////////////////
         //crud routes start
         Route::get('/tranwith', 'ShowTranWith')->name('show.tranwith');
@@ -129,6 +130,7 @@ Route::controller(EmployeeController::class)->group(function () {
         Route::get('/tranwith/pagination', 'TranWithPagination');
         Route::get('/tranwith/search/pagination', 'SearchTranWith');
         Route::get('/tranwith/search/pagination/type', 'SearchTranWithByType');
+
 
 
         ///////////// --------------- Employees routes ----------- ///////////////////
@@ -229,7 +231,6 @@ Route::controller(ClientController::class)->group(function () {
 
 Route::controller(TransactionController::class)->group(function () {
     Route::prefix('/transaction')->group(function () {
-
         ////////////////////////// --------------- Transaction Groupes routes ----------- /////////////////////////
         //crud routes start
         Route::get('/groupes', 'ShowTransactionGroupes')->name('show.transaction.groupes');
@@ -245,6 +246,8 @@ Route::controller(TransactionController::class)->group(function () {
         //search list routs
         Route::get('/get/groupeby/name', 'GetTransactionGroupeByName');
         Route::get('/get/groupeby/type', 'GetTransactionGroupeByType');
+
+
 
 
         ////////////////////////// --------------- Transaction Heads routes ----------- ///////////////////////////
@@ -263,6 +266,7 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/heads/search/pagination/groupe', 'SearchTransactionHeadsByGroupe');
         //search list routs
         Route::get('/get/heads/groupe', 'GetTransactionHeadByGroupe');
+
 
         ////////////////////////// --------------- Transaction Details routes ----------- ///////////////////////////
         //main crude Routes
@@ -301,6 +305,22 @@ Route::controller(TransactionController::class)->group(function () {
 
         // Transactionn Payment Details Routes
         Route::get('/payment', 'ShowTransactionPayment')->name('show.transaction.payment');
+
+
+
+        ////////////////////////// --------------- Bank Transaction routes ----------- ///////////////////////////
+        // Bank Withdraw transaction crude Routes
+        Route::get('/bank/withdraw', 'ShowBankWithdraws')->name('show.bank.withdraws');
+        // Bank Deposit transaction crude Routes
+        Route::get('/bank/deposit', 'ShowBankDeposits')->name('show.bank.deposits');
+        
+
+
+
+        ////////////////////////// --------------- Produt Transaction routes ----------- ///////////////////////////
+
+
+
     });
 });
 
@@ -328,9 +348,6 @@ Route::controller(PartyPaymentController::class)->group(function () {
         Route::get('/pagination/user', 'SearchPartyByUser');
 
         //search list routs
-        Route::get('/get/tranid', 'GetTransactionId');
-        Route::get('/get/tranwith', 'GetTransactionWith');
-        Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/trandue/userid', 'GetTransactionDueByUserId');
 
         // Party Payment Receive Details Routes

@@ -1,20 +1,14 @@
 $(document).ready(function () {
     //get last transaction id by transaction type
     $(document).on('click', '.add', function (e) {
-        let type = "receive";
-        getTransactionId(type, '#tranId');
-        getTransactionWith(type, '#with')
+        let type = '2';
+        let method = 'Receive';
+        let user = 'Client';
+        $('#with').focus();
+        getTransactionId(type, method, '#tranId');
+        getTransactionWith(null, method, user, '#with');
     });
     
-
-    // Search by Date Range
-    $(document).on('change', '#startDate, #endDate', function(e){
-        e.preventDefault();
-        let type = "receive";
-        let startDate = $('#startDate').val();
-        let endDate = $('#endDate').val();
-        searchPartyPayment(`/party/search/date`, {startDate:startDate, endDate:endDate, type:type})
-    });
     
     
     $(document).on('keyup', '#amount', function (e) {
@@ -29,51 +23,17 @@ $(document).ready(function () {
     });
 
 
-
-    $(document).on('change', '#groupe', function (e) {
-        let groupe = $('#groupe').val();
-        $.ajax({
-            url: "/transaction/get/heads/groupe",
-            method: 'GET',
-            data: { groupe:groupe },
-            success: function (res) {
-                $('#head').html(res);
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    });
-
-
-
-    $(document).on('change', '#updateGroupe', function (e) {
-        let groupe = $('#updateGroupe').val();
-        $.ajax({
-            url: "/transaction/get/heads/groupe",
-            method: 'GET',
-            data: { groupe:groupe },
-            success: function (res) {
-                $('#updateHead').html(res);
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    });
-
-
     $(document).on('submit', '#AddPartyForm', function (e) {
         e.preventDefault();
-        let tranId = $('#tranId').val();
         let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
-        formData.append('groupe', 4);
-        formData.append('head', 14);
-        formData.append('type', "receive");
+        formData.append('groupe', 2);
+        formData.append('head', 1);
+        formData.append('type', "2");
+        formData.append('method', "Receive");
         $.ajax({
             url: "/party/insert/party",
             method: 'POST',
@@ -91,6 +51,7 @@ $(document).ready(function () {
                     $('#user').removeAttr('data-id');
                     $('.party').load(location.href + ' .party');
                     $('.due-grid tbody').html('');
+                    $('#addTransaction').hide();
                     toastr.success('Party Payment Added Successfully', 'Added!');
                 }
             },
@@ -206,15 +167,16 @@ $(document).ready(function () {
 
 
 
-    //get last transaction id by transaction type function
-    function getTransactionId(type, targetElement) {
+    //Get Last Transaction Id By Transaction Method And Type function
+    function getTransactionId(type, method, targetElement) {
         $.ajax({
-            url: "/party/get/tranid",
+            url: "/transaction/get/tranid",
             method: 'GET',
-            data: {type:type},
+            data: {method:method, type:type},
             success: function (res) {
                 if(res.status === 'success'){
                     $(targetElement).val(res.id);
+                    getTransactionGrid(res.tran_id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
                 }
                 else{
                     $(targetElement).val(res.tran_id);
@@ -225,14 +187,12 @@ $(document).ready(function () {
     }
 
 
-
-
     //get last transaction with by transaction type function
-    function getTransactionWith(type, targetElement) {
+    function getTransactionWith(type, method, user, targetElement) {
         $.ajax({
-            url: "/party/get/tranwith",
+            url: "/transaction/get/tranwith",
             method: 'GET',
-            data: { type: type },
+            data: { type: type, method:method, user:user },
             success: function (res) {
                 if (res.status === 'success') {
                     // Create options dynamically

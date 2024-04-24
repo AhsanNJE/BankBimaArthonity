@@ -48,12 +48,6 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('show.transaction')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transactions</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{route('show.transaction.receive')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Transaction Receive</p>
@@ -79,9 +73,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('show.bank.withdraws')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Transactions with Bank</p>
+                                <p>Withdraw from Bank</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.bank.deposits')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Deposit to Bank</p>
                             </a>
                         </li>
                     </ul>
@@ -97,12 +97,6 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.party')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Party Payments</p>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="{{route('show.party.receive')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -420,6 +414,24 @@
                             <a href="{{route('show.locations')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All Location</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        <p>
+                            Transaction Type
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.transaction.types')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Transaction Type</p>
                             </a>
                         </li>
                     </ul>

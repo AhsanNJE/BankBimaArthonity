@@ -1,9 +1,12 @@
 $(document).ready(function () {
     //get last transaction id by transaction type
     $(document).on('click', '.add', function (e) {
-        let type = "payment";
-        getTransactionId(type, '#tranId');
-        getTransactionWith(type, '#with')
+        let type = '2';
+        let method = 'Payment';
+        let user = "Supplier";
+        $('#with').focus();
+        getTransactionId(type, method, '#tranId');
+        getTransactionWith(null, method, user, '#with')
     });
     
 
@@ -70,9 +73,10 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
-        formData.append('groupe', 4);
-        formData.append('head', 15);
-        formData.append('type', "payment");
+        formData.append('groupe', 2);
+        formData.append('head', 2);
+        formData.append('type', "2");
+        formData.append('method', "Payment");
         $.ajax({
             url: "/party/insert/party",
             method: 'POST',
@@ -89,6 +93,7 @@ $(document).ready(function () {
                     $('#location').removeAttr('data-id');
                     $('#user').removeAttr('data-id');
                     $('.party').load(location.href + ' .party');
+                    $('#addTransaction').hide();
                     $('.due-grid tbody').html('');
                     toastr.success('Party Payment Added Successfully', 'Added!');
                 }
@@ -205,15 +210,16 @@ $(document).ready(function () {
 
 
 
-    //get last transaction id by transaction type function
-    function getTransactionId(type, targetElement) {
+    // Get Last Transaction Id By Transaction Method And Type function
+    function getTransactionId(type, method, targetElement) {
         $.ajax({
-            url: "/party/get/tranid",
+            url: "/transaction/get/tranid",
             method: 'GET',
-            data: {type:type},
+            data: {method:method, type:type},
             success: function (res) {
                 if(res.status === 'success'){
                     $(targetElement).val(res.id);
+                    getTransactionGrid(res.tran_id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
                 }
                 else{
                     $(targetElement).val(res.tran_id);
@@ -224,12 +230,12 @@ $(document).ready(function () {
     }
 
 
-    //get last transaction with by transaction type function
-    function getTransactionWith(type, targetElement) {
+    // get last transaction with by transaction type function
+    function getTransactionWith(type, method, user, targetElement) {
         $.ajax({
-            url: "/party/get/tranwith",
+            url: "/transaction/get/tranwith",
             method: 'GET',
-            data: { type: type },
+            data: { type: type, method:method, user:user },
             success: function (res) {
                 if (res.status === 'success') {
                     // Create options dynamically
