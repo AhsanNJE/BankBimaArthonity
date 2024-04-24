@@ -17,9 +17,7 @@
                 <label for="searchOption">Search Option</label>
                 <select name="searchOption" id="searchOption">
                     <option value="1">Transaction Id</option>
-                    <option value="2">Invoice</option>
-                    <option value="3">Transaction With</option>
-                    <option value="4">User</option>
+                    <option value="2">Bank Name</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -32,7 +30,7 @@
 
     <!-- table show -->
     <div class="withdraw" style="overflow-x:auto;">
-        @include('transaction.bank.bankTransactionPagination')
+        @include('transaction.bank.withdraw.bankWithdrawPagination')
     </div>
 
 
@@ -45,6 +43,6 @@
 
 <!-- ajax part start from here -->
 @section('ajax')
-    <script src="{{ asset('js/ajax/transaction/bank_withdraw.js') }}"></script>
+    <script src="{{ asset('js/ajax/transaction/bank/withdraw.js') }}"></script>
     <script src="{{ asset('js/ajax/search_by_input.js') }}"></script>
 @endsection

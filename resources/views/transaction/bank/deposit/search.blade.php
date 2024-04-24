@@ -1,5 +1,5 @@
 <table class="show-table">
-    <caption class="caption">Bank Transaction Details</caption>
+    <caption class="caption">Bank Deposit Details</caption>
     <thead>
         <tr>
             <th>SL:</th>
@@ -19,4 +19,3 @@
         
     </tbody>
 </table>
-

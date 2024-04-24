@@ -1,10 +1,13 @@
+@section('style')
+<style>
+    .modal-subject {
+        width: 80%;
+    }
+</style>
+@endsection
+
 <div id="addBankWithdraw" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Bank Withdraw</h3>
-            
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
@@ -13,41 +16,78 @@
                         <span class="close-modal" data-modal-id="addBankWithdraw">&times;</span>
                     </div>
                 </div>
-                
+
                 <!-- form start -->
-                {{-- <form id="AddTranWithForm" method="post">
+                <form id="AddWithdrawForm" method="post">
                     @csrf
-                    <div class="center">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="name">Tran With Name</label>
-                                        <input type="text" name="name" class="form-control" id="name">
-                                        <span class="text-danger error" id="name_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="type">User Type</label>
-                                        <select name="type" id="type">
-                                            <option value="">Select User Type</option>
-                                            <option value="Client">Client</option>
-                                            <option value="Supplier">Supplier</option>
-                                            <option value="Employee">Employee</option>
-                                            <option value="Bank">Bank</option>
-                                            <option value="Others">Others</option>
-                                        </select>
-                                        <span class="text-danger error" id="type_error"></span>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="text" name="date" class="form-control" id="date"
+                                    value="{{ date('Y-m-d') }}" disabled>
+                                <span class="text-danger error" id="date_error"></span>
                             </div>
-                            <div class="center">
-                                <button type="submit" id="InsertTranWith" class="btn btn-primary">Submit</button>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="tranId">Transaction Id</label>
+                                <input type="text" name="tranId" class="form-control" id="tranId">
+                                <span class="text-danger error" id="tranId_error"></span>
+                            </div>
+                        </div>
+                        @foreach ($tranwith as $with)
+                            <input type="hidden" name="with" id="with" value="{{$with->id}}">
+                        @endforeach
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="user">Transaction User</label>
+                                <input type="text" name="user" class="form-control" id="user" autocomplete="off">
+                                <div id="user-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="user_error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="location">Location</label>
+                                <input type="text" name="location" class="form-control" id="location"
+                                    autocomplete="off">
+                                <div id="location-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <span class="text-danger error" id="location_error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="head">Transaction Head</label>
+                                <select name="head" id="head">
+                                    <option value="">Select Transaction Head</option>
+                                    @foreach ($heads as $head)
+                                        <option value="{{$head->id}}">{{$head->tran_head_name}}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger error" id="head_error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <input type="text" name="amount" class="form-control" id="amount">
+                                <span class="text-danger error" id="amount_error"></span>
                             </div>
                         </div>
                     </div>
-                </form> --}}
+                    <div class="center">
+                        <button type="submit" id="InsertWithdraw" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\ClientController;
+use App\Http\Controllers\Backend\BankController;
 use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\TransactionController;
@@ -58,8 +59,6 @@ require __DIR__.'/auth.php';
 
 Route::controller(EmployeeController::class)->group(function () {
     Route::prefix('/admin/employees')->group(function () {
-
-
         ///////////// --------------- Location routes ----------- ///////////////////
         //crud routes start
         Route::get('/locations', 'ShowLocations')->name('show.locations');
@@ -213,6 +212,35 @@ Route::controller(ClientController::class)->group(function () {
     Route::get('/client/contact/pagination', 'SearchClientByContact');
     Route::get('/client/location/pagination', 'SearchClientByLocation');
     Route::get('/client/address/pagination', 'SearchClientByAddress');
+    //search list routs
+});
+
+
+
+// ********************************************** Bank Controller routes *************************************** //
+
+Route::controller(BankController::class)->group(function () {
+    ///////////// --------------- Banks routes ----------- ///////////////////
+    //crud routes start
+    Route::get('/banks', 'ShowBanks')->name('show.banks');
+    Route::get('/bank/details', 'ShowBankDetails')->name('show.bank.details');
+    Route::post('/insert/banks', 'InsertBanks')->name('insert.banks');
+    Route::get('/edit/banks', 'EditBanks')->name('edit.banks');
+    Route::put('/update/banks', 'UpdateBanks')->name('update.banks');
+    Route::delete('/delete/banks', 'DeleteBanks')->name('delete.banks');
+    //search routes start
+    Route::get('/search/bank/name', 'SearchBanks')->name('search.bank.name');
+    Route::get('/search/bank/email', 'SearchBankByEmail')->name('search.bank.email');
+    Route::get('/search/bank/contact', 'SearchBankByContact')->name('search.bank.contact');
+    Route::get('/search/bank/location', 'SearchBankByLocation')->name('search.bank.location');
+    Route::get('/search/bank/address', 'SearchBankByAddress')->name('search.bank.address');
+    //pagination routes start
+    Route::get('/bank/pagination', 'BankPagination');
+    Route::get('/bank/name/pagination', 'SearchBanks');
+    Route::get('/bank/email/pagination', 'SearchBankByEmail');
+    Route::get('/bank/contact/pagination', 'SearchBankByContact');
+    Route::get('/bank/location/pagination', 'SearchBankByLocation');
+    Route::get('/bank/address/pagination', 'SearchBankByAddress');
     //search list routs
 });
 
