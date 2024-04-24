@@ -5,6 +5,7 @@
             <th>SL:</th>
             <th>Transaction Groupe Name</th>
             <th>Transaction Groupe Type</th>
+            <th>Transaction Method</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -13,7 +14,8 @@
             <tr>
                 <td>{{ $groupes->firstItem() + $key }}</td>
                 <td>{{ $item->tran_groupe_name }}</td>
-                <td>{{ $item->tran_groupe_type }}</td>
+                <td>{{ $item->Type->type_name }}</td>
+                <td>{{ $item->tran_method }}</td>
                 <td>
                     <div style="display: flex;gap:5px;">
                         <button class="open-modal editTransactionGroupe" data-modal-id="editTransactionGroupe" id="edit"

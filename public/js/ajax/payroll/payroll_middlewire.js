@@ -28,7 +28,7 @@ $(document).ready(function () {
                     $('#amount').val('');
                     $('#search').val('');
                     $('.payroll-middlewire').load(location.href + ' .payroll-middlewire');
-                    getPayrollMiddlewireByUserId(user, '.middlewire tbody') 
+                    getPayrollByUserId(user, '.payroll-grid tbody');
                     toastr.success('Payroll Added Successfully', 'Added!');
                 }
             },
@@ -218,10 +218,28 @@ $(document).ready(function () {
     }
 
 
-    //Get Payroll Middlewire By User Id
-    function getPayrollMiddlewireByUserId(id, grid) {
+    // //Get Payroll Middlewire By User Id
+    // function getPayrollMiddlewireByUserId(id, grid) {
+    //     $.ajax({
+    //         url: "/payroll/middlewire/get/user",
+    //         method: 'GET',
+    //         data: { id:id },
+    //         success: function (res) {
+    //             if(res.status === 'success'){
+    //                 $(grid).html(res.data);
+    //             }
+    //             else{
+    //                 $(grid).html('');
+    //             }
+                
+    //         }
+    //     });
+    // }
+
+
+    function getPayrollByUserId(id, grid) {
         $.ajax({
-            url: "/payroll/middlewire/get/user",
+            url: "/payroll/get/user",
             method: 'GET',
             data: { id:id },
             success: function (res) {
@@ -231,7 +249,7 @@ $(document).ready(function () {
                 else{
                     $(grid).html('');
                 }
-                
+
             }
         });
     }

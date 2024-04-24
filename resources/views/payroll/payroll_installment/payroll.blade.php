@@ -5,7 +5,6 @@
             <div class="col-md-4">
                 <button class="add" id="PayrollProcess" data-modal-id="confirmPayrollModal"><i
                     class="fa-solid fa-rotate"></i> Process Payroll</button>
-                {{-- <button class="open-modal add" data-modal-id="addPayroll">Add Payroll</button> --}}
             </div>
             <div class="col-md-8 search">
                 <input type="text" name="search" id="search" class="input-small" placeholder="Search here...">
@@ -18,9 +17,6 @@
     <div class="payroll-installment" style="overflow-x:auto;">
         @include('payroll.payroll_installment.payrollPagination')
     </div>
-
-
-    @include('payroll.payroll_installment.addPayroll')
 
     @include('payroll.payroll_installment.editPayroll')
 

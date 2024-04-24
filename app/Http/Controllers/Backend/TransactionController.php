@@ -5,21 +5,302 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Transaction_Type;
+use App\Models\Transaction_With;
 use App\Models\Transaction_Groupe;
 use App\Models\Transaction_Head;
 use App\Models\Transaction_Detail;
 use App\Models\Transaction_Main;
-use App\Models\Transaction_With;
 use App\Models\User_Info;
-
+use App\Models\Party_Payment_Receive;
 
 class TransactionController extends Controller
 {
+    /////////////////////////// --------------- Transaction Types Table Methods start ---------- //////////////////////////
+    //Show All Transaction Types
+    public function ShowTransactionTypes(){
+        $types = Transaction_Type::orderBy('added_at','asc')->paginate(15);
+        return view('transaction.type.transactionTypes', compact('types'));
+    }//End Method
+
+
+
+    //Get Transaction Types
+    public function GetTransactionType(){
+        $types = Transaction_Type::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => "success",
+            'types'=> $types,
+        ]);
+    }//End Method
+
+
+
+    //Insert Transaction Types
+    public function InsertTransactionTypes(Request $req){
+        $req->validate([
+            "typeName" => 'required|unique:transaction__types,type_name',
+        ]);
+
+        Transaction_Type::insert([
+            "type_name" => $req->typeName,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }//End Method
+
+
+
+    //Edit Transaction Typess
+    public function EditTransactionTypes(Request $req){
+        $types = Transaction_Type::findOrFail($req->id);
+        return response()->json([
+            'types'=>$types,
+        ]);
+    }//End Method
+
+
+
+    //Update Transaction Types
+    public function UpdateTransactionTypes(Request $req){
+        $types = Transaction_Type::findOrFail($req->id);
+
+        $req->validate([
+            "typeName" => ['required',Rule::unique('transaction__types', 'type_name')->ignore($types->id)],
+        ]);
+
+        $update = Transaction_Type::findOrFail($req->id)->update([
+            "type_name" => $req->typeName,
+            "updated_at" => now()
+        ]);
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+
+    //Delete Transaction Types
+    public function DeleteTransactionTypes(Request $req){
+        Transaction_Type::findOrFail($req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+
+
+    //Transaction Types Pagination
+    public function TransactionTypePagination(){
+        $types = Transaction_Type::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('transaction.type.transactionTypePagination', compact('types'))->render(),
+        ]);
+    }//End Method
+
+
+
+    //Transaction Types Search
+    public function SearchTransactionTypes(Request $req){
+        $types = Transaction_Type::where('type_name', 'like', '%'.$req->search.'%')
+        ->orderBy('type_name','asc')
+        ->paginate(15);
+
+        $paginationHtml = $types->links()->toHtml();
+        
+        if($types->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('transaction.type.search', compact('types'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    /////////////////////////// --------------- Transaction Types Table Methods End ---------- //////////////////////////
+
+
+
+    /////////////////////////// --------------- Tran With Table Methods start ---------- //////////////////////////
+    
+    //Show All TranWith
+    public function ShowTranWith(){
+        $tranwith = Transaction_With::orderBy('added_at','asc')->paginate(15);
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
+        return view('transaction.tran_with.tranWith', compact('tranwith','types'));
+    }//End Method
+
+
+
+    //Get Tran With By Type
+    public function GetTranWithByType(Request $req){
+        $tranwith = Transaction_With::where('user_type', $req->type)
+        ->orderBy('user_type','asc')
+        ->get();
+
+        return response()->json([
+            'status'=>'success',
+            'tranwith'=>$tranwith,
+        ]);  
+
+    }//End Method
+
+
+
+    //Insert Tran With
+    public function InsertTranWith(Request $req){
+        $req->validate([
+            "name" => 'required|unique:transaction__withs,tran_with_name',
+            "type" => 'required|in:Client,Employee,Supplier,Bank,Others',
+            "tranType" => 'required',
+            "tranMethod" => 'required',
+        ]);
+
+        Transaction_With::insert([
+            "tran_with_name" => $req->name,
+            "user_type" => $req->type,
+            "tran_type" => $req->tranType,
+            "tran_method" => $req->tranMethod,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }//End Method
+
+
+
+    //Edit Tran With
+    public function EditTranWith(Request $req){
+        $tranwith = Transaction_With::findOrFail($req->id);
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
+        return response()->json([
+            'tranwith'=>$tranwith,
+            'types'=>$types,
+        ]);
+    }//End Method
+
+
+
+    //Update Tran With
+    public function UpdateTranWith(Request $req){
+        $tranwith = Transaction_With::findOrFail($req->id);
+
+        $req->validate([
+            "name" => ['required',Rule::unique('transaction__withs', 'tran_with_name')->ignore($tranwith->id)],
+            "type"  => 'required',
+            "tranType" => 'required',
+            "tranMethod" => 'required',
+        ]);
+
+        $update = Transaction_With::findOrFail($req->id)->update([
+            "tran_with_name" => $req->name,
+            "user_type" => $req->type,
+            "tran_type" => $req->tranType,
+            "tran_method" => $req->tranMethod,
+            "updated_at" => now()
+        ]);
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+
+    //Delete Tran With
+    public function DeleteTranWith(Request $req){
+        Transaction_With::findOrFail($req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+
+
+    //Tran With Pagination
+    public function TranWithPagination(){
+        $tranwith = Transaction_With::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('transaction.tran_with.tranWithPagination', compact('tranwith'))->render(),
+        ]);
+    }//End Method
+
+
+
+    //Transaction With Search By Name
+    public function SearchTranWith(Request $req){
+        $tranwith = Transaction_With::where('tran_with_name', 'like', '%'.$req->search.'%')
+        ->orderBy('tran_with_name','asc')
+        ->paginate(15);
+
+        $paginationHtml = $tranwith->links()->toHtml();
+        
+        if($tranwith->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('transaction.tran_with.search', compact('tranwith'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+
+    //Transaction With Search By Type
+    public function SearchTranWithByType(Request $req){
+        $tranwith = Transaction_With::where('user_type', 'like', '%' . $req->search . '%')
+        ->orderBy('user_type','asc')
+        ->paginate(15);
+
+        $paginationHtml = $tranwith->links()->toHtml();
+        
+        if($tranwith->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('transaction.tran_with.search', compact('tranwith'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    /////////////////////////// --------------- Tran With Table Methods start ---------- //////////////////////////
+
+
+
+
+
     /////////////////////////// --------------- Transaction Groupe Table Methods start ---------- //////////////////////////
     //Show All Transaction Groupes
     public function ShowTransactionGroupes(){
         $groupes = Transaction_Groupe::orderBy('added_at','asc')->paginate(15);
-        return view('transaction.transactionGroupe.transactionGroupes', compact('groupes'));
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
+        return view('transaction.transactionGroupe.transactionGroupes', compact('groupes','types'));
     }//End Method
 
 
@@ -65,12 +346,14 @@ class TransactionController extends Controller
     public function InsertTransactionGroupes(Request $req){
         $req->validate([
             "groupeName" => 'required|unique:transaction__groupes,tran_groupe_name',
-            "type" => 'required|in:Payment,Receive,Invoice,Both',
+            "type" => 'required|numeric',
+            "method" => 'required|in:Receive,Payment,Both',
         ]);
 
         Transaction_Groupe::insert([
             "tran_groupe_name" => $req->groupeName,
             "tran_groupe_type" => $req->type,
+            "tran_method" => $req->method,
         ]);
 
         return response()->json([
@@ -83,8 +366,10 @@ class TransactionController extends Controller
     //Edit Transaction Groupes
     public function EditTransactionGroupes(Request $req){
         $groupes = Transaction_Groupe::findOrFail($req->id);
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
         return response()->json([
             'groupes'=>$groupes,
+            'types'=>$types,
         ]);
     }//End Method
 
@@ -96,12 +381,14 @@ class TransactionController extends Controller
 
         $req->validate([
             "groupeName" => ['required',Rule::unique('transaction__groupes', 'tran_groupe_name')->ignore($groupes->id)],
-            "type" => 'required|in:Payment,Receive,Invoice,Both',
+            "type" => 'required|numeric',
+            "method" => 'required|in:Receive,Payment,Both',
         ]);
 
         $update = Transaction_Groupe::findOrFail($req->id)->update([
             "tran_groupe_name" => $req->groupeName,
             "tran_groupe_type" => $req->type,
+            "tran_method" => $req->method,
             "updated_at" => now()
         ]);
         if($update){
@@ -345,65 +632,186 @@ class TransactionController extends Controller
 
 
 
-    /////////////////////////// --------------- Transaction Details Table Methods start ---------- //////////////////////////
+    /////////////////////////// --------------- Transaction Methods start ---------- //////////////////////////
     //Show All Transaction
     public function ShowTransactions(){
         $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        return view('transaction.details.transactionDetails', compact('transaction'));
+        $types = Transaction_Type::orderBy('added_at','asc')->get();
+        return view('transaction.general.transactions', compact('transaction','types'));
     }//End Method
 
 
-    //Get Transaction id by transaction Type
+    //Get Transaction Id By Transaction Method And Type 
     public function GetTransactionId(Request $req){
         if($req->type != ""){
-            if($req->type == 'receive'){
-                $transaction = Transaction_Main::where('tran_type', 'receive')->latest('tran_id')->first();
-                $id = ($transaction) ? 'R' . str_pad((intval(substr($transaction->tran_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'R000000001';
+            if($req->type == '1'){
+                if($req->method == "Receive"){
+                    $transaction = Transaction_Main::where('tran_type', '1')->where('tran_method','Receive')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'REC' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'REC000000001';
 
-                return response()->json([
-                    'status' => 'success',
-                    'id' => $id,
-                ]);
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+                else if($req->method == "Payment"){
+                    $transaction = Transaction_Main::where('tran_type', '1')->where('tran_method','Payment')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'PAY' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PAY000000001';
+    
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
             }
-            else if($req->type == "payment"){
-                $transaction = Transaction_Main::where('tran_type', 'payment')->latest('tran_id')->first();
-                $id = ($transaction) ? 'P' . str_pad((intval(substr($transaction->tran_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'P000000001';
+            else if($req->type == '2'){
+                if($req->method == "Receive"){
+                    $transaction = Party_Payment_Receive::where('tran_type', '2')->where('tran_method','Receive')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'PPR' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PPR000000001';
 
-                return response()->json([
-                    'status' => 'success',
-                    'id' => $id,
-                ]);
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+                else if($req->method == "Payment"){
+                    $transaction = Party_Payment_Receive::where('tran_type', '2')->where('tran_method','Payment')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'PPP' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PPP000000001';
+    
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+            }
+            else if($req->type == '3'){
+                if($req->method == "Receive"){
+                    $transaction = Transaction_Main::where('tran_type', '3')->where('tran_method','Receive')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'PRR' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PRR000000001';
+
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+                else if($req->method == "Payment"){
+                    $transaction = Transaction_Main::where('tran_type', '3')->where('tran_method','Payment')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'PRP' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PRP000000001';
+    
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+            }
+            else if($req->type == '4'){
+                if($req->method == "Receive"){
+                    $transaction = Transaction_Main::where('tran_type', '4')->where('tran_method','Receive')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'BMW' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'BMW000000001';
+
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+                else if($req->method == "Payment"){
+                    $transaction = Transaction_Main::where('tran_type', '4')->where('tran_method','Payment')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'BMD' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'BMD000000001';
+    
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+            }
+            else if($req->type == '5'){
+                if($req->method == "Receive"){
+                    $transaction = Transaction_Main::where('tran_type', '5')->where('tran_method','Receive')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'ITR' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'ITR000000001';
+
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+                else if($req->method == "Payment"){
+                    $transaction = Transaction_Main::where('tran_type', '5')->where('tran_method','Payment')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'ITP' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'ITP000000001';
+    
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+            }
+            else if($req->type == '6'){
+                if($req->method == "Receive"){
+                    $transaction = Transaction_Main::where('tran_type', '6')->where('tran_method','Receive')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'KTR' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'KTR000000001';
+
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+                else if($req->method == "Payment"){
+                    $transaction = Transaction_Main::where('tran_type', '6')->where('tran_method','Payment')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'KTP' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'KTP000000001';
+    
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+            }
+            else if($req->type == '7'){
+                if($req->method == "Receive"){
+                    $transaction = Transaction_Main::where('tran_type', '7')->where('tran_method','Receive')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'PTR' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PTR000000001';
+
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
+                else if($req->method == "Payment"){
+                    $transaction = Transaction_Main::where('tran_type', '6')->where('tran_method','Payment')->latest('tran_id')->first();
+                    $id = ($transaction) ? 'PTP' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PTP000000001';
+    
+                    return response()->json([
+                        'status' => 'success',
+                        'id' => $id,
+                    ]);
+                }
             }
         }
     }//End Method
 
 
 
-    //Get Transaction with by transaction Type
+    // Get Transaction With By Transaction Method And Type
     public function GetTransactionWith(Request $req){
         if($req->type != ""){
-            if($req->type == 'receive'){
-                $tranwith = Transaction_With::where('user_type', 'Client')->get();
+            $tranwith = Transaction_With::whereIn('tran_method', [$req->method, 'Both'])->where('tran_type',$req->type)->get();
 
-                return response()->json([
-                    'status' => 'success',
-                    'tranwith' => $tranwith,
-                ]);
-            }
-            else if($req->type == "payment"){
-                $tranwith = Transaction_With::whereIn('user_type', ['Supplier', 'Employee'])->get();
+            return response()->json([
+                'status' => 'success',
+                'tranwith' => $tranwith,
+            ]);
+        }
+        else{
+            $tranwith = Transaction_With::where('user_type', $req->user)->get();
 
-                return response()->json([
-                    'status' => 'success',
-                    'tranwith' => $tranwith,
-                ]);
-            }
+            return response()->json([
+                'status' => 'success',
+                'tranwith' => $tranwith,
+            ]);
         }
     }//End Method
 
 
 
-    // Get transaction User By Transaction User Type
+    // Get Transaction User By Transaction User Type
     public function GetTransactionUser(Request $req){
         if($req->tranUserType != ""){
             $users = User_Info::where('user_name', 'like', '%'.$req->tranUser.'%')
@@ -458,7 +866,7 @@ class TransactionController extends Controller
     public function InsertTransactionDetails(Request $req){
         $req->validate([
             "tranId" => 'required',
-            "invoice" => 'required',
+            "method" => 'required',
             "location" => 'required|numeric',
             "type" => 'required',
             "groupe" => 'required',
@@ -472,9 +880,9 @@ class TransactionController extends Controller
 
         Transaction_Detail::insert([
             "tran_id" => $req->tranId,
-            "invoice" => $req->invoice,
             "loc_id" => $req->location,
             "tran_type" => $req->type,
+            "tran_method" => $req->method,
             "tran_groupe_id" => $req->groupe,
             "tran_head_id" => $req->head,
             "tran_type_with" => $req->with,
@@ -495,8 +903,8 @@ class TransactionController extends Controller
     public function InsertTransactionMain(Request $req){
         $req->validate([
             "tranId" => 'required|unique:transaction__mains,tran_id',
+            "method" => 'required',
             "type" => 'required',
-            "invoice" => 'required',
             "withs" => 'required',
             "user" => 'required',
             "locations" => 'required',
@@ -508,11 +916,11 @@ class TransactionController extends Controller
         ]);
 
 
-        if($req->type == 'receive'){
+        if($req->method == 'Receive'){
             $receive = $req->advance;
             $payment = null;
         }
-        else if($req->type == "payment"){
+        else if($req->method == "Payment"){
             $payment = $req->advance;
             $receive = null;
         }
@@ -520,7 +928,7 @@ class TransactionController extends Controller
         Transaction_Main::insert([
             "tran_id" => $req->tranId,
             "tran_type" => $req->type,
-            "invoice" => $req->invoice,
+            "tran_method" => $req->method,
             "tran_type_with" => $req->withs,
             "tran_user" => $req->user,
             "loc_id" => $req->locations,
@@ -539,153 +947,155 @@ class TransactionController extends Controller
 
 
 
-    //Edit Transaction Main
-    public function EditTransactionMain(Request $req){
-        $transaction = Transaction_Main::with('Location','User','withs')->where('tran_id', $req->id )->first();
-        $tranwith = Transaction_With::where('user_type', '=', $transaction->withs->user_type)->get();
-        return response()->json([
-            'transaction'=>$transaction,
-            'tranwith' =>$tranwith
-        ]);
-    }//End Method
+    // //Edit Transaction Main
+    // public function EditTransactionMain(Request $req){
+    //     $transaction = Transaction_Main::with('Location','User','withs')->where('tran_id', $req->id )->first();
+    //     $tranwith = Transaction_With::where('user_type', '=', $transaction->withs->user_type)->get();
+    //     $types = Transaction_Type::orderBy('added_at','asc')->get();
+    //     return response()->json([
+    //         'transaction'=>$transaction,
+    //         'tranwith' =>$tranwith,
+    //         "types" =>$types
+    //     ]);
+    // }//End Method
 
 
-    //Edit Transaction Details
-    public function EditTransactionDetails(Request $req){
-        $transaction = Transaction_Detail::with('Groupe','Head')->findOrFail($req->id);
-        $groupes = Transaction_Groupe::where('tran_groupe_type', $transaction->tran_type)->get();
-        $heads = Transaction_Head::where('groupe_id', '=', $transaction->tran_groupe_id)->get();
-        return response()->json([
-            'transaction'=>$transaction,
-            'groupes'=>$groupes,
-            'heads'=>$heads,
-        ]);
-    }//End Method
+    // //Edit Transaction Details
+    // public function EditTransactionDetails(Request $req){
+    //     $transaction = Transaction_Detail::with('Groupe','Head')->findOrFail($req->id);
+    //     $groupes = Transaction_Groupe::where('tran_groupe_type', $transaction->tran_type)->get();
+    //     $heads = Transaction_Head::where('groupe_id', '=', $transaction->tran_groupe_id)->get();
+    //     return response()->json([
+    //         'transaction'=>$transaction,
+    //         'groupes'=>$groupes,
+    //         'heads'=>$heads,
+    //     ]);
+    // }//End Method
 
 
 
-    //Update Transaction Details
-    public function UpdateTransactionDetails(Request $req){
-        if($req->dId != ""){
-            $transaction = Transaction_Detail::findOrFail($req->dId);
-            $req->validate([
-                "groupe"  => 'required|numeric',
-                "head"  => 'required|numeric',
-                "quantity"  => 'required|numeric',
-                "amount"  => 'required|numeric',
-                "totAmount"  => 'required|numeric',
-            ]);
+    // //Update Transaction Details
+    // public function UpdateTransactionDetails(Request $req){
+    //     if($req->dId != ""){
+    //         $transaction = Transaction_Detail::findOrFail($req->dId);
+    //         $req->validate([
+    //             "groupe"  => 'required|numeric',
+    //             "head"  => 'required|numeric',
+    //             "quantity"  => 'required|numeric',
+    //             "amount"  => 'required|numeric',
+    //             "totAmount"  => 'required|numeric',
+    //         ]);
 
-            $update = Transaction_Detail::findOrFail($req->dId)->update([
-                "tran_groupe_id" => $req->groupe,
-                "tran_head_id" => $req->head,
-                "quantity" => $req->quantity,
-                "amount" => $req->amount,
-                "tot_amount" => $req->totAmount,
-                "updated_at" => now()
-            ]);
+    //         $update = Transaction_Detail::findOrFail($req->dId)->update([
+    //             "tran_groupe_id" => $req->groupe,
+    //             "tran_head_id" => $req->head,
+    //             "quantity" => $req->quantity,
+    //             "amount" => $req->amount,
+    //             "tot_amount" => $req->totAmount,
+    //             "updated_at" => now()
+    //         ]);
 
-            if($update){
-                return response()->json([
-                    'status'=>'success'
-                ]); 
-            }
-        }
-        else{
-            $req->validate([
-                "tranId" => 'required',
-                "invoice" => 'required',
-                "location" => 'required|numeric',
-                "type" => 'required',
-                "groupe" => 'required',
-                "head" => 'required',
-                "with" => 'required',
-                "user" => 'required',
-                "amount" => 'required',
-                "quantity" => 'required',
-                "totAmount" => 'required',
-            ]);
+    //         if($update){
+    //             return response()->json([
+    //                 'status'=>'success'
+    //             ]); 
+    //         }
+    //     }
+    //     else{
+    //         $req->validate([
+    //             "tranId" => 'required',
+    //             "invoice" => 'required',
+    //             "location" => 'required|numeric',
+    //             "type" => 'required',
+    //             "groupe" => 'required',
+    //             "head" => 'required',
+    //             "with" => 'required',
+    //             "user" => 'required',
+    //             "amount" => 'required',
+    //             "quantity" => 'required',
+    //             "totAmount" => 'required',
+    //         ]);
     
-            Transaction_Detail::insert([
-                "tran_id" => $req->tranId,
-                "invoice" => $req->invoice,
-                "loc_id" => $req->location,
-                "tran_type" => $req->type,
-                "tran_groupe_id" => $req->groupe,
-                "tran_head_id" => $req->head,
-                "tran_type_with" => $req->with,
-                "tran_user" => $req->user,
-                "amount" => $req->amount,
-                "quantity" => $req->quantity,
-                "tot_amount" => $req->totAmount,
-            ]);
+    //         Transaction_Detail::insert([
+    //             "tran_id" => $req->tranId,
+    //             "invoice" => $req->invoice,
+    //             "loc_id" => $req->location,
+    //             "tran_type" => $req->type,
+    //             "tran_groupe_id" => $req->groupe,
+    //             "tran_head_id" => $req->head,
+    //             "tran_type_with" => $req->with,
+    //             "tran_user" => $req->user,
+    //             "amount" => $req->amount,
+    //             "quantity" => $req->quantity,
+    //             "tot_amount" => $req->totAmount,
+    //         ]);
     
-            return response()->json([
-                'status'=>'success',
-            ]);  
-        }
-    }//End Method
+    //         return response()->json([
+    //             'status'=>'success',
+    //         ]);  
+    //     }
+    // }//End Method
 
 
 
-    // Update Transaction Main
-    public function UpdateTransactionMain(Request $req){
-        $transaction = Transaction_Main::findOrFail($req->id);
-        $req->validate([
-            "amountRP"  => 'required|numeric',
-            "totalDiscount"  => 'required|numeric',
-            "netAmount"  => 'required|numeric',
-            "advance"  => 'required|numeric',
-            "balance"  => 'required|numeric',
-        ]);
+    // // Update Transaction Main
+    // public function UpdateTransactionMain(Request $req){
+    //     $transaction = Transaction_Main::findOrFail($req->id);
+    //     $req->validate([
+    //         "amountRP"  => 'required|numeric',
+    //         "totalDiscount"  => 'required|numeric',
+    //         "netAmount"  => 'required|numeric',
+    //         "advance"  => 'required|numeric',
+    //         "balance"  => 'required|numeric',
+    //     ]);
 
 
-        if($req->type == 'receive'){
-            $receive = $req->advance;
-            $payment = null;
-        }
-        else if($req->type == "payment"){
-            $payment = $req->advance;
-            $receive = null;
-        }
+    //     if($req->type == 'receive'){
+    //         $receive = $req->advance;
+    //         $payment = null;
+    //     }
+    //     else if($req->type == "payment"){
+    //         $payment = $req->advance;
+    //         $receive = null;
+    //     }
 
-        $update = Transaction_Main::findOrFail($req->id)->update([
-            "bill_amount" => $req->amountRP,
-            "discount" => $req->totalDiscount,
-            "net_amount" => $req->netAmount,
-            "receive" => $receive,
-            "payment" => $payment,
-            "due" => $req->balance,
-            "updated_at" => now()
-        ]);
+    //     $update = Transaction_Main::findOrFail($req->id)->update([
+    //         "bill_amount" => $req->amountRP,
+    //         "discount" => $req->totalDiscount,
+    //         "net_amount" => $req->netAmount,
+    //         "receive" => $receive,
+    //         "payment" => $payment,
+    //         "due" => $req->balance,
+    //         "updated_at" => now()
+    //     ]);
 
-        if($update){
-            return response()->json([
-                'status'=>'success'
-            ]); 
-        }
-    }
-
-
-
-    //Delete Transaction Details
-    public function DeleteTransactionDetails(Request $req){
-        Transaction_Detail::findOrFail($req->id)->delete();
-        return response()->json([
-            'status'=>'success'
-        ]); 
-    }//End Method
+    //     if($update){
+    //         return response()->json([
+    //             'status'=>'success'
+    //         ]); 
+    //     }
+    // }
 
 
 
-    //Delete Transaction Main
-    public function DeleteTransactionMain(Request $req){
-        Transaction_Main::where("tran_id", $req->id)->delete();
-        Transaction_Detail::where("tran_id", $req->id)->delete();
-        return response()->json([
-            'status'=>'success'
-        ]); 
-    }//End Method
+    // //Delete Transaction Details
+    // public function DeleteTransactionDetails(Request $req){
+    //     Transaction_Detail::findOrFail($req->id)->delete();
+    //     return response()->json([
+    //         'status'=>'success'
+    //     ]); 
+    // }//End Method
+
+
+
+    // //Delete Transaction Main
+    // public function DeleteTransactionMain(Request $req){
+    //     Transaction_Main::where("tran_id", $req->id)->delete();
+    //     Transaction_Detail::where("tran_id", $req->id)->delete();
+    //     return response()->json([
+    //         'status'=>'success'
+    //     ]); 
+    // }//End Method
 
 
 
@@ -695,7 +1105,7 @@ class TransactionController extends Controller
             $transaction = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         }
         else{
-            $transaction = Transaction_Main::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+            $transaction = Transaction_Main::where('tran_method', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         }
         return view('transaction.details.transactionPagination', compact('transaction'));
     }//End Method
@@ -860,19 +1270,19 @@ class TransactionController extends Controller
     }//End Method
 
 
-    /////////////////////////// --------------- Transaction Details Table Methods Ends ---------- //////////////////////////
+    /////////////////////////// --------------- Transaction Methods Ends ---------- //////////////////////////
 
 
 
     /////////////////////////// --------------- Transaction Receive Methods start ---------- //////////////////////////
     //Show All Transaction Receive Details
     public function ShowTransactionReceive(){
-        $transaction = Transaction_Main::where('tran_type','receive')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        $groupes = Transaction_Groupe::where('tran_groupe_type', 'Receive')->orderBy('added_at','asc')->get();
-        return view('transaction.details.receive.transactionReceive', compact('transaction','groupes'));
+        $transaction = Transaction_Main::where('tran_method','Receive')->where('tran_type','1')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '1')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
+        return view('transaction.general.receive.transactionReceives', compact('transaction','groupes'));
     }//End Method
 
-    /////////////////////////// --------------- Transaction Receive Table Methods Ends ---------- //////////////////////////
+    /////////////////////////// --------------- Transaction Receive Methods Ends ---------- //////////////////////////
     
     
     
@@ -880,11 +1290,37 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Transaction Payment Methods start ---------- //////////////////////////
     //Show All Transaction Payment Details
     public function ShowTransactionPayment(){
-        $transaction = Transaction_Main::where('tran_type','payment')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        $groupes = Transaction_Groupe::where('tran_groupe_type', 'Payment')->orderBy('added_at','asc')->get();
-        return view('transaction.details.payment.transactionPayment', compact('transaction','groupes'));
+        $transaction = Transaction_Main::where('tran_method','Payment')->where('tran_type','1')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '1')->whereIn('tran_method',["Payment",'Both'])->orderBy('added_at','asc')->get();
+        return view('transaction.general.payment.transactionPayments', compact('transaction','groupes'));
     }//End Method
 
 
-    /////////////////////////// --------------- Transaction Payment Table Methods Ends ---------- //////////////////////////
+    /////////////////////////// --------------- Transaction Payment Methods Ends ---------- //////////////////////////
+
+
+
+
+    /////////////////////////// --------------- Bank withdraw Methods Starts ---------- //////////////////////////
+    //Show All Bank Withdraws
+    public function ShowBankWithdraws(){
+        $transaction = Transaction_Main::where('tran_method','Receive')->where('tran_type','4')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $heads = Transaction_Head::where('groupe_id', '4')->get();
+        return view('transaction.bank.withdraw.bankWithdraws', compact('transaction','heads'));
+    }//End Method
+
+
+    /////////////////////////// --------------- Bank Withdraw Methods Ends ---------- //////////////////////////
+
+
+
+    /////////////////////////// --------------- Bank Deposit Methods Starts ---------- //////////////////////////
+    //Show All Bank Deposits
+    public function ShowBankDeposits(){
+        $transaction = Transaction_Main::where('tran_method','Payment')->where('tran_type','4')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $heads = Transaction_Head::where('groupe_id', '3')->get();
+        return view('transaction.bank.deposit.bankDeposits', compact('transaction','heads'));
+    }//End Method
+
+    /////////////////////////// --------------- Bank Deposit Methods Ends ---------- //////////////////////////
 }

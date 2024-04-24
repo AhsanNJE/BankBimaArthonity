@@ -1,15 +1,11 @@
 <div id="addLocation" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Location</h3>
-            <span class="close-modal" data-modal-id="addLocation">&times;</span>
-        </div>
-
         <div class="center">
-            <div class="card card-primary col-md-10">
+            <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Location</h3>
+                        <span class="close-modal" data-modal-id="addLocation">&times;</span>
                     </div>
                 </div>
                 

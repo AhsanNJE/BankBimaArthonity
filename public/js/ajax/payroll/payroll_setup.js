@@ -27,7 +27,7 @@ $(document).ready(function () {
                     $('#head').focus();
                     $('#search').val('');
                     $('.payroll-setup').load(location.href + ' .payroll-setup');
-                    getPayrollSetupByUserId(user , '.setup tbody')
+                    getPayrollByUserId(user, '.payroll-grid tbody');
                     toastr.success('Payroll Added Successfully', 'Added!');
                 }
             },
@@ -217,10 +217,27 @@ $(document).ready(function () {
 
 
 
-    //Get Payroll Setup By User Id
-    function getPayrollSetupByUserId(id, grid) {
+    // //Get Payroll Setup By User Id
+    // function getPayrollSetupByUserId(id, grid) {
+    //     $.ajax({
+    //         url: "/payroll/setup/get/user",
+    //         method: 'GET',
+    //         data: { id:id },
+    //         success: function (res) {
+    //             if(res.status === 'success'){
+    //                 $(grid).html(res.data);
+    //             }
+    //             else{
+    //                 $(grid).html('');
+    //             }
+                
+    //         }
+    //     });
+    // }
+
+    function getPayrollByUserId(id, grid) {
         $.ajax({
-            url: "/payroll/setup/get/user",
+            url: "/payroll/get/user",
             method: 'GET',
             data: { id:id },
             success: function (res) {
@@ -230,12 +247,10 @@ $(document).ready(function () {
                 else{
                     $(grid).html('');
                 }
-                
+
             }
         });
     }
-
-
     
 
 });

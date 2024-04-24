@@ -15,8 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('tran_with_name');
             $table->string('user_type');
+            $table->unsignedBigInteger('tran_type');
+            $table->string('tran_method');
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
+
+            //Foreignkey Decleration
+            $table->foreign('tran_type')->references('id')->on('transaction__types')
+                    ->onUpdate('cascade');
         });
     }
 

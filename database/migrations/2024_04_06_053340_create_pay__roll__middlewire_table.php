@@ -19,9 +19,13 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
+
+            //Foreignkey Decleration
             $table->foreign('emp_id')->references('user_id')->on('user__infos')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+            $table->foreign('head_id')->references('id')->on('transaction__heads')
+                    ->onUpdate('cascade');
         });
     }
 

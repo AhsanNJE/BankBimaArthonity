@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('tran_head_name');
             $table->unsignedBigInteger('groupe_id');
+            $table->timestamp('added_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+
+            // Foreignkey Decleration
             $table->foreign('groupe_id')->references('id')->on('transaction__groupes')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->timestamp('added_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable();
         });
     }
 

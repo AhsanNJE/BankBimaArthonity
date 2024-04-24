@@ -11,5 +11,8 @@ class Transaction_With extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+    public function Type(){
+        return $this->belongsTo(Transaction_Type::class,'tran_type','id');
+    }
     
 }
