@@ -26,4 +26,9 @@ class OrganizationDetail extends Model
     public function Designation(){
         return $this->belongsTo(Designation::class,'designation','id');
     }
+    
+    public function personalDetail()
+    {
+        return $this->belongsTo(PersonalDetail::class, 'emp_id', 'employee_id');
+    }
 }

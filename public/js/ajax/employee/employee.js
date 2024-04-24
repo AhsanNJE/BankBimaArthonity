@@ -26,43 +26,43 @@ $(document).ready(function () {
     $(document).on('click', '.details li', function(e){
         let id = $(this).attr('data-id');
         if(id == 1){
-            if($('.general').is(':visible')){
-                $('.general').hide()
+            if($('.personal').is(':visible')){
+                $('.personal').hide()
             }
             else{
-                $('.general').show();
+                $('.personal').show();
             }
         }
         else if(id == 2){
-            if($('.contact').is(':visible')){
-                $('.contact').hide()
+            if($('.education').is(':visible')){
+                $('.education').hide()
             }
             else{
-                $('.contact').show();
+                $('.education').show();
             }
         }
         else if(id == 3){
-            if($('.address').is(':visible')){
-                $('.address').hide()
+            if($('.training').is(':visible')){
+                $('.training').hide()
             }
             else{
-                $('.address').show();
+                $('.training').show();
             }
         }
         else if(id == 4){
-            if($('.payroll').is(':visible')){
-                $('.payroll').hide()
+            if($('.experience').is(':visible')){
+                $('.experience').hide()
             }
             else{
-                $('.payroll').show();
+                $('.experience').show();
             }
         }
         else if(id == 5){
-            if($('.others').is(':visible')){
-                $('.others').hide()
+            if($('.organization').is(':visible')){
+                $('.organization').hide()
             }
             else{
-                $('.others').show();
+                $('.organization').show();
             }
         }
     });

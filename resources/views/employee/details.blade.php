@@ -1,4 +1,3 @@
-
 <ul>
     {{-- Personal Details Part Starts --}}
     <li data-id="1">Personal Details</li>
@@ -51,42 +50,44 @@
             </div>
         </div>
     </div>
+  
 
-
-    {{-- Education Details part starts --}}
     <li data-id="2">Education Details</li>
+    @foreach($education as $employees)
+    {{-- Education Details part starts --}}
     <div class="education">
         <div class="details-table" style="">
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Level of Education</div>
-                <div class="col-md-4">{{$employee->educationDetail->level_of_education}}</div>
+                <div class="col-md-4">{{$employees->level_of_education}}</div>
                 <div class="col-md-2 bold">Degree Title</div>
-                <div class="col-md-4">{{$employee->educationDetail->degree_title}}</div>
+                <div class="col-md-4">{{$employees->degree_title}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Group</div>
-                <div class="col-md-4">{{$employee->educationDetail->group}}</div>
+                <div class="col-md-4">{{$employees->group}}</div>
                 <div class="col-md-2 bold">Institution Name</div>
-                <div class="col-md-4">{{$employee->educationDetail->institution_name}}</div>
+                <div class="col-md-4">{{$employees->institution_name}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Result</div>
-                <div class="col-md-4">{{$employee->educationDetail->result}}</div>
+                <div class="col-md-4">{{$employees->result}}</div>
                 <div class="col-md-2 bold">Scale</div>
-                <div class="col-md-4">{{$employee->educationDetail->scale}}</div>
+                <div class="col-md-4">{{$employees->scale}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">CGPA</div>
-                <div class="col-md-4">{{$employee->educationDetail->cgpa}}</div>
+                <div class="col-md-4">{{$employees->cgpa}}</div>
                 <div class="col-md-2 bold">Batch</div>
-                <div class="col-md-4">{{$employee->educationDetail->batch}}</div>
+                <div class="col-md-4">{{$employees->batch}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Passing Year</div>
-                <div class="col-md-4">{{$employee->educationDetail->passing_year}}</div>
+                <div class="col-md-4">{{$employees->passing_year}}</div>
             </div>
         </div>
     </div>
+    @endforeach
 
 
     {{-- Training Details part starts --}}
@@ -120,7 +121,7 @@
 
 
     {{-- Experience Details part starts --}}
-    <li data-id="3">Experience Details</li>
+    <li data-id="4">Experience Details</li>
     <div class="experience">
         <div class="details-table" style="">
             <div class="row each-row"> 
@@ -146,7 +147,7 @@
 
 
     {{-- Organization Details part starts --}}
-    <li data-id="3">Organization Details</li>
+    <li data-id="5">Organization Details</li>
     <div class="organization">
         <div class="details-table" style="">
             <div class="row each-row"> 

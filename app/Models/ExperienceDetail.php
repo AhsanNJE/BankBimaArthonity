@@ -26,4 +26,9 @@ class ExperienceDetail extends Model
     public function Location(){
         return $this->belongsTo(Location_Info::class,'company_location','id');
     }
+
+    public function personalDetail()
+    {
+        return $this->belongsTo(PersonalDetail::class, 'emp_id', 'employee_id');
+    }
 }

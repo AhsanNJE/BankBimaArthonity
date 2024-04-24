@@ -1,5 +1,5 @@
-<form action="{{ route('show.personalinfo')}}" method="POST" enctype="multipart/form-data">
-@csrf
+
+
 <!-- Display Personal Details -->
 @foreach($employeepersonal as $item)
 <div class="general">
@@ -51,4 +51,3 @@
     </div>
 </div>    
     @endforeach
-</form>

@@ -5,9 +5,10 @@
             <th>SL:</th>
             <th>Id</th>
             <th>Name</th>
+            <th>DOB</th>
+            <th>Gender</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Location</th>
             <th>Address</th>
             <th>Image</th>
             <th>Action</th>
@@ -19,9 +20,10 @@
                 <td>{{ $employee->firstItem() + $key }}</td>
                 <td>{{ $item->user_id }}</td>
                 <td>{{ $item->user_name }}</td>
+                <td>{{ $item->dob }}</td>
+                <td>{{ $item->gender }}</td>
                 <td>{{ $item->user_email }}</td>
                 <td>{{ $item->user_phone }}</td>
-                <td>{{ $item->Location->upazila }}</td>
                 <td>{{ $item->address }}</td>
                 <td><img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}?{{ time() }}"
                         alt="" height="50px" width="50px"></td>

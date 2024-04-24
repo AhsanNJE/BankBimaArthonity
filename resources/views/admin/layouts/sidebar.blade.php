@@ -36,32 +36,6 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <!-- <i class="fa-solid fa-person"></i> -->
-                        <i class="fa-solid fa-users-line"></i>
-                        <p>
-                            Employee
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.employees')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Employee</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('employee.attend.list') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Attendance List</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -246,7 +220,15 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.employees')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Employee</p>
+                            </a>
+                        </li>
+                    
                         <li class="nav-item">
                             <a href="{{route('show.personalinfo')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -282,7 +264,13 @@
                                 <p>Add Organization Details</p>
                             </a>
                         </li>
-                        
+
+                        <li class="nav-item">
+                            <a href="{{ route('employee.attend.list') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Attendance List</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
