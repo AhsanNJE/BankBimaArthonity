@@ -385,6 +385,24 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
+                        <i class="fa-solid fa-people-roof"></i>
+                        <p>
+                            Bank
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.banks')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Banks</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <p>
                             Tran With

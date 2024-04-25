@@ -1306,7 +1306,8 @@ class TransactionController extends Controller
     public function ShowBankWithdraws(){
         $transaction = Transaction_Main::where('tran_method','Receive')->where('tran_type','4')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $heads = Transaction_Head::where('groupe_id', '4')->get();
-        return view('transaction.bank.withdraw.bankWithdraws', compact('transaction','heads'));
+        $tranwith = Transaction_With::where('user_type','Bank')->get();
+        return view('transaction.bank.withdraw.bankWithdraws', compact('transaction','heads','tranwith'));
     }//End Method
 
 
@@ -1319,7 +1320,8 @@ class TransactionController extends Controller
     public function ShowBankDeposits(){
         $transaction = Transaction_Main::where('tran_method','Payment')->where('tran_type','4')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $heads = Transaction_Head::where('groupe_id', '3')->get();
-        return view('transaction.bank.deposit.bankDeposits', compact('transaction','heads'));
+        $tranwith = Transaction_With::where('user_type','Bank')->get();
+        return view('transaction.bank.deposit.bankDeposits', compact('transaction','heads','tranwith'));
     }//End Method
 
     /////////////////////////// --------------- Bank Deposit Methods Ends ---------- //////////////////////////

@@ -9,59 +9,57 @@ use App\Models\User_Info;
 use App\Models\Transaction_Main;
 use App\Models\Transaction_With;
 
-class ClientController extends Controller
+class BankController extends Controller
 {
-    /////////////////////////// --------------- Client Methods start---------- //////////////////////////
-    //Show Clients
-    public function ShowClients(){
-        $client = User_Info::where('user_type','client')->orderBy('added_at','asc')->paginate(15);
-        $tranwith = Transaction_With::where('user_type','Client')->get();
-        return view('client.clients', compact('client','tranwith'));
+    /////////////////////////// --------------- Bank Methods start---------- //////////////////////////
+    //Show Banks
+    public function ShowBanks(){
+        $bank = User_Info::where('user_type','bank')->orderBy('added_at','asc')->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Bank')->get();
+        return view('bank.banks', compact('bank','tranwith'));
     }//End Method
 
 
-    //Show Client Details
-    public function ShowClientDetails(Request $req){
-        $client = User_Info::with('Location','Withs')->where('user_id', "=", $req->id)->first();
+    //Show Bank Details
+    public function ShowBankDetails(Request $req){
+        $bank = User_Info::with('Location','Withs')->where('user_id', "=", $req->id)->first();
         $transaction = Transaction_Main::where('tran_user', "=", $req->id)->get();
         return response()->json([
-            'data'=>view('client.details', compact('client','transaction'))->render(),
+            'data'=>view('bank.details', compact('bank','transaction'))->render(),
             "transaction"=> $transaction
         ]);
     }//End Method
 
 
 
-    //Insert Client
-    public function InsertClients(Request $req){
+    //Insert Bank
+    public function InsertBanks(Request $req){
         $req->validate([
             "name" => 'required',
-            "type" => 'required',
-            "phone" => 'required|numeric|unique:user__infos,user_phone',
-            "email" => 'required|email|unique:user__infos,user_email',
-            "gender" => 'required',
+            "phone" => 'unique:user__infos,user_phone',
+            "email" => 'unique:user__infos,user_email',
+            "address" => 'required',
             "location" => 'required|numeric',
         ]);
 
 
-        //generates Auto Increment Client Id
-        $latestEmployee = User_Info::where('user_type','client')->orderBy('added_at','desc')->first();
-        $id = ($latestEmployee) ? 'C' . str_pad((intval(substr($latestEmployee->user_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'C000000101';
+        //generates Auto Increment Bank Id
+        $latestEmployee = User_Info::where('user_type','bank')->orderBy('added_at','desc')->first();
+        $id = ($latestEmployee) ? 'B' . str_pad((intval(substr($latestEmployee->user_id, 1)) + 1), 9, '0', STR_PAD_LEFT) : 'B000000101';
 
 
-        $client = User_Info::insert([
+        $bank = User_Info::insert([
             "user_id" => $id,
             "tran_user_type" => $req->type,
             "user_name" => $req->name,
             "user_phone" => $req->phone,
             "user_email" => $req->email,
-            "gender" => $req->gender,
             "loc_id" => $req->location,
             "address" => $req->address,
-            "user_type" => 'client',
+            "user_type" => 'bank',
         ]);
         
-        if($client){
+        if($bank){
             return response()->json([
                 'status'=>'success',
             ]); 
@@ -70,28 +68,28 @@ class ClientController extends Controller
 
 
 
-    //Edit Client
-    public function EditClients(Request $req){
-        $client = User_Info::with('Location')->findOrFail($req->id);
-        $tranwith = Transaction_With::where('user_type','Client')->get();
+    //Edit Bank
+    public function EditBanks(Request $req){
+        $bank = User_Info::with('Location')->findOrFail($req->id);
+        $tranwith = Transaction_With::where('user_type','Bank')->get();
         return response()->json([
-            'client'=>$client,
+            'bank'=>$bank,
             'tranwith'=>$tranwith,
         ]);
     }//End Method
 
 
 
-    //Update Client
-    public function UpdateClients(Request $req){
-        $client = User_Info::findOrFail($req->id);
+    //Update Bank
+    public function UpdateBanks(Request $req){
+        $bank = User_Info::findOrFail($req->id);
 
         $req->validate([
             "type" => 'required',
             "name" => 'required',
-            "phone" => ['required','numeric',Rule::unique('user__infos', 'user_phone')->ignore($client->id)],
-            "email" => ['required','email',Rule::unique('user__infos', 'user_email')->ignore($client->id)],
-            "gender" => 'required',
+            "phone" => [Rule::unique('user__infos', 'user_phone')->ignore($bank->id)],
+            "email" => [Rule::unique('user__infos', 'user_email')->ignore($bank->id)],
+            "address" => 'required',
             "location" => 'required|numeric',
         ]);
 
@@ -101,7 +99,6 @@ class ClientController extends Controller
             "user_name" => $req->name,
             "user_phone" => $req->phone,
             "user_email" => $req->email,
-            "gender" => $req->gender,
             "loc_id" => $req->location,
             "address" => $req->address,
             "updated_at" => now(),
@@ -115,8 +112,8 @@ class ClientController extends Controller
 
 
 
-    //Delete Clients
-    public function DeleteClients(Request $req){
+    //Delete Banks
+    public function DeleteBanks(Request $req){
         User_Info::findOrFail($req->id)->delete();
         return response()->json([
             'status'=>'success'
@@ -125,39 +122,39 @@ class ClientController extends Controller
 
 
 
-    //Client Pagination
-    public function ClientPagination(){
-        $client = User_Info::where('user_type','client')->orderBy('added_at','asc')->paginate(15);
+    //Bank Pagination
+    public function BankPagination(){
+        $bank = User_Info::where('user_type','bank')->orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
-            'data' => view('client.clientPagination', compact('client'))->render(),
+            'data' => view('bank.bankPagination', compact('bank'))->render(),
         ]);
     }//End Method
 
 
 
-    // Search Client by Name
-    public function SearchClients(Request $request){
+    // Search Bank by Name
+    public function SearchBanks(Request $request){
         if($request->search != ""){
-            $client = User_Info::where('user_type','client')
+            $bank = User_Info::where('user_type','bank')
             ->where('user_name', 'like', '%'.$request->search.'%')
             ->orWhere('id', 'like','%'.$request->search.'%')
             ->orderBy('user_name','asc')
             ->paginate(15);
         }
         else{
-            $client = User_Info::where('user_type','client')
+            $bank = User_Info::where('user_type','bank')
             ->orderBy('user_name','asc')
             ->paginate(15);
         }
         
 
-        $paginationHtml = $client->links()->toHtml();
+        $paginationHtml = $bank->links()->toHtml();
         
-        if($client->count() >= 1){
+        if($bank->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('client.searchClient', compact('client'))->render(),
+                'data' => view('bank.search', compact('bank'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -170,26 +167,26 @@ class ClientController extends Controller
 
 
 
-    //Search Client by Email
-    public function SearchClientByEmail(Request $request){
+    //Search Bank by Email
+    public function SearchBankByEmail(Request $request){
         if($request->search != ""){
-            $client = User_Info::where('user_type','client')
+            $bank = User_Info::where('user_type','bank')
             ->where('user_email', 'like', '%'.$request->search.'%')
             ->orderBy('user_email','asc')
             ->paginate(15);
         }
         else{
-            $client = User_Info::where('user_type','client')
+            $bank = User_Info::where('user_type','bank')
             ->orderBy('user_email','asc')
             ->paginate(15);
         }
 
-        $paginationHtml = $client->links()->toHtml();
+        $paginationHtml = $bank->links()->toHtml();
         
-        if($client->count() >= 1){
+        if($bank->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('client.searchClient', compact('client'))->render(),
+                'data' => view('bank.search', compact('bank'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -202,27 +199,27 @@ class ClientController extends Controller
 
 
 
-    //Search Client by Contact
-    public function SearchClientByContact(Request $request){
+    //Search Bank by Contact
+    public function SearchBankByContact(Request $request){
         if($request->search != ""){
-            $client = User_Info::where('user_type','client')
+            $bank = User_Info::where('user_type','bank')
             ->where('user_phone', 'like', '%'.$request->search.'%')
             ->orderBy('user_phone','asc')
             ->paginate(15);
         }
         else{
-            $client = User_Info::where('user_type','client')
+            $bank = User_Info::where('user_type','bank')
             ->orderBy('user_phone','asc')
             ->paginate(15);
         }
         
 
-        $paginationHtml = $client->links()->toHtml();
+        $paginationHtml = $bank->links()->toHtml();
         
-        if($client->count() >= 1){
+        if($bank->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('client.searchClient', compact('client'))->render(),
+                'data' => view('bank.search', compact('bank'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -235,33 +232,33 @@ class ClientController extends Controller
 
 
 
-    //Search Client by Location
-    public function SearchClientByLocation(Request $request){
+    //Search Bank by Location
+    public function SearchBankByLocation(Request $request){
         if($request->search != ""){
-            $client = User_Info::with('Location')
+            $bank = User_Info::with('Location')
             ->whereHas('Location', function ($query) use ($request) {
                 $query->where('upazila', 'like', '%'.$request->search.'%');
                 $query->orderBy('upazila','asc');
             })
-            ->where('user_type','client')
+            ->where('user_type','bank')
             ->paginate(15);
         }
         else{
-            $client = User_Info::with('Location')
+            $bank = User_Info::with('Location')
             ->whereHas('Location', function ($query) use ($request) {
                 $query->orderBy('upazila','asc');
             })
-            ->where('user_type','client')
+            ->where('user_type','bank')
             ->paginate(15);
         }
         
 
-        $paginationHtml = $client->links()->toHtml();
+        $paginationHtml = $bank->links()->toHtml();
         
-        if($client->count() >= 1){
+        if($bank->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('client.searchClient', compact('client'))->render(),
+                'data' => view('bank.search', compact('bank'))->render(),
                 'paginate' => $paginationHtml
             ]);
         }
@@ -275,26 +272,26 @@ class ClientController extends Controller
 
 
 
-    //Search Client by Address
-    public function SearchClientByAddress(Request $request){
+    //Search Bank by Address
+    public function SearchBankByAddress(Request $request){
         if($request->search != ""){
-            $client = User_Info::where('user_type','client')
+            $bank = User_Info::where('user_type','bank')
             ->where('address', 'like', '%'.$request->search.'%')
             ->orderBy('address','asc')
             ->paginate(15);
         }
         else{
-            $client = User_Info::where('user_type','client')
+            $bank = User_Info::where('user_type','bank')
             ->orderBy('address','asc')
             ->paginate(15);
         }
 
-        $paginationHtml = $client->links()->toHtml();
+        $paginationHtml = $bank->links()->toHtml();
         
-        if($client->count() >= 1){
+        if($bank->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('client.searchClient', compact('client'))->render(),
+                'data' => view('bank.search', compact('bank'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -305,5 +302,5 @@ class ClientController extends Controller
         }
     }//End Method
 
-    /////////////////////////// --------------- Inventory Client Methods end---------- //////////////////////////
+    /////////////////////////// --------------- Bank Methods end---------- //////////////////////////
 }
