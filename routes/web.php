@@ -132,6 +132,7 @@ Route::controller(EmployeeController::class)->group(function () {
         Route::get('/search/employees/dob', 'SearchEmployeeByDob')->name('search.employees.dob');
         Route::get('/search/employees/department', 'SearchEmployeeByDepartment')->name('search.employees.department');
         Route::get('/search/employees/designation', 'SearchEmployeeByDesignation')->name('search.employees.designation');
+        Route::get('/search/employees/type', 'SearchEmployeeByType')->name('search.employees.type');
         //pagination routes start
         Route::get('/pagination', 'EmployeePagination');
         Route::get('/search/pagination', 'SearchEmployees');
@@ -143,6 +144,7 @@ Route::controller(EmployeeController::class)->group(function () {
         Route::get('/search/pagination/dob', 'SearchEmployeeByDob');
         Route::get('/search/pagination/department', 'SearchEmployeeByDepartment');
         Route::get('/search/pagination/designation', 'SearchEmployeeByDesignation');
+        Route::get('/search/pagination/type', 'SearchEmployeeByType');
         //search list routs
         Route::get('/get/employeeby/name', 'GetEmployeeByName')->name('get.employee.by.name');
     });
@@ -167,6 +169,7 @@ Route::controller(SupplierController::class)->group(function () {
     Route::get('/search/supplier/phone', 'SearchSupplierByContact')->name('search.supplier.contact');
     Route::get('/search/supplier/location', 'SearchSupplierByLocation')->name('search.supplier.location');
     Route::get('/search/supplier/address', 'SearchSupplierByAddress')->name('search.supplier.address');
+    Route::get('/search/supplier/type', 'SearchSupplierByType')->name('search.supplier.type');
     //pagination routes start
     Route::get('/supplier/pagination', 'SupplierPagination');
     Route::get('/supplier/name/pagination', 'SearchSuppliers');
@@ -174,6 +177,7 @@ Route::controller(SupplierController::class)->group(function () {
     Route::get('/supplier/phone/pagination', 'SearchSupplierByContact');
     Route::get('/supplier/address/pagination', 'SearchSupplierByAddress');
     Route::get('/supplier/location/pagination', 'SearchSupplierByLocation');
+    Route::get('/supplier/type/pagination', 'SearchSupplierByType');
     //search list routs
     Route::get('/get/supplierby/name', 'GetSupplierByName')->name('get.supplier.by.name');
 });
@@ -197,6 +201,7 @@ Route::controller(ClientController::class)->group(function () {
     Route::get('/search/client/contact', 'SearchClientByContact')->name('search.client.contact');
     Route::get('/search/client/location', 'SearchClientByLocation')->name('search.client.location');
     Route::get('/search/client/address', 'SearchClientByAddress')->name('search.client.address');
+    Route::get('/search/client/type', 'SearchClientByType')->name('search.client.type');
     //pagination routes start
     Route::get('/client/pagination', 'ClientPagination');
     Route::get('/client/name/pagination', 'SearchClients');
@@ -204,6 +209,7 @@ Route::controller(ClientController::class)->group(function () {
     Route::get('/client/contact/pagination', 'SearchClientByContact');
     Route::get('/client/location/pagination', 'SearchClientByLocation');
     Route::get('/client/address/pagination', 'SearchClientByAddress');
+    Route::get('/client/type/pagination', 'SearchClientByType');
     //search list routs
 });
 
@@ -295,6 +301,23 @@ Route::controller(TransactionController::class)->group(function () {
         //search list routs
         Route::get('/get/groupeby/name', 'GetTransactionGroupeByName');
         Route::get('/get/groupeby/type', 'GetTransactionGroupeByType');
+
+
+
+        ///////////// --------------- Tran With Groupe routes ----------- ///////////////////
+        //crud routes start
+        Route::get('/tranwithgroupe', 'ShowTranWithGroupe')->name('show.tranwithgroupe');
+        Route::post('/insert/tranwithgroupe', 'InsertTranWithGroupe')->name('insert.tranwithgroupe');
+        Route::get('/edit/tranwithgroupe', 'EditTranWithGroupe')->name('edit.tranwithgroupe');
+        Route::put('/update/tranwithgroupe', 'UpdateTranWithGroupe')->name('update.tranwithgroupe');
+        Route::delete('/delete/tranwithgroupe', 'DeleteTranWithGroupe')->name('delete.tranwithgroupe');
+        //search routes start
+        Route::get('/search/tranwithgroupe/with', 'SearchTranWithGroupeByWith')->name('search.tranwithgroupe.with');
+        Route::get('/search/tranwithgroupe/groupe', 'SearchTranWithGroupeByGroupe')->name('search.tranwithgroupe.groupe');
+        //pagination routes start
+        Route::get('/tranwithgroupe/pagination', 'TranWithGroupePagination');
+        Route::get('/tranwithgroupe/search/pagination/with', 'SearchTranWithGroupeByWith');
+        Route::get('/tranwithgroupe/search/pagination/groupe', 'SearchTranWithGroupeByGroupe');
 
 
 

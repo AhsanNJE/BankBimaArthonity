@@ -5,11 +5,26 @@
             <div class="col-md-3">
                 <button class="open-modal add" data-modal-id="addTranWith">Add Tran With</button>
             </div>
-            <div class="col-md-9 search">
-                <select name="searchOption" id="searchOption" class="select-small">
-                    <option value="1">Name</option>
-                    <option value="2">Type</option>
+            <div class="col-md-2">
+                <label for="methods">Method</label>
+                <select name="methods" id="methods">
+                    <option>Select Method</option>
+                    <option value="Receive">Receive</option>
+                    <option value="Payment">Payment</option>
+                    <option value="Both">Both</option>
                 </select>
+            </div>
+            <div class="col-md-2">
+                <label for="searchOption">Search Option</label>
+                <select name="searchOption" id="searchOption">
+                    <option value="1">Name</option>
+                    <option value="2">User Type</option>
+                    <option value="3">Tran Type</option>
+                    <option value="4">Tran Method</option>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label for="search">Search</label>
                 <input type="text" name="search" id="search" class="form-input" placeholder="Search here...">
             </div>
         </div>

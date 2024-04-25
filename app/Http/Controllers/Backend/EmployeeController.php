@@ -976,6 +976,46 @@ class EmployeeController extends Controller
 
 
 
+
+    //Search Employee by Type
+    public function SearchEmployeeByType(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Withs')
+            ->whereHas('Withs', function ($query) use ($request) {
+                $query->where('tran_with_name', 'like', '%'.$request->search.'%');
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Withs')
+            ->whereHas('Withs', function ($query) use ($request) {
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('employee.search', compact('employee'))->render(),
+                'paginate' => $paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
     /////////////////////////// --------------- Employee Table Methods end ---------- //////////////////////////
 
 

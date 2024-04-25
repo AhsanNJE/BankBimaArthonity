@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Transaction_Type;
 use App\Models\Transaction_With;
+use App\Models\Transaction_With_Groupe;
 use App\Models\Transaction_Groupe;
 use App\Models\Transaction_Head;
 use App\Models\Transaction_Detail;
@@ -293,8 +294,6 @@ class TransactionController extends Controller
 
 
 
-
-
     /////////////////////////// --------------- Transaction Groupe Table Methods start ---------- //////////////////////////
     //Show All Transaction Groupes
     public function ShowTransactionGroupes(){
@@ -444,6 +443,169 @@ class TransactionController extends Controller
     }//End Method
 
     /////////////////////////// --------------- Transaction Groupes Table Methods End ---------- //////////////////////////
+
+
+
+    /////////////////////////// --------------- Tran With Groupe Table Methods start ---------- //////////////////////////
+    //Show All TranWith Groupe
+    public function ShowTranWithGroupe(){
+        $withgroupes = Transaction_With_Groupe::orderBy('added_at','asc')->paginate(15);
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        $tranwith = Transaction_With::orderBy('added_at','asc')->get();
+        return view('transaction.tran_with_groupe.tranWithGroupes', compact('withgroupes','groupes','tranwith'));
+    }//End Method
+
+
+
+    // //Get Tran With By Type
+    // public function GetTranWithByType(Request $req){
+    //     $tranwith = Transaction_With::where('user_type', $req->type)
+    //     ->orderBy('user_type','asc')
+    //     ->get();
+
+    //     return response()->json([
+    //         'status'=>'success',
+    //         'tranwith'=>$tranwith,
+    //     ]);  
+
+    // }//End Method
+
+
+
+    //Insert TranWith Groupe
+    public function InsertTranWithGroupe(Request $req){
+        $req->validate([
+            "with" => 'required|numeric',
+            "groupe" => 'required|numeric',
+        ]);
+
+        Transaction_With_Groupe::insert([
+            "with_id" => $req->with,
+            "groupe_id" => $req->groupe,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }//End Method
+
+
+
+    //Edit TranWith Groupe
+    public function EditTranWithGroupe(Request $req){
+        $tranwithgroupes = Transaction_With_Groupe::findOrFail($req->id);
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        $tranwith = Transaction_With::orderBy('added_at','asc')->get();
+        return response()->json([
+            'tranwithgroupes'=>$tranwithgroupes,
+            'groupes'=>$groupes,
+            'tranwith'=>$tranwith
+        ]);
+    }//End Method
+
+
+
+    //Update TranWith Groupe
+    public function UpdateTranWithGroupe(Request $req){
+        $tranwithgroupe = Transaction_With_Groupe::findOrFail($req->id);
+
+        $req->validate([
+            "with" => 'required|numeric',
+            "groupe" => 'required|numeric',
+        ]);
+
+        $update = Transaction_With_Groupe::findOrFail($req->id)->update([
+            "with_id" => $req->with,
+            "groupe_id" => $req->groupe,
+            "updated_at" => now()
+        ]);
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+
+    //Delete TranWith Groupe
+    public function DeleteTranWithGroupe(Request $req){
+        Transaction_With_Groupe::findOrFail($req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+
+
+    // TranWith Groupe Pagination
+    public function TranWithGroupePagination(){
+        $withgroupes = Transaction_With_Groupe::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('transaction.tran_with_groupe.tranWithGroupePagination', compact('withgroupes'))->render(),
+        ]);
+    }//End Method
+
+
+
+    //TranWith Groupe Search By With
+    public function SearchTranWithGroupeByWith(Request $req){
+        $withgroupes = Transaction_With_Groupe::with('Withs')
+        ->whereHas('Withs', function ($query) use ($req) {
+            $query->where('tran_with_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('tran_with_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $withgroupes->links()->toHtml();
+        
+        if($withgroupes->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('transaction.tran_with_groupe.search', compact('withgroupes'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+
+    //TranWith Groupe Search By Groupe
+    public function SearchTranWithGroupeByGroupe(Request $req){
+        $withgroupes = Transaction_With_Groupe::with('Groupe')
+        ->whereHas('Groupe', function ($query) use ($req) {
+            $query->where('tran_groupe_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('tran_groupe_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $withgroupes->links()->toHtml();
+        
+        if($withgroupes->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('transaction.tran_with_groupe.search', compact('withgroupes'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    /////////////////////////// --------------- Tran With Groupe Table Methods start ---------- //////////////////////////
+
 
 
 
@@ -848,7 +1010,7 @@ class TransactionController extends Controller
             if ($transaction) {
                 return response()->json([
                     'status' => 'success',
-                    'data' => view('transaction.details.transactionGrid', compact('transaction'))->render(),
+                    'data' => view('transaction.general.transactionGrid', compact('transaction'))->render(),
                     'transaction' => $transaction
                 ]);
             } else {

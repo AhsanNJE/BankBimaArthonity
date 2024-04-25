@@ -16,6 +16,7 @@
                     <option value="7">Dob</option>
                     <option value="8">Department</option>
                     <option value="9">Designation</option>
+                    <option value="10">Type</option>
                 </select>
                 <input type="text" name="search" id="search" class="input-small" placeholder="Search here...">
             </div>

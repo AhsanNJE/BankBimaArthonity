@@ -270,6 +270,9 @@ $(document).ready(function () {
         else if(searchOption == '5'){
             loadSupplierData(`/search/supplier/address`, {search:search}, '.supplier')
         }
+        else if(searchOption == '6'){
+            loadSupplierData(`/search/supplier/type`, {search:search}, '.supplier')
+        }
         
     });
 
@@ -296,6 +299,9 @@ $(document).ready(function () {
         }
         else if(searchOption == '5'){
             loadSupplierData(`/supplier/address/pagination?page=${page}`, {search:search}, '.supplier')
+        }
+        else if(searchOption == '6'){
+            loadSupplierData(`/supplier/type/pagination?page=${page}`, {search:search}, '.supplier')
         }
     });
 

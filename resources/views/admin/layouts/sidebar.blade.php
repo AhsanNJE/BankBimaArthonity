@@ -403,24 +403,6 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        <p>
-                            Tran With
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.tranwith')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Tran With</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
                         <i class="fa-solid fa-location-dot"></i>
                         <p>
                             Location
@@ -449,7 +431,26 @@
                         <li class="nav-item">
                             <a href="{{route('show.transaction.types')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Transaction Type</p>
+                                <p>Main Head</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <p>
+                            Tran With
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.tranwith')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Tran With</p>
                             </a>
                         </li>
                     </ul>
@@ -468,6 +469,25 @@
                             <a href="{{route('show.transaction.groupes')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Transaction Groupe</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <p>
+                            Tran With Groupe
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.tranwithgroupe')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Tran With Groupe</p>
                             </a>
                         </li>
                     </ul>

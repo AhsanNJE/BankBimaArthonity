@@ -12,6 +12,7 @@
                     <option value="3">Phone</option>
                     <option value="4">Location</option>
                     <option value="5">Address</option>
+                    <option value="6">Type</option>
                 </select>
                 <input type="text" name="search" id="search" class="input-small" placeholder="Search here..."
                     style="width: 40%;">
