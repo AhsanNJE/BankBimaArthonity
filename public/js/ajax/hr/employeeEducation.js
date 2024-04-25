@@ -166,55 +166,77 @@ $(document).ready(function () {
     }
 
 
-    
-///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
-$(document).on('click', '.editEmployee', function () {
-    let modalId = $(this).data('modal-id');
-    let id = $(this).data('id');
-    $.ajax({
-        url: `/admin/employees/edit/employees`,
-        method: 'GET',
-        data: { id:id },
-        success: function (res) {
-            $('#id').val(id);
-            $('#empId').val(res.employee.user_id);
-            $('#updateName').val(res.employee.user_name);
-            $('#updateName').focus();
-            $('#updateEmail').val(res.employee.user_email);
-            $('#updatePhone').val(res.employee.user_phone);
-
-            // Create options dynamically
-            $('#updateGender').empty();
-            $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
-                                     <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
-                                     <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
-
-            $('#updateLocation').val(res.employee.location.upazila);
-            $('#updateLocation').attr('data-id',res.employee.loc_id);
-
-            // Create options dynamically
-            $('#updateType').empty();
-            $.each(res.tranwith, function (key, withs) {
-                $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
-            });
-
-            $('#updateDepartment').val(res.employee.department.dept_name);
-            $('#updateDepartment').attr('data-id',res.employee.dept_id);
-            $('#updateDesignation').val(res.employee.designation.designation);
-            $('#updateDesignation').attr('data-id',res.employee.designation_id);
-            $('#updateDob').val(res.employee.dob);
-            $('#updateNid').val(res.employee.nid);
-            $('#updateAddress').val(res.employee.address);
-            $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
-
-            var modal = document.getElementById(modalId);
-            modal.style.display = 'block';
-        },
-        error: function (err) {
-            console.log(err);
+    // Show Employee Details List Toggle Functionality
+    $(document).on('click', '.employeeeducationdetails li', function(e){
+        let id = $(this).attr('data-id');
+        if(id == 1){
+            if($('.personal').is(':visible')){
+                $('.personal').hide()
+            }
+            else{
+                $('.personal').show();
+            }
+        }
+        else if(id == 2){
+            if($('.education').is(':visible')){
+                $('.education').hide()
+            }
+            else{
+                $('.education').show();
+            }
         }
     });
-});
+
+
+    
+    ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.editEmployee', function () {
+        let modalId = $(this).data('modal-id');
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/admin/employees/edit/employees`,
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                $('#id').val(id);
+                $('#empId').val(res.employee.user_id);
+                $('#updateName').val(res.employee.user_name);
+                $('#updateName').focus();
+                $('#updateEmail').val(res.employee.user_email);
+                $('#updatePhone').val(res.employee.user_phone);
+
+                // Create options dynamically
+                $('#updateGender').empty();
+                $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
+                                        <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
+                                        <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
+
+                $('#updateLocation').val(res.employee.location.upazila);
+                $('#updateLocation').attr('data-id',res.employee.loc_id);
+
+                // Create options dynamically
+                $('#updateType').empty();
+                $.each(res.tranwith, function (key, withs) {
+                    $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
+                });
+
+                $('#updateDepartment').val(res.employee.department.dept_name);
+                $('#updateDepartment').attr('data-id',res.employee.dept_id);
+                $('#updateDesignation').val(res.employee.designation.designation);
+                $('#updateDesignation').attr('data-id',res.employee.designation_id);
+                $('#updateDob').val(res.employee.dob);
+                $('#updateNid').val(res.employee.nid);
+                $('#updateAddress').val(res.employee.address);
+                $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
+
+                var modal = document.getElementById(modalId);
+                modal.style.display = 'block';
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
 
 
 
@@ -276,6 +298,115 @@ $(document).on('click', '.editEmployee', function () {
             });
         }
     });
+
+    /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.paginate a', function (e) {
+        e.preventDefault();
+        let page = $(this).attr('href').split('page=')[1];
+        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+    });
+
+
+
+    // On select option search value will be remove
+    $(document).on('change', '#searchOption', function (e) {
+        $('#search').val('');
+    });
+
+
+
+    /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('keyup', '#search', function (e) {
+        e.preventDefault();
+        let search = $(this).val();
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadEmployeeData(`/search/employee/education`, {search:search}, '.employee')
+        }
+        if(searchOption == "2"){
+            loadEmployeeData(`/search/employee/education/email`, {search:search}, '.employee')
+        }
+        if(searchOption == "3"){
+            loadEmployeeData(`/search/employee/education/phone`, {search:search}, '.employee')
+        }
+        if(searchOption == "4"){
+            loadEmployeeData(`/search/employee/education/location`, {search:search}, '.employee')
+        }
+        if(searchOption == "5"){
+            loadEmployeeData(`/search/employee/education/address`, {search:search}, '.employee')
+        }
+        if(searchOption == "6"){
+            loadEmployeeData(`/search/employee/education/nid`, {search:search}, '.employee')
+        }
+        if(searchOption == "7"){
+            loadEmployeeData(`/search/employee/education/dob`, {search:search}, '.employee')
+        }
+        if(searchOption == "8"){
+            loadEmployeeData(`/search/employee/education/department`, {search:search}, '.employee')
+        }
+        if(searchOption == "9"){
+            loadEmployeeData(`/search/employee/education/designation`, {search:search}, '.employee')
+        }
+    });
+
+
+
+    /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.search-paginate a', function (e) {
+        e.preventDefault();
+        $('.paginate').addClass('hidden');
+        let search = $('#search').val();
+        let page = $(this).attr('href').split('page=')[1];
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadEmployeeData(`/search/page/education?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "2"){
+            loadEmployeeData(`/search/page/education/email?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "3"){
+            loadEmployeeData(`/search/page/education/phone?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "4"){
+            loadEmployeeData(`/search/page/education/location?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "5"){
+            loadEmployeeData(`/search/page/education/address?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "6"){
+            loadEmployeeData(`/search/page/education/nid?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "7"){
+            loadEmployeeData(`/search/page/education/dob?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "8"){
+            loadEmployeeData(`/search/page/education/department?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "9"){
+            loadEmployeeData(`/search/page/education/designation?page=${page}`, {search:search}, '.employee');
+        }
+        
+    });
+
+
+
+    // Employee Data Load Function
+    function loadEmployeeData(url, data, targetElement) {
+        $.ajax({
+            url: url,
+            data: data,
+            success: function (res) {
+                if (res.status == "null") {
+                    $(targetElement).html(`<span class="text-danger">Result not Found </span>`);
+                } else {
+                    $(targetElement).html(res.data);
+                    if(res.paginate){
+                        $(targetElement).append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                    }
+                }
+            }
+        });
+    }
 });
 
 document.getElementById('addEducation').addEventListener('click', function() {

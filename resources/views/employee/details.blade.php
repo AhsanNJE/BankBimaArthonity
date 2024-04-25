@@ -92,58 +92,63 @@
 
     {{-- Training Details part starts --}}
     <li data-id="3">Training Details</li>
+    @foreach($training as $employees)
     <div class="training">
         <div class="details-table" style="">
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Training Title</div>
-                <div class="col-md-4">{{$employee->trainingDetail->training_title}}</div>
+                <div class="col-md-4">{{$employees->training_title}}</div>
                 <div class="col-md-2 bold">Country</div>
-                <div class="col-md-4">{{$employee->trainingDetail->country}}</div>
+                <div class="col-md-4">{{$employees->country}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Topic</div>
-                <div class="col-md-4">{{$employee->trainingDetail->topic}}</div>
+                <div class="col-md-4">{{$employees->topic}}</div>
                 <div class="col-md-2 bold">Institution Name</div>
-                <div class="col-md-4">{{$employee->trainingDetail->institution_name}}</div>
+                <div class="col-md-4">{{$employees->institution_name}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Start Date</div>
-                <div class="col-md-4">{{$employee->trainingDetail->start_date}}</div>
+                <div class="col-md-4">{{$employees->start_date}}</div>
                 <div class="col-md-2 bold">End Date</div>
-                <div class="col-md-4">{{$employee->trainingDetail->end_date}}</div>
+                <div class="col-md-4">{{$employees->end_date}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Training Year</div>
-                <div class="col-md-4">{{$employee->trainingDetail->training_year}}</div>
+                <div class="col-md-4">{{$employees->training_year}}</div>
             </div>
         </div>
     </div>
+    @endforeach
 
 
+    
     {{-- Experience Details part starts --}}
     <li data-id="4">Experience Details</li>
+    @foreach($experience as $employees)
     <div class="experience">
         <div class="details-table" style="">
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Company Name</div>
-                <div class="col-md-4">{{$employee->experienceDetail->company_name}}</div>
+                <div class="col-md-4">{{$employees->company_name}}</div>
                 <div class="col-md-2 bold">Designation</div>
-                <div class="col-md-4">{{$employee->experienceDetail->Designation->designation}}</div>
+                <div class="col-md-4">{{$employees->designation}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Start Date</div>
-                <div class="col-md-4">{{$employee->experienceDetail->start_date}}</div>
+                <div class="col-md-4">{{$employees->start_date}}</div>
                 <div class="col-md-2 bold">End Date</div>
-                <div class="col-md-4">{{$employee->experienceDetail->end_date}}</div>
+                <div class="col-md-4">{{$employees->end_date}}</div>
             </div>
             <div class="row each-row"> 
                 <div class="col-md-2 bold">Department</div>
-                <div class="col-md-4">{{$employee->experienceDetail->Department->dept_name}}</div>
+                <div class="col-md-4">{{$employees->dept_name}}</div>
                 <div class="col-md-2 bold">Company Location</div>
-                <div class="col-md-4">{{$employee->experienceDetail->Location->upazila}}</div>
+                <div class="col-md-4">{{$employees->company_location}}</div>
             </div>
         </div>
     </div>
+    @endforeach
 
 
     {{-- Organization Details part starts --}}

@@ -1,43 +1,44 @@
-//Personal Detail Input Field Empty Error
-$(document).on('submit', '#AddPersonalDetailForm', function (e) {
-    e.preventDefault();
-    let locations = $('#location').attr('data-id');
-    let formData = new FormData(this);
-    formData.append('location', locations === undefined ? '' : locations);
-    
-    $.ajax({
-        url: "/insert/personal/info",
-        method: 'POST',
-        processData: false,
-        contentType: false,
-        cache: false,
-        data: formData,
-        beforeSend:function() {
-            $(document).find('span.error').text('');  
-        },
-        success: function (res) {
-            console.log(res)
-            if (res.status == "success") {
-                $('#AddPersonalDetailForm')[0].reset();
-                $('#name').focus();
-                $('#location').removeAttr('data-id');
-                $('#search').val('');
-                $('.employee').load(location.href + ' .employee');
-                $('#previewImage').attr('src',`#`).hide();
-                toastr.success('Personal Detail Added Successfully', 'Added!');
-            }
-        },
-        error: function (err) {
-            console.log(err)
-            let error = err.responseJSON;
-            $.each(error.errors, function (key, value) {
-                $('#' + key + "_error").text(value);
-            });
-        }
-    });
-});
-
 $(document).ready(function () {
+
+    //Personal Detail Input Field Empty Error
+    $(document).on('submit', '#AddPersonalDetailForm', function (e) {
+        e.preventDefault();
+        let locations = $('#location').attr('data-id');
+        let formData = new FormData(this);
+        formData.append('location', locations === undefined ? '' : locations);
+        
+        $.ajax({
+            url: "/insert/personal/info",
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            beforeSend:function() {
+                $(document).find('span.error').text('');  
+            },
+            success: function (res) {
+                console.log(res)
+                if (res.status == "success") {
+                    $('#AddPersonalDetailForm')[0].reset();
+                    $('#name').focus();
+                    $('#location').removeAttr('data-id');
+                    $('#search').val('');
+                    $('.employee').load(location.href + ' .employee');
+                    $('#previewImage').attr('src',`#`).hide();
+                    toastr.success('Personal Detail Added Successfully', 'Added!');
+                }
+            },
+            error: function (err) {
+                console.log(err)
+                let error = err.responseJSON;
+                $.each(error.errors, function (key, value) {
+                    $('#' + key + "_error").text(value);
+                });
+            }
+        });
+    });
+
 
     //Show Employee Personal Details on details modal
     $(document).on('click', '.EmployeePersonalDetails', function (e) {
@@ -58,44 +59,48 @@ $(document).ready(function () {
     });
 
     ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('click', '.editEmployee', function () {
+    $(document).on('click', '.editPersonal', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/admin/employees/edit/employees`,
+            url: `/edit/employee/personal`,
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('#id').val(id);
-                $('#empId').val(res.employee.user_id);
-                $('#updateName').val(res.employee.user_name);
-                $('#updateName').focus();
-                $('#updateEmail').val(res.employee.user_email);
-                $('#updatePhone').val(res.employee.user_phone);
+                $('#id').val(res.employee.id);
+                $('#employee_id').val(res.employee.employee_id);
+                $('#update_name').val(res.employee.name);
+                $('#update_name').focus();
+                $('#update_fathers_name').val(res.employee.fathers_name);
+                $('#update_mothers_name').val(res.employee.mothers_name);
+                $('#update_date_of_birth').val(res.employee.date_of_birth);
 
                 // Create options dynamically
-                $('#updateGender').empty();
-                $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
+                $('#update_gender').empty();
+                $('#update_gender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
                                          <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
                                          <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
 
-                $('#updateLocation').val(res.employee.location.upazila);
-                $('#updateLocation').attr('data-id',res.employee.loc_id);
+
+                $('#update_religion').val(res.employee.religion);
+                $('#update_marital_status').val(res.employee.marital_status);
+                $('#update_nationality').val(res.employee.nationality);
+                $('#update_nid_no').val(res.employee.nid_no);
+                $('#update_phn_no').val(res.employee.phn_no);
+                $('#update_blood_group').val(res.employee.blood_group);
+                $('#update_email').val(res.employee.email);
+
+                $('#update_location').val(res.employee.location.upazila);
+                $('#update_location').attr('data-id',res.employee.location_id);
 
                 // Create options dynamically
-                $('#updateType').empty();
+                $('#update_type').empty();
                 $.each(res.tranwith, function (key, withs) {
-                    $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
+                    $('#update_type').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
                 });
 
-                $('#updateDepartment').val(res.employee.department.dept_name);
-                $('#updateDepartment').attr('data-id',res.employee.dept_id);
-                $('#updateDesignation').val(res.employee.designation.designation);
-                $('#updateDesignation').attr('data-id',res.employee.designation_id);
-                $('#updateDob').val(res.employee.dob);
-                $('#updateNid').val(res.employee.nid);
-                $('#updateAddress').val(res.employee.address);
-                $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
+                $('#update_address').val(res.employee.address);
+                $('#update_preview_image').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
 
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -109,17 +114,13 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditEmployeeForm', function (e) {
+    $(document).on('submit', '#EditPersonalDetailForm', function (e) {
         e.preventDefault();
-        let locations = $('#updateLocation').attr('data-id');
-        let department = $('#updateDepartment').attr('data-id');
-        let designation = $('#updateDesignation').attr('data-id');
+        let locations = $('#update_location').attr('data-id');
         let formData = new FormData(this);
         formData.append('location',locations);
-        formData.append('department',department);
-        formData.append('designation',designation);
         $.ajax({
-            url: `/admin/employees/update/employees`,
+            url: `/update/employee/personal`,
             method: 'POST',
             data: formData,
             cache: false,
@@ -130,8 +131,8 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editEmployee').hide();
-                    $('#EditEmployeeForm')[0].reset();
+                    $('#editPersonal').hide();
+                    $('#EditPersonalDetailForm')[0].reset();
                     $('#search').val('');
                     $('.employee').load(location.href + ' .employee');
                     toastr.success('Employee Updated Successfully', 'Updated!');
@@ -190,31 +191,31 @@ $(document).ready(function () {
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadEmployeeData(`/search/employee`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal`, {search:search}, '.employee')
         }
         if(searchOption == "2"){
-            loadEmployeeData(`/search/employee/email`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal/email`, {search:search}, '.employee')
         }
         if(searchOption == "3"){
-            loadEmployeeData(`/search/employee/phone`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal/phone`, {search:search}, '.employee')
         }
         if(searchOption == "4"){
-            loadEmployeeData(`/search/employee/location`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal/location`, {search:search}, '.employee')
         }
         if(searchOption == "5"){
-            loadEmployeeData(`/search/employee/address`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal/address`, {search:search}, '.employee')
         }
         if(searchOption == "6"){
-            loadEmployeeData(`/search/employee/nid`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal/nid`, {search:search}, '.employee')
         }
         if(searchOption == "7"){
-            loadEmployeeData(`/search/employee/dob`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal/dob`, {search:search}, '.employee')
         }
         if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/department`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal/department`, {search:search}, '.employee')
         }
         if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/designation`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/personal/designation`, {search:search}, '.employee')
         }
     });
 
@@ -228,31 +229,31 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadEmployeeData(`/search/page?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "2"){
-            loadEmployeeData(`/search/page/email?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal/email?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "3"){
-            loadEmployeeData(`/search/page/phone?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal/phone?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "4"){
-            loadEmployeeData(`/search/page/location?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal/location?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "5"){
-            loadEmployeeData(`/search/page/address?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal/address?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "6"){
-            loadEmployeeData(`/search/page/nid?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal/nid?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "7"){
-            loadEmployeeData(`/search/page/dob?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal/dob?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/department?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal/department?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/designation?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/personal/designation?page=${page}`, {search:search}, '.employee');
         }
         
     });

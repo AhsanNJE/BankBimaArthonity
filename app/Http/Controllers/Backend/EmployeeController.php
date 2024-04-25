@@ -11,6 +11,8 @@ use App\Models\Location_Info;
 use App\Models\Department_Info;
 use App\Models\User_Info;
 use App\Models\EducationDetail;
+use App\Models\TrainingDetail;
+use App\Models\ExperienceDetail;
 use App\Models\Pay_Roll_Setup;
 use App\Models\Transaction_With;
 
@@ -679,10 +681,11 @@ class EmployeeController extends Controller
     public function ShowEmployeeDetails(Request $req){
         $employee = User_Info::with('Designation','Department','Location','Withs','personalDetail','educationDetail','trainingDetail','experienceDetail','organizationDetail')->where('user_id', "=", $req->id)->first();
         $education = EducationDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
-        
+        $training = TrainingDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
+        $experience = ExperienceDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
         // $payroll = Pay_Roll_Setup::with('Head','Employee')->where('emp_id', $employee->user_id)->get();
         return response()->json([
-            'data'=>view('employee.details', compact('employee','education'))->render(),
+            'data'=>view('employee.details', compact('employee','education','training','experience'))->render(),
         ]);
     }//End Method
 

@@ -25,7 +25,7 @@
     <div class="modal-subject">
         <div class="modal-heading">
             <h3 class="center">Add Experience Detail</h3>
-            <span class="close-modal" data-modal-id="EmployeeEmployeeExperience">&times;</span>
+            <span class="close-modal" data-modal-id="EmployeeExperience">&times;</span>
         </div>
 
         <div class="center">
@@ -35,39 +35,41 @@
                         <h3 class="card-title">Add Experience Detail</h3>
                     </div>
                 </div>
-            
-                    <!-- form start -->
-                    <form id="AddExperienceDetailForm" action="{{ route('insertexperience.info')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <!-- Experience Details Section -->
-                    <div class="center">
-                        <div class="card-body">
-                            <div class="row">
-                            <div class="col-md-6">  
-                                <div class="form-group">   
-                                    <label for="with">Employee Type</label>
-                                    <select name="with" id="with">
-                                        <option value="">Select Employee Type</option>
-                                        @foreach ($tranwith as $with)
-                                            <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger error" id="with_error"></span>
-                                </div>
+                <div id="formContainer">
+                    <div class="row">
+                        <div class="col-md-6">  
+                            <div class="form-group">   
+                                <label for="with">Employee Type</label>
+                                <select name="with" id="with">
+                                    <option value="">Select Employee Type</option>
+                                    @foreach ($tranwith as $with)
+                                        <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
+                                    @endforeach
+                                </select>
+                                <span class="text-danger error" id="with_error"></span>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="user">Name</label>
-                                    <input type="text" name="user" class="form-control" id="user" autocomplete="off">
-                                    <div id="user-list">
-                                        <ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="user">Name</label>
+                                <input type="text" name="user" class="form-control" id="user" autocomplete="off">
+                                <div id="user-list">
+                                    <ul>
 
-                                        </ul>
-                                    </div>
-                                    <span class="text-danger error" id="user_error"></span>
+                                    </ul>
                                 </div>
+                                <span class="text-danger error" id="user_error"></span>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                    </div>
+                    <!-- form start -->
+                    <form id='form3' class='experience-form' action="{{ route('insertexperience.info')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <!-- Education Details Section -->
+                        <div class="center">
+                            <div class="card-body">
+                                <div class="row"> 
+                                <div class="col-md-6">
                                 <div class="form-group">
                                     <label for = "company_name">Company Name</label>
                                     <input type="text" name="company_name" id="company_name" class="form-control">
@@ -78,11 +80,6 @@
                                 <div class="form-group">
                                     <label for = "department">Department</label>
                                     <input type="text" name="department" id="department" class="form-control">
-                                    <div id="department-list">
-                                        <ul>
-
-                                        </ul>
-                                    </div>
                                     <span class="text-danger error" id="department_error"></span>
                                 </div>
                             </div>
@@ -90,23 +87,13 @@
                                 <div class="form-group">
                                     <label for = "designation">Designation</label>
                                     <input type="text" name="designation" id="designation" class="form-control">
-                                    <div id="designation-list">
-                                        <ul>
-
-                                        </ul>
-                                    </div>
                                     <span class="text-danger error" id="designation_error"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for = "location">Company Location</label>
+                                    <label for = "location">Company Address</label>
                                     <input type="text" name="location" id="location"  class="form-control">
-                                    <div id="location-list">
-                                        <ul>
-
-                                        </ul>
-                                    </div>
                                     <span class="text-danger error" id="location_error"></span>
                                 </div>
                             </div>
@@ -124,21 +111,21 @@
                                     <span class="text-danger error" id="end_date_error"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="center">
-                            <button type="submit" id="InsertExperience" class="btn btn-primary">Save</button>
-                        </div>
-                    </div>
-                </form>
+                                    <!-- Forms will be dynamically added here -->
+                                </div>
+                            </div>
+                        </div> 
+                    </form>
                 </div>
-                <!-- <div>
+                <div>
                     <button type = "button" name = "addExperience" id = "addExperience" class="btn btn-primary">Add+</button>
-                </div> -->
-                
-            </div>         
+                </div>
+                <div class="center">
+                    <button type="submit" id="InsertExperience" class="btn btn-primary">Save</button>
+                </div>
+             </div>
         </div>
     </div>
 </div>
 </body>
 </html>
-

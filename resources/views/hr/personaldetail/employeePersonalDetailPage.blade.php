@@ -15,15 +15,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($employeepersonal as $key => $item)
+        @foreach($employee as $key => $item)
             <tr>
-                <td>{{ $employeepersonal->firstItem() + $key }}</td>
-                <td>{{ $item->employee_id }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->date_of_birth }}</td>
+                <td>{{ $employee->firstItem() + $key }}</td>
+                <td>{{ $item->user_id }}</td>
+                <td>{{ $item->user_name }}</td>
+                <td>{{ $item->dob }}</td>
                 <td>{{ $item->gender }}</td>
-                <td>{{ $item->email }}</td>
-                <td>{{ $item->phn_no }}</td>
+                <td>{{ $item->user_email }}</td>
+                <td>{{ $item->user_phone }}</td>
                 <td>{{ $item->address }}</td>
                 <td><img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="50px" width="50px"></td>
                 <td>
@@ -35,9 +35,9 @@
                 </td>
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal EmployeePersonalDetails" data-modal-id="EmployeePersonalDetails"
-                        data-id="{{ $item->id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
-                    <button class="btn btn-info btn-sm open-modal EmployeeEdit" data-modal-id="EmployeeEdit"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
+                        data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
+                    <button class="btn btn-info btn-sm open-modal editPersonal" data-modal-id="editPersonal"
+                        data-id="{{ $item->user_id }}"><i class="fas fa-edit"></i>Edit</button>
                     <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
                             class="fas fa-trash"></i>Delete</button>
                 </td>
@@ -47,5 +47,5 @@
 </table>
 
 <div class="center paginate" id="paginate">
-    {!! $employeepersonal->links() !!}
+    {!! $employee->links() !!}
 </div>

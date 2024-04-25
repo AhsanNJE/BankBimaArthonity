@@ -16,21 +16,15 @@ return new class extends Migration
             $table->string('emp_id');
             $table->string('company_name');
             $table->string('designation');
+            $table->string('department');
+            $table->string('company_location');
             $table->date('start_date');
             $table->date('end_date');
-            $table->unsignedBigInteger('department');
-            $table->unsignedBigInteger('company_location');
             $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
             $table->timestamps();
             $table->foreign('emp_id')->references('employee_id')->on('personal_details')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
-            $table->foreign('department')->references('id')->on('department__infos')
-                     ->cascadeOnUpdate()
-                     ->cascadeOnDelete();
-            $table->foreign('company_location')->references('id')->on('location__infos')
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
         });
     }
 

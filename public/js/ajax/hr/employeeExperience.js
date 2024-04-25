@@ -1,15 +1,9 @@
 //Experience Detail Input Field Empty Error
-$(document).on('submit', '#AddExperienceDetailForm', function (e) {
+$(document).on('submit', '#form3', function (e) {
     e.preventDefault();
     let user = $('#user').attr('data-id');
-    let locations = $('#location').attr('data-id');
-    let department = $('#department').attr('data-id');
-    let designation = $('#designation').attr('data-id');
     let formData = new FormData(this);
     formData.append('user', user === undefined ? '' : user);
-    formData.append('location', locations === undefined ? '' : locations);
-    formData.append('department', department === undefined ? '' : department);
-    formData.append('designation', designation === undefined ? '' : designation);
     
     $.ajax({
         url: "/insert/experience/info",
@@ -24,12 +18,9 @@ $(document).on('submit', '#AddExperienceDetailForm', function (e) {
         success: function (res) {
             console.log(res)
             if (res.status == "success") {
-                $('#AddExperienceDetailForm')[0].reset();
+                $('#form3').trigger('reset');
                 $('#name').focus();
                 $('#user').removeAttr('data-id');
-                $('#location').removeAttr('data-id');
-                $('#department').removeAttr('data-id');
-                $('#designation').removeAttr('data-id');
                 $('#search').val('');
                 $('.employee').load(location.href + ' .employee');
                 $('#previewImage').attr('src',`#`).hide();
@@ -66,115 +57,91 @@ $(document).ready(function () {
         });
     });
 
-    // var formIndex = 2; // Initialize form index
+    var formIndex = 2; // Initialize form index
 
-    // $('#addExperience').click(function() {
-    //     var form = createForm(formIndex); // Create a new form
-    //     $('#formContainer').append(form); // Append the form to the container
-    //     formIndex++; // Increment form index
-    // });
+    $('#addExperience').click(function() {
+        var form = createForm(formIndex); // Create a new form
+        $('#formContainer').append(form); // Append the form to the container
+        formIndex++; // Increment form index
+    });
 
-    // $('#InsertExperience').click(function() {
-    //     // Serialize and submit all forms
-    //     $('.experience-form').each(function() {
-    //         let user = $('#user').attr('data-id');
-    //         let locations = $('#location').attr('data-id');
-    //         let department = $('#department').attr('data-id');
-    //         let designation = $('#designation').attr('data-id');
-    //         var formData = $(this).serialize();
-    //         formData += '&user=' + encodeURIComponent(user === undefined ? '' : user);
-    //         // formData.append('location', locations === undefined ? '' : locations);
-    //         // formData.append('department', department === undefined ? '' : department);
-    //         // formData.append('designation', designation === undefined ? '' : designation);
-    //         // Submit the form data via AJAX
-    //         $.ajax({
-    //             url: '/insert/experience/info', // Change this to your endpoint
-    //             method: 'POST',
-    //             data: formData,
-    //             success: function(response) {
-    //                 console.log(response);
-    //                 $('#user').removeAttr('data-id');
-    //                 $('#location').removeAttr('data-id');
-    //                 $('#department').removeAttr('data-id');
-    //                 $('#designation').removeAttr('data-id');
-    //             },
-    //             error: function(xhr, status, error) {
-    //                 console.error(xhr.responseText);
-    //             }
-    //         });
-    //     });
-    // });
+    $('#InsertExperience').click(function() {
+        // Serialize and submit all forms
+        $('.experience-form').each(function() {
+            let user = $('#user').attr('data-id');
+            var formData = $(this).serialize();
+            formData += '&user=' + encodeURIComponent(user === undefined ? '' : user);
+            // Submit the form data via AJAX
+            $.ajax({
+                url: '/insert/experience/info', // Change this to your endpoint
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    console.log(response);
+                    $('#user').removeAttr('data-id');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
 
-    // // Function to create a new form
-    // function createForm(index) {
-    //     var form = $('<form>', {
-    //         id: 'form' + index,
-    //         class: 'experience-form'
-    //     });
+    // Function to create a new form
+    function createForm(index) {
+        var form = $('<form>', {
+            id: 'form' + index,
+            class: 'experience-form'
+        });
 
-    //     // Add form fields
-    //     form.append(`
-    //     <div class="row">  
-    //         <div class="col-md-6">
-    //             <div class="form-group">
-    //                 <label for = "company_name">Company Name</label>
-    //                 <input type="text" name="company_name" id="company_name" class="form-control">
-    //                 <span class="text-danger error" id="company_name_error"></span>
-    //             </div>
-    //         </div>
-    //         <div class="col-md-6">
-    //             <div class="form-group">
-    //                 <label for = "department">Department</label>
-    //                     <select name="department" id="department">
-    //                         <option value="">Select Department</option>
-    //                         @foreach ($dept as $depts)
-    //                             <option value="{{$depts->id}}">{{$depts->dept_name}}</option>                                                
-    //                         @endforeach
-    //                     </select>
-    //                 <span class="text-danger error" id="department_error"></span>
-    //             </div>
-    //         </div>
-    //         <div class="col-md-6">
-    //             <div class="form-group">
-    //                 <label for = "designation">Designation</label>
-    //                 <select name="designation" id="designation">
-    //                         <option value="">Select Designation</option>
-    //                         @foreach ($designation as $designations)
-    //                             <option value="{{$designations->id}}">{{$designations->designation}}</option>                                                
-    //                         @endforeach
-    //                     </select>
-    //                 <span class="text-danger error" id="designation_error"></span>
-    //             </div>
-    //         </div>
-    //         <div class="col-md-6">
-    //             <div class="form-group">
-    //                 <label for = "location">Company Location</label>
-    //                 <input type="text" name="location" id="location"  class="form-control">
-    //                 <div id="location-list">
-    //                     <ul>
-
-    //                     </ul>
-    //                 </div>
-    //                 <span class="text-danger error" id="location_error"></span>
-    //             </div>
-    //         </div>
-    //         <div class="col-md-6">
-    //             <div class="form-group">
-    //                 <label for="start_date">Start Date</label>
-    //                 <input type="date" name="start_date" id="start_date" class="form-control">
-    //                 <span class="text-danger error" id="start_date_error"></span>
-    //             </div>
-    //         </div>
-    //         <div class="col-md-6">
-    //             <div class="form-group">
-    //                 <label for="end_date">End Date</label>
-    //                 <input type="date" name="end_date" id="end_date" class="form-control">
-    //                 <span class="text-danger error" id="end_date_error"></span>
-    //             </div>
-    //         </div>
-    //     </div>`);
-    //     return form;
-    // }
+        // Add form fields
+        form.append(`
+        <div class="row">  
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for = "company_name">Company Name</label>
+                    <input type="text" name="company_name" id="company_name" class="form-control">
+                    <span class="text-danger error" id="company_name_error"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for = "department">Department</label>
+                    <input type="text" name="department" id="department" class="form-control">
+                    <span class="text-danger error" id="department_error"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for = "designation">Designation</label>
+                    <input type="text" name="designation" id="designation" class="form-control">
+                    <span class="text-danger error" id="designation_error"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for = "location">Company Address</label>
+                    <input type="text" name="location" id="location"  class="form-control">
+                    <span class="text-danger error" id="location_error"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="start_date">Start Date</label>
+                    <input type="date" name="start_date" id="start_date" class="form-control">
+                    <span class="text-danger error" id="start_date_error"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="end_date">End Date</label>
+                    <input type="date" name="end_date" id="end_date" class="form-control">
+                    <span class="text-danger error" id="end_date_error"></span>
+                </div>
+            </div>
+        </div>`);
+        return form;
+    }
 
     ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.editEmployee', function () {
@@ -268,7 +235,7 @@ $(document).ready(function () {
     
      /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////
     
-     $(document).on('click', '#delete', function (e) {
+    $(document).on('click', '#delete', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
         if (confirm('Are You Sure to Delete This Employee ??')) {
@@ -286,4 +253,113 @@ $(document).ready(function () {
             });
         }
     });
+
+    /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.paginate a', function (e) {
+        e.preventDefault();
+        let page = $(this).attr('href').split('page=')[1];
+        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+    });
+
+
+
+    // On select option search value will be remove
+    $(document).on('change', '#searchOption', function (e) {
+        $('#search').val('');
+    });
+
+
+
+    /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('keyup', '#search', function (e) {
+        e.preventDefault();
+        let search = $(this).val();
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadEmployeeData(`/search/employee/experience`, {search:search}, '.employee')
+        }
+        if(searchOption == "2"){
+            loadEmployeeData(`/search/employee/experience/email`, {search:search}, '.employee')
+        }
+        if(searchOption == "3"){
+            loadEmployeeData(`/search/employee/experience/phone`, {search:search}, '.employee')
+        }
+        if(searchOption == "4"){
+            loadEmployeeData(`/search/employee/experience/location`, {search:search}, '.employee')
+        }
+        if(searchOption == "5"){
+            loadEmployeeData(`/search/employee/experience/address`, {search:search}, '.employee')
+        }
+        if(searchOption == "6"){
+            loadEmployeeData(`/search/employee/experience/nid`, {search:search}, '.employee')
+        }
+        if(searchOption == "7"){
+            loadEmployeeData(`/search/employee/experience/dob`, {search:search}, '.employee')
+        }
+        if(searchOption == "8"){
+            loadEmployeeData(`/search/employee/experience/department`, {search:search}, '.employee')
+        }
+        if(searchOption == "9"){
+            loadEmployeeData(`/search/employee/experience/designation`, {search:search}, '.employee')
+        }
+    });
+
+
+
+    /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.search-paginate a', function (e) {
+        e.preventDefault();
+        $('.paginate').addClass('hidden');
+        let search = $('#search').val();
+        let page = $(this).attr('href').split('page=')[1];
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadEmployeeData(`/search/page/experience?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "2"){
+            loadEmployeeData(`/search/page/experience/email?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "3"){
+            loadEmployeeData(`/search/page/experience/phone?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "4"){
+            loadEmployeeData(`/search/page/experience/location?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "5"){
+            loadEmployeeData(`/search/page/experience/address?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "6"){
+            loadEmployeeData(`/search/page/experience/nid?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "7"){
+            loadEmployeeData(`/search/page/experience/dob?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "8"){
+            loadEmployeeData(`/search/page/experience/department?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "9"){
+            loadEmployeeData(`/search/page/experience/designation?page=${page}`, {search:search}, '.employee');
+        }
+        
+    });
+
+
+
+    // Employee Data Load Function
+    function loadEmployeeData(url, data, targetElement) {
+        $.ajax({
+            url: url,
+            data: data,
+            success: function (res) {
+                if (res.status == "null") {
+                    $(targetElement).html(`<span class="text-danger">Result not Found </span>`);
+                } else {
+                    $(targetElement).html(res.data);
+                    if(res.paginate){
+                        $(targetElement).append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                    }
+                }
+            }
+        });
+    }
 });

@@ -174,4 +174,113 @@ $(document).ready(function () {
         }
     });
 
+    /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.paginate a', function (e) {
+        e.preventDefault();
+        let page = $(this).attr('href').split('page=')[1];
+        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+    });
+
+
+
+    // On select option search value will be remove
+    $(document).on('change', '#searchOption', function (e) {
+        $('#search').val('');
+    });
+
+
+
+    /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('keyup', '#search', function (e) {
+        e.preventDefault();
+        let search = $(this).val();
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadEmployeeData(`/search/employee/organization`, {search:search}, '.employee')
+        }
+        if(searchOption == "2"){
+            loadEmployeeData(`/search/employee/organization/email`, {search:search}, '.employee')
+        }
+        if(searchOption == "3"){
+            loadEmployeeData(`/search/employee/organization/phone`, {search:search}, '.employee')
+        }
+        if(searchOption == "4"){
+            loadEmployeeData(`/search/employee/organization/location`, {search:search}, '.employee')
+        }
+        if(searchOption == "5"){
+            loadEmployeeData(`/search/employee/organization/address`, {search:search}, '.employee')
+        }
+        if(searchOption == "6"){
+            loadEmployeeData(`/search/employee/organization/nid`, {search:search}, '.employee')
+        }
+        if(searchOption == "7"){
+            loadEmployeeData(`/search/employee/organization/dob`, {search:search}, '.employee')
+        }
+        if(searchOption == "8"){
+            loadEmployeeData(`/search/employee/organization/department`, {search:search}, '.employee')
+        }
+        if(searchOption == "9"){
+            loadEmployeeData(`/search/employee/organization/designation`, {search:search}, '.employee')
+        }
+    });
+
+
+
+    /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.search-paginate a', function (e) {
+        e.preventDefault();
+        $('.paginate').addClass('hidden');
+        let search = $('#search').val();
+        let page = $(this).attr('href').split('page=')[1];
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadEmployeeData(`/search/page/organization?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "2"){
+            loadEmployeeData(`/search/page/organization/email?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "3"){
+            loadEmployeeData(`/search/page/organization/phone?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "4"){
+            loadEmployeeData(`/search/page/organization/location?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "5"){
+            loadEmployeeData(`/search/page/organization/address?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "6"){
+            loadEmployeeData(`/search/page/organization/nid?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "7"){
+            loadEmployeeData(`/search/page/organization/dob?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "8"){
+            loadEmployeeData(`/search/page/organization/department?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "9"){
+            loadEmployeeData(`/search/page/organization/designation?page=${page}`, {search:search}, '.employee');
+        }
+        
+    });
+
+
+
+    // Employee Data Load Function
+    function loadEmployeeData(url, data, targetElement) {
+        $.ajax({
+            url: url,
+            data: data,
+            success: function (res) {
+                if (res.status == "null") {
+                    $(targetElement).html(`<span class="text-danger">Result not Found </span>`);
+                } else {
+                    $(targetElement).html(res.data);
+                    if(res.paginate){
+                        $(targetElement).append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                    }
+                }
+            }
+        });
+    }
+
 });

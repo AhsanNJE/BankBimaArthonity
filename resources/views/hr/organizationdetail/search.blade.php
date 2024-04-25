@@ -1,5 +1,5 @@
 <table class="show-table">
-    <caption class="caption">Employee Details</caption>
+    <caption class="caption">Employee Organization Details</caption>
     <thead>
         <tr>
             <th>SL:</th>
@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         @foreach ($employee as $key => $item)
-            <tr style="{{ $item->status == 1 ? 'background:#a1f2a1;' : 'background:#ff5353;' }}">
+            <tr>
                 <td>{{ $employee->firstItem() + $key }}</td>
                 <td>{{ $item->user_id }}</td>
                 <td>{{ $item->user_name }}</td>
@@ -25,15 +25,14 @@
                 <td>{{ $item->address }}</td>
                 <td><img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}?{{ time() }}"
                         alt="" height="50px" width="50px"></td>
-                <td>
-                    <div style="display: flex;gap:5px;">
-                        <button class="open-modal showEmployeeDetails" data-modal-id="showEmployeeDetails" id="details"
-                            data-id="{{ $item->id }}"><i class="fa-solid fa-circle-info"></i></button>
-                        <button class="open-modal editEmployee" data-modal-id="editEmployee" id="edit"
-                            data-id="{{ $item->id }}"><i class="fas fa-edit"></i></button>
-                        <button data-modal-id="deleteModal" data-id="{{ $item->id }}" id="delete"><i
-                                class="fas fa-trash"></i></button>
-                    </div>
+
+                <td style="display: flex;gap:5px;">
+                    <button class="btn btn-info btn-sm open-modal EmployeeOrganizationDetails" data-modal-id="EmployeeOrganizationDetails"
+                        data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
+                    <button class="btn btn-info btn-sm open-modal EmployeeEdit" data-modal-id="EmployeeEdit"
+                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
+                            class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>
         @endforeach

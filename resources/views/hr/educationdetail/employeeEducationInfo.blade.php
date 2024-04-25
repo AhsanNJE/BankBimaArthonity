@@ -1,9 +1,9 @@
-<form action="{{ route('show.educationinfo')}}" method="POST" enctype="multipart/form-data">
-@csrf
+<ul>
 <!-- Display Education Details -->
 @foreach($employeeeducation as $item)
-<div class="general">
     @if ($loop->first)
+    <li data-id="1">Personal Details</li>
+    <div class="personal">
         <div class="details-head">
             <div class="image-round">
                 <img src="/storage/profiles/{{ $item->user->image !== null ? $item->user->image : ($item->user->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="100px" width="100px">
@@ -12,8 +12,9 @@
                 <span class="name"> {{$item->user->user_name}} </span><br>
             </div>   
         </div>
-        <ul>
-        <li data-id="1">Personal Details</li>
+        
+        
+        
         <div class="details-table" style="">
             <div class="row each-row">
                 <div class="col-md-2 bold">Name</div> 
@@ -53,9 +54,11 @@
             </div>
         </div>
     </div>
-    @endif
+   
 
-    <li data-id="1">Education Details</li>
+    <li data-id="2">Education Details</li> 
+    @endif
+    <div class="education">
     <div class="details-table" style="">
         <div class="row each-row">
             <div class="col-md-2 bold">Level of Education</div> 
@@ -86,7 +89,6 @@
             <div class="col-md-4 bold">{{ $item->passing_year }}</div>
         </div>
     </div>
-</div>    
+    </div>  
     @endforeach
 </ul>
-</form>

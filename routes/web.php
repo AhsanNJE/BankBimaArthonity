@@ -450,7 +450,11 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/search/payroll', 'SearchPayroll');
 });
 
+
+
 ////////////////////////// --------------- HR routes ----------- ///////////////////////////
+
+
 
     Route::get('show/employee/personal', [InfoController::class, 'ShowEmployeesPersonal'])->name('show.employeepersonal');  
     Route::get('show/employee/education', [InfoController::class, 'ShowEmployeesEducation'])->name('show.employeeeducation');  
@@ -475,26 +479,152 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/employees/edit', [InfoController::class,'EmployeesEdit'])->name('employees.edit');
     Route::put('/employees/update', [InfoController::class,'EmployeesUpdate'])->name('employees.update');
     Route::delete('/employees/delete', [InfoController::class, 'EmployeesDelete'])->name('employees.delete');
-    //search routes start
-    Route::get('/search/employee', [InfoController::class, 'SearchEmployees'])->name('search.employee.name');
-    Route::get('/search/employee/email', [InfoController::class, 'SearchEmployeeByEmail'])->name('search.employee.email');
-    Route::get('/search/employee/phone', [InfoController::class, 'SearchEmployeeByPhone'])->name('search.employee.phone');
-    Route::get('/search/employee/location', [InfoController::class, 'SearchEmployeeByLocation'])->name('search.employee.location');
-    Route::get('/search/employee/address', [InfoController::class,'SearchEmployeeByAddress'])->name('search.employee.address');
-    Route::get('/search/employee/nid', [InfoController::class,'SearchEmployeeByNid'])->name('search.employee.nid');
-    Route::get('/search/employee/dob', [InfoController::class,'SearchEmployeeByDob'])->name('search.employee.dob');
-    Route::get('/search/employee/department', [InfoController::class,'SearchEmployeeByDepartment'])->name('search.employee.department');
-    Route::get('/search/employee/designation', [InfoController::class,'SearchEmployeeByDesignation'])->name('search.employee.designation');
-    //pagination routes start
-    Route::get('/page', [InfoController::class,'EmployeePagination']);
-    Route::get('/search/page', [InfoController::class,'SearchEmployees']);
-    Route::get('/search/page/email', [InfoController::class,'SearchEmployeeByEmail']);
-    Route::get('/search/page/phone', [InfoController::class,'SearchEmployeeByPhone']);
-    Route::get('/search/page/location', [InfoController::class,'SearchEmployeeByLocation']);
-    Route::get('/search/page/address', [InfoController::class,'SearchEmployeeByAddress']);
-    Route::get('/search/page/nid', [InfoController::class,'SearchEmployeeByNid']);
-    Route::get('/search/page/dob', [InfoController::class,'SearchEmployeeByDob']);
-    Route::get('/search/page/department', [InfoController::class,'SearchEmployeeByDepartment']);
-    Route::get('/search/page/designation', [InfoController::class,'SearchEmployeeByDesignation']);
+
+    //Personal search routes start
+    Route::get('/search/employee/personal', [InfoController::class, 'SearchEmployeesPersonal'])->name('search.employee.personal.name');
+    Route::get('/search/employee/personal/email', [InfoController::class, 'SearchEmployeePersonalByEmail'])->name('search.employee.personal.email');
+    Route::get('/search/employee/personal/phone', [InfoController::class, 'SearchEmployeePersonalByPhone'])->name('search.employee.personal.phone');
+    Route::get('/search/employee/personal/location', [InfoController::class, 'SearchEmployeePersonalByLocation'])->name('search.employee.personal.location');
+    Route::get('/search/employee/personal/address', [InfoController::class,'SearchEmployeePersonalByAddress'])->name('search.employee.personal.address');
+    Route::get('/search/employee/personal/nid', [InfoController::class,'SearchEmployeePersonalByNid'])->name('search.employee.personal.nid');
+    Route::get('/search/employee/personal/dob', [InfoController::class,'SearchEmployeePersonalByDob'])->name('search.employee.personal.dob');
+    Route::get('/search/employee/personal/department', [InfoController::class,'SearchEmployeePersonalByDepartment'])->name('search.employee.personal.department');
+    Route::get('/search/employee/personal/designation', [InfoController::class,'SearchEmployeePersonalByDesignation'])->name('search.employee.personal.designation');
+
+    //Personal pagination routes start
+    Route::get('/page', [InfoController::class,'EmployeePersonalPagination']);
+    Route::get('/search/page/personal', [InfoController::class,'SearchEmployeesPersonal']);
+    Route::get('/search/page/personal/email', [InfoController::class,'SearchEmployeePersonalByEmail']);
+    Route::get('/search/page/personal/phone', [InfoController::class,'SearchEmployeePersonalByPhone']);
+    Route::get('/search/page/personal/location', [InfoController::class,'SearchEmployeePersonalByLocation']);
+    Route::get('/search/page/personal/address', [InfoController::class,'SearchEmployeePersonalByAddress']);
+    Route::get('/search/page/personal/nid', [InfoController::class,'SearchEmployeePersonalByNid']);
+    Route::get('/search/page/personal/dob', [InfoController::class,'SearchEmployeePersonalByDob']);
+    Route::get('/search/page/personal/department', [InfoController::class,'SearchEmployeePersonalByDepartment']);
+    Route::get('/search/page/personal/designation', [InfoController::class,'SearchEmployeePersonalByDesignation']);
     //search list routs
-    Route::get('/get/employee/by/name', [InfoController::class,'GetEmployeeByName'])->name('get.employeeby.name');
+    Route::get('/get/employee/personal/by/name', [InfoController::class,'GetEmployeePersonalByName'])->name('get.employee.personalby.name');
+
+
+
+    
+
+    //Education search routes start
+    Route::get('/search/employee/education', [InfoController::class, 'SearchEmployeesEducation'])->name('search.employee.education.name');
+    Route::get('/search/employee/education/email', [InfoController::class, 'SearchEmployeeEducationByEmail'])->name('search.employee.education.email');
+    Route::get('/search/employee/education/phone', [InfoController::class, 'SearchEmployeeEducationByPhone'])->name('search.employee.education.phone');
+    Route::get('/search/employee/education/location', [InfoController::class, 'SearchEmployeeEducationByLocation'])->name('search.employee.education.location');
+    Route::get('/search/employee/education/address', [InfoController::class,'SearchEmployeeEducationByAddress'])->name('search.employee.education.address');
+    Route::get('/search/employee/education/nid', [InfoController::class,'SearchEmployeeEducationByNid'])->name('search.employee.education.nid');
+    Route::get('/search/employee/education/dob', [InfoController::class,'SearchEmployeeEducationByDob'])->name('search.employee.education.dob');
+    Route::get('/search/employee/education/department', [InfoController::class,'SearchEmployeeEducationByDepartment'])->name('search.employee.education.department');
+    Route::get('/search/employee/education/designation', [InfoController::class,'SearchEmployeeEducationByDesignation'])->name('search.employee.education.designation');
+
+    //Education pagination routes start
+    Route::get('/page', [InfoController::class,'EmployeeEducationPagination']);
+    Route::get('/search/page/education', [InfoController::class,'SearchEmployeesEducation']);
+    Route::get('/search/page/education/email', [InfoController::class,'SearchEmployeeEducationByEmail']);
+    Route::get('/search/page/education/phone', [InfoController::class,'SearchEmployeeEducationByPhone']);
+    Route::get('/search/page/education/location', [InfoController::class,'SearchEmployeeEducationByLocation']);
+    Route::get('/search/page/education/address', [InfoController::class,'SearchEmployeeEducationByAddress']);
+    Route::get('/search/page/education/nid', [InfoController::class,'SearchEmployeeEducationByNid']);
+    Route::get('/search/page/education/dob', [InfoController::class,'SearchEmployeeEducationByDob']);
+    Route::get('/search/page/education/department', [InfoController::class,'SearchEmployeeEducationByDepartment']);
+    Route::get('/search/page/education/designation', [InfoController::class,'SearchEmployeeEducationByDesignation']);
+    //search list routs
+    Route::get('/get/employee/education/by/name', [InfoController::class,'GetEmployeeEducationByName'])->name('get.employee.educationby.name');
+
+
+
+
+
+    //Training search routes start
+    Route::get('/search/employee/training', [InfoController::class, 'SearchEmployeesTraining'])->name('search.employee.training.name');
+    Route::get('/search/employee/training/email', [InfoController::class, 'SearchEmployeeTrainingByEmail'])->name('search.employee.training.email');
+    Route::get('/search/employee/training/phone', [InfoController::class, 'SearchEmployeeTrainingByPhone'])->name('search.employee.training.phone');
+    Route::get('/search/employee/training/location', [InfoController::class, 'SearchEmployeeTrainingByLocation'])->name('search.employee.training.location');
+    Route::get('/search/employee/training/address', [InfoController::class,'SearchEmployeeTrainingByAddress'])->name('search.employee.training.address');
+    Route::get('/search/employee/training/nid', [InfoController::class,'SearchEmployeeTrainingByNid'])->name('search.employee.training.nid');
+    Route::get('/search/employee/training/dob', [InfoController::class,'SearchEmployeeTrainingByDob'])->name('search.employee.training.dob');
+    Route::get('/search/employee/training/department', [InfoController::class,'SearchEmployeeTrainingByDepartment'])->name('search.employee.training.department');
+    Route::get('/search/employee/training/designation', [InfoController::class,'SearchEmployeeTrainingByDesignation'])->name('search.employee.training.designation');
+
+    //training pagination routes start
+    Route::get('/page', [InfoController::class,'EmployeeTrainingPagination']);
+    Route::get('/search/page/training', [InfoController::class,'SearchEmployeesTraining']);
+    Route::get('/search/page/training/email', [InfoController::class,'SearchEmployeeTrainingByEmail']);
+    Route::get('/search/page/training/phone', [InfoController::class,'SearchEmployeeTrainingByPhone']);
+    Route::get('/search/page/training/location', [InfoController::class,'SearchEmployeeTrainingByLocation']);
+    Route::get('/search/page/training/address', [InfoController::class,'SearchEmployeeTrainingByAddress']);
+    Route::get('/search/page/training/nid', [InfoController::class,'SearchEmployeeTrainingByNid']);
+    Route::get('/search/page/training/dob', [InfoController::class,'SearchEmployeeTrainingByDob']);
+    Route::get('/search/page/training/department', [InfoController::class,'SearchEmployeeTrainingByDepartment']);
+    Route::get('/search/page/training/designation', [InfoController::class,'SearchEmployeeTrainingByDesignation']);
+    //search list routs
+    Route::get('/get/employee/training/by/name', [InfoController::class,'GetEmployeeTrainingByName'])->name('get.employee.trainingby.name');
+
+
+
+
+
+    //Experience search routes start
+    Route::get('/search/employee/experience', [InfoController::class, 'SearchEmployeesExperience'])->name('search.employee.experience.name');
+    Route::get('/search/employee/experience/email', [InfoController::class, 'SearchEmployeeExperienceByEmail'])->name('search.employee.experience.email');
+    Route::get('/search/employee/experience/phone', [InfoController::class, 'SearchEmployeeExperienceByPhone'])->name('search.employee.experience.phone');
+    Route::get('/search/employee/experience/location', [InfoController::class, 'SearchEmployeeExperienceByLocation'])->name('search.employee.experience.location');
+    Route::get('/search/employee/experience/address', [InfoController::class,'SearchEmployeeExperienceByAddress'])->name('search.employee.experience.address');
+    Route::get('/search/employee/experience/nid', [InfoController::class,'SearchEmployeeExperienceByNid'])->name('search.employee.experience.nid');
+    Route::get('/search/employee/experience/dob', [InfoController::class,'SearchEmployeeExperienceByDob'])->name('search.employee.experience.dob');
+    Route::get('/search/employee/experience/department', [InfoController::class,'SearchEmployeeExperienceByDepartment'])->name('search.employee.experience.department');
+    Route::get('/search/employee/experience/designation', [InfoController::class,'SearchEmployeeExperienceByDesignation'])->name('search.employee.experience.designation');
+
+    //experience pagination routes start
+    Route::get('/page', [InfoController::class,'EmployeeExperiencePagination']);
+    Route::get('/search/page/experience', [InfoController::class,'SearchEmployeesExperience']);
+    Route::get('/search/page/experience/email', [InfoController::class,'SearchEmployeeExperienceByEmail']);
+    Route::get('/search/page/experience/phone', [InfoController::class,'SearchEmployeeExperienceByPhone']);
+    Route::get('/search/page/experience/location', [InfoController::class,'SearchEmployeeExperienceByLocation']);
+    Route::get('/search/page/experience/address', [InfoController::class,'SearchEmployeeExperienceByAddress']);
+    Route::get('/search/page/experience/nid', [InfoController::class,'SearchEmployeeExperienceByNid']);
+    Route::get('/search/page/experience/dob', [InfoController::class,'SearchEmployeeExperienceByDob']);
+    Route::get('/search/page/experience/department', [InfoController::class,'SearchEmployeeExperienceByDepartment']);
+    Route::get('/search/page/experience/designation', [InfoController::class,'SearchEmployeeExperienceByDesignation']);
+    //search list routs
+    Route::get('/get/employee/experience/by/name', [InfoController::class,'GetEmployeeExperienceByName'])->name('get.employee.experienceby.name');
+
+
+
+
+
+    //Organization search routes start
+    Route::get('/search/employee/organization', [InfoController::class, 'SearchEmployeesOrganization'])->name('search.employee.organization.name');
+    Route::get('/search/employee/organization/email', [InfoController::class, 'SearchEmployeeOrganizationByEmail'])->name('search.employee.organization.email');
+    Route::get('/search/employee/organization/phone', [InfoController::class, 'SearchEmployeeOrganizationByPhone'])->name('search.employee.organization.phone');
+    Route::get('/search/employee/organization/location', [InfoController::class, 'SearchEmployeeOrganizationByLocation'])->name('search.employee.organization.location');
+    Route::get('/search/employee/organization/address', [InfoController::class,'SearchEmployeeOrganizationByAddress'])->name('search.employee.organization.address');
+    Route::get('/search/employee/organization/nid', [InfoController::class,'SearchEmployeeOrganizationByNid'])->name('search.employee.organization.nid');
+    Route::get('/search/employee/organization/dob', [InfoController::class,'SearchEmployeeOrganizationByDob'])->name('search.employee.organization.dob');
+    Route::get('/search/employee/organization/department', [InfoController::class,'SearchEmployeeOrganizationByDepartment'])->name('search.employee.organization.department');
+    Route::get('/search/employee/organization/designation', [InfoController::class,'SearchEmployeeOrganizationByDesignation'])->name('search.employee.organization.designation');
+
+    //organization pagination routes start
+    Route::get('/page', [InfoController::class,'EmployeeOrganizationPagination']);
+    Route::get('/search/page/organization', [InfoController::class,'SearchEmployeesOrganization']);
+    Route::get('/search/page/organization/email', [InfoController::class,'SearchEmployeeOrganizationByEmail']);
+    Route::get('/search/page/organization/phone', [InfoController::class,'SearchEmployeeOrganizationByPhone']);
+    Route::get('/search/page/organization/location', [InfoController::class,'SearchEmployeeOrganizationByLocation']);
+    Route::get('/search/page/organization/address', [InfoController::class,'SearchEmployeeOrganizationByAddress']);
+    Route::get('/search/page/organization/nid', [InfoController::class,'SearchEmployeeOrganizationByNid']);
+    Route::get('/search/page/organization/dob', [InfoController::class,'SearchEmployeeOrganizationByDob']);
+    Route::get('/search/page/organization/department', [InfoController::class,'SearchEmployeeOrganizationByDepartment']);
+    Route::get('/search/page/organization/designation', [InfoController::class,'SearchEmployeeOrganizationByDesignation']);
+    //search list routs
+    Route::get('/get/employee/organization/by/name', [InfoController::class,'GetEmployeeOrganizationByName'])->name('get.employee.organizationby.name');
+
+
+    ////Edit Employees
+
+    Route::get('/edit/employee/personal', [InfoController::class,'EditEmployeePersonal'])->name('edit.employee.personal');
+    Route::put('/update/employee/personal', [InfoController::class, 'UpdateEmployeePersonal'])->name('update.employee.personal');
+
+    

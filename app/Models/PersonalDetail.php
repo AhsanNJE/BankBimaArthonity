@@ -11,6 +11,11 @@ class PersonalDetail extends Model
     
     protected $guarded = [];
 
+    public function personalDetail()
+    {
+        return $this->hasOne(PersonalDetail::class);
+    }
+
     public function educationDetail()
     {
         return $this->belongsTo(EducationDetail::class, 'employee_id', 'emp_id');
@@ -31,5 +36,13 @@ class PersonalDetail extends Model
         return $this->belongsTo(OrganizationDetail::class, 'employee_id', 'emp_id');
     }
 
+    public function Location(){
+        return $this->belongsTo(Location_Info::class,'location_id','id');
+    }
+
+    public function Withs(){
+        return $this->belongsTo(Transaction_With::class,'tran_user_type','id');
+    
+    }
 
 }

@@ -15,18 +15,6 @@ class ExperienceDetail extends Model
         return $this->belongsTo(User_Info::class,'emp_id','user_id');
     }
 
-    public function Department(){
-        return $this->belongsTo(Department_Info::class,'department','id');
-    }
-
-    public function Designation(){
-        return $this->belongsTo(Designation::class,'designation','id');
-    }
-
-    public function Location(){
-        return $this->belongsTo(Location_Info::class,'company_location','id');
-    }
-
     public function personalDetail()
     {
         return $this->belongsTo(PersonalDetail::class, 'emp_id', 'employee_id');

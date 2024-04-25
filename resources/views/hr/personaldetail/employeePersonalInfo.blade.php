@@ -39,12 +39,16 @@
         <div class="row each-row">
             <div class="col-md-2 bold">Phone Number</div> 
             <div class="col-md-4 bold">{{ $item->phn_no }}</div>
-            <div class="col-md-2 bold">Blood Group</div> 
-            <div class="col-md-4 bold">{{ $item->blood_group }}</div>
+            <div class="col-md-2 bold">Nid No.</div> 
+            <div class="col-md-4 bold">{{ $item->nid_no }}</div>
         </div>
         <div class="row each-row">
+            <div class="col-md-2 bold">Blood Group</div> 
+            <div class="col-md-4 bold">{{ $item->blood_group }}</div>
             <div class="col-md-2 bold">Email</div> 
             <div class="col-md-4 bold">{{ $item->email }}</div>
+        </div>
+        <div class="row each-row">
             <div class="col-md-2 bold">Address</div> 
             <div class="col-md-4 bold">{{ $item->address }}</div>
         </div>

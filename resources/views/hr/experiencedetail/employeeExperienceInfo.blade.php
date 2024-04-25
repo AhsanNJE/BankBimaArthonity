@@ -60,19 +60,19 @@
                 <div class="col-md-2 bold">Company Name</div>
                 <div class="col-md-4 bold">{{ $item->company_name }}</div>
                 <div class="col-md-2 bold">Designation</div>
-                <div class="col-md-4 bold">{{ $item->Designation->designation }}</div>
+                <div class="col-md-4 bold">{{ $item->designation }}</div>
+            </div>
+            <div class="row each-row">
+                <div class="col-md-2 bold">Department</div>
+                <div class="col-md-4 bold">{{ $item->department }}</div>
+                <div class="col-md-2 bold">Company Location</div>
+                <div class="col-md-4 bold">{{ $item->company_location }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Start Date</div>
                 <div class="col-md-4 bold">{{ $item->start_date }}</div>
                 <div class="col-md-2 bold">End Date</div>
                 <div class="col-md-4 bold">{{ $item->end_date }}</div>
-            </div>
-            <div class="row each-row">
-                <div class="col-md-2 bold">Department</div>
-                <div class="col-md-4 bold">{{ $item->Department->dept_name }}</div>
-                <div class="col-md-2 bold">Company Location</div>
-                <div class="col-md-4 bold">{{ $item->Location->upazila }}</div>
             </div>
         </div>
     </div>    

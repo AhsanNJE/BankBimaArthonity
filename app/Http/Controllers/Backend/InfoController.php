@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Backend;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User_Info;
@@ -106,17 +106,73 @@ class InfoController extends Controller
     }
 
     public function ShowEmployeesPersonalInfo(Request $request){
-        $employeepersonal = PersonalDetail::paginate(15);
+        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
         $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.personaldetail.employeePersonalDetails', compact('employeepersonal','tranwith'));
+        return view('hr.personaldetail.employeePersonalDetails', compact('employee','tranwith'));
 
     }
 
     public function EmployeesPersonalInfo(Request $request){
-        $employeepersonal = PersonalDetail::where('id', $request->id)->get();
+        $employeepersonal = PersonalDetail::where('employee_id', $request->id)->get();
         return response()->json([
             'data'=>view('hr.personaldetail.employeePersonalInfo', compact('employeepersonal'))->render(),
         ]);
+    }
+
+
+    //Edit Employees
+    public function EditEmployeePersonal(Request $request){
+        $employee = PersonalDetail::with('Location')->where('employee_id', $request->id)->first();
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return response()->json([
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+
+
+    //Update Employees
+    public function UpdateEmployeePersonal(Request $request){
+        
+        $request->validate([
+            'name' => 'required',
+            'fathers_name' => 'required',
+            'mothers_name' => 'required',
+            'date_of_birth' => 'required',
+            'gender' => 'required|in:male,female,others',
+            'religion' => 'required',
+            'marital_status' => 'required',
+            'nationality' => 'required',
+            'nid_no' => 'required|numeric',
+            'phn_no' =>  'required|numeric',
+            'blood_group' => 'required',
+            'email' => 'required|email',
+            'location'  => 'required',
+            'type'=> 'required',
+            'address' => 'required',
+            'image' => 'required|mimes:jpg,jpeg,png,gif|max:2048',
+        ]);
+
+        $employee = PersonalDetail::where('employee_id', $request->id)->first();
+        $path = 'public/profiles/'.$employee->image;
+        // dd($path);
+        if($request->image != null){
+            $request->validate([
+                "image" => 'image|mimes:jpg,jpeg,png,gif|max:2048',
+            ]);
+
+            //process the image name and store it to storage/app/public/profiles directory
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                Storage::delete($path);
+                $imageName = $request->employee_id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
+                $imagePath = $request->file('image')->storeAs('public/profiles', $imageName);
+            }
+        }
+        else{
+            $imageName = $employee->image;
+        }
+        
     }
 
 
@@ -554,20 +610,20 @@ class InfoController extends Controller
 
 
 
-    /////////////////////////                          Employee Search                           ////////////////////////////////
+    /////////////////////////                          Employee Personal Search                           ////////////////////////////////
 
 
     //Employee Pagination
-    public function EmployeePagination(){
+    public function EmployeePersonalPagination(){
         $employee = User_info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
         return response()->json([
             'status' => 'success',
-            'data' => view('employee.employeePagination', compact('employee'))->render(),
+            'data' => view('hr.personaldetail.employeePersonalDetailPage', compact('employee'))->render(),
         ]);
     }//End Method
 
     // Search Employee by Name
-    public function SearchEmployees(Request $request){
+    public function SearchEmployeesPersonal(Request $request){
         if($request->search != ""){
             $employee = User_Info::where('user_type', 'employee')
             ->where('user_name', 'like', '%'.$request->search.'%')
@@ -586,7 +642,7 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -601,7 +657,7 @@ class InfoController extends Controller
 
 
     // Search Employee by Email
-    public function SearchEmployeeByEmail(Request $request){
+    public function SearchEmployeePersonalByEmail(Request $request){
         if($request->search != ""){
             $employee = User_Info::where('user_type', 'employee')
             ->where('user_email', 'like', '%'.$request->search.'%')
@@ -619,7 +675,7 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -634,7 +690,7 @@ class InfoController extends Controller
 
 
     // Search Employee by Phone
-    public function SearchEmployeeByPhone(Request $request){
+    public function SearchEmployeePersonalByPhone(Request $request){
         if($request->search != ""){
             $employee = User_Info::where('user_type', 'employee')
             ->where('user_phone', 'like', '%'.$request->search.'%')
@@ -652,7 +708,7 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -666,7 +722,7 @@ class InfoController extends Controller
 
 
     // Search Employee by Location
-    public function SearchEmployeeByLocation(Request $request){
+    public function SearchEmployeePersonalByLocation(Request $request){
         if($request->search != ""){
             $employee = User_Info::with('Location')
             ->whereHas('Location', function ($query) use ($request) {
@@ -690,7 +746,7 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -703,7 +759,7 @@ class InfoController extends Controller
 
 
     // Search Employee by Address
-    public function SearchEmployeeByAddress(Request $request){
+    public function SearchEmployeePersonalByAddress(Request $request){
         if($request->search != ""){
             $employee = User_Info::where('user_type', 'employee')
             ->where('address', 'like', '%'.$request->search.'%')
@@ -721,7 +777,7 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -734,7 +790,7 @@ class InfoController extends Controller
 
 
     // Search Employee by Date Of Birth
-    public function SearchEmployeeByDob(Request $request){
+    public function SearchEmployeePersonalByDob(Request $request){
         if($request->search != ""){
             $employee = User_Info::where('user_type', 'employee')
             ->where('dob', 'like', '%'.$request->search.'%')
@@ -752,7 +808,7 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -766,7 +822,7 @@ class InfoController extends Controller
 
 
     // Search Employee by NID
-    public function SearchEmployeeByNid(Request $request){
+    public function SearchEmployeePersonalByNid(Request $request){
         if($request->search != ""){
             $employee = User_Info::where('user_type', 'employee')
             ->where('nid', 'like', '%'.$request->search.'%')
@@ -784,7 +840,7 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -798,7 +854,7 @@ class InfoController extends Controller
 
 
     // Search Employee by Department
-    public function SearchEmployeeByDepartment(Request $request){
+    public function SearchEmployeePersonalByDepartment(Request $request){
         if($request->search != ""){
             $employee = User_Info::with('Department')
             ->whereHas('Department', function ($query) use ($request) {
@@ -822,7 +878,7 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -835,7 +891,7 @@ class InfoController extends Controller
 
 
     // Search Employee by Designation
-    public function SearchEmployeeByDesignation(Request $request){
+    public function SearchEmployeePersonalByDesignation(Request $request){
         if($request->search != ""){
             $employee = User_Info::with('Designation')
             ->whereHas('Designation', function ($query) use ($request) {
@@ -859,7 +915,1275 @@ class InfoController extends Controller
         if($employee->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view('hr.search', compact('employee'))->render(),
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+     
+
+    /////////////////////////                          Employee Education Search                           ////////////////////////////////
+
+
+    //Employee Pagination
+    public function EmployeeEducationPagination(){
+        $employee = User_info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('hr.educationdetail.employeeEducationDetailPage', compact('employee'))->render(),
+        ]);
+    }//End Method
+
+    // Search Employee by Name
+    public function SearchEmployeesEducation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    // Search Employee by Email
+    public function SearchEmployeeEducationByEmail(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_email', 'like', '%'.$request->search.'%')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    // Search Employee by Phone
+    public function SearchEmployeeEducationByPhone(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_phone', 'like', '%'.$request->search.'%')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by Location
+    public function SearchEmployeeEducationByLocation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->where('upazila', 'like', '%'.$request->search.'%');
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Address
+    public function SearchEmployeeEducationByAddress(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('address', 'like', '%'.$request->search.'%')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Date Of Birth
+    public function SearchEmployeeEducationByDob(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('dob', 'like', '%'.$request->search.'%')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by NID
+    public function SearchEmployeeEducationByNid(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('nid', 'like', '%'.$request->search.'%')
+            ->orderBy('nid','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by Department
+    public function SearchEmployeeEducationByDepartment(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Department')
+            ->whereHas('Department', function ($query) use ($request) {
+                $query->where('dept_name', 'like', '%'.$request->search.'%');
+                $query->orderBy('dept_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Department')
+            ->whereHas('Department', function ($query) use ($request) {
+                $query->orderBy('dept_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Designation
+    public function SearchEmployeeEducationByDesignation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Designation')
+            ->whereHas('Designation', function ($query) use ($request) {
+                $query->where('designation', 'like', '%'.$request->search.'%');
+                $query->orderBy('designation','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Designation')
+            ->whereHas('Designation', function ($query) use ($request) {
+                $query->orderBy('designation','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+
+    /////////////////////////                          Employee Training Search                           ////////////////////////////////
+
+
+    //Employee Pagination
+    public function EmployeeTrainingPagination(){
+        $employee = User_info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('hr.trainingdetail.employeeTrainingDetailPage', compact('employee'))->render(),
+        ]);
+    }//End Method
+
+    // Search Employee by Name
+    public function SearchEmployeesTraining(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    // Search Employee by Email
+    public function SearchEmployeeTrainingByEmail(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_email', 'like', '%'.$request->search.'%')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    // Search Employee by Phone
+    public function SearchEmployeeTrainingByPhone(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_phone', 'like', '%'.$request->search.'%')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by Location
+    public function SearchEmployeeTrainingByLocation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->where('upazila', 'like', '%'.$request->search.'%');
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Address
+    public function SearchEmployeeTrainingByAddress(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('address', 'like', '%'.$request->search.'%')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Date Of Birth
+    public function SearchEmployeeTrainingByDob(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('dob', 'like', '%'.$request->search.'%')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by NID
+    public function SearchEmployeeTrainingByNid(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('nid', 'like', '%'.$request->search.'%')
+            ->orderBy('nid','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by Department
+    public function SearchEmployeeTrainingByDepartment(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Department')
+            ->whereHas('Department', function ($query) use ($request) {
+                $query->where('dept_name', 'like', '%'.$request->search.'%');
+                $query->orderBy('dept_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Department')
+            ->whereHas('Department', function ($query) use ($request) {
+                $query->orderBy('dept_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Designation
+    public function SearchEmployeeTrainingByDesignation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Designation')
+            ->whereHas('Designation', function ($query) use ($request) {
+                $query->where('designation', 'like', '%'.$request->search.'%');
+                $query->orderBy('designation','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Designation')
+            ->whereHas('Designation', function ($query) use ($request) {
+                $query->orderBy('designation','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    /////////////////////////                          Employee Experience Search                           ////////////////////////////////
+
+
+    //Employee Pagination
+    public function EmployeeExperiencePagination(){
+        $employee = User_info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('hr.experiencedetail.employeeExperienceDetailPage', compact('employee'))->render(),
+        ]);
+    }//End Method
+
+    // Search Employee by Name
+    public function SearchEmployeesExperience(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    // Search Employee by Email
+    public function SearchEmployeeExperienceByEmail(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_email', 'like', '%'.$request->search.'%')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    // Search Employee by Phone
+    public function SearchEmployeeExperienceByPhone(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_phone', 'like', '%'.$request->search.'%')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by Location
+    public function SearchEmployeeExperienceByLocation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->where('upazila', 'like', '%'.$request->search.'%');
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Address
+    public function SearchEmployeeExperienceByAddress(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('address', 'like', '%'.$request->search.'%')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Date Of Birth
+    public function SearchEmployeeExperienceByDob(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('dob', 'like', '%'.$request->search.'%')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by NID
+    public function SearchEmployeeExperienceByNid(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('nid', 'like', '%'.$request->search.'%')
+            ->orderBy('nid','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by Department
+    public function SearchEmployeeExperienceByDepartment(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Department')
+            ->whereHas('Department', function ($query) use ($request) {
+                $query->where('dept_name', 'like', '%'.$request->search.'%');
+                $query->orderBy('dept_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Department')
+            ->whereHas('Department', function ($query) use ($request) {
+                $query->orderBy('dept_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Designation
+    public function SearchEmployeeExperienceByDesignation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Designation')
+            ->whereHas('Designation', function ($query) use ($request) {
+                $query->where('designation', 'like', '%'.$request->search.'%');
+                $query->orderBy('designation','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Designation')
+            ->whereHas('Designation', function ($query) use ($request) {
+                $query->orderBy('designation','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    /////////////////////////                          Employee Organization Search                           ////////////////////////////////
+
+
+    //Employee Pagination
+    public function EmployeeOrganizationPagination(){
+        $employee = User_info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('hr.organizationdetail.employeeOrganizationDetailPage', compact('employee'))->render(),
+        ]);
+    }//End Method
+
+    // Search Employee by Name
+    public function SearchEmployeesOrganization(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    // Search Employee by Email
+    public function SearchEmployeeOrganizationByEmail(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_email', 'like', '%'.$request->search.'%')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_email','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+    // Search Employee by Phone
+    public function SearchEmployeeOrganizationByPhone(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('user_phone', 'like', '%'.$request->search.'%')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('user_phone','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by Location
+    public function SearchEmployeeOrganizationByLocation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->where('upazila', 'like', '%'.$request->search.'%');
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Location')
+            ->whereHas('Location', function ($query) use ($request) {
+                $query->orderBy('upazila','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Address
+    public function SearchEmployeeOrganizationByAddress(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('address', 'like', '%'.$request->search.'%')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('address','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Date Of Birth
+    public function SearchEmployeeOrganizationByDob(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('dob', 'like', '%'.$request->search.'%')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by NID
+    public function SearchEmployeeOrganizationByNid(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('nid', 'like', '%'.$request->search.'%')
+            ->orderBy('nid','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Search Employee by Department
+    public function SearchEmployeeOrganizationByDepartment(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Department')
+            ->whereHas('Department', function ($query) use ($request) {
+                $query->where('dept_name', 'like', '%'.$request->search.'%');
+                $query->orderBy('dept_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Department')
+            ->whereHas('Department', function ($query) use ($request) {
+                $query->orderBy('dept_name','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    // Search Employee by Designation
+    public function SearchEmployeeOrganizationByDesignation(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::with('Designation')
+            ->whereHas('Designation', function ($query) use ($request) {
+                $query->where('designation', 'like', '%'.$request->search.'%');
+                $query->orderBy('designation','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::with('Designation')
+            ->whereHas('Designation', function ($query) use ($request) {
+                $query->orderBy('designation','asc');
+            })
+            ->where('user_type','employee')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }

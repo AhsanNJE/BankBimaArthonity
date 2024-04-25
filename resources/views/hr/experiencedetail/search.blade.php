@@ -1,5 +1,5 @@
 <table class="show-table">
-    <caption class="caption">Employee Details</caption>
+    <caption class="caption">Employee Experience Details</caption>
     <thead>
         <tr>
             <th>SL:</th>
@@ -27,12 +27,12 @@
                         alt="" height="50px" width="50px"></td>
 
                 <td style="display: flex;gap:5px;">
-            <button class="btn btn-info btn-sm open-modal EmployeePersonalDetails" data-modal-id="EmployeePersonalDetails"
-                data-id="{{ $item->id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
-            <button class="btn btn-info btn-sm open-modal EmployeeEdit" data-modal-id="EmployeeEdit"
-                data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-            <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
-                    class="fas fa-trash"></i>Delete</button>
+                    <button class="btn btn-info btn-sm open-modal EmployeeExperienceDetails" data-modal-id="EmployeeExperienceDetails"
+                        data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
+                    <button class="btn btn-info btn-sm open-modal EmployeeEdit" data-modal-id="EmployeeEdit"
+                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
+                            class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>
         @endforeach
