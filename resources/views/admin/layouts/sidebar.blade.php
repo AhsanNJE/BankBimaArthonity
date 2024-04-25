@@ -114,7 +114,7 @@
 
                 <!-- HR & PAYROLL -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="javascript:void(0)" class="nav-link">
                         <i class="fa-solid fa-house"></i>
                         <p>HR & PAYROLL</p>
                         <i class="fas fa-angle-left right"></i>
@@ -441,7 +441,7 @@
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            Transaction Type
+                            Main Head
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>

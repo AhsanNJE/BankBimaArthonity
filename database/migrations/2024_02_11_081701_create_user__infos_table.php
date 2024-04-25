@@ -31,7 +31,7 @@ return new class extends Migration
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
 
-            // Foreignkey Decleration
+            // Foreignkey Decleration 
             $table->foreign('loc_id')->references('id')->on('location__infos')
                     ->onUpdate('cascade')
                     ->onDelete('set null');

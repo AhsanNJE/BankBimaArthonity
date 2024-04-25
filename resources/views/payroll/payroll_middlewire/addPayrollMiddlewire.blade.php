@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="date">Select Date</label>
-                                <input type="date" name="date" class="form-control" id="date">
+                                <input type="date" name="date" class="form-control" id="date" value="{{ date('Y-m-d') }}">
                                 <span class="text-danger error" id="date_error"></span>
                             </div>
                             <div class="center">

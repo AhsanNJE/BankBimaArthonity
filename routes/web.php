@@ -23,6 +23,7 @@ use App\Http\Controllers\Backend\PayRollController;
 */
 
 /*---------------------------------- Admin Login -----------------------------------------------*/
+
 Route::prefix('admin')->group(function(){
 
     Route::get('/login', [AdminController::class, 'Index'])->name('login_from');
@@ -31,8 +32,8 @@ Route::prefix('admin')->group(function(){
     Route::get('/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
     Route::get('/register', [AdminController::class, 'AdminRegister'])->name('admin.register');
     Route::post('/register/create', [AdminController::class, 'AdminRegisterCreate'])->name('admin.register.create');
-
 });
+
 /*--------------------------------End Admin Login ----------------------------------------------*/
 
 Route::get('/', function () {
@@ -79,7 +80,6 @@ Route::controller(EmployeeController::class)->group(function () {
         Route::get('/get/location/upazila', 'GetLocationByUpazila');
 
 
-
         ///////////// --------------- Department routes ----------- ///////////////////
         //crud routes start
         Route::get('/departments', 'ShowDepartments')->name('show.departments');
@@ -113,8 +113,7 @@ Route::controller(EmployeeController::class)->group(function () {
         //search list routs
         Route::get('/get/designation/name/department', 'GetDesignationByNameAndDepartment');
 
-
-
+        
         ///////////// --------------- Employees routes ----------- ///////////////////
         //crud routes start 
         Route::get('/', 'ShowEmployees')->name('show.employees');
@@ -150,13 +149,10 @@ Route::controller(EmployeeController::class)->group(function () {
 });
 
 
-
-
-
-
 // ********************************************** Supplier Controller routes *************************************** //
 
 Route::controller(SupplierController::class)->group(function () {
+
     ///////////// --------------- Suppliers routes ----------- ///////////////////
     //crud routes start
     Route::get('/suppliers', 'ShowSuppliers')->name('show.suppliers');
@@ -183,14 +179,10 @@ Route::controller(SupplierController::class)->group(function () {
 });
 
 
-
-
-
-
-
 // ********************************************** Client Controller routes *************************************** //
 
 Route::controller(ClientController::class)->group(function () {
+
     ///////////// --------------- Clients routes ----------- ///////////////////
     //crud routes start
     Route::get('/clients', 'ShowClients')->name('show.clients');
@@ -254,6 +246,7 @@ Route::controller(BankController::class)->group(function () {
 
 Route::controller(TransactionController::class)->group(function () {
     Route::prefix('/transaction')->group(function () {
+
         ////////////////////////// --------------- Transaction Types routes ----------- /////////////////////////
         //crud routes start
         Route::get('/types', 'ShowTransactionTypes')->name('show.transaction.types');
@@ -287,7 +280,6 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/tranwith/search/pagination/type', 'SearchTranWithByType');
 
 
-        
         ////////////////////////// --------------- Transaction Groupes routes ----------- /////////////////////////
         //crud routes start
         Route::get('/groupes', 'ShowTransactionGroupes')->name('show.transaction.groupes');
@@ -303,6 +295,7 @@ Route::controller(TransactionController::class)->group(function () {
         //search list routs
         Route::get('/get/groupeby/name', 'GetTransactionGroupeByName');
         Route::get('/get/groupeby/type', 'GetTransactionGroupeByType');
+
 
 
 
@@ -324,7 +317,6 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/get/heads/groupe', 'GetTransactionHeadByGroupe');
 
 
-
         ////////////////////////// --------------- Transaction Details routes ----------- ///////////////////////////
         //main crude Routes
         Route::get('/', 'ShowTransactions')->name('show.transaction');
@@ -343,7 +335,6 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/search/invoice', 'SearchTransactionByInvoice')->name('show.transaction.invoice');
         Route::get('/search/with', 'SearchTransactionByTranWith')->name('show.transaction.with');
         Route::get('/search/user', 'SearchTransactionByTranUser')->name('show.transaction.user');
-
         //pagination routes start
         Route::get('/pagination', 'TransactionPagination');
         Route::get('/pagination/date', 'ShowTransactionByDate');
@@ -357,7 +348,6 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/transactiongrid', 'GetTransactionGrid');
         Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
-
 
         // Transactionn Receive Details Routes
         Route::get('/receive', 'ShowTransactionReceive')->name('show.transaction.receive');
@@ -384,6 +374,7 @@ Route::controller(TransactionController::class)->group(function () {
 });
 
 
+// ********************************************** PartyPayment Controller routes *************************************** //
 
 Route::controller(PartyPaymentController::class)->group(function () {
     Route::prefix('/party')->group(function () {
@@ -407,7 +398,6 @@ Route::controller(PartyPaymentController::class)->group(function () {
 
         //search list routs
         Route::get('/get/trandue/userid', 'GetTransactionDueByUserId');
-
 
         // Party Payment Receive Details Routes
         Route::get('/receive', 'ShowReceiveParty')->name('show.party.receive');
