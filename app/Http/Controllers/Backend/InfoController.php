@@ -151,12 +151,11 @@ class InfoController extends Controller
             'location'  => 'required',
             'type'=> 'required',
             'address' => 'required',
-            'image' => 'required|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         $employee = PersonalDetail::where('employee_id', $request->id)->first();
         $path = 'public/profiles/'.$employee->image;
-        // dd($path);
+        //dd($path);
         if($request->image != null){
             $request->validate([
                 "image" => 'image|mimes:jpg,jpeg,png,gif|max:2048',
@@ -165,15 +164,56 @@ class InfoController extends Controller
             //process the image name and store it to storage/app/public/profiles directory
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 Storage::delete($path);
-                $imageName = $request->employee_id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
+                $imageName = $request->id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
                 $imagePath = $request->file('image')->storeAs('public/profiles', $imageName);
             }
         }
         else{
             $imageName = $employee->image;
         }
-        
-    }
+
+        $update1 = PersonalDetail::findOrFail($request->id)->update([
+            'employee_id' =>  $id,
+            'name' => $request->name,
+            "fathers_name" => $request->fathers_name,
+            "mothers_name" => $request->mothers_name,
+            "date_of_birth" => $request->date_of_birth,
+            "gender" => $request->gender,
+            "religion" => $request->religion,
+            "marital_status" => $request->marital_status,
+            "nationality" => $request->nationality,
+            "nid_no" => $request->nid_no,
+            "phn_no" =>  $request->phn_no,
+            "blood_group" => $request->blood_group,
+            "email" => $request->email,
+            "location_id" => $request->location,
+            "tran_user_type" => $request->type,
+            "address" => $request->address,
+            "image" => $imageName,
+            "updated_at" => now()
+        ]);
+       
+        $update2 = User_Info::findOrFail($request->id)->update([
+            "user_id" => $id,
+            "user_name" => $request->name,
+            "user_email" => $request->email,
+            "user_phone" => $request->phn_no,
+            "gender" => $request->gender,
+            "loc_id" => $request->location,
+            "user_type" => 'employee',
+            "tran_user_type" => $request->type,
+            "dob" => $request->date_of_birth,
+            "nid" => $request->nid_no,
+            "address" => $request->address,
+            "image" => $imageName,
+            "updated_at" => now()
+        ]);
+        if($update1){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
 
 
 

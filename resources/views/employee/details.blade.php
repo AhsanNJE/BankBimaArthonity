@@ -36,18 +36,24 @@
                 <div class="col-md-2 bold">Nationality</div>
                 <div class="col-md-4">{{$employee->personalDetail->nationality}}</div>
             </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Phone Number</div>
-                <div class="col-md-4">{{$employee->personalDetail->phn_no}}</div>
-                <div class="col-md-2 bold">Blood Group</div>
-                <div class="col-md-4">{{$employee->personalDetail->blood_group}}</div>
+            <div class="row each-row">
+                <div class="col-md-2 bold">Phone Number</div> 
+                <div class="col-md-4 ">{{ $employee->personalDetail->phn_no }}</div>
+                <div class="col-md-2 bold">Nid No.</div> 
+                <div class="col-md-4 ">{{ $employee->personalDetail->nid_no }}</div>
+                
             </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Email</div>
-                <div class="col-md-4">{{$employee->personalDetail->email}}</div>
-                <div class="col-md-2 bold">Address</div>
-                <div class="col-md-4">{{$employee->personalDetail->address}}</div>
+            <div class="row each-row">
+                <div class="col-md-2 bold">Blood Group</div> 
+                <div class="col-md-4 ">{{ $employee->personalDetail->blood_group }}</div>
+                <div class="col-md-2 bold">Email</div> 
+                <div class="col-md-4 ">{{ $employee->personalDetail->email }}</div>
             </div>
+            <div class="row each-row">
+                <div class="col-md-2 bold">Address</div> 
+                <div class="col-md-4 ">{{ $employee->personalDetail->address }}</div>
+            </div>
+        </div>
         </div>
     </div>
   

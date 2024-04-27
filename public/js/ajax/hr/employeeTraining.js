@@ -1,60 +1,4 @@
-//Training Detail Input Field Empty Error
-$(document).on('submit', '#AddTrainingDetailForm', function (e) {
-    e.preventDefault();
-    let user = $('#user').attr('data-id');
-    let formData = new FormData(this);
-    formData.append('user', user === undefined ? '' : user);
-    $.ajax({
-        url: "/insert/training/info",
-        method: 'POST',
-        processData: false,
-        contentType: false,
-        cache: false,
-        data: formData,
-        beforeSend:function() {
-            $(document).find('span.error').text('');  
-        },
-        success: function (res) {
-            console.log(res)
-            if (res.status == "success") {
-                $('#AddTrainingDetailForm')[0].reset();
-                $('#name').focus();
-                $('#user').removeAttr('data-id');
-                $('#search').val('');
-                $('.employee').load(location.href + ' .employee');
-                $('#previewImage').attr('src',`#`).hide();
-                toastr.success('Training Detail Added Successfully', 'Added!');
-            }
-        },
-        error: function (err) {
-            console.log(err)
-            let error = err.responseJSON;
-            $.each(error.errors, function (key, value) {
-                $('#' + key + "_error").text(value);
-            });
-        }
-    });
-});
-
 $(document).ready(function () {
-
-    //Show Employee Training Details on details modal
-    $(document).on('click', '.EmployeeTrainingDetails', function (e) {
-        let modal = $(this).attr('data-modal-id');
-        let id = $(this).attr('data-id');
-        $.ajax({
-            url: "/new/employee/training",
-            method: 'GET',
-            data: {id:id},
-            success: function (res) {
-                $("#"+ modal).show();
-                $('.employeetrainingdetails').html(res.data)
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    });
 
     var formIndex = 2; // Initialize form index
 
@@ -64,25 +8,70 @@ $(document).ready(function () {
         formIndex++; // Increment form index
     });
 
-    $('#InsertTraining').click(function() {
-        // Serialize and submit all forms
-        $('.training-form').each(function() {
-            let user = $('#user').attr('data-id');
-            var formData = $(this).serialize();
-            formData += '&user=' + encodeURIComponent(user === undefined ? '' : user);
-            // Submit the form data via AJAX
-            $.ajax({
-                url: '/insert/training/info', // Change this to your endpoint
-                method: 'POST',
-                data: formData,
-                success: function(response) {
-                    console.log(response);
-                    $('#user').removeAttr('data-id');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
+    //Training Form Field Empty and Insert Data in Add Form 
+    $('#InsertTraining').on('click', function() {
+        // Check if forms have already been submitted
+        if ($(this).data('submitted')) {
+            // Forms already submitted, do nothing
+            return;
+        }
+    
+        // Mark the button as submitted
+        $(this).data('submitted', true);
+    
+        // Loop through each training form
+        $('.training-form').each(function(index, form) {
+            $(form).submit(); // Submit the current form only once
+        });
+    });
+    
+    $(document).on('submit', '.training-form', function(e) {
+        e.preventDefault();
+    
+        let user = $('#user').attr('data-id');
+        let formData = new FormData(this);
+        formData.append('user', user === undefined ? '' : user);
+    
+        const currentForm = $(this); // Store the current form object
+    
+        $.ajax({
+            url: "/insert/training/info",
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            beforeSend: function() {
+                currentForm.find('span.error').text(''); // Clear errors
+            },
+            success: function(res) {
+                console.log(res);
+                if (res.status === "success") {
+                    currentForm[0].reset(); // Reset the current form
+                    currentForm.find('#name').focus(); // Set focus
+    
+                    // Clear errors and fields within the current form
+                    currentForm.find('.text-danger').text('');
+                    currentForm.find('#user').removeAttr('data-id');
+                    currentForm.find('#search').val('');
+    
+                    // Clear fields outside the form (if necessary)
+                    $('#with').val('');
+                    $('#user').val('');
+                    $('#user-list ul').empty();
+    
+                    toastr.success('Training Detail Added Successfully', 'Added!');
+
+                    $('.training-form').not(':first').remove();  // Commented out for safety
                 }
-            });
+            },
+            error: function(err) {
+                console.log(err);
+                let error = err.responseJSON;
+                $.each(error.errors, function(key, value) {
+                    currentForm.find('#' + key + "_error").text(value); // Set error messages
+                });
+            }
         });
     });
 
@@ -148,6 +137,47 @@ $(document).ready(function () {
         </div>`);
         return form;
     }
+
+    //Show Employee Training Details on details modal
+    $(document).on('click', '.EmployeeTrainingDetails', function (e) {
+        let modal = $(this).attr('data-modal-id');
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/new/employee/training",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                $("#"+ modal).show();
+                $('.employeetrainingdetails').html(res.data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+ 
+
+    // Show Employee Details List Toggle Functionality
+    $(document).on('click', '.employeetrainingdetails li', function(e){
+        let id = $(this).attr('data-id');
+        if(id == 1){
+            if($('.personal').is(':visible')){
+                $('.personal').hide()
+            }
+            else{
+                $('.personal').show();
+            }
+        }
+        else if(id == 2){
+            if($('.training').is(':visible')){
+                $('.training').hide()
+            }
+            else{
+                $('.training').show();
+            }
+        }
+    });
 
     ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.editEmployee', function () {

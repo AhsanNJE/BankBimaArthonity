@@ -65,6 +65,27 @@ $(document).ready(function () {
         });
     });
 
+    // Show Employee Details List Toggle Functionality
+    $(document).on('click', '.employeeorganizationdetails li', function(e){
+        let id = $(this).attr('data-id');
+        if(id == 1){
+            if($('.personal').is(':visible')){
+                $('.personal').hide()
+            }
+            else{
+                $('.personal').show();
+            }
+        }
+        else if(id == 2){
+            if($('.organization').is(':visible')){
+                $('.organization').hide()
+            }
+            else{
+                $('.organization').show();
+            }
+        }
+    });
+
     ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.editEmployee', function () {
         let modalId = $(this).data('modal-id');
