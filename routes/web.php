@@ -279,11 +279,13 @@ Route::controller(TransactionController::class)->group(function () {
         Route::delete('/delete/tranwith', 'DeleteTranWith')->name('delete.tranwith');
         //search routes start
         Route::get('/search/tranwith', 'SearchTranWith')->name('search.tranwith');
-        Route::get('/search/tranwith/type', 'SearchTranWithByType')->name('search.tranwith.type');
+        Route::get('/search/tranwith/usertype', 'SearchTranWithByUserType')->name('search.tranwith.usertype');
+        Route::get('/search/tranwith/trantype', 'SearchTranWithByTranType')->name('search.tranwith.trantype');
         //pagination routes start
         Route::get('/tranwith/pagination', 'TranWithPagination');
         Route::get('/tranwith/search/pagination', 'SearchTranWith');
-        Route::get('/tranwith/search/pagination/type', 'SearchTranWithByType');
+        Route::get('/tranwith/search/pagination/usetype', 'SearchTranWithByUserType');
+        Route::get('/tranwith/search/pagination/trantype', 'SearchTranWithByTranType');
 
 
         ////////////////////////// --------------- Transaction Groupes routes ----------- /////////////////////////

@@ -244,8 +244,12 @@ class TransactionController extends Controller
     //Transaction With Search By Name
     public function SearchTranWith(Request $req){
         $tranwith = Transaction_With::where('tran_with_name', 'like', '%'.$req->search.'%')
+        ->where('tran_method', 'like', '%'.$req->method.'%')
+        ->where('tran_type', 'like', '%'.$req->type.'%')
+        ->where('user_type', 'like', '%'.$req->user.'%')
         ->orderBy('tran_with_name','asc')
         ->paginate(15);
+        
 
         $paginationHtml = $tranwith->links()->toHtml();
         
@@ -266,27 +270,7 @@ class TransactionController extends Controller
 
 
 
-    //Transaction With Search By Type
-    public function SearchTranWithByType(Request $req){
-        $tranwith = Transaction_With::where('user_type', 'like', '%' . $req->search . '%')
-        ->orderBy('user_type','asc')
-        ->paginate(15);
 
-        $paginationHtml = $tranwith->links()->toHtml();
-        
-        if($tranwith->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'paginate' => $paginationHtml,
-                'data' => view('transaction.tran_with.search', compact('tranwith'))->render(),
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
 
 
 
@@ -423,6 +407,8 @@ class TransactionController extends Controller
     //Transaction Groupes Search
     public function SearchTransactionGroupes(Request $req){
         $groupes = Transaction_Groupe::where('tran_groupe_name', 'like', '%'.$req->search.'%')
+        ->where('tran_groupe_type', 'like', '%'.$req->type.'%')
+        ->where('tran_method', 'like', '%'.$req->method.'%')
         ->orderBy('tran_groupe_name','asc')
         ->paginate(15);
 

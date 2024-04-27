@@ -1,3 +1,12 @@
+@section('style')
+    <style>
+        #search{
+            width: 100%;
+            margin: 0;
+        }
+    </style>
+@endsection
+
 <div id="addTransactionGroupe" class="modal-container">
     <div class="modal-subject">
         <div class="center">

@@ -175,19 +175,25 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('keyup', '#search', function (e) {
+    $(document).on('keyup click', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
-        let searchOption = $("#searchOption").val();
-        if(searchOption == "1"){
-            loadTranwithData(`/transaction/search/tranwith`, {search:search}, '.tranwith')
-        }
-        else if(searchOption == "2"){
-            loadTranwithData(`/transaction/search/tranwith/type`, {search:search}, '.tranwith')
-        }
+        let user = $("#users").val();
+        let method = $("#methods").val();
+        let type = $("#types").val();
+        loadTranwithData(`/transaction/search/tranwith`, {search:search, method:method, type:type, user:user}, '.tranwith')
         
     });
 
+    $(document).on('change', '#methods, #types, #users', function (e) {
+        e.preventDefault();
+        let search = $('#search').val();
+        let user = $("#users").val();
+        let method = $('#methods').val();
+        let type = $('#types').val();
+        loadTranwithData(`/transaction/search/tranwith`, {search:search, method:method, type:type, user:user}, '.tranwith')
+    });
+    /////////////// ------------------ Search Ajax Part End ---------------- /////////////////////////////
 
 
     /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
@@ -196,13 +202,10 @@ $(document).ready(function () {
         $('.paginate').addClass('hidden');
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
-        let searchOption = $("#searchOption").val();
-        if(searchOption == "1"){
-            loadTranwithData(`/transaction/tranwith/search/pagination?page=${page}`, {search:search}, '.tranwith');
-        }
-        else if(searchOption == "2"){
-            loadTranwithData(`/transaction/tranwith/search/pagination/type?page=${page}`, {search:search}, '.tranwith');
-        }
+        let method = $("#methods").val();
+        let type = $("#types").val();
+        let user = $("#users").val();
+        loadTranwithData(`/transaction/tranwith/search/pagination?page=${page}`, {search:search, method:method, type:type, user:user}, '.tranwith');
         
     });
 

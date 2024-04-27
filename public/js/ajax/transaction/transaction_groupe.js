@@ -166,11 +166,22 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
-    $(document).on('keyup', '#search', function (e) {
+    $(document).on('click keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
-        loadTransactionGroupeData(`/transaction/search/groupes`, {search:search}, '.groupe')
+        let method = $('#methods').val();
+        let type = $('#types').val();
+        loadTransactionGroupeData(`/transaction/search/groupes`, {search:search, method:method, type:type}, '.groupe')
     });
+
+    $(document).on('change', '#methods, #types', function (e) {
+        e.preventDefault();
+        let search = $('#search').val();
+        let method = $('#methods').val();
+        let type = $('#types').val();
+        loadTransactionGroupeData(`/transaction/search/groupes`, {search:search, method:method, type:type}, '.groupe')
+    });
+    /////////////// ------------------ Search ajax part End ---------------- /////////////////////////////
 
 
 
@@ -180,7 +191,9 @@ $(document).ready(function () {
         $('.paginate').addClass('hidden');
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
-        loadTransactionGroupeData(`/transaction/groupes/search/pagination?page=${page}`, {search:search}, '.groupe');
+        let method = $('#methods').val();
+        let type = $('#types').val();
+        loadTransactionGroupeData(`/transaction/groupes/search/pagination?page=${page}`, {search:search, method:method, type:type}, '.groupe');
     });
 
 

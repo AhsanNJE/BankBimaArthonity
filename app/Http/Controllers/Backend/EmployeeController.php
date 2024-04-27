@@ -699,7 +699,6 @@ class EmployeeController extends Controller
                 'status'=>'null'
             ]); 
         }
-        
     }//End Method
 
 
