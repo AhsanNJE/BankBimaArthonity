@@ -1,9 +1,9 @@
 <table class="show-table">
-    <caption class="caption">Transaction Groupe Details</caption>
+    <caption class="caption">Main Head Details</caption>
     <thead>
         <tr>
             <th>SL:</th>
-            <th>Transaction Type Name</th>
+            <th>Main Head Name</th>
             <th>Action</th>
         </tr>
     </thead>

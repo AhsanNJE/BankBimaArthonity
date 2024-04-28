@@ -925,42 +925,6 @@ $(document).ready(function () {
         });
     }
 
-    // //Get Payroll Setup By User Id
-    // function getPayrollSetupByUserId(id, grid) {
-    //     $.ajax({
-    //         url: "/payroll/setup/get/user",
-    //         method: 'GET',
-    //         data: { id:id },
-    //         success: function (res) {
-    //             if(res.status === 'success'){
-    //                 $(grid).html(res.data);
-    //             }
-    //             else{
-    //                 $(grid).html('');
-    //             }
-                
-    //         }
-    //     });
-    // }
-
-
-    // //Get Payroll Middlewire By User Id
-    // function getPayrollMiddlewireByUserId(id, grid) {
-    //     $.ajax({
-    //         url: "/payroll/middlewire/get/user",
-    //         method: 'GET',
-    //         data: { id:id },
-    //         success: function (res) {
-    //             if(res.status === 'success'){
-    //                 $(grid).html(res.data);
-    //             }
-    //             else{
-    //                 $(grid).html('');
-    //             }
-                
-    //         }
-    //     });
-    // }
 
     ////////////// ------------------- Search Transaction user and add value to input ajax part end --------------- ////////////////////////////
 

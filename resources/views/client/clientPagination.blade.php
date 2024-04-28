@@ -5,6 +5,7 @@
             <th>SL:</th>
             <th>Client Id</th>
             <th>Name</th>
+            <th>Client Type</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Location</th>
@@ -18,6 +19,7 @@
                 <td>{{ $client->firstItem() + $key }}</td>
                 <td>{{ $item->user_id }}</td>
                 <td>{{ $item->user_name }}</td>
+                <td>{{ $item->Withs->tran_with_name }}</td>
                 <td>{{ $item->user_email }}</td>
                 <td>{{ $item->user_phone }}</td>
                 <td>{{ $item->Location->upazila }}</td>

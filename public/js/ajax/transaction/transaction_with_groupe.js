@@ -1,29 +1,29 @@
 $(document).ready(function () {
     $(document).on('click', '.add', function (e) {
-        $("#name").focus();
+        $("#with").focus();
     });
 
     /////////////// ------------------ Add Tran With Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('click', '#InsertTranWith', function (e) {
+    $(document).on('submit', '#AddTranWithGroupeForm', function (e) {
         e.preventDefault();
-        let name = $('#name').val();
-        let type = $('#type').val();
-        let tranType = $('#tranType').val();
-        let tranMethod = $('#tranMethod').val();
+        let formData = new FormData(this);
         $.ajax({
-            url: "/transaction/insert/tranwith",
+            url: "/transaction/insert/tranwithgroupe",
             method: 'POST',
-            data: { name:name, type:type, tranType:tranType, tranMethod:tranMethod },
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#AddTranWithForm')[0].reset();
-                    $('#name').focus();
+                    $('#AddTranWithGroupeForm')[0].reset();
+                    $('#with').focus();
                     $('#search').val('');
-                    $('.tranwith').load(location.href + ' .tranwith');
-                    toastr.success('Tranwith Added Successfully', 'Added!');
+                    $('.with-groupe').load(location.href + ' .with-groupe');
+                    toastr.success('Tranwith Groupe Added Successfully', 'Added!');
                 }
             },
             error: function (err) {
@@ -39,37 +39,29 @@ $(document).ready(function () {
 
 
     ///////////// ------------------ Edit Tran With Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('click', '.editTranWith', function () {
+    $(document).on('click', '#edit', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/transaction/edit/tranwith`,
+            url: `/transaction/edit/tranwithgroupe`,
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('#id').val(id);
-                $('#updateName').val(res.tranwith.tran_with_name);
-                // Create options dynamically
-                $('#updateType').empty();
-                $('#updateType').append(`<option value="Client" ${res.tranwith.user_type === 'Client' ? 'selected' : ''}>Client</option>
-                                         <option value="Supplier" ${res.tranwith.user_type === 'Supplier' ? 'selected' : ''}>Supplier</option>
-                                         <option value="Employee" ${res.tranwith.user_type === 'Employee' ? 'selected' : ''}>Employee</option>
-                                         <option value="Bank" ${res.tranwith.user_type === 'Bank' ? 'selected' : ''}>Bank</option>
-                                         <option value="Others" ${res.tranwith.user_type === 'Others' ? 'selected' : ''}>Others</option>`);
-                
-                $('#updateTranType').html('');
-                $('#updateTranType').append(`<option value="" >Select Transaction Type</option>`);
-                $.each(res.types, function (key, type) {
-                    $('#updateTranType').append(`<option value="${type.id}" ${res.tranwith.tran_type === type.id ? 'selected' : ''}>${type.type_name}</option>`);
+                $('#id').val(res.tranwithgroupes.id);
+
+                $('#updateWith').html('');
+                $('#updateWith').append(`<option value="" >Select Transaction With</option>`);
+                $.each(res.tranwith, function (key, withs) {
+                    $('#updateWith').append(`<option value="${withs.id}" ${res.tranwithgroupes.with_id === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
                 });
 
-                $('#updateTranMethod').html('');
-                $('#updateTranMethod').append(`<option value="Receive" ${res.tranwith.tran_method === 'Receive' ? 'selected' : ''}>Receive</option>
-                                         <option value="Payment" ${res.tranwith.tran_method === 'Payment' ? 'selected' : ''}>Payment</option>
-                                         <option value="Both" ${res.tranwith.tran_method === 'Both' ? 'selected' : ''}>Both</option>`);
-                
-                
-                $('#updateName').focus();
+                $('#updateGroupe').html('');
+                $('#updateGroupe').append(`<option value="" >Select Transaction Groupe</option>`);
+                $.each(res.groupes, function (key, groupe) {
+                    $('#updateGroupe').append(`<option value="${groupe.id}" ${res.tranwithgroupes.groupe_id === groupe.id ? 'selected' : ''}>${groupe.tran_groupe_name}</option>`);
+                });
+
+                $('#updateWith').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
             },
@@ -82,27 +74,26 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Tran With Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('click', '#UpdateTranWith', function (e) {
+    $(document).on('submit', '#EditTranWithGroupeForm', function (e) {
         e.preventDefault();
-        let id = $('#id').val();
-        let name = $('#updateName').val();
-        let type = $('#updateType').val();
-        let tranType = $('#updateTranType').val();
-        let tranMethod = $('#updateTranMethod').val();
+        let formData = new FormData(this);
         $.ajax({
-            url: `/transaction/update/tranwith`,
-            method: 'PUT',
-            data: { name: name, type:type, tranType:tranType, tranMethod:tranMethod, id:id },
+            url: `/transaction/update/tranwithgroupe`,
+            method: 'Post',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editTranWith').hide();
-                    $('#EditTranWithForm')[0].reset();
+                    $('#editTranWithGroupe').hide();
+                    $('#EditTranWithGroupeForm')[0].reset();
                     $('#search').val('');
-                    $('.tranwith').load(location.href + ' .tranwith');
-                    toastr.success('Tranwith Updated Successfully', 'Updated!');
+                    $('.with-groupe').load(location.href + ' .with-groupe');
+                    toastr.success('Tranwith Groupe Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {
@@ -137,15 +128,15 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $(this).attr('data-id');
         $.ajax({
-            url: `/transaction/delete/tranwith`,
+            url: `/transaction/delete/tranwithgroupe`,
             method: 'DELETE',
             data: { id:id },
             success: function (res) {
                 if (res.status == "success") {
-                    $('.tranwith').load(location.href + ' .tranwith');
+                    $('.with-groupe').load(location.href + ' .with-groupe');
                     $('#search').val('');
                     $('#deleteModal').hide();
-                    toastr.success('Tranwith Deleted Successfully', 'Deleted!');
+                    toastr.success('Tranwith Groupe Deleted Successfully', 'Deleted!');
                 }
             }
         });
@@ -162,7 +153,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadTranwithData(`/transaction/tranwith/pagination?page=${page}`, {}, '.tranwith');
+        loadTranWithGroupeData(`/transaction/tranwithgroupe/pagination?page=${page}`, {}, '.with-groupe');
     });
 
 
@@ -175,25 +166,19 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Search Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('keyup click', '#search', function (e) {
+    $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
-        let user = $("#users").val();
-        let method = $("#methods").val();
-        let type = $("#types").val();
-        loadTranwithData(`/transaction/search/tranwith`, {search:search, method:method, type:type, user:user}, '.tranwith')
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadTranWithGroupeData(`/transaction/search/tranwithgroupe/with`, {search:search}, '.with-groupe')
+        }
+        else if(searchOption == "2"){
+            loadTranWithGroupeData(`/transaction/search/tranwithgroupe/groupe`, {search:search}, '.with-groupe')
+        }
         
     });
 
-    $(document).on('change', '#methods, #types, #users', function (e) {
-        e.preventDefault();
-        let search = $('#search').val();
-        let user = $("#users").val();
-        let method = $('#methods').val();
-        let type = $('#types').val();
-        loadTranwithData(`/transaction/search/tranwith`, {search:search, method:method, type:type, user:user}, '.tranwith')
-    });
-    /////////////// ------------------ Search Ajax Part End ---------------- /////////////////////////////
 
 
     /////////////// ------------------ Search Pagination Ajax Part Start ---------------- /////////////////////////////
@@ -202,17 +187,20 @@ $(document).ready(function () {
         $('.paginate').addClass('hidden');
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
-        let method = $("#methods").val();
-        let type = $("#types").val();
-        let user = $("#users").val();
-        loadTranwithData(`/transaction/tranwith/search/pagination?page=${page}`, {search:search, method:method, type:type, user:user}, '.tranwith');
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            loadTranWithGroupeData(`/transaction/tranwithgroupe/search/pagination/with?page=${page}`, {search:search}, '.with-groupe');
+        }
+        else if(searchOption == "2"){
+            loadTranWithGroupeData(`/transaction/tranwithgroupe/search/pagination/groupe?page=${page}`, {search:search}, '.with-groupe');
+        }
         
     });
 
 
 
-    // TranWith Data Load Function
-    function loadTranwithData(url, data, targetElement) {
+    // TranWith Groupe Data Load Function
+    function loadTranWithGroupeData(url, data, targetElement) {
         $.ajax({
             url: url,
             data: data,

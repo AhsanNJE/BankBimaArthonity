@@ -305,5 +305,44 @@ class ClientController extends Controller
         }
     }//End Method
 
-    /////////////////////////// --------------- Inventory Client Methods end---------- //////////////////////////
+
+
+    //Search Client by Type
+    public function SearchClientByType(Request $request){
+        if($request->search != ""){
+            $client = User_Info::with('Withs')
+            ->whereHas('Withs', function ($query) use ($request) {
+                $query->where('tran_with_name', 'like', '%'.$request->search.'%');
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->where('user_type','client')
+            ->paginate(15);
+        }
+        else{
+            $client = User_Info::with('Withs')
+            ->whereHas('Withs', function ($query) use ($request) {
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->where('user_type','client')
+            ->paginate(15);
+        }
+        
+
+        $paginationHtml = $client->links()->toHtml();
+        
+        if($client->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('client.searchClient', compact('client'))->render(),
+                'paginate' => $paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    /////////////////////////// --------------- Client Methods end---------- //////////////////////////
 }

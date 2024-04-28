@@ -5,6 +5,7 @@
             <th>SL:</th>
             <th>Id</th>
             <th>Name</th>
+            <th>Employee Type</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Location</th>
@@ -19,6 +20,7 @@
                 <td>{{ $employee->firstItem() + $key }}</td>
                 <td>{{ $item->user_id }}</td>
                 <td>{{ $item->user_name }}</td>
+                <td>{{ $item->Withs->tran_with_name }}</td>
                 <td>{{ $item->user_email }}</td>
                 <td>{{ $item->user_phone }}</td>
                 <td>{{ $item->Location->upazila }}</td>
