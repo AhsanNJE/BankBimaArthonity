@@ -6,7 +6,7 @@
             <th>SL:</th>
             <th>Transaction With Name</th>
             <th>User Type</th>
-            <th>Transaction Type</th>
+            <th>Transaction Main Head</th>
             <th>Transaction Method</th>
             <th>Action</th>
         </tr>

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+// $(document).ready(function () {
     // //get last transaction id by transaction type
     // $(document).on('change', '#type', function (e) {
     //     let type = $('#type').val();
@@ -578,4 +578,4 @@ $(document).ready(function () {
     //     });
     // }
 
-});
+// });
