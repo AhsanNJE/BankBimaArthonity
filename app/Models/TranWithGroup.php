@@ -10,5 +10,6 @@ class TranWithGroup extends Model
     use HasFactory;
 
     protected $guarded = [];
+
     
 }

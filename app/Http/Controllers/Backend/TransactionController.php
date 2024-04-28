@@ -848,7 +848,7 @@ class TransactionController extends Controller
             if ($transaction) {
                 return response()->json([
                     'status' => 'success',
-                    'data' => view('transaction.details.transactionGrid', compact('transaction'))->render(),
+                    'data' => view('transaction.general.transactionGrid', compact('transaction'))->render(),
                     'transaction' => $transaction
                 ]);
             } else {

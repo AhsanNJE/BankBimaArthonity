@@ -18,7 +18,7 @@ $(document).ready(function () {
             cache: false,
             data: formData,
             beforeSend:function() {
-                $(document).find('span.error').text('');  
+                $(document).find('span.error').text('');
             },
             success: function (res) {
                 if (res.status == "success") {
