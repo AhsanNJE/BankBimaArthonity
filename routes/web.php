@@ -480,6 +480,10 @@ Route::controller(PayRollController::class)->group(function(){
     Route::put('/employees/update', [InfoController::class,'EmployeesUpdate'])->name('employees.update');
     Route::delete('/employees/delete', [InfoController::class, 'EmployeesDelete'])->name('employees.delete');
 
+    Route::get('/employee/education', [InfoController::class, 'EmployeesEducation'])->name('employee.education');  
+    Route::get('/employee/training', [InfoController::class, 'EmployeesTraining'])->name('employee.training');
+    Route::get('/employee/experience', [InfoController::class, 'EmployeesExperience'])->name('employee.experience');
+
     //Personal search routes start
     Route::get('/search/employee/personal', [InfoController::class, 'SearchEmployeesPersonal'])->name('search.employee.personal.name');
     Route::get('/search/employee/personal/email', [InfoController::class, 'SearchEmployeePersonalByEmail'])->name('search.employee.personal.email');

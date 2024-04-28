@@ -377,4 +377,19 @@ div.col-md-4 label {
     padding: 4px;
 }
 
+/* Add a class to style the hide button */
+.hideButton {
+    background-color: red;
+    color: white;
+}
+
+.dropdown-caret {
+    /* transform: rotate(90deg);
+    transition: transform 0.3s ease; Optional: Add a transition effect */
+    transition: transform 0.3s ease; /* Add a transition effect */
+}
+
+.rotate {
+    transform: rotate(90deg);
+}
 

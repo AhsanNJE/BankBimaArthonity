@@ -153,7 +153,7 @@ class InfoController extends Controller
             'address' => 'required',
         ]);
 
-        $employee = PersonalDetail::where('employee_id', $request->id)->first();
+        $employee = PersonalDetail::where('employee_id', $request->employee_id)->first();
         $path = 'public/profiles/'.$employee->image;
         //dd($path);
         if($request->image != null){
@@ -164,7 +164,7 @@ class InfoController extends Controller
             //process the image name and store it to storage/app/public/profiles directory
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 Storage::delete($path);
-                $imageName = $request->id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
+                $imageName = $request->employee_id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
                 $imagePath = $request->file('image')->storeAs('public/profiles', $imageName);
             }
         }
@@ -173,7 +173,7 @@ class InfoController extends Controller
         }
 
         $update1 = PersonalDetail::findOrFail($request->id)->update([
-            'employee_id' =>  $id,
+     
             'name' => $request->name,
             "fathers_name" => $request->fathers_name,
             "mothers_name" => $request->mothers_name,
@@ -193,8 +193,7 @@ class InfoController extends Controller
             "updated_at" => now()
         ]);
        
-        $update2 = User_Info::findOrFail($request->id)->update([
-            "user_id" => $id,
+        $update2 = User_Info::where('user_id', $request->employee_id)->update([
             "user_name" => $request->name,
             "user_email" => $request->email,
             "user_phone" => $request->phn_no,
@@ -208,7 +207,7 @@ class InfoController extends Controller
             "image" => $imageName,
             "updated_at" => now()
         ]);
-        if($update1){
+        if($update1 && $update2){
             return response()->json([
                 'status'=>'success'
             ]); 
@@ -281,6 +280,13 @@ class InfoController extends Controller
         ]);
     }
 
+    public function EmployeesEducation(Request $request){
+        $employeeeducation = EducationDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
+        return response()->json([
+            'data'=>view('hr.educationdetail.detailseducation', compact('employeeeducation'))->render(),
+        ]);
+    }
+
 
 
 
@@ -343,6 +349,13 @@ class InfoController extends Controller
         $employeetraining = TrainingDetail::with('personalDetail')->where('emp_id', "=", $request->id)->get();
         return response()->json([
             'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeetraining'))->render(),
+        ]);
+    }
+
+    public function EmployeesTraining(Request $request){
+        $employeetraining = TrainingDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
+        return response()->json([
+            'data'=>view('hr.trainingdetail.detailstraining', compact('employeetraining'))->render(),
         ]);
     }
 
@@ -410,6 +423,13 @@ class InfoController extends Controller
         $employeeexperience = ExperienceDetail::with('personalDetail')->where('emp_id', $request->id)->get();
         return response()->json([
             'data'=>view('hr.experiencedetail.employeeExperienceInfo', compact('employeeexperience'))->render(),
+        ]);
+    }
+
+    public function EmployeesExperience(Request $request){
+        $employeeexperience = ExperienceDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
+        return response()->json([
+            'data'=>view('hr.experiencedetail.detailsexperience', compact('employeeexperience'))->render(),
         ]);
     }
 

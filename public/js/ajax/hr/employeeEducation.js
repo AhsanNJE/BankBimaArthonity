@@ -156,6 +156,39 @@ $(document).ready(function () {
         return form;
     }
 
+
+    // Show Button part
+    $(document).on('click', '.emp_educationDetail', function (e) {
+        let id = $(this).attr('data-id');
+        let $detailsRow = $(`#detailseducation${id}`);
+        let $button = $(this); // Reference to the clicked button
+    
+        if ($detailsRow.is(':visible')) {
+            // If the row is visible, hide it, change button text to "Show", and remove caret rotation
+            $detailsRow.hide();
+            $button.find('.dropdown-caret').removeClass('rotate');
+        } else {
+            // Fetch data and show it, then change button text to "Hide", and add caret rotation
+            $.ajax({
+                url: "/employee/education",
+                method: 'GET',
+                data: {id:id},
+                success: function (res) {
+                    console.log(res);
+                    $detailsRow.find('td').html(res.data);
+                    $detailsRow.show();
+                    $button.find('.dropdown-caret').addClass('rotate');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    });
+    
+    
+
+    
     //Show Employee Education Details on details modal
     $(document).on('click', '.EmployeeEducationDetails', function (e) {
         let modal = $(this).attr('data-modal-id');
@@ -173,7 +206,6 @@ $(document).ready(function () {
             }
         });
     });
-    
 
 
     // Show Employee Details List Toggle Functionality
@@ -198,95 +230,148 @@ $(document).ready(function () {
     });
 
 
+    // Edit Button Click Event
+$(document).on('click', '.editEmployee', function () {
+    let modalId = '#editEducationDetail';
+    let employeeId = $(this).data('employee-id');
+    let formIndex = $(this).data('form-index');
+
+    // Fetch employee data for the corresponding employee ID and form index
+    $.ajax({
+        url: `/edit/employee`,
+        method: 'GET',
+        data: { id: employeeId, formIndex: formIndex },
+        success: function (res) {
+            // Populate modal fields with fetched employee data
+            $(modalId + ' #id').val(res.employee.id);
+            $(modalId + ' #empId').val(res.employee.emp_id);
+            $(modalId + ' #updateName').val(res.employee.name);
+            $(modalId + ' #updateEmail').val(res.employee.email);
+            $(modalId + ' #updatePhone').val(res.employee.phone);
+            // Populate other fields similarly
+            
+            // Show the modal
+            $(modalId).modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+});
+
+// Submit Edited Employee Form
+$(document).on('submit', '#EditEducationDetailForm', function (e) {
+    e.preventDefault();
+    let formData = new FormData(this);
+
+    // Make AJAX request to update employee data
+    $.ajax({
+        url: $(this).attr('action'), // Use form action attribute for update URL
+        method: 'POST',
+        data: formData,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+            // Handle success response
+            // Optionally, update UI to reflect changes
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+});
+
+
     
-    ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('click', '.editEmployee', function () {
-        let modalId = $(this).data('modal-id');
-        let id = $(this).data('id');
-        $.ajax({
-            url: `/admin/employees/edit/employees`,
-            method: 'GET',
-            data: { id:id },
-            success: function (res) {
-                $('#id').val(id);
-                $('#empId').val(res.employee.user_id);
-                $('#updateName').val(res.employee.user_name);
-                $('#updateName').focus();
-                $('#updateEmail').val(res.employee.user_email);
-                $('#updatePhone').val(res.employee.user_phone);
+    // ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
+    // $(document).on('click', '.editEmployee', function () {
+    //     let modalId = $(this).data('modal-id');
+    //     let id = $(this).data('id');
+    //     $.ajax({
+    //         url: `/admin/employees/edit/employees`,
+    //         method: 'GET',
+    //         data: { id:id },
+    //         success: function (res) {
+    //             $('#id').val(id);
+    //             $('#empId').val(res.employee.user_id);
+    //             $('#updateName').val(res.employee.user_name);
+    //             $('#updateName').focus();
+    //             $('#updateEmail').val(res.employee.user_email);
+    //             $('#updatePhone').val(res.employee.user_phone);
 
-                // Create options dynamically
-                $('#updateGender').empty();
-                $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
-                                        <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
-                                        <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
+    //             // Create options dynamically
+    //             $('#updateGender').empty();
+    //             $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
+    //                                     <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
+    //                                     <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
 
-                $('#updateLocation').val(res.employee.location.upazila);
-                $('#updateLocation').attr('data-id',res.employee.loc_id);
+    //             $('#updateLocation').val(res.employee.location.upazila);
+    //             $('#updateLocation').attr('data-id',res.employee.loc_id);
 
-                // Create options dynamically
-                $('#updateType').empty();
-                $.each(res.tranwith, function (key, withs) {
-                    $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
-                });
+    //             // Create options dynamically
+    //             $('#updateType').empty();
+    //             $.each(res.tranwith, function (key, withs) {
+    //                 $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
+    //             });
 
-                $('#updateDepartment').val(res.employee.department.dept_name);
-                $('#updateDepartment').attr('data-id',res.employee.dept_id);
-                $('#updateDesignation').val(res.employee.designation.designation);
-                $('#updateDesignation').attr('data-id',res.employee.designation_id);
-                $('#updateDob').val(res.employee.dob);
-                $('#updateNid').val(res.employee.nid);
-                $('#updateAddress').val(res.employee.address);
-                $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
+    //             $('#updateDepartment').val(res.employee.department.dept_name);
+    //             $('#updateDepartment').attr('data-id',res.employee.dept_id);
+    //             $('#updateDesignation').val(res.employee.designation.designation);
+    //             $('#updateDesignation').attr('data-id',res.employee.designation_id);
+    //             $('#updateDob').val(res.employee.dob);
+    //             $('#updateNid').val(res.employee.nid);
+    //             $('#updateAddress').val(res.employee.address);
+    //             $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
 
-                var modal = document.getElementById(modalId);
-                modal.style.display = 'block';
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
-    });
+    //             var modal = document.getElementById(modalId);
+    //             modal.style.display = 'block';
+    //         },
+    //         error: function (err) {
+    //             console.log(err);
+    //         }
+    //     });
+    // });
 
 
 
-    /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditEmployeeForm', function (e) {
-        e.preventDefault();
-        let locations = $('#updateLocation').attr('data-id');
-        let department = $('#updateDepartment').attr('data-id');
-        let designation = $('#updateDesignation').attr('data-id');
-        let formData = new FormData(this);
-        formData.append('location',locations);
-        formData.append('department',department);
-        formData.append('designation',designation);
-        $.ajax({
-            url: `/admin/employees/update/employees`,
-            method: 'POST',
-            data: formData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            beforeSend:function() {
-                $(document).find('span.error').text('');  
-            },
-            success: function (res) {
-                if (res.status == "success") {
-                    $('#editEmployee').hide();
-                    $('#EditEmployeeForm')[0].reset();
-                    $('#search').val('');
-                    $('.employee').load(location.href + ' .employee');
-                    toastr.success('Employee Updated Successfully', 'Updated!');
-                }
-            },
-            error: function (err) {
-                let error = err.responseJSON;
-                $.each(error.errors, function (key, value) {
-                    $('#update_' + key + "_error").text(value);
-                })
-            }
-        });
-    });
+    // /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
+    // $(document).on('submit', '#EditEmployeeForm', function (e) {
+    //     e.preventDefault();
+    //     let locations = $('#updateLocation').attr('data-id');
+    //     let department = $('#updateDepartment').attr('data-id');
+    //     let designation = $('#updateDesignation').attr('data-id');
+    //     let formData = new FormData(this);
+    //     formData.append('location',locations);
+    //     formData.append('department',department);
+    //     formData.append('designation',designation);
+    //     $.ajax({
+    //         url: `/admin/employees/update/employees`,
+    //         method: 'POST',
+    //         data: formData,
+    //         cache: false,
+    //         processData: false,
+    //         contentType: false,
+    //         beforeSend:function() {
+    //             $(document).find('span.error').text('');  
+    //         },
+    //         success: function (res) {
+    //             if (res.status == "success") {
+    //                 $('#editEmployee').hide();
+    //                 $('#EditEmployeeForm')[0].reset();
+    //                 $('#search').val('');
+    //                 $('.employee').load(location.href + ' .employee');
+    //                 toastr.success('Employee Updated Successfully', 'Updated!');
+    //             }
+    //         },
+    //         error: function (err) {
+    //             let error = err.responseJSON;
+    //             $.each(error.errors, function (key, value) {
+    //                 $('#update_' + key + "_error").text(value);
+    //             })
+    //         }
+    //     });
+    // });
 
 
     /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////

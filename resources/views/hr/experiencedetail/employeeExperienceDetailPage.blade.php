@@ -35,12 +35,15 @@
                     @endif
                 </td>
                 <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal EmployeeExperienceDetails" data-modal-id="EmployeeExperienceDetails"
+                        <button class="btn btn-info btn-sm open-modal emp_experienceDetail" data-modal-id="emp_experienceDetail"
+                        data-id="{{ $item->user_id }}"><i class="fas fa-caret-down dropdown-caret"></i>Show</button>
+                        <button class="btn btn-info btn-sm open-modal EmployeeExperienceDetails" data-modal-id="EmployeeExperienceDetails"
                         data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
-                    <button class="btn btn-info btn-sm open-modal EmployeeEdit" data-modal-id="EmployeeEdit"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
-                            class="fas fa-trash"></i>Delete</button>
+                </td>
+            </tr>
+            <tr id = "detailsexperience{{ $item->user_id }}" style = "display:none">
+                <td colspan = "9">
+
                 </td>
             </tr>
         @endforeach

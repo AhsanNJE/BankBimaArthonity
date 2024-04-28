@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for = "location">Location Id</label>
+                                        <label for = "location">Location</label>
                                         <input type="text" name="location" id="location" class="form-control">
                                         <div id="location-list">
                                             <ul>

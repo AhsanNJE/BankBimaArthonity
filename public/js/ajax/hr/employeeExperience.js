@@ -131,6 +131,39 @@ $(document).ready(function () {
         return form;
     }
 
+
+    // Show Button part
+    $(document).on('click', '.emp_experienceDetail', function (e) {
+        let id = $(this).attr('data-id');
+        let $detailsRow = $(`#detailsexperience${id}`);
+        let $button = $(this); // Reference to the clicked button
+    
+        if ($detailsRow.is(':visible')) {
+            // If the row is visible, hide it, change button text to "Show", and remove caret rotation
+            $detailsRow.hide();
+            $button.find('.dropdown-caret').removeClass('rotate');
+        } else {
+            // Fetch data and show it, then change button text to "Hide", and add caret rotation
+            $.ajax({
+                url: "/employee/experience",
+                method: 'GET',
+                data: {id:id},
+                success: function (res) {
+                    console.log(res);
+                    $detailsRow.find('td').html(res.data);
+                    $detailsRow.show();
+                    $button.find('.dropdown-caret').addClass('rotate');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    });
+    
+    
+    
+
     //Show Employee Experience Details on details modal
     $(document).on('click', '.EmployeeExperienceDetails', function (e) {
         let modal = $(this).attr('data-modal-id');

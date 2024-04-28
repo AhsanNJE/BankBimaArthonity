@@ -25,6 +25,7 @@
     <!-- table show -->
     <div class="employee" style="overflow-x:auto;">
         @include('hr.educationdetail.employeeEducationDetailPage')
+        
     </div>
     @include('hr.educationdetail.addEducationDetail')
     @include('hr.educationdetail.employeeEducationFullDetail')

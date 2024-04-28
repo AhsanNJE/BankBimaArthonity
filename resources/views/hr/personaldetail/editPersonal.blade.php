@@ -31,9 +31,9 @@
                 
                 <!-- form start -->
                 <form id="EditPersonalDetailForm" action="{{ route('insertpersonal.info')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('put')
-                    <!-- Personal Details Section -->    
+                @csrf
+                @method('put')
+                <!-- Personal Details Section -->    
                 <div class="center">
                         <div class="card-body">
                             <div class="row">
@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for = "update_location">Location Id</label>
+                                        <label for = "update_location">Location</label>
                                         <input type="text" name="location" id="update_location" class="form-control">
                                         <div id="location-list">
                                             <ul>
