@@ -107,7 +107,7 @@
 
                                     </ul>
                                 </div>
-                                <span class="text-danger error" id="designation_name_error"></span>
+                                <span class="text-danger error" id="designation_error"></span>
                             </div>
                         </div>
                     </div>

@@ -90,8 +90,8 @@ $(document).ready(function () {
                 $('#update_blood_group').val(res.employee.blood_group);
                 $('#update_email').val(res.employee.email);
 
-                $('#update_location').val(res.employee.location.upazila);
-                $('#update_location').attr('data-id',res.employee.location_id);
+                $('#updateLocation').val(res.employee.location.upazila);
+                $('#updateLocation').attr('data-id',res.employee.location_id);
 
                 // Create options dynamically
                 $('#update_type').empty();
@@ -116,7 +116,7 @@ $(document).ready(function () {
     /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
     $(document).on('submit', '#EditPersonalDetailForm', function (e) {
         e.preventDefault();
-        let locations = $('#update_location').attr('data-id');
+        let locations = $('#updateLocation').attr('data-id');
         let formData = new FormData(this);
         formData.append('location',locations);
         $.ajax({
@@ -131,7 +131,7 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editPersonal').hide();
+                    $('#editEducation').hide();
                     $('#EditPersonalDetailForm')[0].reset();
                     $('#search').val('');
                     $('.employee').load(location.href + ' .employee');

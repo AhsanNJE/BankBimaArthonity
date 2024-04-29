@@ -120,7 +120,7 @@ class InfoController extends Controller
     }
 
 
-    //Edit Employees
+    //Edit Employees Personal
     public function EditEmployeePersonal(Request $request){
         $employee = PersonalDetail::with('Location')->where('employee_id', $request->id)->first();
         $tranwith = Transaction_With::where('user_type','Employee')->get();
@@ -132,7 +132,7 @@ class InfoController extends Controller
 
 
 
-    //Update Employees
+    //Update Employees Personal
     public function UpdateEmployeePersonal(Request $request){
         
         $request->validate([
@@ -218,6 +218,7 @@ class InfoController extends Controller
 
 
 
+
     ////////////////////////////////////       Employee Education Detail         //////////////////////////////////////
 
 
@@ -286,6 +287,58 @@ class InfoController extends Controller
             'data'=>view('hr.educationdetail.detailseducation', compact('employeeeducation'))->render(),
         ]);
     }
+
+
+    //Edit Employees Education
+    public function EditEmployeeEducation(Request $request){
+        $employee = EducationDetail::where('id', $request->id)->first();
+        //dd($employee);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return response()->json([
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+    //Update Employees Personal
+    public function UpdateEmployeeEducation(Request $request){
+        
+        $request->validate([
+            'level_of_education' => 'required|string|max:255',
+            'degree_title' => 'required|string|max:255',
+            'group' => 'required|string|max:255',
+            'institution_name' => 'required|string|max:255',
+            'result' => 'required|string|max:255',
+            'scale' => 'required|numeric',
+            'cgpa' => 'required|numeric',
+            'batch' => 'required|numeric',
+            'passing_year' => 'required|numeric',
+        ]);
+
+        $employee = EducationDetail::findOrFail($request->id);
+        
+
+        $update = EducationDetail::findOrFail($request->id)->update([
+     
+            'level_of_education' => $request->level_of_education,
+            'degree_title' => $request->degree_title,
+            'group' => $request->group,
+            'institution_name' => $request->institution_name,
+            'result' => $request->result,
+            'scale' => $request->scale,
+            'cgpa' => $request->cgpa,
+            'batch' => $request->batch,
+            'passing_year' => $request->passing_year,
+            'updated_at' => now()
+        ]);
+       
+        
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
 
 
 
@@ -358,6 +411,54 @@ class InfoController extends Controller
             'data'=>view('hr.trainingdetail.detailstraining', compact('employeetraining'))->render(),
         ]);
     }
+
+    //Edit Employees Training
+    public function EditEmployeeTraining(Request $request){
+        $employee = TrainingDetail::where('id', $request->id)->first();
+        //dd($employee);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return response()->json([
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+    //Update Employees Personal
+    public function UpdateEmployeeTraining(Request $request){
+        
+        $request->validate([
+            'training_title' => 'required',
+            'country' => 'required',
+            'topic' => 'required',
+            'institution_name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'training_year' => 'required|numeric',
+        ]);
+
+        $employee = TrainingDetail::findOrFail($request->id);
+        
+
+        $update = TrainingDetail::findOrFail($request->id)->update([
+     
+            'training_title' => $request->training_title,
+            'country' => $request->country,
+            'topic' => $request->topic,
+            'institution_name' => $request->institution_name,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'training_year' => $request->training_year,
+            'updated_at' => now()
+        ]);
+       
+        
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
 
 
 
@@ -501,164 +602,47 @@ class InfoController extends Controller
 
     
 
-    //Edit Employees
-    public function EmployeesEdit(Request $request){
-        $employeeinfo = PersonalDetail::where('id', $request->id)->findOrFail($request->id);
+    //Edit Employees Organization
+    public function EditEmployeeOrganization(Request $request){
+        $employee = OrganizationDetail::with('Department','Designation','Location')->where('emp_id', $request->id)->first();
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
         return response()->json([
-            'employeeinfo'=>$employeeinfo,
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
         ]);
     }//End Method
 
 
 
-    //Update Employees
-    public function EmployeesUpdate(Request $request){
-        $request->validate([
-            'name' => 'required',
-            'fathers_name' => 'required',
-            'mothers_name' => 'required',
-            'date_of_birth' => 'required',
-            'gender' => 'required|in:male,female,others',
-            'religion' => 'required',
-            'marital_status' => 'required',
-            'nationality' => 'required',
-            'phn_no' =>  'required|numeric|unique:user__infos,user_phone,phone',
-            'blood_group' => 'required',
-            'email' => 'required|email|unique:user__infos,user_email,email',
-            'address' => 'required',
-            'image' => 'required|mimes:jpg,jpeg,png,gif|max:2048',
-        ]);
+    //Update Employees Organization
+    public function UpdateEmployeeOrganization(Request $request){
         
-        //Validate Employee Education Details
-        $request->validate([
-            'level_of_education' => 'required',
-            'degree_title' => 'required',
-            'group' => 'required',
-            'institution_name' => 'required',
-            'result' => 'required',
-            'scale' => 'required|numeric',
-            'cgpa' => 'required|numeric',
-            'batch' => 'required|numeric',
-            'passing_year' => 'required|numeric',
-        ]);
-        
-        //Validate Employee Training Details
-        $request->validate([
-            'training_title' => 'required',
-            'country' => 'required',
-            'topic' => 'required',
-            'institution_name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'training_year' => 'required|numeric',
-        ]);
-    
-        //Validate Employee Experience Details
-        $request->validate([
-            'company_name' => 'required',
-            'designation' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'department' => 'required',
-            'company_location' => 'required',
-        ]);
-        
-        //Validate Employee Joining Details
         $request->validate([
             'joining_date' => 'required',
-            'joining_location' => 'required',
+            'location' => 'required',
             'department' => 'required',
             'designation' => 'required',
         ]);
 
-        $employeeinfo = PersonalDetail::findOrFail($request->id);
-        
-        if($request->image != null){
-            $request->validate([
-                "image" => 'image|mimes:jpg,jpeg,png,gif|max:2048',
-            ]);
-
-            //process the image name and store it to storage/app/public/profiles directory
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $originalName = $request->file('image')->getClientOriginalName();
-                $imageName = $request->employee_id. '('. $request->name . ').' . $request->file('image')->getClientOriginalExtension();
-                $imagePath = $request->file('image')->storeAs('public/profiles', $imageName);
-            }
-        }
-        else{
-            $imageName = $employeeinfo->image;
-        }
-        
+        $employee = OrganizationDetail::where('emp_id', $request->emp_id)->first();
         
 
-        $update = PersonalDetail::findOrFail($request->id)->update([
-        'employee_id' =>  $id,
-        'name' => $request->name,
-        "fathers_name" => $request->fathers_name,
-        "mothers_name" => $request->mothers_name,
-        "date_of_birth" => $request->date_of_birth,
-        "gender" => $request->gender,
-        "religion" => $request->religion,
-        "marital_status" => $request->marital_status,
-        "nationality" => $request->nationality,
-        "phn_no" =>  $request->phn_no,
-        "blood_group" => $request->blood_group,
-        "email" => $request->email,
-        "address" => $request->address,
-        "image" => $request->image,
-    ]);
-    
-        $update = EducationDetail::findOrFail($request->id)->update([
-        'emp_id' =>  $id,
-        "level_of_education" => $request->level_of_education,
-        "degree_title" => $request->degree_title,
-        "group" => $request->group,
-        "institution_name" => $request->institution_name,
-        "result" => $request->result,
-        "scale" => $request->scale,
-        "cgpa" => $request->cgpa,
-        "batch" => $request->batch,
-        "passing_year" =>  $request->passing_year,
-    ]);
-
-        $update = TrainingDetail::findOrFail($request->id)->update([
-        'emp_id' =>  $id,
-        "training_title" => $request->training_title,
-        "country" =>  $request->country,
-        "topic" => $request->topic,
-        "institution_name" => $request->institution_name,
-        "start_date" => $request->start_date,
-        "end_date" => $request->end_date,
-        "training_year" => $request->training_year,
-    ]);
-
-        //Insert Employee Experience Details
-        $update = ExperienceDetail::findOrFail($request->id)->update([
-        'emp_id' =>  $id,
-        "company_name" => $request->company_name,
-        "designation" =>  $request->designation,
-        "start_date" => $request->start_date,
-        "end_date" => $request->end_date,
-        "department" => $request->department,
-        "company_location" => $request->company_location,
-    ]);
-
-        //Insert Employee Organization Details
         $update = OrganizationDetail::findOrFail($request->id)->update([
-        'emp_id' =>  $id,
-        "joining_date" => $request->joining_date,
-        "joining_location" =>  $request->joining_location,
-        "department" => $request->department,
-        "designation" => $request->designation,
+     
+            "joining_date" => $request->joining_date,
+            "joining_location" =>  $request->location,
+            "department" => $request->department,
+            "designation" => $request->designation,
+            "updated_at" => now()
         ]);
-
+       
         if($update){
             return response()->json([
                 'status'=>'success'
             ]); 
         }
     }//End Method
-
+       
 
     //Delete Employees
     public function EmployeesDelete(Request $request){

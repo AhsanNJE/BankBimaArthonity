@@ -29,6 +29,7 @@
     </div>
     @include('hr.educationdetail.addEducationDetail')
     @include('hr.educationdetail.employeeEducationFullDetail')
+    @include('hr.educationdetail.editEducationDetail')
     @endsection
 
 @section('ajax')

@@ -28,6 +28,7 @@
     </div>
     @include('hr.trainingdetail.addTrainingDetail')
     @include('hr.trainingdetail.employeeTrainingFullDetail')
+    @include('hr.trainingdetail.editTraining')
     @endsection
 
 @section('ajax')

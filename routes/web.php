@@ -630,5 +630,16 @@ Route::controller(PayRollController::class)->group(function(){
 
     Route::get('/edit/employee/personal', [InfoController::class,'EditEmployeePersonal'])->name('edit.employee.personal');
     Route::put('/update/employee/personal', [InfoController::class, 'UpdateEmployeePersonal'])->name('update.employee.personal');
+    Route::get('/edit/employee/education', [InfoController::class,'EditEmployeeEducation'])->name('edit.employee.education');
+    Route::put('/update/employee/education', [InfoController::class, 'UpdateEmployeeEducation'])->name('update.employee.education');
+
+    Route::get('/edit/employee/training', [InfoController::class,'EditEmployeeTraining'])->name('edit.employee.training');
+    Route::put('/update/employee/training', [InfoController::class, 'UpdateEmployeeTraining'])->name('update.employee.training');
+
+    Route::get('/edit/employee/experience', [InfoController::class,'EditEmployeeExperience'])->name('edit.employee.experience');
+    Route::put('/update/employee/experience', [InfoController::class, 'UpdateEmployeeExperience'])->name('update.employee.experience');
+
+    Route::get('/edit/employee/organization', [InfoController::class,'EditEmployeeOrganization'])->name('edit.employee.organization');
+    Route::put('/update/employee/organization', [InfoController::class, 'UpdateEmployeeOrganization'])->name('update.employee.organization');
 
     

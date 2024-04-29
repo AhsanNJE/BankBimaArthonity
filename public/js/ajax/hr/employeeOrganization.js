@@ -87,44 +87,34 @@ $(document).ready(function () {
     });
 
     ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('click', '.editEmployee', function () {
+    $(document).on('click', '.editOrganization', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/admin/employees/edit/employees`,
+            url: `/edit/employee/organization`,
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('#id').val(id);
-                $('#empId').val(res.employee.user_id);
-                $('#updateName').val(res.employee.user_name);
-                $('#updateName').focus();
-                $('#updateEmail').val(res.employee.user_email);
-                $('#updatePhone').val(res.employee.user_phone);
+                $('#id').val(res.employee.id);
+                $('#emp_id').val(res.employee.emp_id);
 
-                // Create options dynamically
-                $('#updateGender').empty();
-                $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
-                                         <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
-                                         <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
+                // $('#update_with').empty();
+                // $.each(res.tranwith, function (key, withs) {
+                //     $('#update_with').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
+                // });
+
+                $('#update_joining_date').val(res.employee.joining_date);
 
                 $('#updateLocation').val(res.employee.location.upazila);
-                $('#updateLocation').attr('data-id',res.employee.loc_id);
+                $('#updateLocation').attr('data-id',res.employee.location_id);
 
                 // Create options dynamically
-                $('#updateType').empty();
-                $.each(res.tranwith, function (key, withs) {
-                    $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
-                });
+                
 
                 $('#updateDepartment').val(res.employee.department.dept_name);
                 $('#updateDepartment').attr('data-id',res.employee.dept_id);
                 $('#updateDesignation').val(res.employee.designation.designation);
                 $('#updateDesignation').attr('data-id',res.employee.designation_id);
-                $('#updateDob').val(res.employee.dob);
-                $('#updateNid').val(res.employee.nid);
-                $('#updateAddress').val(res.employee.address);
-                $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
 
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -138,7 +128,7 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditEmployeeForm', function (e) {
+    $(document).on('submit', '#EditOrganizationDetailForm', function (e) {
         e.preventDefault();
         let locations = $('#updateLocation').attr('data-id');
         let department = $('#updateDepartment').attr('data-id');
@@ -148,7 +138,7 @@ $(document).ready(function () {
         formData.append('department',department);
         formData.append('designation',designation);
         $.ajax({
-            url: `/admin/employees/update/employees`,
+            url: `/update/employee/organization`,
             method: 'POST',
             data: formData,
             cache: false,
@@ -159,8 +149,8 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editEmployee').hide();
-                    $('#EditEmployeeForm')[0].reset();
+                    $('#editOrganization').hide();
+                    $('#EditOrganizationDetailForm')[0].reset();
                     $('#search').val('');
                     $('.employee').load(location.href + ' .employee');
                     toastr.success('Employee Updated Successfully', 'Updated!');
@@ -174,6 +164,7 @@ $(document).ready(function () {
             }
         });
     });
+
 
     /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#delete', function (e) {

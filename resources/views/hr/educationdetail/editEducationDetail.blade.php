@@ -1,16 +1,8 @@
-@section('style')
-    <style>
-        .modal-subject {
-            width: 60%;
-        }
-    </style>
-@endsection
-
 
 <div id="editEducationDetail" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">
-            <h3 class="center">Edit Employee</h3>
+            <h3 class="center">Edit Employee Education Detail</h3>
             <span class="close-modal" data-modal-id="editEducationDetail">&times;</span>
         </div>
 
@@ -18,12 +10,12 @@
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Edit Employee</h3>
+                        <h3 class="card-title">Edit Employee Education Detail</h3>
                     </div>
                 </div>
                 
                 <!-- form start -->
-                <form id="EditEducationDetailForm" method="post" enctype="multipart/form-data">
+                <form id="EditEducationForm" class="education-form" action="{{ route('update.employee.education') }}" method="POST">
                     @csrf
                     @method('put')
                     <div class="center">
@@ -32,112 +24,71 @@
                                 <input type="hidden" name="id" id="id">
                                 <input type="hidden" name="empId" id="empId">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateName">Name</label>
-                                        <input type="text" name="name" class="form-control" id="updateName">
-                                        <span class="text-danger error" id="update_name_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateEmail">Email</label>
-                                        <input type="text" name="email" class="form-control" id="updateEmail">
-                                        <span class="text-danger error" id="update_email_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updatePhone">Phone</label>
-                                        <input type="text" name="phone" class="form-control" id="updatePhone">
-                                        <span class="text-danger error" id="update_phone_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateGender">Gender</label>
-                                        <select name="gender" id="updateGender">
-                                            {{-- options will be display dynamically --}}
-                                        </select>
-                                        <span class="text-danger error" id="update_gender_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateLocation">Location</label>
-                                        <input type="text" name="location" class="form-control" id="updateLocation" autocomplete="off">
-                                        <div id="update-location">
-                                            <ul>
-
-                                            </ul>
+                                        <div class="form-group">
+                                            <label for = "update_level_of_education">Level of Education</label>
+                                            <input type="text" name="level_of_education" id="update_level_of_education" class="form-control">
+                                            <span class="text-danger error" id="update_level_of_education_error"></span>
                                         </div>
-                                        <span class="text-danger error" id="update_location_error"></span>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateType">Type</label>
-                                        <select name="type" id="updateType">
-                                            {{-- options will be display dynamically --}}
-                                        </select>
-                                        <span class="text-danger error" id="update_type_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateDepartment">Department</label>
-                                        <input type="text" name="department" class="form-control" id="updateDepartment" autocomplete="off">
-                                        <div id="update-department">
-                                            <ul>
-
-                                            </ul>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "update_degree_title">Degree Title</label>
+                                            <input type="text" name="degree_title" id="update_degree_title" class="form-control">
+                                            <span class="text-danger error" id="update_degree_title_error"></span>
                                         </div>
-                                        <span class="text-danger error" id="update_department_error"></span>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateDesignation">Designation</label>
-                                        <input type="text" name="designation" class="form-control" id="updateDesignation" autocomplete="off">
-                                        <div id="update-designation">
-                                            <ul>
-
-                                            </ul>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "update_group">Group</label>
+                                            <input type="text" name="group" id="update_group" class="form-control">
+                                            <span class="text-danger error" id="update_group_error"></span>
                                         </div>
-                                        <span class="text-danger error" id="update_designation_error"></span>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateDob">Date of Birth</label>
-                                        <input type="date" name="dob" class="form-control" id="updateDob">
-                                        <span class="text-danger error" id="update_dob_error"></span>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "update_institution_name">Institution Name</label>
+                                            <input type="text" name="institution_name" id="update_institution_name" class="form-control">
+                                            <span class="text-danger error" id="update_institution_name_error"></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateNid">Nid</label>
-                                        <input type="text" name="nid" class="form-control" id="updateNid">
-                                        <span class="text-danger error" id="update_nid_error"></span>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "update_result">Result</label>
+                                            <input type="text" name="result" id="update_result" class="form-control">
+                                            <span class="text-danger error" id="update_result_error"></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateAddress">Address</label>
-                                        <input type="text" name="address" class="form-control" id="updateAddress">
-                                        <span class="text-danger error" id="update_address_error"></span>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "update_scale">Scale</label>
+                                            <input type="decimal" name="scale" id="update_scale" class="form-control">
+                                            <span class="text-danger error" id="update_scale_error"></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="updateImage">Image</label>
-                                        <input type="file" name="image" class="form-control" id="updateImage">
-                                        <span class="text-danger error" id="update_image_error"></span>
-                                        <img src="#" alt="Selected Image" id="updatePreviewImage" style="display: none; width:200px; height:200px;">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "update_cgpa">CGPA</label>
+                                            <input type="decimal" name="cgpa" id="update_cgpa" class="form-control">
+                                            <span class="text-danger error" id="update_cgpa_error"></span>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "update_batch">Batch</label>
+                                            <input type="integer" name="batch" id="update_batch" class="form-control">
+                                            <span class="text-danger error" id="update_batch_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "update_passing_year">Passing Year</label>
+                                            <input type="integer" name="passing_year" id="update_passing_year" class="form-control">
+                                            <span class="text-danger error" id="update_passing_year_error"></span>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="center">
-                                <button type="submit" id="UpdateEmployee" class="btn btn-primary">Update</button>
+                                <button type="submit" id="UpdateEducation" class="btn btn-primary">Update</button>
                             </div>
                         </div>
                     </div>

@@ -230,57 +230,121 @@ $(document).ready(function () {
     });
 
 
-    // Edit Button Click Event
-$(document).on('click', '.editEmployee', function () {
-    let modalId = '#editEducationDetail';
-    let employeeId = $(this).data('employee-id');
-    let formIndex = $(this).data('form-index');
+//     // Edit Button Click Event
+// $(document).on('click', '.editEmployee', function () {
+//     let modalId = '#editEducationDetail';
+//     let employeeId = $(this).data('employee-id');
+//     let formIndex = $(this).data('form-index');
 
-    // Fetch employee data for the corresponding employee ID and form index
-    $.ajax({
-        url: `/edit/employee`,
-        method: 'GET',
-        data: { id: employeeId, formIndex: formIndex },
-        success: function (res) {
-            // Populate modal fields with fetched employee data
-            $(modalId + ' #id').val(res.employee.id);
-            $(modalId + ' #empId').val(res.employee.emp_id);
-            $(modalId + ' #updateName').val(res.employee.name);
-            $(modalId + ' #updateEmail').val(res.employee.email);
-            $(modalId + ' #updatePhone').val(res.employee.phone);
-            // Populate other fields similarly
+//     // Fetch employee data for the corresponding employee ID and form index
+//     $.ajax({
+//         url: `/edit/employee`,
+//         method: 'GET',
+//         data: { id: employeeId, formIndex: formIndex },
+//         success: function (res) {
+//             // Populate modal fields with fetched employee data
+//             $(modalId + ' #id').val(res.employee.id);
+//             $(modalId + ' #empId').val(res.employee.emp_id);
+//             $(modalId + ' #updateName').val(res.employee.name);
+//             $(modalId + ' #updateEmail').val(res.employee.email);
+//             $(modalId + ' #updatePhone').val(res.employee.phone);
+//             // Populate other fields similarly
             
-            // Show the modal
-            $(modalId).modal('show');
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    });
-});
+//             // Show the modal
+//             $(modalId).modal('show');
+//         },
+//         error: function (err) {
+//             console.log(err);
+//         }
+//     });
+// });
 
-// Submit Edited Employee Form
-$(document).on('submit', '#EditEducationDetailForm', function (e) {
-    e.preventDefault();
-    let formData = new FormData(this);
+// // Submit Edited Employee Form
+// $(document).on('submit', '#EditEducationDetailForm', function (e) {
+//     e.preventDefault();
+//     let formData = new FormData(this);
 
-    // Make AJAX request to update employee data
-    $.ajax({
-        url: $(this).attr('action'), // Use form action attribute for update URL
-        method: 'POST',
-        data: formData,
-        cache: false,
-        processData: false,
-        contentType: false,
-        success: function (res) {
-            // Handle success response
-            // Optionally, update UI to reflect changes
-        },
-        error: function (err) {
-            console.log(err);
-        }
+//     // Make AJAX request to update employee data
+//     $.ajax({
+//         url: $(this).attr('action'), // Use form action attribute for update URL
+//         method: 'POST',
+//         data: formData,
+//         cache: false,
+//         processData: false,
+//         contentType: false,
+//         success: function (res) {
+//             // Handle success response
+//             // Optionally, update UI to reflect changes
+//         },
+//         error: function (err) {
+//             console.log(err);
+//         }
+//     });
+// });
+
+    // Edit Button Click Event
+    $(document).on('click', '.editEducationDetail', function () {
+        let modalId = $(this).data('modal-id');
+        let id = $(this).attr('data-id');
+        let formId = $(this).data('form-id'); // Get the form ID associated with the clicked edit button
+
+        // Fetch form data for the corresponding form ID
+        $.ajax({
+            url: `/edit/employee/education`,
+            method: 'GET',
+            data: { id: id }, // Send the form ID to the server
+            success: function (res) {
+                // Populate modal fields with fetched form data
+                $('#id').val(res.employee.id);
+                $('#empId').val(res.employee.emp_id);
+                $('#update_level_of_education').val(res.employee.level_of_education);
+                $('#update_degree_title').val(res.employee.degree_title);
+                $('#update_group').val(res.employee.group);
+                $('#update_institution_name').val(res.employee.institution_name);
+                $('#update_result').val(res.employee.result);
+                $('#update_scale').val(res.employee.scale);
+                $('#update_cgpa').val(res.employee.cgpa);
+                $('#update_batch').val(res.employee.batch);
+                $('#update_passing_year').val(res.employee.passing_year);
+                
+                // Show the modal
+                var modal = document.getElementById(modalId);
+                modal.style.display = 'block';
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
     });
-});
+
+    // Submit Edited Employee Education Form
+    $(document).on('submit', '#EditEducationForm', function (e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+
+        // Make AJAX request to update form data
+        $.ajax({
+            url: $(this).attr('action'), // Use form action attribute for update URL
+            method: 'POST', // Use PUT method for updating data
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                if (res.status == "success") {
+                    $('#editEducationDetail').hide();
+                    $('#EditEducationForm')[0].reset();
+                    $('#search').val('');
+                    $('.employee').load(location.href + ' .employee');
+                    toastr.success('Employee Updated Successfully', 'Updated!');
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
 
 
     

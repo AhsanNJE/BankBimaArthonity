@@ -29,8 +29,10 @@
                 <td>{{ $item->cgpa }}</td>
                 <td>{{ $item->passing_year }}</td>
                 <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editEducationDetail" data-modal-id="editEducationDetail"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-info btn-sm open-modal editEducationDetail" 
+                        data-modal-id="editEducationDetail" data-id="{{ $item->id }}" data-form-id="form_{{ $item->id }}">
+                        <i class="fas fa-edit"></i>Edit
+                    </button>
                     <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
                             class="fas fa-trash"></i>Delete</button>
                 </td>

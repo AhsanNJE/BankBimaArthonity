@@ -17,7 +17,7 @@
 <div id= "editPersonal" class="modal-container">
     <div class="modal-subject">
         <div class="modal-heading">
-            <h3 class="center">Add Employee Personal Detail</h3>
+            <h3 class="center">Edit Employee Personal Detail</h3>
             <span class="close-modal" data-modal-id="editPersonal">&times;</span>
         </div>
 
@@ -25,7 +25,7 @@
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Add Employee Personal Detail</h3>
+                        <h3 class="card-title">Edit Employee Personal Detail</h3>
                     </div>
                 </div>
                 
@@ -127,9 +127,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for = "update_location">Location</label>
-                                        <input type="text" name="location" id="update_location" class="form-control">
-                                        <div id="location-list">
+                                        <label for = "updateLocation">Location</label>
+                                        <input type="text" name="location" id="updateLocation" class="form-control">
+                                        <div id="update-location">
                                             <ul>
 
                                             </ul>
