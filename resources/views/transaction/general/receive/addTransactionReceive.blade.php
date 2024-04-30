@@ -7,6 +7,11 @@
     .details .caption {
         background: #0b5baa;
     }
+
+    #search {
+        width: 100%;
+        margin: 0;
+    }
 </style>
 @endsection
 
@@ -25,94 +30,89 @@
                 <form id="AddTransactionReceiveForm" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="text" name="date" class="form-control" id="date"
-                                    value="{{ date('Y-m-d') }}" disabled>
-                                <span class="text-danger error" id="date_error"></span>
+                        <div class="col-md-6">
+                            <div id="within" style="display: none"> </div>
+                            <div id="groupein" style="display: none">
+                                @foreach ($groupes as $groupe)
+                                <input type="checkbox" id="groupe[]" class="groupe-checkbox" name="groupe"
+                                    value="{{$groupe->id}}" checked>
+                                @endforeach
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="tranId">Transaction Id</label>
-                                <input type="text" name="tranId" class="form-control" id="tranId">
-                                <span class="text-danger error" id="tranId_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="with">Transaction With</label>
-                                <select name="with" id="with">
-                                    <option>Select Transaction With</option>
-                                    
-                                </select>
-                                <span class="text-danger error" id="head_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="user">Transaction User</label>
-                                <input type="text" name="user" class="form-control" id="user" autocomplete="off">
-                                <div id="user-list">
-                                    <ul>
-
-                                    </ul>
+                            <input type="text" name="tranId" class="form-control" id="tranId" style="display: none">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="date">Date</label>
+                                        <input type="text" name="date" class="form-control" id="date"
+                                            value="{{ date('Y-m-d') }}" disabled>
+                                    </div>
                                 </div>
-                                <span class="text-danger error" id="user_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="location">Location</label>
-                                <input type="text" name="location" class="form-control" id="location"
-                                    autocomplete="off">
-                                <div id="location-list">
-                                    <ul>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="user">Transaction User</label>
+                                        <input type="text" name="user" class="form-control" id="user"
+                                            autocomplete="off">
+                                        <div id="user-list">
+                                            <ul>
 
-                                    </ul>
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="user_error"></span>
+                                    </div>
                                 </div>
-                                <span class="text-danger error" id="location_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="groupe">Transaction Groupe</label>
-                                <select name="groupe" id="groupe">
-                                    <option value="">Select Transaction Groupe</option>
-                                    @foreach ($groupes as $groupe)
-                                    <option value="{{ $groupe->id }}">{{ $groupe->tran_groupe_name }}
-                                    </option>
-                                    @endforeach
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="location">Location</label>
+                                        <input type="text" name="location" class="form-control" id="location"
+                                            autocomplete="off">
+                                        <div id="location-list">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="location_error"></span>
+                                    </div>
+                                </div>
+                                {{-- <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="groupe">Transaction Groupe</label>
+                                        <select name="groupe" id="groupe">
+                                            <option value="">Select Transaction Groupe</option>
+                                            @foreach ($groupes as $groupe)
+                                            <option value="{{ $groupe->id }}">{{ $groupe->tran_groupe_name }}
+                                </option>
+                                @endforeach
                                 </select>
                                 <span class="text-danger error" id="groupe_error"></span>
                             </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div> --}}
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="head">Transaction Head</label>
-                                <select name="head" id="head">
-                                    <option value="">Select Transaction Head</option>
-                                    {{-- options will be display dynamicaly depending on transaction groupe --}}
-                                </select>
+                                <input type="text" name="head" id="head" class="form-control">
+                                <div id="head-list">
+                                    <ul>
+
+                                    </ul>
+                                </div>
                                 <span class="text-danger error" id="head_error"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="quantity">Quantity</label>
                                 <input type="text" name="quantity" class="form-control" id="quantity" value="1">
                                 <span class="text-danger error" id="quantity_error"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="amount">Amount</label>
                                 <input type="text" name="amount" class="form-control" id="amount">
                                 <span class="text-danger error" id="amount_error"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="totAmount">Total</label>
                                 <input type="text" name="totAmount" class="form-control" id="totAmount" readonly>
@@ -123,63 +123,64 @@
                             <button type="submit" id="InsertTransaction" class="btn btn-success">Add</button>
                         </div>
                     </div>
-                    <div class="row grid">
-                        <div class="col-md-12">
-                            <div class="transaction_grid">
-                                <table class="show-table">
-                                    <thead>
-                                        <tr>
-                                            <th>SL:</th>
-                                            <th>Transaction Head</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Total Amount</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
-                            <table style="width: 100%">
-                                <tr>
-                                    <td><label for="amountRP">Invoice Amount</label></td>
-                                    <td><input type="text" name="amountRP" class="input-small" id="amountRP" value="0"
-                                            readonly></td>
-                                </tr>
-                                <tr>
-                                    <td><label for="totalDiscount">Discount</label></td>
-                                    <td><input type="text" name="totalDiscount" class="input-small" id="totalDiscount"
-                                            value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td><label for="netAmount">Net Amount</label>
-                                    <td><input type="text" name="netAmount" class="input-small" id="netAmount" value="0"
-                                            readonly></td>
-                                </tr>
-                                <tr>
-                                    <td><label for="advance">Advance</label>
-                                    <td><input type="text" name="advance" class="input-small" id="advance" value="0">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="balance">Balance</label>
-                                    <td><input type="text" name="balance" class="input-small" id="balance" value="0"
-                                            readonly></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="center">
-                            <button id="InsertMainTransaction" class="btn btn-success addButton">Submit</button>
-                        </div>
-                    </div>
             </div>
-            </form>
+
+            <div class="col-md-6">
+                <div class="transaction_grid" style="overflow-x:auto;">
+                    <table class="show-table">
+                        <thead>
+                            <tr>
+                                <th>SL:</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <table style="width: 100%">
+                            <tr>
+                                <td><label for="amountRP">Invoice Amount</label></td>
+                                <td><input type="text" name="amountRP" class="input-small" id="amountRP" value="0"
+                                        readonly></td>
+                            </tr>
+                            <tr>
+                                <td><label for="totalDiscount">Discount</label></td>
+                                <td><input type="text" name="totalDiscount" class="input-small" id="totalDiscount"
+                                        value="0" style="text-align: right;"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="netAmount">Net Amount</label>
+                                <td><input type="text" name="netAmount" class="input-small" id="netAmount" value="0"
+                                        readonly style="text-align: right;"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="advance">Advance</label>
+                                <td><input type="text" name="advance" class="input-small" id="advance" value="0" style="text-align: right;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="balance">Balance</label>
+                                <td><input type="text" name="balance" class="input-small" id="balance" value="0" readonly style="text-align: right;"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="center">
+                        <button id="InsertMainTransaction" class="btn btn-success addButton">Submit</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        </form>
     </div>
+</div>
 </div>
 </div>

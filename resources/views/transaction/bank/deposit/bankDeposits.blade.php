@@ -30,7 +30,7 @@
 
     <!-- table show -->
     <div class="deposit" style="overflow-x:auto;">
-        @include('transaction.bank.deposit.bankDepositPagination')
+        @include('transaction.bank.bankPagination')
     </div>
 
 

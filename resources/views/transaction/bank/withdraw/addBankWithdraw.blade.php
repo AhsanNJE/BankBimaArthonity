@@ -3,6 +3,11 @@
     .modal-subject {
         width: 80%;
     }
+
+    #search {
+        width: 100%;
+        margin: 0;
+    }
 </style>
 @endsection
 
@@ -37,7 +42,7 @@
                             </div>
                         </div>
                         @foreach ($tranwith as $with)
-                            <input type="hidden" name="with" id="with" value="{{$with->id}}">
+                        <input type="hidden" name="with" id="with" value="{{$with->id}}">
                         @endforeach
                         <div class="col-md-4">
                             <div class="form-group">
@@ -70,7 +75,7 @@
                                 <select name="head" id="head">
                                     <option value="">Select Transaction Head</option>
                                     @foreach ($heads as $head)
-                                        <option value="{{$head->id}}">{{$head->tran_head_name}}</option>
+                                    <option value="{{$head->id}}">{{$head->tran_head_name}}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger error" id="head_error"></span>

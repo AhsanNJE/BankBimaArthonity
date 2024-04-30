@@ -9,13 +9,14 @@ $(document).ready(function () {
     
 
     // Search by Date Range
-    // $(document).on('change', '#startDate, #endDate', function(e){
-    //     e.preventDefault();
-    //     let type = "receive";
-    //     let startDate = $('#startDate').val();
-    //     let endDate = $('#endDate').val();
-    //     searchTransaction(`/transaction/search/date`, {startDate:startDate, endDate:endDate, type:type})
-    // });
+    $(document).on('change', '#startDate, #endDate', function(e){
+        e.preventDefault();
+        let type = '4';
+        let method = 'Payment';
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        searchTransaction(`/transaction/search/date`, {startDate:startDate, endDate:endDate, type:type, method:method}, '.deposit')
+    });
 
 
 
@@ -283,70 +284,61 @@ $(document).ready(function () {
     // // });
 
 
-    // /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
-    // $(document).on('click', '.paginate a', function (e) {
-    //     e.preventDefault();
-    //     let type = "receive";
-    //     let startDate = $('#startDate').val();
-    //     let endDate = $('#endDate').val();
-    //     let page = $(this).attr('href').split('page=')[1];
-    //     searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type});
-    // });
+    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.paginate a', function (e) {
+        e.preventDefault();
+        let type = '4';
+        let method = 'Payment';
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let page = $(this).attr('href').split('page=')[1];
+        searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type, method:method}, '.deposit');
+    });
 
 
 
-    // /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
-    // $(document).on('keyup', '#search', function (e) {
-    //     e.preventDefault();
-    //     let startDate = $('#startDate').val();
-    //     let endDate = $('#endDate').val();
-    //     let search = $(this).val();
-    //     let type = "receive";
-    //     let searchOption = $("#searchOption").val();
-    //     if(searchOption == "1"){
-    //         searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
-    //     }
-    //     if(searchOption == "2"){
-    //         searchTransaction(`/transaction/search/invoice`, {search:search, startDate:startDate, endDate:endDate, type:type})
-    //     }
-    //     if(searchOption == "3"){
-    //         searchTransaction(`/transaction/search/with`, {search:search, startDate:startDate, endDate:endDate, type:type})
-    //     }
-    //     if(searchOption == "4"){
-    //         searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, type:type})
-    //     }
-    // });
+    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    $(document).on('keyup', '#search', function (e) {
+        e.preventDefault();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let search = $(this).val();
+        let type = '4';
+        let method = 'Payment';
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type, method:method}, '.deposit')
+        }
+        if(searchOption == "2"){
+            searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, type:type, method:method}, '.deposit')
+        }
+    });
 
 
 
-    // /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
-    // $(document).on('click', '.search-paginate a', function (e) {
-    //     e.preventDefault();
-    //     $('.paginate').addClass('hidden');
-    //     let startDate = $('#startDate').val();
-    //     let endDate = $('#endDate').val();
-    //     let search = $('#search').val();
-    //     let type = "receive";
-    //     let searchOption = $("#searchOption").val();
-    //     let page = $(this).attr('href').split('page=')[1];
-    //     if(searchOption == "1"){
-    //         searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
-    //     }
-    //     if(searchOption == "2"){
-    //         searchTransaction(`/transaction/pagination/invoice?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
-    //     }
-    //     if(searchOption == "3"){
-    //         searchTransaction(`/transaction/pagination/with?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
-    //     }
-    //     if(searchOption == "4"){
-    //         searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
-    //     }
+    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.search-paginate a', function (e) {
+        e.preventDefault();
+        $('.paginate').addClass('hidden');
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let search = $('#search').val();
+        let type = '4';
+        let method = 'Payment';
+        let searchOption = $("#searchOption").val();
+        let page = $(this).attr('href').split('page=')[1];
+        if(searchOption == "1"){
+            searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type, method:method}, '.deposit')
+        }
+        if(searchOption == "2"){
+            searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type, method:method}, '.deposit')
+        }
         
-    // });
+    });
 
 
 
-    //Get Last Transaction Id By Transaction Method And Type function
+    // Get Last Transaction Id By Transaction Method And Type function
     function getTransactionId(type, method, targetElement) {
         $.ajax({
             url: "/transaction/get/tranid",
@@ -365,25 +357,25 @@ $(document).ready(function () {
     }
 
 
-    // // Search Transaction Receive Details
-    // function searchTransaction(url, data) {
-    //     $.ajax({
-    //         url: url,
-    //         method: 'GET',
-    //         data: data,
-    //         success: function (res) {
-    //             if(res.status === 'success'){
-    //                 $('.details').html(res.data);
-    //                 if(res.paginate){
-    //                     $('.details').append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
-    //                 }
-    //             }
-    //             else{
-    //                 $('.details').html(`<span class="text-danger">Result not Found </span>`);
-    //             }
-    //         }
-    //     });
-    // }
+    // Search Transaction Details
+    function searchTransaction(url, data, targetElement) {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            data: data,
+            success: function (res) {
+                if(res.status === 'success'){
+                    $(targetElement).html(res.data);
+                    if(res.paginate){
+                        $(targetElement).append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                    }
+                }
+                else{
+                    $(targetElement).html(`<span class="text-danger">Result not Found </span>`);
+                }
+            }
+        });
+    }
 
 
 });

@@ -15,14 +15,6 @@ use App\Models\Transaction_With;
 class PartyPaymentController extends Controller
 {
     /////////////////////////// --------------- Party Payments Table Methods start ---------- //////////////////////////
-    
-    //Show All Party Payments
-    public function ShowParty(){
-        $party = Party_Payment_Receive::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        $groupes = Transaction_Groupe::get();
-        return view('party_payment.partyPayments', compact('party','groupes'));
-    }//End Method
-
 
     //Get Transacetion Due Grid By User Id
     public function GetTransactionDueByUserId(Request $req){
@@ -50,7 +42,7 @@ class PartyPaymentController extends Controller
     //Insert Party Payments
     public function InsertParty(Request $req){
         $req->validate([
-            "tranId" => 'required',
+            // "tranId" => 'required',
             "location" => 'required|numeric',
             "type" => 'required',
             "method" => 'required',
@@ -61,6 +53,16 @@ class PartyPaymentController extends Controller
             "amount" => 'required',
             "totAmount" => 'required',
         ]);
+
+
+        if($req->method == "Receive"){
+            $transaction = Party_Payment_Receive::where('tran_type', '2')->where('tran_method','Receive')->latest('tran_id')->first();
+            $id = ($transaction) ? 'PPR' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PPR000000001';
+        }
+        else if($req->method == "Payment"){
+            $transaction = Party_Payment_Receive::where('tran_type', '2')->where('tran_method','Payment')->latest('tran_id')->first();
+            $id = ($transaction) ? 'PPP' . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : 'PPP000000001';
+        }
 
 
         if($req->user != ""){
@@ -99,9 +101,8 @@ class PartyPaymentController extends Controller
                                         "updated_at" => now()
                                     ]);
 
-
                                     Party_Payment_Receive::insert([
-                                        "tran_id" => $req->tranId,
+                                        "tran_id" => $id,
                                         "loc_id" => $req->location,
                                         "tran_type" => $req->type,
                                         "tran_method" => $req->method,
@@ -133,7 +134,7 @@ class PartyPaymentController extends Controller
                                     ]);
 
                                     Party_Payment_Receive::insert([
-                                        "tran_id" => $req->tranId,
+                                        "tran_id" => $id,
                                         "loc_id" => $req->location,
                                         "tran_type" => $req->type,
                                         "tran_method" => $req->method,
@@ -254,12 +255,8 @@ class PartyPaymentController extends Controller
 
     //Party Pagination
     public function PartyPagination(Request $req){
-        if($req->type == null ){
-            $party = Party_Payment_Receive::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        }
-        else{
-            $party = Party_Payment_Receive::where('tran_type', $req->type)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        }
+        $party = Party_Payment_Receive::where('tran_method', $req->method)->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+
         return view('party_payment.partyPaymentPagination', compact('party'));
     }//End Method
 
@@ -268,12 +265,11 @@ class PartyPaymentController extends Controller
 
     // Get Party Details by Date Range
     public function ShowPartyByDate(Request $req){
-        if($req->type == null ){
-            $party = Party_Payment_Receive::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(15);
-        }
-        else{
-            $party = Party_Payment_Receive::where('tran_type', $req->type)->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_date','asc')->paginate(15);
-        }
+        $party = Party_Payment_Receive::where('tran_method', $req->method)
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+
 
         $paginationHtml = $party->links()->toHtml();
         
@@ -296,12 +292,11 @@ class PartyPaymentController extends Controller
 
     // Get Party by TranId
     public function SearchPartyByTranId(Request $req){
-        if($req->type == null ){
-            $party = Party_Payment_Receive::where('tran_id', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_id','asc')->paginate(15);
-        }
-        else{
-            $party = Party_Payment_Receive::where('tran_type', $req->type)->where('tran_id', "like", '%'. $req->search .'%')->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])->orderBy('tran_id','asc')->paginate(15);
-        }
+        $party = Party_Payment_Receive::where('tran_method', $req->method)
+        ->where('tran_id', "like", '%'. $req->search .'%')
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->orderBy('tran_id','asc')
+        ->paginate(15);
         
         $paginationHtml = $party->links()->toHtml();
         
@@ -321,68 +316,17 @@ class PartyPaymentController extends Controller
 
 
 
-    // Get Party by Tran With
-    public function SearchPartyByTranWith(Request $req){
-        if($req->type == null ){
-            $party = Party_Payment_Receive::with('Withs')
-            ->whereHas('Withs', function ($query) use ($req) {
-                $query->where('tran_with_name', 'like', '%'.$req->search.'%');
-                $query->orderBy('tran_with_name','asc');
-            })
-            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
-            ->paginate(15);
-        }
-        else{
-            $party = Party_Payment_Receive::with('Withs')
-            ->whereHas('Withs', function ($query) use ($req) {
-                $query->where('tran_with_name', 'like', '%'.$req->search.'%');
-                $query->orderBy('tran_with_name','asc');
-            })
-            ->where('tran_type', $req->type)
-            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
-            ->paginate(15);
-        }
-        
-        $paginationHtml = $party->links()->toHtml();
-        
-        if($party->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('party_payment.search', compact('party'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]);
-        }
-    }//End Method
-
-
-    
     // Get Party by User
     public function SearchPartyByUser(Request $req){
-        if($req->type == null ){
-            $party = Party_Payment_Receive::with('User')
-            ->whereHas('User', function ($query) use ($req) {
-                $query->where('user_name', 'like', '%'.$req->search.'%');
-                $query->orderBy('user_name','asc');
-            })
-            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
-            ->paginate(15);
-        }
-        else{
-            $party = Party_Payment_Receive::with('User')
-            ->whereHas('User', function ($query) use ($req) {
-                $query->where('user_name', 'like', '%'.$req->search.'%');
-                $query->orderBy('user_name','asc');
-            })
-            ->where('tran_type', $req->type)
-            ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
-            ->paginate(15);
-        }
-        
+        $party = Party_Payment_Receive::with('User')
+        ->whereHas('User', function ($query) use ($req) {
+            $query->where('user_name', 'like', '%'.$req->search.'%');
+            $query->orderBy('user_name','asc');
+        })
+        ->where('tran_method', $req->method)
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->paginate(15);
+
 
         $paginationHtml = $party->links()->toHtml();
 

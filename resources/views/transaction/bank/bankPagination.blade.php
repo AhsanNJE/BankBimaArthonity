@@ -1,5 +1,5 @@
 <table class="show-table">
-    <caption class="caption">Bank Deposit Details</caption>
+    <caption class="caption">Bank Transaction Details</caption>
     <thead>
         <tr>
             <th>SL:</th>
@@ -15,12 +15,12 @@
                 <td>{{ $transaction->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
                 <td>{{ $item->User->user_name }}</td>
-                <td>{{ $item->bill_amount }}</td>
+                <td style="text-align: right">{{ number_format($item->bill_amount, 0, '.', ',') }} Tk.</td>
                 <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editBankDeposit" data-modal-id="editBankDeposit"
-                        data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->tran_id }}" id="deleteMain"><i
-                            class="fas fa-trash"></i>Delete</button>
+                    <button class="btn btn-info btn-sm open-modal" data-modal-id="editBankTransaction" id="edit"
+                        data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->tran_id }}" id="delete"><i
+                            class="fas fa-trash"></i></button>
                 </td>
             </tr>
         @endforeach

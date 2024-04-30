@@ -3,7 +3,7 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="addTransaction">Add Party Payments</button>
+                <button class="open-modal add" data-modal-id="addInventoryTransaction">Add Inventory Transaction</button>
             </div>
             <div class="col-md-2">
                 <label for="startDate">Start Date</label>
@@ -17,8 +17,9 @@
                 <label for="searchOption">Search Option</label>
                 <select name="searchOption" id="searchOption">
                     <option value="1">Transaction Id</option>
-                    <option value="2">Transaction With</option>
-                    <option value="3">User</option>
+                    <option value="2">Invoice</option>
+                    <option value="3">Transaction With</option>
+                    <option value="4">User</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -30,20 +31,20 @@
 
 
     <!-- table show -->
-    <div class="party" style="overflow-x:auto;">
-        @include('party_payment.partyPaymentPagination')
+    <div class="inventory-tran" style="overflow-x:auto;">
+        @include('transaction.inventory.inventoryTransactionPagination')
     </div>
 
 
-    @include('party_payment.addPartyPayments')
+    @include('transaction.inventory.addInventoryTransaction')
 
-    @include('party_payment.editPartyPayments')
+    @include('transaction.inventory.editInventoryTransaction')
 
 @endsection
 
 
 <!-- ajax part start from here -->
 @section('ajax')
-    <script src="{{ asset('js/ajax/party_payment/party_payments.js') }}"></script>
+    <script src="{{ asset('js/ajax/transaction/inventory_transaction.js') }}"></script>
     <script src="{{ asset('js/ajax/search_by_input.js') }}"></script>
 @endsection

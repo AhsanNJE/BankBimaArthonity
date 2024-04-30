@@ -5,17 +5,18 @@ $(document).ready(function () {
         let method = 'Payment';
         $('#with').focus();
         getTransactionId(type, method, '#tranId');
-        getTransactionWith(type, method, '#with')
+        getTransactionWith(type, method, '#within')
     });
 
 
     // Search by Date Range
     $(document).on('change', '#startDate, #endDate', function(e){
         e.preventDefault();
-        let type = "payment";
+        let type = '1';
+        let method = 'Payment';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
-        searchTransaction(`/transaction/search/date`, {startDate:startDate, endDate:endDate, type:type})
+        searchTransaction(`/transaction/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-payment')
     });
     
     
@@ -88,8 +89,10 @@ $(document).ready(function () {
         let tranId = $('#tranId').val();
         let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
+        let head = $('#head').attr('data-id');
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
+        formData.append('head', head === undefined ? '' : head);
         formData.append('location', locations === undefined ? '' : locations);
         formData.append('method', 'Payment');
         formData.append('type', '1');
@@ -107,6 +110,7 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
                     $('#head').val('');
+                    $('#head').removeAttr('data-id');
                     $('#quantity').val('1');
                     $('#amount').val('');
                     $('#totAmount').val('');
@@ -131,7 +135,7 @@ $(document).ready(function () {
         let method = 'Payment';
         let type = '1';
         let invoice = $('#invoice').val();
-        let withs = $('#with').val();
+        // let withs = $('#with').val();
         let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let amountRP = $('#amountRP').val();
@@ -397,11 +401,12 @@ $(document).ready(function () {
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
-        let type = "payment";
+        let type = '1';
+        let method = 'Payment';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[1];
-        searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type});
+        searchTransaction(`/transaction/pagination?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-payment');
     });
 
 
@@ -411,19 +416,14 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $(this).val();
-        let type = "payment";
+        let type = '1';
+        let method = 'Payment';
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
+            searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-payment')
         }
         if(searchOption == "2"){
-            searchTransaction(`/transaction/search/invoice`, {search:search, startDate:startDate, endDate:endDate, type:type})
-        }
-        if(searchOption == "3"){
-            searchTransaction(`/transaction/search/with`, {search:search, startDate:startDate, endDate:endDate, type:type})
-        }
-        if(searchOption == "4"){
-            searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, type:type})
+            searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-payment')
         }
     });
 
@@ -436,20 +436,15 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $('#search').val();
-        let type = "payment";
+        let type = '1';
+        let method = 'Payment';
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[1];
         if(searchOption == "1"){
-            searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+            searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-payment')
         }
         if(searchOption == "2"){
-            searchTransaction(`/transaction/pagination/invoice?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
-        }
-        if(searchOption == "3"){
-            searchTransaction(`/transaction/pagination/with?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
-        }
-        if(searchOption == "4"){
-            searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+            searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-payment')
         }
         
     });
@@ -484,14 +479,32 @@ $(document).ready(function () {
             data: { type: type, method:method },
             success: function (res) {
                 if (res.status === 'success') {
-                    // Create options dynamically
-                    $(targetElement).empty();
-                    $(targetElement).append(`<option value="" }>Select Transaction With</option>`);
+                    let id = [];
+                    $(targetElement).html('');
                     $.each(res.tranwith, function (key, withs) {
-                        $(targetElement).append(`<option value="${withs.id}"}>${withs.tran_with_name}</option>`);
+                        id.push(withs.id)
+                        $(targetElement).append(`<input type="checkbox" id="with[]" class="with-checkbox" name="with" value="${withs.id}" checked>`);
+                    });
+                    // getTransactionGroupe(id, '#groupein');
+                }
+            }
+        });
+    }
+
+
+    //get transaction groupe by transaction with function
+    function getTransactionGroupe(withs, targetElement) {
+        $.ajax({
+            url: "/transaction/get/groupes/with",
+            method: 'GET',
+            data: { withs: withs },
+            success: function (res) {
+                if (res.status === 'success') {
+                    $(targetElement).html('');
+                    $.each(res.groupes, function (key, groupe) {
+                        $(targetElement).append(`<input type="checkbox" id="groupe[]" class="groupe-checkbox" name="groupe" value="${groupe.groupe_id}" checked>`);
                     });
                 }
-
             }
         });
     }
@@ -530,21 +543,22 @@ $(document).ready(function () {
 
 
 
-    // Search Transaction Payment Details
-    function searchTransaction(url, data) {
+    // Search Transaction Receive Details
+    function searchTransaction(url, data, targetElement) {
         $.ajax({
             url: url,
             method: 'GET',
             data: data,
             success: function (res) {
                 if(res.status === 'success'){
-                    $('.details').html(res.data);
+                    console.log(res.data)
+                    $(targetElement).html(res.data);
                     if(res.paginate){
-                        $('.details').append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                        $(targetElement).append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
                     }
                 }
                 else{
-                    $('.details').html(`<span class="text-danger">Result not Found </span>`);
+                    $(targetElement).html(`<span class="text-danger">Result not Found </span>`);
                 }
             }
         });

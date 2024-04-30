@@ -30,7 +30,7 @@
 
     <!-- table show -->
     <div class="withdraw" style="overflow-x:auto;">
-        @include('transaction.bank.withdraw.bankWithdrawPagination')
+        @include('transaction.bank.bankPagination')
     </div>
 
 

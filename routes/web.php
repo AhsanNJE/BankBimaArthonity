@@ -279,13 +279,9 @@ Route::controller(TransactionController::class)->group(function () {
         Route::delete('/delete/tranwith', 'DeleteTranWith')->name('delete.tranwith');
         //search routes start
         Route::get('/search/tranwith', 'SearchTranWith')->name('search.tranwith');
-        Route::get('/search/tranwith/usertype', 'SearchTranWithByUserType')->name('search.tranwith.usertype');
-        Route::get('/search/tranwith/trantype', 'SearchTranWithByTranType')->name('search.tranwith.trantype');
         //pagination routes start
         Route::get('/tranwith/pagination', 'TranWithPagination');
         Route::get('/tranwith/search/pagination', 'SearchTranWith');
-        Route::get('/tranwith/search/pagination/usetype', 'SearchTranWithByUserType');
-        Route::get('/tranwith/search/pagination/trantype', 'SearchTranWithByTranType');
 
 
         ////////////////////////// --------------- Transaction Groupes routes ----------- /////////////////////////
@@ -357,19 +353,16 @@ Route::controller(TransactionController::class)->group(function () {
         //search routes start
         Route::get('/search/date', 'ShowTransactionByDate')->name('search.transaction.date');
         Route::get('/search/tranid', 'SearchTransactionByTranId')->name('show.transaction.tranid');
-        Route::get('/search/invoice', 'SearchTransactionByInvoice')->name('show.transaction.invoice');
-        Route::get('/search/with', 'SearchTransactionByTranWith')->name('show.transaction.with');
         Route::get('/search/user', 'SearchTransactionByTranUser')->name('show.transaction.user');
         //pagination routes start
         Route::get('/pagination', 'TransactionPagination');
         Route::get('/pagination/date', 'ShowTransactionByDate');
         Route::get('/pagination/tranid', 'SearchTransactionByTranId');
-        Route::get('/pagination/invoice', 'SearchTransactionByInvoice');
-        Route::get('/pagination/with', 'SearchTransactionByTranWith');
         Route::get('/pagination/user', 'SearchTransactionByTranUser');
         //search list routs
         Route::get('/get/tranid', 'GetTransactionId');
         Route::get('/get/tranwith', 'GetTransactionWith');
+        Route::get('/get/groupes/with', 'GetTransactionGroupeByWith');
         Route::get('/get/tranuser', 'GetTransactionUser');
         Route::get('/get/transactiongrid', 'GetTransactionGrid');
         Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
@@ -412,13 +405,11 @@ Route::controller(PartyPaymentController::class)->group(function () {
         //search routes start
         Route::get('/search/date', 'ShowPartyByDate')->name('search.party.date');
         Route::get('/search/tranid', 'SearchPartyByTranId')->name('search.party.tranid');
-        Route::get('/search/with', 'SearchPartyByTranWith')->name('search.party.with');
         Route::get('/search/user', 'SearchPartyByUser')->name('search.party.user');
         //pagination routes start
         Route::get('/pagination', 'PartyPagination');
         Route::get('/pagination/date', 'ShowPartyByDate');
         Route::get('/pagination/tranid', 'SearchPartyByTranId');
-        Route::get('/pagination/with', 'SearchPartyByTranWith');
         Route::get('/pagination/user', 'SearchPartyByUser');
 
         //search list routs

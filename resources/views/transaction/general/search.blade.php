@@ -21,13 +21,15 @@
                 <td>{{ $transaction->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
                 <td>{{ $item->User->user_name }}</td>
-                <td>{{ $item->bill_amount }}</td>
-                <td>{{ $item->discount }}</td>
-                <td>{{ $item->net_amount }}</td>
-                <td>{{ $item->receive }} {{ $item->payment }}</td>
-                <td>{{ $item->due_col }}</td>
-                <td>{{ $item->due_disc }}</td>
-                <td>{{ $item->due }}</td>
+                <td style="text-align: right">{{ number_format($item->bill_amount, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($item->discount, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($item->net_amount, 0, '.', ',') }}</td>
+                <td style="text-align: right">
+                    {{ $item->tran_method == 'Receive' ? number_format($item->receive, 0, '.', ',') : number_format($item->payment, 0, '.', ',') }} 
+                </td>
+                <td style="text-align: right">{{ number_format($item->due_col, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($item->due_disc, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($item->due, 0, '.', ',') }}</td>
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editTransaction" data-modal-id="editTransaction"
                         data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i>Edit</button>
@@ -44,8 +46,7 @@
                     $totalBillAmount = 0;
                     $totalDiscount = 0;
                     $totalNetAmount = 0;
-                    $totalReceive = 0;
-                    $totalPayment = 0;
+                    $totalAdvance = 0;
                     $totalDueCol = 0;
                     $totalDueDiscount = 0;
                     $totalDue = 0;
@@ -55,23 +56,22 @@
                         $totalBillAmount += $item->bill_amount;
                         $totalDiscount += $item->discount;
                         $totalNetAmount += $item->net_amount;
-                        $totalReceive += $item->receive;
-                        $totalPayment += $item->payment;
+                        $item->tran_method == 'Receive' ? $totalAdvance += $item->receive : $totalAdvance += $item->payment;
                         $totalDueCol += $item->due_col;
                         $totalDueDiscount += $item->due_disc;
                         $totalDue += $item->due;
                     @endphp
                 @endforeach
                 <td colspan="3">Total:</td>
-                <td>{{ $totalBillAmount }}</td>
-                <td>{{ $totalDiscount }}</td>
-                <td>{{ $totalNetAmount }}</td>
-                <td>{{ $totalReceive }}{{ $totalPayment }}</td>
-                <td>{{ $totalDueCol }}</td>
-                <td>{{ $totalDueDiscount }}</td>
-                <td>{{ $totalDue }}</td>
+                <td style="text-align: right">{{ number_format($totalBillAmount, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($totalDiscount, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($totalNetAmount, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($totalAdvance, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($totalDueCol, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($totalDueDiscount, 0, '.', ',') }}</td>
+                <td style="text-align: right">{{ number_format($totalDue, 0, '.', ',') }}</td>
                 <td></td>
-            </tr>    
+            </tr>     
         </tfoot>      
     @endif
 </table>
