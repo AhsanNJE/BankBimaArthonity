@@ -135,7 +135,7 @@ $(document).ready(function () {
         let method = 'Payment';
         let type = '1';
         let invoice = $('#invoice').val();
-        // let withs = $('#with').val();
+        let withs = $('#with').val();
         let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let amountRP = $('#amountRP').val();
