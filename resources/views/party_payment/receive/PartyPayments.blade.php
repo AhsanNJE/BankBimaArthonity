@@ -17,8 +17,7 @@
                 <label for="searchOption">Search Option</label>
                 <select name="searchOption" id="searchOption">
                     <option value="1">Transaction Id</option>
-                    <option value="2">Transaction With</option>
-                    <option value="3">User</option>
+                    <option value="2">User</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -30,7 +29,7 @@
 
 
     <!-- table show -->
-    <div class="party" style="overflow-x:auto;">
+    <div class="party-receive" style="overflow-x:auto;">
         @include('party_payment.partyPaymentPagination')
     </div>
 

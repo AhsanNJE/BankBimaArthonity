@@ -291,35 +291,11 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('show.transaction.receive') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Receive Statement</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('show.transaction.payment') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Payment Statement</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{route('pending.all.due')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All Due Statement</p>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a href="{{route('client.due.transaction')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>As Per Client</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('supplier.due.transaction') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>As Per Supllier</p>
-                            </a>
-                        </li> -->
                         <li class="nav-item">
                             <a href="{{route('report.groupe')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>

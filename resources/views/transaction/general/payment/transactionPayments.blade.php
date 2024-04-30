@@ -17,9 +17,7 @@
                 <label for="searchOption">Search Option</label>
                 <select name="searchOption" id="searchOption">
                     <option value="1">Transaction Id</option>
-                    <option value="2">Invoice</option>
-                    <option value="3">Transaction With</option>
-                    <option value="4">User</option>
+                    <option value="2">User</option>
                 </select>
             </div>
             <div class="col-md-3">

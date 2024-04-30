@@ -1,11 +1,11 @@
-<div id="editBankDeposit" class="modal-container">
+<div id="editBankTransaction" class="modal-container">
     <div class="modal-subject">
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Edit Bank Deposit</h3>
-                        <span class="close-modal" data-modal-id="editBankDeposit">&times;</span>
+                        <span class="close-modal" data-modal-id="editBankTransaction">&times;</span>
                     </div>
                 </div>
                 
