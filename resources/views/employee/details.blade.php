@@ -1,3 +1,17 @@
+<style>
+.center-text {
+    text-align: center;
+}
+</style>
+
+@if(!$employee && !$employee->personalDetail && !$education->isNotEmpty() && !$training->isNotEmpty() && !$experience->isNotEmpty() && !$employee->organizationDetail)
+    <div class="details-table">
+        <div class="row each-row"> 
+            <div class="col-md-12 text-center bold">Employee details do not exist.</div>
+        </div>
+    </div>
+@else
+
 <ul>
     {{-- Personal Details Part Starts --}}
     <li data-id="1">Personal Details</li>
@@ -8,7 +22,7 @@
             </div> 
             <div class="highlight">
                 <span class="name"> {{$employee->user_name}} </span><br>
-                <span class="designation"> {{$employee->organizationDetail->Designation->designation}} </span>
+                
             </div>   
         </div>
         <div class="details-table" style="">
@@ -56,109 +70,140 @@
         </div>
         </div>
     </div>
-  
+
 
     <li data-id="2">Education Details</li>
-    @foreach($education as $employees)
-    {{-- Education Details part starts --}}
+    @if($education->isNotEmpty())
+        @foreach($education as $employees)
+        {{-- Education Details part starts --}}
+        <div class="education">
+            <div class="details-table" style="">
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Level of Education</div>
+                    <div class="col-md-4">{{$employees->level_of_education}}</div>
+                    <div class="col-md-2 bold">Degree Title</div>
+                    <div class="col-md-4">{{$employees->degree_title}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Group</div>
+                    <div class="col-md-4">{{$employees->group}}</div>
+                    <div class="col-md-2 bold">Institution Name</div>
+                    <div class="col-md-4">{{$employees->institution_name}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Result</div>
+                    <div class="col-md-4">{{$employees->result}}</div>
+                    <div class="col-md-2 bold">Scale</div>
+                    <div class="col-md-4">{{$employees->scale}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">CGPA</div>
+                    <div class="col-md-4">{{$employees->cgpa}}</div>
+                    <div class="col-md-2 bold">Batch</div>
+                    <div class="col-md-4">{{$employees->batch}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Passing Year</div>
+                    <div class="col-md-4">{{$employees->passing_year}}</div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    @else
     <div class="education">
         <div class="details-table" style="">
             <div class="row each-row"> 
-                <div class="col-md-2 bold">Level of Education</div>
-                <div class="col-md-4">{{$employees->level_of_education}}</div>
-                <div class="col-md-2 bold">Degree Title</div>
-                <div class="col-md-4">{{$employees->degree_title}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Group</div>
-                <div class="col-md-4">{{$employees->group}}</div>
-                <div class="col-md-2 bold">Institution Name</div>
-                <div class="col-md-4">{{$employees->institution_name}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Result</div>
-                <div class="col-md-4">{{$employees->result}}</div>
-                <div class="col-md-2 bold">Scale</div>
-                <div class="col-md-4">{{$employees->scale}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">CGPA</div>
-                <div class="col-md-4">{{$employees->cgpa}}</div>
-                <div class="col-md-2 bold">Batch</div>
-                <div class="col-md-4">{{$employees->batch}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Passing Year</div>
-                <div class="col-md-4">{{$employees->passing_year}}</div>
+                <div>No Education Details Available!</div>
             </div>
         </div>
     </div>
-    @endforeach
+    @endif
 
 
     {{-- Training Details part starts --}}
     <li data-id="3">Training Details</li>
-    @foreach($training as $employees)
+    @if($training->isNotEmpty())
+        @foreach($training as $employees)
+        <div class="training">
+            <div class="details-table" style="">
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Training Title</div>
+                    <div class="col-md-4">{{$employees->training_title}}</div>
+                    <div class="col-md-2 bold">Country</div>
+                    <div class="col-md-4">{{$employees->country}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Topic</div>
+                    <div class="col-md-4">{{$employees->topic}}</div>
+                    <div class="col-md-2 bold">Institution Name</div>
+                    <div class="col-md-4">{{$employees->institution_name}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Start Date</div>
+                    <div class="col-md-4">{{$employees->start_date}}</div>
+                    <div class="col-md-2 bold">End Date</div>
+                    <div class="col-md-4">{{$employees->end_date}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Training Year</div>
+                    <div class="col-md-4">{{$employees->training_year}}</div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    @else
     <div class="training">
         <div class="details-table" style="">
             <div class="row each-row"> 
-                <div class="col-md-2 bold">Training Title</div>
-                <div class="col-md-4">{{$employees->training_title}}</div>
-                <div class="col-md-2 bold">Country</div>
-                <div class="col-md-4">{{$employees->country}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Topic</div>
-                <div class="col-md-4">{{$employees->topic}}</div>
-                <div class="col-md-2 bold">Institution Name</div>
-                <div class="col-md-4">{{$employees->institution_name}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Start Date</div>
-                <div class="col-md-4">{{$employees->start_date}}</div>
-                <div class="col-md-2 bold">End Date</div>
-                <div class="col-md-4">{{$employees->end_date}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Training Year</div>
-                <div class="col-md-4">{{$employees->training_year}}</div>
+                <div>No Training Details Available!</div>
             </div>
         </div>
     </div>
-    @endforeach
+    @endif
 
 
     
     {{-- Experience Details part starts --}}
     <li data-id="4">Experience Details</li>
-    @foreach($experience as $employees)
+    @if($experience->isNotEmpty())
+        @foreach($experience as $employees)
+        <div class="experience">
+            <div class="details-table" style="">
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Company Name</div>
+                    <div class="col-md-4">{{$employees->company_name}}</div>
+                    <div class="col-md-2 bold">Designation</div>
+                    <div class="col-md-4">{{$employees->designation}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Start Date</div>
+                    <div class="col-md-4">{{$employees->start_date}}</div>
+                    <div class="col-md-2 bold">End Date</div>
+                    <div class="col-md-4">{{$employees->end_date}}</div>
+                </div>
+                <div class="row each-row"> 
+                    <div class="col-md-2 bold">Department</div>
+                    <div class="col-md-4">{{$employees->dept_name}}</div>
+                    <div class="col-md-2 bold">Company Location</div>
+                    <div class="col-md-4">{{$employees->company_location}}</div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    @else
     <div class="experience">
         <div class="details-table" style="">
             <div class="row each-row"> 
-                <div class="col-md-2 bold">Company Name</div>
-                <div class="col-md-4">{{$employees->company_name}}</div>
-                <div class="col-md-2 bold">Designation</div>
-                <div class="col-md-4">{{$employees->designation}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Start Date</div>
-                <div class="col-md-4">{{$employees->start_date}}</div>
-                <div class="col-md-2 bold">End Date</div>
-                <div class="col-md-4">{{$employees->end_date}}</div>
-            </div>
-            <div class="row each-row"> 
-                <div class="col-md-2 bold">Department</div>
-                <div class="col-md-4">{{$employees->dept_name}}</div>
-                <div class="col-md-2 bold">Company Location</div>
-                <div class="col-md-4">{{$employees->company_location}}</div>
+                <div>No Experience Details Available!</div>
             </div>
         </div>
     </div>
-    @endforeach
+    @endif
 
 
     {{-- Organization Details part starts --}}
     <li data-id="5">Organization Details</li>
+    @isset($employee->organizationDetail)
     <div class="organization">
         <div class="details-table" style="">
             <div class="row each-row"> 
@@ -175,4 +220,14 @@
             </div>
         </div>
     </div>
+    @else
+    <div class="organization">
+        <div class="details-table" style="">
+            <div class="row each-row"> 
+                <div>No Organization Details Available!</div>
+            </div>
+        </div>
+    </div>
+    @endif
+@endif
 </ul>

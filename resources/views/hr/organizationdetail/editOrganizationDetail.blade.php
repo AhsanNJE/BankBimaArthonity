@@ -39,36 +39,13 @@
                 <!-- form start -->
                 <form id="EditOrganizationDetailForm" action="{{ route('insertorganization.info')}}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('put')
                     <!-- Insert Organization Details Section -->
                         <div class="center">
                             <div class="card-body">
                                 <div class="row">
                                     <input type="hidden" name="id" id="id">
                                     <input type="hidden" name="emp_id" id="emp_id">
-                                    <div class="col-md-6">  
-                                        <div class="form-group">   
-                                            <label for="update_with">Employee Type</label>
-                                            <select name="with" id="update_with">
-                                                <option value="">Select Employee Type</option>
-                                                @foreach ($tranwith as $with)
-                                                    <option value="{{$with->id}}">{{$with->tran_with_name}}</option>                                                
-                                                @endforeach
-                                            </select>
-                                            <span class="text-danger error" id="update_with_error"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="update_user">Name</label>
-                                            <input type="text" name="user" class="form-control" id="update_user" autocomplete="off">
-                                            <div id="user-list">
-                                                <ul>
-
-                                                </ul>
-                                            </div>
-                                            <span class="text-danger error" id="update_user_error"></span>
-                                        </div>
-                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for = "update_joining_date">Joining Date</label>

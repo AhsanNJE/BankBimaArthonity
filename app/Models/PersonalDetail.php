@@ -42,7 +42,6 @@ class PersonalDetail extends Model
 
     public function Withs(){
         return $this->belongsTo(Transaction_With::class,'tran_user_type','id');
-    
     }
 
 }

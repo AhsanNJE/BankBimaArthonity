@@ -31,8 +31,8 @@
                     <div style="display: flex;gap:5px;">
                         <button class="open-modal showEmployeeDetails" data-modal-id="showEmployeeDetails" id="details"
                             data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i></button>
-                        <button class="open-modal editEmployee" data-modal-id="editEmployee" id="edit"
-                            data-id="{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                        <!-- <button class="open-modal editEmployee" data-modal-id="editEmployee" id="edit"
+                            data-id="{{ $item->id }}"><i class="fas fa-edit"></i></button> -->
                         <button data-modal-id="deleteModal" data-id="{{ $item->id }}" id="delete"><i
                                 class="fas fa-trash"></i></button>
                     </div>

@@ -97,20 +97,9 @@ $(document).ready(function () {
             success: function (res) {
                 $('#id').val(res.employee.id);
                 $('#emp_id').val(res.employee.emp_id);
-
-                // $('#update_with').empty();
-                // $.each(res.tranwith, function (key, withs) {
-                //     $('#update_with').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
-                // });
-
                 $('#update_joining_date').val(res.employee.joining_date);
-
                 $('#updateLocation').val(res.employee.location.upazila);
                 $('#updateLocation').attr('data-id',res.employee.location_id);
-
-                // Create options dynamically
-                
-
                 $('#updateDepartment').val(res.employee.department.dept_name);
                 $('#updateDepartment').attr('data-id',res.employee.dept_id);
                 $('#updateDesignation').val(res.employee.designation.designation);

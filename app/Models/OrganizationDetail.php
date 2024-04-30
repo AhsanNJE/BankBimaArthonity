@@ -11,6 +11,11 @@ class OrganizationDetail extends Model
 
     protected $guarded = [];
 
+    public function organizationDetail()
+    {
+        return $this->hasOne(OrganizationDetail::class);
+    }
+
     public function User(){
         return $this->belongsTo(User_Info::class,'emp_id','user_id');
     }

@@ -28,6 +28,7 @@
     </div>
     @include('hr.organizationdetail.addOrganizationDetail')
     @include('hr.organizationdetail.employeeOrganizationFullDetail')
+    @include('hr.organizationdetail.editOrganizationDetail')
     @endsection
 
 @section('ajax')

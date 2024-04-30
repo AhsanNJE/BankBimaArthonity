@@ -108,9 +108,9 @@ $(document).ready(function () {
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "location">Company Address</label>
-                    <input type="text" name="location" id="location"  class="form-control">
-                    <span class="text-danger error" id="location_error"></span>
+                    <label for = "company_location">Company Address</label>
+                    <input type="text" name="company_location" id="company_location"  class="form-control">
+                    <span class="text-danger error" id="company_location_error"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -204,46 +204,29 @@ $(document).ready(function () {
         }
     });
 
-    ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('click', '.editEmployee', function () {
+    // Edit Button Click Event
+    $(document).on('click', '.editExperienceDetail', function () {
         let modalId = $(this).data('modal-id');
-        let id = $(this).data('id');
+        let id = $(this).attr('data-id');
+        let formId = $(this).data('form-id'); // Get the form ID associated with the clicked edit button
+
+        // Fetch form data for the corresponding form ID
         $.ajax({
-            url: `/admin/employees/edit/employees`,
+            url: `/edit/employee/experience`,
             method: 'GET',
-            data: { id:id },
+            data: { id: id }, // Send the form ID to the server
             success: function (res) {
-                $('#id').val(id);
-                $('#empId').val(res.employee.user_id);
-                $('#updateName').val(res.employee.user_name);
-                $('#updateName').focus();
-                $('#updateEmail').val(res.employee.user_email);
-                $('#updatePhone').val(res.employee.user_phone);
-
-                // Create options dynamically
-                $('#updateGender').empty();
-                $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
-                                         <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
-                                         <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
-
-                $('#updateLocation').val(res.employee.location.upazila);
-                $('#updateLocation').attr('data-id',res.employee.loc_id);
-
-                // Create options dynamically
-                $('#updateType').empty();
-                $.each(res.tranwith, function (key, withs) {
-                    $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
-                });
-
-                $('#updateDepartment').val(res.employee.department.dept_name);
-                $('#updateDepartment').attr('data-id',res.employee.dept_id);
-                $('#updateDesignation').val(res.employee.designation.designation);
-                $('#updateDesignation').attr('data-id',res.employee.designation_id);
-                $('#updateDob').val(res.employee.dob);
-                $('#updateNid').val(res.employee.nid);
-                $('#updateAddress').val(res.employee.address);
-                $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
-
+                // Populate modal fields with fetched form data
+                $('#id').val(res.employee.id);
+                $('#empId').val(res.employee.emp_id);
+                $('#update_company_name').val(res.employee.company_name);
+                $('#update_department').val(res.employee.department);
+                $('#update_designation').val(res.employee.designation);
+                $('#update_company_location').val(res.employee.company_location);
+                $('#update_start_date').val(res.employee.start_date);
+                $('#update_end_date').val(res.employee.end_date);
+                
+                // Show the modal
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
             },
@@ -253,45 +236,34 @@ $(document).ready(function () {
         });
     });
 
-
-
-    /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditEmployeeForm', function (e) {
+    // Submit Edited Employee Experience Form
+    $(document).on('submit', '#EditExperienceForm', function (e) {
         e.preventDefault();
-        let locations = $('#updateLocation').attr('data-id');
-        let department = $('#updateDepartment').attr('data-id');
-        let designation = $('#updateDesignation').attr('data-id');
         let formData = new FormData(this);
-        formData.append('location',locations);
-        formData.append('department',department);
-        formData.append('designation',designation);
+
+        // Make AJAX request to update form data
         $.ajax({
-            url: `/admin/employees/update/employees`,
-            method: 'POST',
+            url: $(this).attr('action'), // Use form action attribute for update URL
+            method: 'POST', // Use POST method for updating data
             data: formData,
             cache: false,
             processData: false,
             contentType: false,
-            beforeSend:function() {
-                $(document).find('span.error').text('');  
-            },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editEmployee').hide();
-                    $('#EditEmployeeForm')[0].reset();
+                    $('#editExperienceDetail').hide();
+                    $('#EditExperienceForm')[0].reset();
                     $('#search').val('');
                     $('.employee').load(location.href + ' .employee');
                     toastr.success('Employee Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {
-                let error = err.responseJSON;
-                $.each(error.errors, function (key, value) {
-                    $('#update_' + key + "_error").text(value);
-                })
+                console.log(err);
             }
         });
     });
+
 
     
      /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////
@@ -346,7 +318,7 @@ $(document).ready(function () {
             loadEmployeeData(`/search/employee/experience/phone`, {search:search}, '.employee')
         }
         if(searchOption == "4"){
-            loadEmployeeData(`/search/employee/experience/location`, {search:search}, '.employee')
+            loadEmployeeData(`/search/employee/experience/company_location`, {search:search}, '.employee')
         }
         if(searchOption == "5"){
             loadEmployeeData(`/search/employee/experience/address`, {search:search}, '.employee')
@@ -384,7 +356,7 @@ $(document).ready(function () {
             loadEmployeeData(`/search/page/experience/phone?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "4"){
-            loadEmployeeData(`/search/page/experience/location?page=${page}`, {search:search}, '.employee');
+            loadEmployeeData(`/search/page/experience/company_location?page=${page}`, {search:search}, '.employee');
         }
         else if(searchOption == "5"){
             loadEmployeeData(`/search/page/experience/address?page=${page}`, {search:search}, '.employee');

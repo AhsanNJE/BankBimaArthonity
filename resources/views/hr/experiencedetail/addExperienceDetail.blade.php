@@ -69,48 +69,48 @@
                         <div class="center">
                             <div class="card-body">
                                 <div class="row"> 
-                                <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for = "company_name">Company Name</label>
-                                    <input type="text" name="company_name" id="company_name" class="form-control">
-                                    <span class="text-danger error" id="company_name_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for = "department">Department</label>
-                                    <input type="text" name="department" id="department" class="form-control">
-                                    <span class="text-danger error" id="department_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for = "designation">Designation</label>
-                                    <input type="text" name="designation" id="designation" class="form-control">
-                                    <span class="text-danger error" id="designation_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for = "location">Company Address</label>
-                                    <input type="text" name="location" id="location"  class="form-control">
-                                    <span class="text-danger error" id="location_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="start_date">Start Date</label>
-                                    <input type="date" name="start_date" id="start_date" class="form-control">
-                                    <span class="text-danger error" id="start_date_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="end_date">End Date</label>
-                                    <input type="date" name="end_date" id="end_date" class="form-control">
-                                    <span class="text-danger error" id="end_date_error"></span>
-                                </div>
-                            </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "company_name">Company Name</label>
+                                            <input type="text" name="company_name" id="company_name" class="form-control">
+                                            <span class="text-danger error" id="company_name_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "department">Department</label>
+                                            <input type="text" name="department" id="department" class="form-control">
+                                            <span class="text-danger error" id="department_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "designation">Designation</label>
+                                            <input type="text" name="designation" id="designation" class="form-control">
+                                            <span class="text-danger error" id="designation_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for = "company_location">Company Address</label>
+                                            <input type="text" name="company_location" id="company_location"  class="form-control">
+                                            <span class="text-danger error" id="company_location_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="start_date">Start Date</label>
+                                            <input type="date" name="start_date" id="start_date" class="form-control">
+                                            <span class="text-danger error" id="start_date_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="end_date">End Date</label>
+                                            <input type="date" name="end_date" id="end_date" class="form-control">
+                                            <span class="text-danger error" id="end_date_error"></span>
+                                        </div>
+                                    </div>
                                     <!-- Forms will be dynamically added here -->
                                 </div>
                             </div>

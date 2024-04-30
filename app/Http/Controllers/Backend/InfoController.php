@@ -490,7 +490,7 @@ class InfoController extends Controller
             'company_name' => 'required',
             'designation' => 'required',
             'department' => 'required',
-            'location' => 'required',
+            'company_location' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             
@@ -501,7 +501,7 @@ class InfoController extends Controller
             "company_name" => $request->company_name,
             "designation" =>  $request->designation,
             "department" => $request->department,
-            "company_location" => $request->location,
+            "company_location" => $request->company_location,
             "start_date" => $request->start_date,
             "end_date" => $request->end_date,
         ]);
@@ -533,6 +533,50 @@ class InfoController extends Controller
             'data'=>view('hr.experiencedetail.detailsexperience', compact('employeeexperience'))->render(),
         ]);
     }
+
+    //Edit Employees Training
+    public function EditEmployeeExperience(Request $request){
+        $employee = ExperienceDetail::where('id', $request->id)->first();
+        //dd($employee);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return response()->json([
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+    //Update Employees Personal
+    public function UpdateEmployeeExperience(Request $request){
+        
+        $request->validate([
+            'company_name' => 'required',
+            'designation' => 'required',
+            'department' => 'required',
+            'company_location' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+        $employee = ExperienceDetail::findOrFail($request->id);
+        
+
+        $update = ExperienceDetail::findOrFail($request->id)->update([
+            "company_name" => $request->company_name,
+            "designation" =>  $request->designation,
+            "department" => $request->department,
+            "company_location" => $request->company_location,
+            "start_date" => $request->start_date,
+            "end_date" => $request->end_date,
+            'updated_at' => now()
+        ]);
+       
+        
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
 
 
 
@@ -628,7 +672,6 @@ class InfoController extends Controller
         
 
         $update = OrganizationDetail::findOrFail($request->id)->update([
-     
             "joining_date" => $request->joining_date,
             "joining_location" =>  $request->location,
             "department" => $request->department,

@@ -28,6 +28,7 @@
     </div>
     @include('hr.experiencedetail.addExperienceDetail')
     @include('hr.experiencedetail.employeeExperienceFullDetail')
+    @include('hr.experiencedetail.editExperienceDetail')
     @endsection
 
 @section('ajax')
