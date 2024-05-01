@@ -1,94 +1,297 @@
 $(document).ready(function () {  
     
-    //Add Form Part start
-    var formIndex = 2; // Initialize form index
+    // //Add Form Part start
+    // var formIndex = 2; // Initialize form index
 
-    $('#addEducation').click(function() {
-        var form = createForm(formIndex); // Create a new form
-        $('#formContainer').append(form); // Append the form to the container
-        formIndex++; // Increment form index
-    });
+    // $('#addEducation').click(function() {
+    //     var form = createForm(formIndex); // Create a new form
+    //     $('#formContainer').append(form); // Append the form to the container
+    //     formIndex++; // Increment form index
+    // });
 
 
 
-    //Education Form Field Empty and Insert Data in Add Form 
-    $('#InsertEducation').on('click', function() {
-        // Check if forms have already been submitted
-        if ($(this).data('submitted')) {
-            // Forms already submitted, do nothing
-            return;
+    // //Education Form Field Empty and Insert Data in Add Form 
+    // $('#InsertEducation').on('click', function() {
+    //     // Check if forms have already been submitted
+    //     if ($(this).data('submitted')) {
+    //         // Forms already submitted, do nothing
+    //         return;
+    //     }
+    
+    //     // Mark the button as submitted
+    //     $(this).data('submitted', true);
+    
+    //     // Loop through each education form
+    //     $('.education-form').each(function(index, form) {
+    //         $(form).submit(); // Submit the current form only once
+    //     });
+    // });
+    
+    // $(document).on('submit', '.education-form', function(e) {
+    //     e.preventDefault();
+    
+    //     let user = $('#user').attr('data-id');
+    //     let formData = new FormData(this);
+    //     formData.append('user', user === undefined ? '' : user);
+    
+    //     const currentForm = $(this); // Store the current form object
+    
+    //     $.ajax({
+    //         url: "/insert/education/info",
+    //         method: 'POST',
+    //         processData: false,
+    //         contentType: false,
+    //         cache: false,
+    //         data: formData,
+    //         beforeSend: function() {
+    //             currentForm.find('span.error').text(''); // Clear errors
+    //         },
+    //         success: function(res) {
+    //             console.log(res);
+    //             if (res.status === "success") {
+    //                 currentForm[0].reset(); // Reset the current form
+    //                 currentForm.find('#name').focus(); // Set focus
+    
+    //                 // Clear errors and fields within the current form
+    //                 currentForm.find('.text-danger').text('');
+    //                 currentForm.find('#user').removeAttr('data-id');
+    //                 currentForm.find('#search').val('');
+    
+    //                 // Clear fields outside the form (if necessary)
+    //                 $('#with').val('');
+    //                 $('#user').val('');
+    //                 $('#user-list ul').empty();
+    
+    //                 toastr.success('Education Detail Added Successfully', 'Added!');
+
+    //                 $('.education-form').not(':first').remove();  // Commented out for safety
+    //             }
+    //         },
+    //         error: function(err) {
+    //             console.log(err);
+    //             let error = err.responseJSON;
+    //             $.each(error.errors, function(key, value) {
+    //                 currentForm.find('#' + key + "_error").text(value); // Set error messages
+    //             });
+    //         }
+    //     });
+    // });
+
+
+    // // Function to create a new form
+    // function createForm(index) {
+    //     var form = $('<form>', {
+    //         id: 'form' + index,
+    //         class: 'education-form'
+    //     });
+
+    //     // Add form fields
+    //     form.append(`
+    //     <div class="row">  
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "level_of_education">Level of Education</label>
+    //             <input type="text" name="level_of_education" id="level_of_education" class="form-control">
+    //             <span class="text-danger error" id="level_of_education_error"></span>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "degree_title">Degree Title</label>
+    //             <input type="text" name="degree_title" id="degree_title" class="form-control">
+    //             <span class="text-danger error" id="degree_title_error"></span>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "group">Group</label>
+    //             <input type="text" name="group" id="group" class="form-control">
+    //             <span class="text-danger error" id="group_error"></span>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "institution_name">Institution Name</label>
+    //             <input type="text" name="institution_name" id="institution_name" class="form-control">
+    //             <span class="text-danger error" id="institution_name_error"></span>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "result">Result</label>
+    //             <input type="text" name="result" id="result" class="form-control">
+    //             <span class="text-danger error" id="result_error"></span>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "scale">Scale</label>
+    //             <input type="decimal" name="scale" id="scale" class="form-control">
+    //             <span class="text-danger error" id="scale_error"></span>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "cgpa">CGPA</label>
+    //             <input type="decimal" name="cgpa" id="cgpa" class="form-control">
+    //             <span class="text-danger error" id="cgpa_error"></span>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "batch">Batch</label>
+    //             <input type="integer" name="batch" id="batch" class="form-control">
+    //             <span class="text-danger error" id="batch_error"></span>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-6">
+    //         <div class="form-group">
+    //             <label for = "passing_year">Passing Year</label>
+    //             <input type="integer" name="passing_year" id="passing_year" class="form-control">
+    //             <span class="text-danger error" id="passing_year_error"></span>
+    //         </div>
+    //     </div>
+    //     </div>`);
+    //     return form;
+    // }
+
+
+    // Add Form Part start
+var formIndex = 2; // Initialize form index
+var allFormsData = []; // Array to store form data
+
+$('#addEducation').click(function() {
+    var form = createForm(formIndex); // Create a new form
+    $('#formContainer').append(form); // Append the form to the container
+    formIndex++; // Increment form index
+});
+
+// Education Form Field Empty and Insert Data in Add Form 
+$('#InsertEducation').on('click', function() {
+    // Check if forms have already been submitted
+    if ($(this).data('submitted')) {
+        // Forms already submitted, do nothing
+        return;
+    }
+
+    // Mark the button as submitted
+    $(this).data('submitted', true);
+
+    // Loop through each education form
+    $('.education-form').each(function(index, form) {
+        if (index === 0 || isPreviousFormFilled(index)) {
+            $(form).submit(); // Submit the current form only if the previous form is filled
+        } else {
+            toastr.error('Please fill all required fields in the previous form', 'Error!');
         }
-    
-        // Mark the button as submitted
-        $(this).data('submitted', true);
-    
-        // Loop through each education form
-        $('.education-form').each(function(index, form) {
-            $(form).submit(); // Submit the current form only once
-        });
     });
-    
-    $(document).on('submit', '.education-form', function(e) {
-        e.preventDefault();
-    
-        let user = $('#user').attr('data-id');
-        let formData = new FormData(this);
-        formData.append('user', user === undefined ? '' : user);
-    
-        const currentForm = $(this); // Store the current form object
-    
-        $.ajax({
-            url: "/insert/education/info",
-            method: 'POST',
-            processData: false,
-            contentType: false,
-            cache: false,
-            data: formData,
-            beforeSend: function() {
-                currentForm.find('span.error').text(''); // Clear errors
-            },
-            success: function(res) {
-                console.log(res);
-                if (res.status === "success") {
-                    currentForm[0].reset(); // Reset the current form
-                    currentForm.find('#name').focus(); // Set focus
-    
-                    // Clear errors and fields within the current form
-                    currentForm.find('.text-danger').text('');
-                    currentForm.find('#user').removeAttr('data-id');
-                    currentForm.find('#search').val('');
-    
-                    // Clear fields outside the form (if necessary)
-                    $('#with').val('');
-                    $('#user').val('');
-                    $('#user-list ul').empty();
-    
-                    toastr.success('Education Detail Added Successfully', 'Added!');
+});
 
-                    $('.education-form').not(':first').remove();  // Commented out for safety
-                }
-            },
-            error: function(err) {
-                console.log(err);
-                let error = err.responseJSON;
-                $.each(error.errors, function(key, value) {
-                    currentForm.find('#' + key + "_error").text(value); // Set error messages
-                });
+// // Check if all required fields in the previous form are filled
+// function isPreviousFormFilled(index) {
+//     var previousFormData = allFormsData[index - 1];
+//     var isFilled = true;
+
+//     // Check if any required field is empty
+//     $('.required-field', previousFormData).each(function() {
+//         if ($(this).val().trim() === '') {
+//             isFilled = false;
+//             return false; // Exit the loop early if any field is empty
+//         }
+//     });
+
+//     return isFilled;
+// }
+
+
+function isPreviousFormFilled(index) {
+    var previousFormData = allFormsData[index - 1];
+    var isFilled = true;
+
+    console.log("Previous form data:", previousFormData);
+
+    // Check if any required field is empty
+    $('.required-field', previousFormData).each(function() {
+        if ($(this).val().trim() === '') {
+            isFilled = false;
+            return false; // Exit the loop early if any field is empty
+        }
+    });
+
+    console.log("Previous form filled:", isFilled);
+
+    return isFilled;
+}
+
+$(document).on('submit', '.education-form', function(e) {
+    e.preventDefault();
+
+    let user = $('#user').attr('data-id');
+    let formData = new FormData(this);
+    formData.append('user', user === undefined ? '' : user);
+
+    const currentForm = $(this); // Store the current form object
+
+    $.ajax({
+        url: "/insert/education/info",
+        method: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: formData,
+        beforeSend: function() {
+            currentForm.find('span.error').text(''); // Clear errors
+        },
+        success: function(res) {
+            console.log("Serialized form data:", currentForm.serializeArray());
+            if (res.status === "success") {
+                currentForm[0].reset(); // Reset the current form
+                currentForm.find('#name').focus(); // Set focus
+        
+                // Clear errors and fields within the current form
+                currentForm.find('.text-danger').text('');
+                currentForm.find('#user').removeAttr('data-id');
+                currentForm.find('#search').val('');
+        
+                // Clear fields outside the form (if necessary)
+                $('#with').val('');
+                $('#user').val('');
+                $('#user-list ul').empty();
+        
+                toastr.success('Education Detail Added Successfully', 'Added!');
+        
+                // Save form data for validation
+                allFormsData.push(currentForm.serializeArray().reduce((obj, item) => {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {}));
+        
+                $('.education-form').not(':first').remove(); // Commented out for safety
             }
-        });
+        },
+        
+        
+        error: function(err) {
+            console.log(err);
+            let error = err.responseJSON;
+            $.each(error.errors, function(key, value) {
+                currentForm.find('#' + key + "_error").text(value); // Set error messages
+            });
+        }
+    });
+});
+
+// Function to create a new form
+function createForm(index) {
+    var form = $('<form>', {
+        id: 'form' + index,
+        class: 'education-form'
     });
 
-
-    // Function to create a new form
-    function createForm(index) {
-        var form = $('<form>', {
-            id: 'form' + index,
-            class: 'education-form'
-        });
-
-        // Add form fields
-        form.append(`
-        <div class="row">  
+    // Add form fields
+    form.append(`
+    <div class="row">  
         <div class="col-md-6">
             <div class="form-group">
                 <label for = "level_of_education">Level of Education</label>
@@ -153,8 +356,8 @@ $(document).ready(function () {
             </div>
         </div>
         </div>`);
-        return form;
-    }
+    return form;
+}
 
 
     // Show Button part

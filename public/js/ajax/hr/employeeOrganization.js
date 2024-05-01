@@ -99,11 +99,11 @@ $(document).ready(function () {
                 $('#emp_id').val(res.employee.emp_id);
                 $('#update_joining_date').val(res.employee.joining_date);
                 $('#updateLocation').val(res.employee.location.upazila);
-                $('#updateLocation').attr('data-id',res.employee.location_id);
+                $('#updateLocation').attr('data-id',res.employee.joining_location);
                 $('#updateDepartment').val(res.employee.department.dept_name);
-                $('#updateDepartment').attr('data-id',res.employee.dept_id);
+                $('#updateDepartment').attr('data-id',res.employee.Department);
                 $('#updateDesignation').val(res.employee.designation.designation);
-                $('#updateDesignation').attr('data-id',res.employee.designation_id);
+                $('#updateDesignation').attr('data-id',res.employee.Designation);
 
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';

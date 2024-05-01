@@ -17,7 +17,7 @@ class InfoController extends Controller
 {
 
 
-    ////////////////////////////////////       Employee Personal Detail         //////////////////////////////////////
+    ////////////////////////////////////       Employee Personal Detail         ////////////////////////////////////
 
 
 
@@ -214,481 +214,8 @@ class InfoController extends Controller
         }
     }//End Method
 
-
-
-
-
-
-    ////////////////////////////////////       Employee Education Detail         //////////////////////////////////////
-
-
-
-
-
-    //Education Detail View Show
-    public function ShowEmployeesEducation(){
-
-        return view('hr.educationdetail.addEducationDetail');
-
-    } // End Method 
-
-    public function InsertEducationDetails(Request $request){
-
-        //Validate Employee Education Details
-        $request->validate([
-            'user' => 'required',
-            'level_of_education' => 'required|string|max:255',
-            'degree_title' => 'required|string|max:255',
-            'group' => 'required|string|max:255',
-            'institution_name' => 'required|string|max:255',
-            'result' => 'required|string|max:255',
-            'scale' => 'required|numeric',
-            'cgpa' => 'required|numeric',
-            'batch' => 'required|numeric',
-            'passing_year' => 'required|numeric',
-        ]);
-    
-        // Create a new Education instance and save the data
-        $education = new EducationDetail();
-        $education->emp_id =  $request->input('user');
-        $education->level_of_education = $request->input('level_of_education');
-        $education->degree_title = $request->input('degree_title');
-        $education->group = $request->input('group');
-        $education->institution_name = $request->input('institution_name');
-        $education->result = $request->input('result');
-        $education->scale = $request->input('scale');
-        $education->cgpa = $request->input('cgpa');
-        $education->batch = $request->input('batch');
-        $education->passing_year = $request->input('passing_year');
-        $education->save();
-    
-        return response()->json([
-            'status'=>'success',
-        ]); 
-}
-
-    public function ShowEmployeesEducationInfo(Request $request){
-        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
-        $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.educationdetail.employeeEducationDetails', compact('employee','tranwith'));
-        
-    }
-
-    public function EmployeesEducationInfo(Request $request){
-        $employeeeducation = EducationDetail::with('personalDetail')->where('emp_id', $request->id)->get();
-        return response()->json([
-            'data'=>view('hr.educationdetail.employeeEducationInfo', compact('employeeeducation'))->render(),
-        ]);
-    }
-
-    public function EmployeesEducation(Request $request){
-        $employeeeducation = EducationDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
-        return response()->json([
-            'data'=>view('hr.educationdetail.detailseducation', compact('employeeeducation'))->render(),
-        ]);
-    }
-
-
-    //Edit Employees Education
-    public function EditEmployeeEducation(Request $request){
-        $employee = EducationDetail::where('id', $request->id)->first();
-        //dd($employee);
-        $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return response()->json([
-            'employee'=>$employee,
-            'tranwith'=>$tranwith,
-        ]);
-    }//End Method
-
-    //Update Employees Personal
-    public function UpdateEmployeeEducation(Request $request){
-        
-        $request->validate([
-            'level_of_education' => 'required|string|max:255',
-            'degree_title' => 'required|string|max:255',
-            'group' => 'required|string|max:255',
-            'institution_name' => 'required|string|max:255',
-            'result' => 'required|string|max:255',
-            'scale' => 'required|numeric',
-            'cgpa' => 'required|numeric',
-            'batch' => 'required|numeric',
-            'passing_year' => 'required|numeric',
-        ]);
-
-        $employee = EducationDetail::findOrFail($request->id);
-        
-
-        $update = EducationDetail::findOrFail($request->id)->update([
-     
-            'level_of_education' => $request->level_of_education,
-            'degree_title' => $request->degree_title,
-            'group' => $request->group,
-            'institution_name' => $request->institution_name,
-            'result' => $request->result,
-            'scale' => $request->scale,
-            'cgpa' => $request->cgpa,
-            'batch' => $request->batch,
-            'passing_year' => $request->passing_year,
-            'updated_at' => now()
-        ]);
-       
-        
-        if($update){
-            return response()->json([
-                'status'=>'success'
-            ]); 
-        }
-    }//End Method
-
-
-
-
-
-    ////////////////////////////////////       Employee Training Detail         //////////////////////////////////////
-
-
-
-
-    
-
-
-    //Training Detail View Show
-    public function ShowEmployeesTraining(){
-
-        return view('hr.trainingdetail.addTrainingDetail');
-
-    } // End Method 
-
-    public function InsertTrainingDetails(Request $request){
-
-        //Validate Employee Training Details
-        $request->validate([
-            'user' => 'required',
-            'training_title' => 'required',
-            'country' => 'required',
-            'topic' => 'required',
-            'institution_name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'training_year' => 'required|numeric',
-        ]);
-
-        // Create a new Training instance and save the data
-        $training = new TrainingDetail();
-        $training->emp_id =  $request->input('user');
-        $training->training_title = $request->input('training_title');
-        $training->country = $request->input('country');
-        $training->topic = $request->input('topic');
-        $training->institution_name = $request->input('institution_name');
-        $training->start_date = $request->input('start_date');
-        $training->end_date = $request->input('end_date');
-        $training->training_year = $request->input('training_year');
-        $training->save();
-    
-        return response()->json([
-            'status'=>'success',
-        ]); 
-
-    }
-
-    public function ShowEmployeesTrainingInfo(Request $request){
-        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
-        $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.trainingdetail.employeeTrainingDetails', compact('employee','tranwith'));
-        
-    }
-
-    public function EmployeesTrainingInfo(Request $request){
-        $employeetraining = TrainingDetail::with('personalDetail')->where('emp_id', "=", $request->id)->get();
-        return response()->json([
-            'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeetraining'))->render(),
-        ]);
-    }
-
-    public function EmployeesTraining(Request $request){
-        $employeetraining = TrainingDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
-        return response()->json([
-            'data'=>view('hr.trainingdetail.detailstraining', compact('employeetraining'))->render(),
-        ]);
-    }
-
-    //Edit Employees Training
-    public function EditEmployeeTraining(Request $request){
-        $employee = TrainingDetail::where('id', $request->id)->first();
-        //dd($employee);
-        $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return response()->json([
-            'employee'=>$employee,
-            'tranwith'=>$tranwith,
-        ]);
-    }//End Method
-
-    //Update Employees Personal
-    public function UpdateEmployeeTraining(Request $request){
-        
-        $request->validate([
-            'training_title' => 'required',
-            'country' => 'required',
-            'topic' => 'required',
-            'institution_name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'training_year' => 'required|numeric',
-        ]);
-
-        $employee = TrainingDetail::findOrFail($request->id);
-        
-
-        $update = TrainingDetail::findOrFail($request->id)->update([
-     
-            'training_title' => $request->training_title,
-            'country' => $request->country,
-            'topic' => $request->topic,
-            'institution_name' => $request->institution_name,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'training_year' => $request->training_year,
-            'updated_at' => now()
-        ]);
-       
-        
-        if($update){
-            return response()->json([
-                'status'=>'success'
-            ]); 
-        }
-    }//End Method
-
-
-
-
-
-
-    ////////////////////////////////////       Employee Experience Detail         //////////////////////////////////////
-
-
-
-
-    
-
-
-
-
-
-    //Experience Detail View Show
-    public function ShowEmployeesExperience(){
-
-        return view('hr.experiencedetail.addExperienceDetail');
-
-    } // End Method 
-
-    public function InsertExperienceDetails(Request $request){
-
-        //Validate Employee Experience Details
-        $request->validate([
-            'user' => 'required',
-            'company_name' => 'required',
-            'designation' => 'required',
-            'department' => 'required',
-            'company_location' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            
-        ]);
-
-        ExperienceDetail::insert([
-            'emp_id' =>  $request->user,
-            "company_name" => $request->company_name,
-            "designation" =>  $request->designation,
-            "department" => $request->department,
-            "company_location" => $request->company_location,
-            "start_date" => $request->start_date,
-            "end_date" => $request->end_date,
-        ]);
-
-
-        return response()->json([
-            'status'=>'success',
-        ]); 
-
-    }
-
-    public function ShowEmployeesExperienceInfo(Request $request){
-        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
-        $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.experiencedetail.employeeExperienceDetails', compact('employee','tranwith'));
-        
-    }
-
-    public function EmployeesExperienceInfo(Request $request){
-        $employeeexperience = ExperienceDetail::with('personalDetail')->where('emp_id', $request->id)->get();
-        return response()->json([
-            'data'=>view('hr.experiencedetail.employeeExperienceInfo', compact('employeeexperience'))->render(),
-        ]);
-    }
-
-    public function EmployeesExperience(Request $request){
-        $employeeexperience = ExperienceDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
-        return response()->json([
-            'data'=>view('hr.experiencedetail.detailsexperience', compact('employeeexperience'))->render(),
-        ]);
-    }
-
-    //Edit Employees Training
-    public function EditEmployeeExperience(Request $request){
-        $employee = ExperienceDetail::where('id', $request->id)->first();
-        //dd($employee);
-        $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return response()->json([
-            'employee'=>$employee,
-            'tranwith'=>$tranwith,
-        ]);
-    }//End Method
-
-    //Update Employees Personal
-    public function UpdateEmployeeExperience(Request $request){
-        
-        $request->validate([
-            'company_name' => 'required',
-            'designation' => 'required',
-            'department' => 'required',
-            'company_location' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-        ]);
-
-        $employee = ExperienceDetail::findOrFail($request->id);
-        
-
-        $update = ExperienceDetail::findOrFail($request->id)->update([
-            "company_name" => $request->company_name,
-            "designation" =>  $request->designation,
-            "department" => $request->department,
-            "company_location" => $request->company_location,
-            "start_date" => $request->start_date,
-            "end_date" => $request->end_date,
-            'updated_at' => now()
-        ]);
-       
-        
-        if($update){
-            return response()->json([
-                'status'=>'success'
-            ]); 
-        }
-    }//End Method
-
-
-
-
-
-    ////////////////////////////////////       Employee Organization Detail         //////////////////////////////////////
-
-
-
-
-    
-
-
-
-
-
-
-
-    //Organization Detail View Show
-    public function ShowEmployeesOrganization(){
-
-        return view('hr.organizationdetail.addOrganizationDetail');
-
-    } // End Method 
-
-    
-    public function InsertOrganizationDetails(Request $request){
-
-        //Validate Employee Organization Details
-        $request->validate([
-            'user' => 'required',
-            'joining_date' => 'required',
-            'location' => 'required',
-            'department' => 'required',
-            'designation' => 'required',
-        ]);
-
-        //Insert Employee Joining Details
-        OrganizationDetail::insert([
-            'emp_id' =>  $request->user,
-            "joining_date" => $request->joining_date,
-            "joining_location" =>  $request->location,
-            "department" => $request->department,
-            "designation" => $request->designation,
-        ]);
-
-        return response()->json([
-            'status'=>'success',
-        ]); 
-
-    }
-    
-
-    public function ShowEmployeesOrganizationInfo(Request $request){
-        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
-        $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return view('hr.organizationdetail.employeeOrganizationDetails', compact('employee','tranwith'));
-        
-    }
-
-    public function EmployeesOrganizationInfo(Request $request){
-        $employeeorganization = OrganizationDetail::with('personalDetail')->where('emp_id', $request->id)->get();
-        return response()->json([
-            'data'=>view('hr.organizationdetail.employeeOrganizationInfo', compact('employeeorganization'))->render(),
-        ]);
-    }
-
-    
-
-    //Edit Employees Organization
-    public function EditEmployeeOrganization(Request $request){
-        $employee = OrganizationDetail::with('Department','Designation','Location')->where('emp_id', $request->id)->first();
-        $tranwith = Transaction_With::where('user_type','Employee')->get();
-        return response()->json([
-            'employee'=>$employee,
-            'tranwith'=>$tranwith,
-        ]);
-    }//End Method
-
-
-
-    //Update Employees Organization
-    public function UpdateEmployeeOrganization(Request $request){
-        
-        $request->validate([
-            'joining_date' => 'required',
-            'location' => 'required',
-            'department' => 'required',
-            'designation' => 'required',
-        ]);
-
-        $employee = OrganizationDetail::where('emp_id', $request->emp_id)->first();
-        
-
-        $update = OrganizationDetail::findOrFail($request->id)->update([
-            "joining_date" => $request->joining_date,
-            "joining_location" =>  $request->location,
-            "department" => $request->department,
-            "designation" => $request->designation,
-            "updated_at" => now()
-        ]);
-       
-        if($update){
-            return response()->json([
-                'status'=>'success'
-            ]); 
-        }
-    }//End Method
-       
-
     //Delete Employees
-    public function EmployeesDelete(Request $request){
+    public function DeleteEmployeePersonal(Request $request){
         PersonalDetail::findOrFail($request->id)->delete();
         return response()->json([
             'status'=>'success'
@@ -696,9 +223,7 @@ class InfoController extends Controller
     }//End Method
 
 
-
-    /////////////////////////                          Employee Personal Search                           ////////////////////////////////
-
+    /////////////////////////               Employee Personal Search               ////////////////////////////////
 
     //Employee Pagination
     public function EmployeePersonalPagination(){
@@ -876,6 +401,37 @@ class InfoController extends Controller
     }//End Method
 
 
+    // Search Employee by NID
+    public function SearchEmployeePersonalByNid(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('nid', 'like', '%'.$request->search.'%')
+            ->orderBy('nid','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
     // Search Employee by Date Of Birth
     public function SearchEmployeePersonalByDob(Request $request){
         if($request->search != ""){
@@ -908,113 +464,138 @@ class InfoController extends Controller
 
 
 
-    // Search Employee by NID
-    public function SearchEmployeePersonalByNid(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::where('user_type', 'employee')
-            ->where('nid', 'like', '%'.$request->search.'%')
-            ->orderBy('nid','asc')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::where('user_type', 'employee')
-            ->orderBy('dob','asc')
-            ->paginate(15);
-        }
 
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
-
-
-
-    // Search Employee by Department
-    public function SearchEmployeePersonalByDepartment(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->where('dept_name', 'like', '%'.$request->search.'%');
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
-
-
-    // Search Employee by Designation
-    public function SearchEmployeePersonalByDesignation(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->where('designation', 'like', '%'.$request->search.'%');
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.personaldetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
+    
      
 
-    /////////////////////////                          Employee Education Search                           ////////////////////////////////
+
+
+
+    ////////////////////////////////////       Employee Education Detail         //////////////////////////////////////
+
+
+
+
+
+    //Education Detail View Show
+    public function ShowEmployeesEducation(){
+
+        return view('hr.educationdetail.addEducationDetail');
+
+    } // End Method 
+
+    public function InsertEducationDetails(Request $request){
+
+        //Validate Employee Education Details
+        $request->validate([
+            'user' => 'required',
+            'level_of_education' => 'required|string|max:255',
+            'degree_title' => 'required|string|max:255',
+            'group' => 'required|string|max:255',
+            'institution_name' => 'required|string|max:255',
+            'result' => 'required|string|max:255',
+            'scale' => 'required|numeric',
+            'cgpa' => 'required|numeric',
+            'batch' => 'required|numeric',
+            'passing_year' => 'required|numeric',
+        ]);
+    
+        // Create a new Education instance and save the data
+        $education = new EducationDetail();
+        $education->emp_id =  $request->input('user');
+        $education->level_of_education = $request->input('level_of_education');
+        $education->degree_title = $request->input('degree_title');
+        $education->group = $request->input('group');
+        $education->institution_name = $request->input('institution_name');
+        $education->result = $request->input('result');
+        $education->scale = $request->input('scale');
+        $education->cgpa = $request->input('cgpa');
+        $education->batch = $request->input('batch');
+        $education->passing_year = $request->input('passing_year');
+        $education->save();
+    
+        return response()->json([
+            'status'=>'success',
+        ]); 
+}
+
+    public function ShowEmployeesEducationInfo(Request $request){
+        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.educationdetail.employeeEducationDetails', compact('employee','tranwith'));
+        
+    }
+
+    public function EmployeesEducationInfo(Request $request){
+        $employeeeducation = EducationDetail::with('personalDetail')->where('emp_id', $request->id)->get();
+        return response()->json([
+            'data'=>view('hr.educationdetail.employeeEducationInfo', compact('employeeeducation'))->render(),
+        ]);
+    }
+
+    public function EmployeesEducation(Request $request){
+        $employeeeducation = EducationDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
+        return response()->json([
+            'data'=>view('hr.educationdetail.detailseducation', compact('employeeeducation'))->render(),
+        ]);
+    }
+
+
+    //Edit Employees Education
+    public function EditEmployeeEducation(Request $request){
+        $employee = EducationDetail::where('id', $request->id)->first();
+        //dd($employee);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return response()->json([
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+    //Update Employees Personal
+    public function UpdateEmployeeEducation(Request $request){
+        
+        $request->validate([
+            'level_of_education' => 'required|string|max:255',
+            'degree_title' => 'required|string|max:255',
+            'group' => 'required|string|max:255',
+            'institution_name' => 'required|string|max:255',
+            'result' => 'required|string|max:255',
+            'scale' => 'required|numeric',
+            'cgpa' => 'required|numeric',
+            'batch' => 'required|numeric',
+            'passing_year' => 'required|numeric',
+        ]);
+
+        $employee = EducationDetail::findOrFail($request->id);
+        
+
+        $update = EducationDetail::findOrFail($request->id)->update([
+     
+            'level_of_education' => $request->level_of_education,
+            'degree_title' => $request->degree_title,
+            'group' => $request->group,
+            'institution_name' => $request->institution_name,
+            'result' => $request->result,
+            'scale' => $request->scale,
+            'cgpa' => $request->cgpa,
+            'batch' => $request->batch,
+            'passing_year' => $request->passing_year,
+            'updated_at' => now()
+        ]);
+       
+        
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+
+
+    /////////////////////////                   Employee Education Search                   ////////////////////////////////
 
 
     //Employee Pagination
@@ -1193,37 +774,6 @@ class InfoController extends Controller
     }//End Method
 
 
-    // Search Employee by Date Of Birth
-    public function SearchEmployeeEducationByDob(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::where('user_type', 'employee')
-            ->where('dob', 'like', '%'.$request->search.'%')
-            ->orderBy('dob','asc')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::where('user_type', 'employee')
-            ->orderBy('dob','asc')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
-
-
 
     // Search Employee by NID
     public function SearchEmployeeEducationByNid(Request $request){
@@ -1257,23 +807,17 @@ class InfoController extends Controller
 
 
 
-    // Search Employee by Department
-    public function SearchEmployeeEducationByDepartment(Request $request){
+    // Search Employee by Date Of Birth
+    public function SearchEmployeeEducationByDob(Request $request){
         if($request->search != ""){
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->where('dept_name', 'like', '%'.$request->search.'%');
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('dob', 'like', '%'.$request->search.'%')
+            ->orderBy('dob','asc')
             ->paginate(15);
         }
         else{
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
             ->paginate(15);
         }
 
@@ -1294,43 +838,133 @@ class InfoController extends Controller
     }//End Method
 
 
-    // Search Employee by Designation
-    public function SearchEmployeeEducationByDesignation(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->where('designation', 'like', '%'.$request->search.'%');
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
 
-        $paginationHtml = $employee->links()->toHtml();
+    
+
+
+
+
+
+    ////////////////////////////////////       Employee Training Detail         //////////////////////////////////////
+
+
+
+
+    
+
+
+    //Training Detail View Show
+    public function ShowEmployeesTraining(){
+
+        return view('hr.trainingdetail.addTrainingDetail');
+
+    } // End Method 
+
+    public function InsertTrainingDetails(Request $request){
+
+        //Validate Employee Training Details
+        $request->validate([
+            'user' => 'required',
+            'training_title' => 'required',
+            'country' => 'required',
+            'topic' => 'required',
+            'institution_name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'training_year' => 'required|numeric',
+        ]);
+
+        // Create a new Training instance and save the data
+        $training = new TrainingDetail();
+        $training->emp_id =  $request->input('user');
+        $training->training_title = $request->input('training_title');
+        $training->country = $request->input('country');
+        $training->topic = $request->input('topic');
+        $training->institution_name = $request->input('institution_name');
+        $training->start_date = $request->input('start_date');
+        $training->end_date = $request->input('end_date');
+        $training->training_year = $request->input('training_year');
+        $training->save();
+    
+        return response()->json([
+            'status'=>'success',
+        ]); 
+
+    }
+
+    public function ShowEmployeesTrainingInfo(Request $request){
+        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.trainingdetail.employeeTrainingDetails', compact('employee','tranwith'));
         
-        if($employee->count() >= 1){
+    }
+
+    public function EmployeesTrainingInfo(Request $request){
+        $employeetraining = TrainingDetail::with('personalDetail')->where('emp_id', "=", $request->id)->get();
+        return response()->json([
+            'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeetraining'))->render(),
+        ]);
+    }
+
+    public function EmployeesTraining(Request $request){
+        $employeetraining = TrainingDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
+        return response()->json([
+            'data'=>view('hr.trainingdetail.detailstraining', compact('employeetraining'))->render(),
+        ]);
+    }
+
+    //Edit Employees Training
+    public function EditEmployeeTraining(Request $request){
+        $employee = TrainingDetail::where('id', $request->id)->first();
+        //dd($employee);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return response()->json([
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+    //Update Employees Personal
+    public function UpdateEmployeeTraining(Request $request){
+        
+        $request->validate([
+            'training_title' => 'required',
+            'country' => 'required',
+            'topic' => 'required',
+            'institution_name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'training_year' => 'required|numeric',
+        ]);
+
+        $employee = TrainingDetail::findOrFail($request->id);
+        
+
+        $update = TrainingDetail::findOrFail($request->id)->update([
+     
+            'training_title' => $request->training_title,
+            'country' => $request->country,
+            'topic' => $request->topic,
+            'institution_name' => $request->institution_name,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'training_year' => $request->training_year,
+            'updated_at' => now()
+        ]);
+       
+        
+        if($update){
             return response()->json([
-                'status' => 'success',
-                'data' => view('hr.educationdetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
+                'status'=>'success'
             ]); 
         }
     }//End Method
 
 
+
+    
+
+    
 
 
     /////////////////////////                          Employee Training Search                           ////////////////////////////////
@@ -1511,6 +1145,37 @@ class InfoController extends Controller
         }
     }//End Method
 
+    // Search Employee by NID
+    public function SearchEmployeeTrainingByNid(Request $request){
+        if($request->search != ""){
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('nid', 'like', '%'.$request->search.'%')
+            ->orderBy('nid','asc')
+            ->paginate(15);
+        }
+        else{
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $employee->links()->toHtml();
+        
+        if($employee->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    
 
     // Search Employee by Date Of Birth
     public function SearchEmployeeTrainingByDob(Request $request){
@@ -1544,110 +1209,124 @@ class InfoController extends Controller
 
 
 
-    // Search Employee by NID
-    public function SearchEmployeeTrainingByNid(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::where('user_type', 'employee')
-            ->where('nid', 'like', '%'.$request->search.'%')
-            ->orderBy('nid','asc')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::where('user_type', 'employee')
-            ->orderBy('dob','asc')
-            ->paginate(15);
-        }
 
-        $paginationHtml = $employee->links()->toHtml();
+
+
+
+    ////////////////////////////////////       Employee Experience Detail         //////////////////////////////////////
+
+
+
+
+    
+
+
+
+
+
+    //Experience Detail View Show
+    public function ShowEmployeesExperience(){
+
+        return view('hr.experiencedetail.addExperienceDetail');
+
+    } // End Method 
+
+    public function InsertExperienceDetails(Request $request){
+
+        //Validate Employee Experience Details
+        $request->validate([
+            'user' => 'required',
+            'company_name' => 'required',
+            'designation' => 'required',
+            'department' => 'required',
+            'company_location' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            
+        ]);
+
+        ExperienceDetail::insert([
+            'emp_id' =>  $request->user,
+            "company_name" => $request->company_name,
+            "designation" =>  $request->designation,
+            "department" => $request->department,
+            "company_location" => $request->company_location,
+            "start_date" => $request->start_date,
+            "end_date" => $request->end_date,
+        ]);
+
+
+        return response()->json([
+            'status'=>'success',
+        ]); 
+
+    }
+
+    public function ShowEmployeesExperienceInfo(Request $request){
+        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.experiencedetail.employeeExperienceDetails', compact('employee','tranwith'));
         
-        if($employee->count() >= 1){
+    }
+
+    public function EmployeesExperienceInfo(Request $request){
+        $employeeexperience = ExperienceDetail::with('personalDetail')->where('emp_id', $request->id)->get();
+        return response()->json([
+            'data'=>view('hr.experiencedetail.employeeExperienceInfo', compact('employeeexperience'))->render(),
+        ]);
+    }
+
+    public function EmployeesExperience(Request $request){
+        $employeeexperience = ExperienceDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
+        return response()->json([
+            'data'=>view('hr.experiencedetail.detailsexperience', compact('employeeexperience'))->render(),
+        ]);
+    }
+
+    //Edit Employees Experience
+    public function EditEmployeeExperience(Request $request){
+        $employee = ExperienceDetail::where('id', $request->id)->first();
+        //dd($employee);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return response()->json([
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+    //Update Employees Experience
+    public function UpdateEmployeeExperience(Request $request){
+        
+        $request->validate([
+            'company_name' => 'required',
+            'designation' => 'required',
+            'department' => 'required',
+            'company_location' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+        $employee = ExperienceDetail::findOrFail($request->id);
+        
+
+        $update = ExperienceDetail::findOrFail($request->id)->update([
+            "company_name" => $request->company_name,
+            "designation" =>  $request->designation,
+            "department" => $request->department,
+            "company_location" => $request->company_location,
+            "start_date" => $request->start_date,
+            "end_date" => $request->end_date,
+            'updated_at' => now()
+        ]);
+       
+        
+        if($update){
             return response()->json([
-                'status' => 'success',
-                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
+                'status'=>'success'
             ]); 
         }
     }//End Method
 
-
-
-    // Search Employee by Department
-    public function SearchEmployeeTrainingByDepartment(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->where('dept_name', 'like', '%'.$request->search.'%');
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
-
-
-    // Search Employee by Designation
-    public function SearchEmployeeTrainingByDesignation(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->where('designation', 'like', '%'.$request->search.'%');
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.trainingdetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
 
     /////////////////////////                          Employee Experience Search                           ////////////////////////////////
 
@@ -1828,37 +1507,6 @@ class InfoController extends Controller
     }//End Method
 
 
-    // Search Employee by Date Of Birth
-    public function SearchEmployeeExperienceByDob(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::where('user_type', 'employee')
-            ->where('dob', 'like', '%'.$request->search.'%')
-            ->orderBy('dob','asc')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::where('user_type', 'employee')
-            ->orderBy('dob','asc')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
-
-
 
     // Search Employee by NID
     public function SearchEmployeeExperienceByNid(Request $request){
@@ -1891,24 +1539,18 @@ class InfoController extends Controller
     }//End Method
 
 
-
-    // Search Employee by Department
-    public function SearchEmployeeExperienceByDepartment(Request $request){
+    
+    // Search Employee by Date Of Birth
+    public function SearchEmployeeExperienceByDob(Request $request){
         if($request->search != ""){
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->where('dept_name', 'like', '%'.$request->search.'%');
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('dob', 'like', '%'.$request->search.'%')
+            ->orderBy('dob','asc')
             ->paginate(15);
         }
         else{
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
             ->paginate(15);
         }
 
@@ -1929,41 +1571,116 @@ class InfoController extends Controller
     }//End Method
 
 
-    // Search Employee by Designation
-    public function SearchEmployeeExperienceByDesignation(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->where('designation', 'like', '%'.$request->search.'%');
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
 
-        $paginationHtml = $employee->links()->toHtml();
+
+
+
+
+    ////////////////////////////////////       Employee Organization Detail         //////////////////////////////////////
+
+
+
+
+
+
+
+
+    //Organization Detail View Show
+    public function ShowEmployeesOrganization(){
+
+        return view('hr.organizationdetail.addOrganizationDetail');
+
+    } // End Method 
+
+    
+    public function InsertOrganizationDetails(Request $request){
+
+        //Validate Employee Organization Details
+        $request->validate([
+            'user' => 'required',
+            'joining_date' => 'required',
+            'location' => 'required',
+            'department' => 'required',
+            'designation' => 'required',
+        ]);
+
+        //Insert Employee Joining Details
+        OrganizationDetail::insert([
+            'emp_id' =>  $request->user,
+            "joining_date" => $request->joining_date,
+            "joining_location" =>  $request->location,
+            "department" => $request->department,
+            "designation" => $request->designation,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]); 
+
+    }
+    
+
+    public function ShowEmployeesOrganizationInfo(Request $request){
+        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return view('hr.organizationdetail.employeeOrganizationDetails', compact('employee','tranwith'));
         
-        if($employee->count() >= 1){
+    }
+
+    public function EmployeesOrganizationInfo(Request $request){
+        $employeeorganization = OrganizationDetail::with('personalDetail')->where('emp_id', $request->id)->get();
+        return response()->json([
+            'data'=>view('hr.organizationdetail.employeeOrganizationInfo', compact('employeeorganization'))->render(),
+        ]);
+    }
+
+    
+
+    //Edit Employees Organization
+    public function EditEmployeeOrganization(Request $request){
+        $employee = OrganizationDetail::with('Department','Designation','Location')->where('emp_id', $request->id)->first();
+        $tranwith = Transaction_With::where('user_type','Employee')->get();
+        return response()->json([
+            'employee'=>$employee,
+            'tranwith'=>$tranwith,
+        ]);
+    }//End Method
+
+
+
+    //Update Employees Organization
+    public function UpdateEmployeeOrganization(Request $request){
+        
+        $request->validate([
+            'joining_date' => 'required',
+            'location' => 'required',
+            'department' => 'required',
+            'designation' => 'required',
+        ]);
+
+        $employee = OrganizationDetail::where('emp_id', $request->emp_id)->first();
+        
+
+        $update = OrganizationDetail::findOrFail($request->id)->update([
+            "joining_date" => $request->joining_date,
+            "joining_location" =>  $request->location,
+            "department" => $request->department,
+            "designation" => $request->designation,
+            'updated_at' => now()
+        ]);
+       
+        if($update){
             return response()->json([
-                'status' => 'success',
-                'data' => view('hr.experiencedetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
+                'status'=>'success'
             ]); 
         }
     }//End Method
+       
+
+    
+
+
+
 
     /////////////////////////                          Employee Organization Search                           ////////////////////////////////
 
@@ -2144,38 +1861,6 @@ class InfoController extends Controller
     }//End Method
 
 
-    // Search Employee by Date Of Birth
-    public function SearchEmployeeOrganizationByDob(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::where('user_type', 'employee')
-            ->where('dob', 'like', '%'.$request->search.'%')
-            ->orderBy('dob','asc')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::where('user_type', 'employee')
-            ->orderBy('dob','asc')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
-
-
-
     // Search Employee by NID
     public function SearchEmployeeOrganizationByNid(Request $request){
         if($request->search != ""){
@@ -2207,24 +1892,17 @@ class InfoController extends Controller
     }//End Method
 
 
-
-    // Search Employee by Department
-    public function SearchEmployeeOrganizationByDepartment(Request $request){
+    // Search Employee by Date Of Birth
+    public function SearchEmployeeOrganizationByDob(Request $request){
         if($request->search != ""){
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->where('dept_name', 'like', '%'.$request->search.'%');
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
+            $employee = User_Info::where('user_type', 'employee')
+            ->where('dob', 'like', '%'.$request->search.'%')
+            ->orderBy('dob','asc')
             ->paginate(15);
         }
         else{
-            $employee = User_Info::with('Department')
-            ->whereHas('Department', function ($query) use ($request) {
-                $query->orderBy('dept_name','asc');
-            })
-            ->where('user_type','employee')
+            $employee = User_Info::where('user_type', 'employee')
+            ->orderBy('dob','asc')
             ->paginate(15);
         }
 
@@ -2245,40 +1923,5 @@ class InfoController extends Controller
     }//End Method
 
 
-    // Search Employee by Designation
-    public function SearchEmployeeOrganizationByDesignation(Request $request){
-        if($request->search != ""){
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->where('designation', 'like', '%'.$request->search.'%');
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-        else{
-            $employee = User_Info::with('Designation')
-            ->whereHas('Designation', function ($query) use ($request) {
-                $query->orderBy('designation','asc');
-            })
-            ->where('user_type','employee')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $employee->links()->toHtml();
-        
-        if($employee->count() >= 1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('hr.organizationdetail.search', compact('employee'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-    }//End Method
      
 }

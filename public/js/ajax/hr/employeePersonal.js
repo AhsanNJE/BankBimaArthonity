@@ -148,26 +148,42 @@ $(document).ready(function () {
     });
 
 
-    /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#delete', function (e) {
+
+    /////////////// ------------------ Delete Employee Ajax Part Start ---------------- /////////////////////////////
+    // Delete Button Functionality
+    $(document).on('click', '#deletePersonal', function (e) {
         e.preventDefault();
+        $('#deleteModalPersonal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Employee ??')) {
-            $.ajax({
-                url: `/employees/delete`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.employee').load(location.href + ' .employee');
-                        $('#search').val('');
-                        toastr.success('Employee Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
 
+    // Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModalPersonal').hide();
+    });
+
+    // Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: `/employee/personal/delete`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.employee').load(location.href + ' .employee');
+                    $('#search').val('');
+                    $('#deleteModalPersonal').hide();
+                    toastr.success('Personal Details Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+    
 
     /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {

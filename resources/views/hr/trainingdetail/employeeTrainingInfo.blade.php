@@ -15,44 +15,44 @@
         <div class="details-table" style="">
             <div class="row each-row">
                 <div class="col-md-2 bold">Name</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->name }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->name }}</div>
                 <div class="col-md-2 bold">Father's Name</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->fathers_name }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->fathers_name }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Mother's Name</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->mothers_name }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->mothers_name }}</div>
                 <div class="col-md-2 bold">Date of Birth</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->date_of_birth }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->date_of_birth }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Gender</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->gender }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->gender }}</div>
                 <div class="col-md-2 bold">Religion</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->religion }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->religion }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Marital Status</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->marital_status }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->marital_status }}</div>
                 <div class="col-md-2 bold">Nationality</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->nationality }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->nationality }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Phone Number</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->phn_no }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->phn_no }}</div>
                 <div class="col-md-2 bold">Nid No.</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->nid_no }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->nid_no }}</div>
                 
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Blood Group</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->blood_group }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->blood_group }}</div>
                 <div class="col-md-2 bold">Email</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->email }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->email }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Address</div> 
-                <div class="col-md-4 bold">{{ $item->personalDetail->address }}</div>
+                <div class="col-md-4">{{ $item->personalDetail->address }}</div>
             </div>
         </div>
     </div>
@@ -62,25 +62,25 @@
         <div class="details-table" style="">
             <div class="row each-row">
                 <div class="col-md-2 bold">Training Title</div>
-                <div class="col-md-4 bold">{{ $item->training_title }}</div>
+                <div class="col-md-4">{{ $item->training_title }}</div>
                 <div class="col-md-2 bold">Country</div>
-                <div class="col-md-4 bold">{{ $item->country }}</div>
+                <div class="col-md-4">{{ $item->country }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Topic</div>
-                <div class="col-md-4 bold">{{ $item->topic }}</div>
+                <div class="col-md-4">{{ $item->topic }}</div>
                 <div class="col-md-2 bold">Institution Name</div>
-                <div class="col-md-4 bold">{{ $item->institution_name }}</div>
+                <div class="col-md-4">{{ $item->institution_name }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Start Date</div>
-                <div class="col-md-4 bold">{{ $item->start_date }}</div>
+                <div class="col-md-4">{{ $item->start_date }}</div>
                 <div class="col-md-2 bold">End Date</div>
-                <div class="col-md-4 bold">{{ $item->end_date }}</div>
+                <div class="col-md-4">{{ $item->end_date }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Training Year</div>
-                <div class="col-md-4 bold">{{ $item->training_year }}</div>
+                <div class="col-md-4">{{ $item->training_year }}</div>
             </div>
         </div>
     </div>    

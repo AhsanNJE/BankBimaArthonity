@@ -455,35 +455,14 @@ Route::controller(PayRollController::class)->group(function(){
 ////////////////////////// --------------- HR routes ----------- ///////////////////////////
 
 
-
-    Route::get('show/employee/personal', [InfoController::class, 'ShowEmployeesPersonal'])->name('show.employeepersonal');  
-    Route::get('show/employee/education', [InfoController::class, 'ShowEmployeesEducation'])->name('show.employeeeducation');  
-    Route::get('show/employee/training', [InfoController::class, 'ShowEmployeesTraining'])->name('show.employeetraining');  
-    Route::get('show/employee/experience', [InfoController::class, 'ShowEmployeesExperience'])->name('show.employeeexperience');  
-    Route::get('show/employee/organization', [InfoController::class, 'ShowEmployeesOrganization'])->name('show.employeeorganization');  
+    //Personal Routes
+    Route::get('show/employee/personal', [InfoController::class, 'ShowEmployeesPersonal'])->name('show.employeepersonal');
     Route::post('insert/personal/info', [InfoController::class, 'InsertPersonalDetails'])->name('insertpersonal.info');  
-    Route::post('insert/education/info', [InfoController::class, 'InsertEducationDetails'])->name('inserteducation.info');
-    Route::post('insert/training/info', [InfoController::class, 'InsertTrainingDetails'])->name('inserttraining.info');
-    Route::post('insert/experience/info', [InfoController::class, 'InsertExperienceDetails'])->name('insertexperience.info');
-    Route::post('insert/organization/info', [InfoController::class, 'InsertOrganizationDetails'])->name('insertorganization.info');
     Route::get('show/personal/info', [InfoController::class, 'ShowEmployeesPersonalInfo'])->name('show.personalinfo');
-    Route::get('show/education/info', [InfoController::class, 'ShowEmployeesEducationInfo'])->name('show.educationinfo');
-    Route::get('show/training/info', [InfoController::class, 'ShowEmployeesTrainingInfo'])->name('show.traininginfo');
-    Route::get('show/experience/info', [InfoController::class, 'ShowEmployeesExperienceInfo'])->name('show.experienceinfo');
-    Route::get('show/organization/info', [InfoController::class, 'ShowEmployeesOrganizationInfo'])->name('show.organizationinfo');
     Route::get('/new/employee/personal', [InfoController::class, 'EmployeesPersonalInfo'])->name('employee.personaldetails');
-    Route::get('/new/employee/education', [InfoController::class, 'EmployeesEducationInfo'])->name('employee.educationdetails');
-    Route::get('/new/employee/training', [InfoController::class, 'EmployeesTrainingInfo'])->name('employee.trainingdetails');
-    Route::get('/new/employee/experience', [InfoController::class, 'EmployeesExperienceInfo'])->name('employee.experiencedetails');
-    Route::get('/new/employee/organization', [InfoController::class, 'EmployeesOrganizationInfo'])->name('employee.organizationdetails');
-    Route::get('/employees/edit', [InfoController::class,'EmployeesEdit'])->name('employees.edit');
-    Route::put('/employees/update', [InfoController::class,'EmployeesUpdate'])->name('employees.update');
-    Route::delete('/employees/delete', [InfoController::class, 'EmployeesDelete'])->name('employees.delete');
-
-    Route::get('/employee/education', [InfoController::class, 'EmployeesEducation'])->name('employee.education');  
-    Route::get('/employee/training', [InfoController::class, 'EmployeesTraining'])->name('employee.training');
-    Route::get('/employee/experience', [InfoController::class, 'EmployeesExperience'])->name('employee.experience');
-
+    //Edit Employee Personal
+    Route::get('/edit/employee/personal', [InfoController::class,'EditEmployeePersonal'])->name('edit.employee.personal');
+    Route::put('/update/employee/personal', [InfoController::class, 'UpdateEmployeePersonal'])->name('update.employee.personal');
     //Personal search routes start
     Route::get('/search/employee/personal', [InfoController::class, 'SearchEmployeesPersonal'])->name('search.employee.personal.name');
     Route::get('/search/employee/personal/email', [InfoController::class, 'SearchEmployeePersonalByEmail'])->name('search.employee.personal.email');
@@ -494,7 +473,6 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/search/employee/personal/dob', [InfoController::class,'SearchEmployeePersonalByDob'])->name('search.employee.personal.dob');
     Route::get('/search/employee/personal/department', [InfoController::class,'SearchEmployeePersonalByDepartment'])->name('search.employee.personal.department');
     Route::get('/search/employee/personal/designation', [InfoController::class,'SearchEmployeePersonalByDesignation'])->name('search.employee.personal.designation');
-
     //Personal pagination routes start
     Route::get('/page', [InfoController::class,'EmployeePersonalPagination']);
     Route::get('/search/page/personal', [InfoController::class,'SearchEmployeesPersonal']);
@@ -511,8 +489,16 @@ Route::controller(PayRollController::class)->group(function(){
 
 
 
-    
 
+    //Education Routes
+    Route::get('show/employee/education', [InfoController::class, 'ShowEmployeesEducation'])->name('show.employeeeducation');  
+    Route::post('insert/education/info', [InfoController::class, 'InsertEducationDetails'])->name('inserteducation.info');
+    Route::get('show/education/info', [InfoController::class, 'ShowEmployeesEducationInfo'])->name('show.educationinfo');
+    Route::get('/new/employee/education', [InfoController::class, 'EmployeesEducationInfo'])->name('employee.educationdetails');
+    Route::get('/employee/education', [InfoController::class, 'EmployeesEducation'])->name('employee.education');
+    //Edit Employee Education
+    Route::get('/edit/employee/education', [InfoController::class,'EditEmployeeEducation'])->name('edit.employee.education');
+    Route::put('/update/employee/education', [InfoController::class, 'UpdateEmployeeEducation'])->name('update.employee.education');
     //Education search routes start
     Route::get('/search/employee/education', [InfoController::class, 'SearchEmployeesEducation'])->name('search.employee.education.name');
     Route::get('/search/employee/education/email', [InfoController::class, 'SearchEmployeeEducationByEmail'])->name('search.employee.education.email');
@@ -523,7 +509,6 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/search/employee/education/dob', [InfoController::class,'SearchEmployeeEducationByDob'])->name('search.employee.education.dob');
     Route::get('/search/employee/education/department', [InfoController::class,'SearchEmployeeEducationByDepartment'])->name('search.employee.education.department');
     Route::get('/search/employee/education/designation', [InfoController::class,'SearchEmployeeEducationByDesignation'])->name('search.employee.education.designation');
-
     //Education pagination routes start
     Route::get('/page', [InfoController::class,'EmployeeEducationPagination']);
     Route::get('/search/page/education', [InfoController::class,'SearchEmployeesEducation']);
@@ -542,6 +527,15 @@ Route::controller(PayRollController::class)->group(function(){
 
 
 
+    //Training Routes
+    Route::get('show/employee/training', [InfoController::class, 'ShowEmployeesTraining'])->name('show.employeetraining');
+    Route::post('insert/training/info', [InfoController::class, 'InsertTrainingDetails'])->name('inserttraining.info');
+    Route::get('show/training/info', [InfoController::class, 'ShowEmployeesTrainingInfo'])->name('show.traininginfo');
+    Route::get('/new/employee/training', [InfoController::class, 'EmployeesTrainingInfo'])->name('employee.trainingdetails');
+    Route::get('/employee/training', [InfoController::class, 'EmployeesTraining'])->name('employee.training');
+    //Edit Employee Training
+    Route::get('/edit/employee/training', [InfoController::class,'EditEmployeeTraining'])->name('edit.employee.training');
+    Route::put('/update/employee/training', [InfoController::class, 'UpdateEmployeeTraining'])->name('update.employee.training');
     //Training search routes start
     Route::get('/search/employee/training', [InfoController::class, 'SearchEmployeesTraining'])->name('search.employee.training.name');
     Route::get('/search/employee/training/email', [InfoController::class, 'SearchEmployeeTrainingByEmail'])->name('search.employee.training.email');
@@ -552,8 +546,7 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/search/employee/training/dob', [InfoController::class,'SearchEmployeeTrainingByDob'])->name('search.employee.training.dob');
     Route::get('/search/employee/training/department', [InfoController::class,'SearchEmployeeTrainingByDepartment'])->name('search.employee.training.department');
     Route::get('/search/employee/training/designation', [InfoController::class,'SearchEmployeeTrainingByDesignation'])->name('search.employee.training.designation');
-
-    //training pagination routes start
+    //Training pagination routes start
     Route::get('/page', [InfoController::class,'EmployeeTrainingPagination']);
     Route::get('/search/page/training', [InfoController::class,'SearchEmployeesTraining']);
     Route::get('/search/page/training/email', [InfoController::class,'SearchEmployeeTrainingByEmail']);
@@ -570,7 +563,15 @@ Route::controller(PayRollController::class)->group(function(){
 
 
 
-
+    //Experience Routes
+    Route::get('show/employee/experience', [InfoController::class, 'ShowEmployeesExperience'])->name('show.employeeexperience'); 
+    Route::post('insert/experience/info', [InfoController::class, 'InsertExperienceDetails'])->name('insertexperience.info');
+    Route::get('show/experience/info', [InfoController::class, 'ShowEmployeesExperienceInfo'])->name('show.experienceinfo');
+    Route::get('/new/employee/experience', [InfoController::class, 'EmployeesExperienceInfo'])->name('employee.experiencedetails');
+    Route::get('/employee/experience', [InfoController::class, 'EmployeesExperience'])->name('employee.experience');
+    //Edit Employee Experience
+    Route::get('/edit/employee/experience', [InfoController::class,'EditEmployeeExperience'])->name('edit.employee.experience');
+    Route::put('/update/employee/experience', [InfoController::class, 'UpdateEmployeeExperience'])->name('update.employee.experience');
     //Experience search routes start
     Route::get('/search/employee/experience', [InfoController::class, 'SearchEmployeesExperience'])->name('search.employee.experience.name');
     Route::get('/search/employee/experience/email', [InfoController::class, 'SearchEmployeeExperienceByEmail'])->name('search.employee.experience.email');
@@ -581,7 +582,6 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/search/employee/experience/dob', [InfoController::class,'SearchEmployeeExperienceByDob'])->name('search.employee.experience.dob');
     Route::get('/search/employee/experience/department', [InfoController::class,'SearchEmployeeExperienceByDepartment'])->name('search.employee.experience.department');
     Route::get('/search/employee/experience/designation', [InfoController::class,'SearchEmployeeExperienceByDesignation'])->name('search.employee.experience.designation');
-
     //experience pagination routes start
     Route::get('/page', [InfoController::class,'EmployeeExperiencePagination']);
     Route::get('/search/page/experience', [InfoController::class,'SearchEmployeesExperience']);
@@ -598,8 +598,14 @@ Route::controller(PayRollController::class)->group(function(){
 
 
 
-
-
+    //Organization Routes
+    Route::get('show/employee/organization', [InfoController::class, 'ShowEmployeesOrganization'])->name('show.employeeorganization');  
+    Route::post('insert/organization/info', [InfoController::class, 'InsertOrganizationDetails'])->name('insertorganization.info');
+    Route::get('show/organization/info', [InfoController::class, 'ShowEmployeesOrganizationInfo'])->name('show.organizationinfo');
+    Route::get('/new/employee/organization', [InfoController::class, 'EmployeesOrganizationInfo'])->name('employee.organizationdetails');
+    //Edit Employee Organization
+    Route::get('/edit/employee/organization', [InfoController::class,'EditEmployeeOrganization'])->name('edit.employee.organization');
+    Route::put('/update/employee/organization', [InfoController::class, 'UpdateEmployeeOrganization'])->name('update.employee.organization');
     //Organization search routes start
     Route::get('/search/employee/organization', [InfoController::class, 'SearchEmployeesOrganization'])->name('search.employee.organization.name');
     Route::get('/search/employee/organization/email', [InfoController::class, 'SearchEmployeeOrganizationByEmail'])->name('search.employee.organization.email');
@@ -610,8 +616,7 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/search/employee/organization/dob', [InfoController::class,'SearchEmployeeOrganizationByDob'])->name('search.employee.organization.dob');
     Route::get('/search/employee/organization/department', [InfoController::class,'SearchEmployeeOrganizationByDepartment'])->name('search.employee.organization.department');
     Route::get('/search/employee/organization/designation', [InfoController::class,'SearchEmployeeOrganizationByDesignation'])->name('search.employee.organization.designation');
-
-    //organization pagination routes start
+    //Organization pagination routes start
     Route::get('/page', [InfoController::class,'EmployeeOrganizationPagination']);
     Route::get('/search/page/organization', [InfoController::class,'SearchEmployeesOrganization']);
     Route::get('/search/page/organization/email', [InfoController::class,'SearchEmployeeOrganizationByEmail']);
@@ -626,20 +631,5 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/get/employee/organization/by/name', [InfoController::class,'GetEmployeeOrganizationByName'])->name('get.employee.organizationby.name');
 
 
-    ////Edit Employees
-
-    Route::get('/edit/employee/personal', [InfoController::class,'EditEmployeePersonal'])->name('edit.employee.personal');
-    Route::put('/update/employee/personal', [InfoController::class, 'UpdateEmployeePersonal'])->name('update.employee.personal');
-    Route::get('/edit/employee/education', [InfoController::class,'EditEmployeeEducation'])->name('edit.employee.education');
-    Route::put('/update/employee/education', [InfoController::class, 'UpdateEmployeeEducation'])->name('update.employee.education');
-
-    Route::get('/edit/employee/training', [InfoController::class,'EditEmployeeTraining'])->name('edit.employee.training');
-    Route::put('/update/employee/training', [InfoController::class, 'UpdateEmployeeTraining'])->name('update.employee.training');
-
-    Route::get('/edit/employee/experience', [InfoController::class,'EditEmployeeExperience'])->name('edit.employee.experience');
-    Route::put('/update/employee/experience', [InfoController::class, 'UpdateEmployeeExperience'])->name('update.employee.experience');
-
-    Route::get('/edit/employee/organization', [InfoController::class,'EditEmployeeOrganization'])->name('edit.employee.organization');
-    Route::put('/update/employee/organization', [InfoController::class, 'UpdateEmployeeOrganization'])->name('update.employee.organization');
-
     
+    Route::delete('/employee/personal/delete', [InfoController::class, 'DeleteEmployeePersonal'])->name('employee.personal.delete');
