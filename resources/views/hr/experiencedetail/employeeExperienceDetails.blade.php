@@ -27,6 +27,7 @@
     @include('hr.experiencedetail.addExperienceDetail')
     @include('hr.experiencedetail.employeeExperienceFullDetail')
     @include('hr.experiencedetail.editExperienceDetail')
+    @include('hr.experiencedetail.deleteExperienceDetail')
     @endsection
 
 @section('ajax')

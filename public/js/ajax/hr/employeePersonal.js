@@ -150,7 +150,7 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Delete Employee Ajax Part Start ---------------- /////////////////////////////
-    // Delete Button Functionality
+    // Personal Delete Button Functionality
     $(document).on('click', '#deletePersonal', function (e) {
         e.preventDefault();
         $('#deleteModalPersonal').show();
@@ -183,6 +183,42 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    // UserInfo Delete Button Functionality
+    $(document).on('click', '#deletePersonal', function (e) {
+        e.preventDefault();
+        $('#deleteModalPersonal').show();
+        let id = $(this).data('id');
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
+    });
+
+    // Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModalPersonal').hide();
+    });
+
+    // Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: `/admin/employees/delete/employees`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.employee').load(location.href + ' .employee');
+                    $('#search').val('');
+                    $('#deleteModalPersonal').hide();
+                    toastr.success('Employee Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+    
     
 
     /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////

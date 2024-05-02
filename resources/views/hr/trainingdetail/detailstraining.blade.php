@@ -29,7 +29,7 @@
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editTrainingDetail" data-modal-id="editTrainingDetail"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="deleteTraining"><i
                             class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>

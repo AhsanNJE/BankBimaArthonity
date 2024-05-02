@@ -64,7 +64,11 @@
                 <div class="col-md-2 bold">Training Title</div>
                 <div class="col-md-4">{{ $item->training_title }}</div>
                 <div class="col-md-2 bold">Country</div>
-                <div class="col-md-4">{{ $item->country }}</div>
+                <div class="col-md-4">@isset($item->country)
+                                        {{ $item->country }}
+                                    @else
+                                        No country available
+                                    @endisset</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Topic</div>
@@ -74,9 +78,17 @@
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Start Date</div>
-                <div class="col-md-4">{{ $item->start_date }}</div>
+                <div class="col-md-4">@isset($item->start_date)
+                                        {{ $item->start_date }}
+                                    @else
+                                        No start date available
+                                    @endisset</div>
                 <div class="col-md-2 bold">End Date</div>
-                <div class="col-md-4">{{ $item->end_date }}</div>
+                <div class="col-md-4">@isset($item->end_date)
+                                        {{ $item->end_date }}
+                                    @else
+                                        No end date available
+                                    @endisset</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Training Year</div>

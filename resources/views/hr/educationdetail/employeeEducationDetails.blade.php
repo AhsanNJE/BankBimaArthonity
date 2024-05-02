@@ -28,6 +28,7 @@
     @include('hr.educationdetail.addEducationDetail')
     @include('hr.educationdetail.employeeEducationFullDetail')
     @include('hr.educationdetail.editEducationDetail')
+    @include('hr.educationdetail.deleteEducation')
     @endsection
 
 @section('ajax')

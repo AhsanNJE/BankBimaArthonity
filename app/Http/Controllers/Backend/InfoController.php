@@ -214,7 +214,7 @@ class InfoController extends Controller
         }
     }//End Method
 
-    //Delete Employees
+    //Delete Employee Personal
     public function DeleteEmployeePersonal(Request $request){
         PersonalDetail::findOrFail($request->id)->delete();
         return response()->json([
@@ -552,7 +552,7 @@ class InfoController extends Controller
         ]);
     }//End Method
 
-    //Update Employees Personal
+    //Update Employees Education
     public function UpdateEmployeeEducation(Request $request){
         
         $request->validate([
@@ -590,6 +590,15 @@ class InfoController extends Controller
                 'status'=>'success'
             ]); 
         }
+    }//End Method
+
+
+    //Delete Employee Education
+    public function DeleteEmployeeEducation(Request $request){
+        EducationDetail::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
     }//End Method
 
 
@@ -960,6 +969,13 @@ class InfoController extends Controller
         }
     }//End Method
 
+    //Delete Employee Training
+    public function DeleteEmployeeTraining(Request $request){
+        TrainingDetail::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
 
 
     
@@ -1327,6 +1343,14 @@ class InfoController extends Controller
         }
     }//End Method
 
+    //Delete Employee Experience
+    public function DeleteEmployeeExperience(Request $request){
+        ExperienceDetail::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
 
     /////////////////////////                      Employee Experience Search                    ////////////////////////////////
 
@@ -1674,6 +1698,14 @@ class InfoController extends Controller
                 'status'=>'success'
             ]); 
         }
+    }//End Method
+
+    //Delete Employee Organization
+    public function DeleteEmployeeOrganization(Request $request){
+        OrganizationDetail::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
     }//End Method
        
 

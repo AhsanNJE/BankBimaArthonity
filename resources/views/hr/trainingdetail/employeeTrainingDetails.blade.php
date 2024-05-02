@@ -27,6 +27,7 @@
     @include('hr.trainingdetail.addTrainingDetail')
     @include('hr.trainingdetail.employeeTrainingFullDetail')
     @include('hr.trainingdetail.editTraining')
+    @include('hr.trainingdetail.deleteTrainingDetail')
     @endsection
 
 @section('ajax')

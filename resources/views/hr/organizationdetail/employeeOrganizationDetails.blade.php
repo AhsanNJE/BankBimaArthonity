@@ -27,6 +27,7 @@
     @include('hr.organizationdetail.addOrganizationDetail')
     @include('hr.organizationdetail.employeeOrganizationFullDetail')
     @include('hr.organizationdetail.editOrganizationDetail')
+    @include('hr.organizationdetail.deleteOrganizationDetail')
     @endsection
 
 @section('ajax')

@@ -155,24 +155,39 @@ $(document).ready(function () {
     });
 
 
-    /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#delete', function (e) {
+    /////////////// ------------------ Delete Employee Ajax Part Start ---------------- /////////////////////////////
+    // Organization Delete Button Functionality
+    $(document).on('click', '#deleteOrganization', function (e) {
         e.preventDefault();
-        let id = $(this).data('emp_id');
-        if (confirm('Are You Sure to Delete This Employee ??')) {
-            $.ajax({
-                url: `/employees/delete`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        $('.employee').load(location.href + ' .employee');
-                        $('#search').val('');
-                        toastr.success('Employee Deleted Successfully', 'Deleted!');
-                    }
+        $('#deleteModalOrganization').show();
+        let id = $(this).data('id');
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
+    });
+
+    // Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModalOrganization').hide();
+    });
+
+    // Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        $.ajax({
+            url: `/employee/personal/delete`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.employee').load(location.href + ' .employee');
+                    $('#search').val('');
+                    $('#deleteModalOrganization').hide();
+                    toastr.success('Organization Details Deleted Successfully', 'Deleted!');
                 }
-            });
-        }
+            }
+        });
     });
 
     /////////////// ------------------ Pagination Ajax Part Start ---------------- /////////////////////////////
