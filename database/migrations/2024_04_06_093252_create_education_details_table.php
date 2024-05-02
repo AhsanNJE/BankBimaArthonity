@@ -16,18 +16,19 @@ return new class extends Migration
             $table->string('emp_id');
             $table->string('level_of_education');
             $table->string('degree_title');
-            $table->string('group');
+            $table->string('group')->nullable();
             $table->string('institution_name');
-            $table->string('result');
-            $table->decimal('scale');
-            $table->decimal('cgpa');
-            $table->integer('batch');
+            $table->string('result')->nullable();
+            $table->decimal('scale')->nullable();
+            $table->decimal('cgpa')->nullable();
+            $table->integer('batch')->nullable();
             $table->integer('passing_year');
             $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
-            $table->timestamps();
             $table->foreign('emp_id')->references('employee_id')->on('personal_details')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

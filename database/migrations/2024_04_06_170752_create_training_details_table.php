@@ -15,17 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('emp_id');
             $table->string('training_title');
-            $table->string('country');
+            $table->string('country')->nullable();
             $table->string('topic');
             $table->string('institution_name');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->integer('training_year');
             $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
-            $table->timestamps();
             $table->foreign('emp_id')->references('employee_id')->on('personal_details')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

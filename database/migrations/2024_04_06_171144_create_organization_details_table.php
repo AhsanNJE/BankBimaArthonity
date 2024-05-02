@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('department');
             $table->unsignedBigInteger('designation');
             $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
-            $table->timestamps();
 
             $table->foreign('emp_id')->references('employee_id')->on('personal_details')
                      ->cascadeOnUpdate()
@@ -30,9 +29,11 @@ return new class extends Migration
             $table->foreign('department')->references('id')->on('department__infos')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
-             $table->foreign('designation')->references('id')->on('designations')
+            $table->foreign('designation')->references('id')->on('designations')
                      ->cascadeOnUpdate()
                      ->cascadeOnDelete();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

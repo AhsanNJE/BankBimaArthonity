@@ -31,7 +31,6 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->binary('image')->nullable();
             $table->tinyInteger('status')->default('1')->comment('1 for Active 0 for Inactive');
-            $table->timestamps();
 
             $table->foreign('location_id')->references('id')->on('location__infos')
                     ->cascadeOnUpdate()
@@ -39,6 +38,8 @@ return new class extends Migration
             $table->foreign('tran_user_type')->references('id')->on('transaction__withs')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
         });
         
     }

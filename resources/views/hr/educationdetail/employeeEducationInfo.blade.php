@@ -63,6 +63,7 @@
     @endif
     <div class="education">
         <div class="details-table" style="">
+        
             <div class="row each-row">
                 <div class="col-md-2 bold">Level of Education</div> 
                 <div class="col-md-4">{{ $item->level_of_education }}</div>
@@ -71,26 +72,43 @@
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Group</div> 
-                <div class="col-md-4">{{ $item->group }}</div>
+                <div class="col-md-4">@isset($item->group)
+                                        {{ $item->group }}
+                                    @else
+                                        No group available
+                                    @endisset</div>
                 <div class="col-md-2 bold">Institution Name</div> 
                 <div class="col-md-4">{{ $item->institution_name }}</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Result</div> 
-                <div class="col-md-4">{{ $item->result }}</div>
+                <div class="col-md-4">@isset($item->result)
+                                        {{ $item->result }}
+                                    @else
+                                        No result available
+                                    @endisset</div>
                 <div class="col-md-2 bold">Scale</div> 
-                <div class="col-md-4">{{ $item->scale }}</div>
+                <div class="col-md-4">@isset($item->scale)
+                                        {{ $item->scale }}
+                                    @else
+                                        No scale available
+                                    @endisset</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">CGPA</div> 
                 <div class="col-md-4">{{ $item->cgpa }}</div>
                 <div class="col-md-2 bold">Batch</div> 
-                <div class="col-md-4">{{ $item->batch }}</div>
+                <div class="col-md-4">@isset($item->batch)
+                                        {{ $item->batch }}
+                                    @else
+                                        No batch available
+                                    @endisset</div>
             </div>
             <div class="row each-row">
                 <div class="col-md-2 bold">Passing Year</div> 
                 <div class="col-md-4">{{ $item->passing_year }}</div>
             </div>
+        
         </div>
     </div>  
     @endforeach

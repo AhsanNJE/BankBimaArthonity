@@ -491,12 +491,12 @@ class InfoController extends Controller
             'user' => 'required',
             'level_of_education' => 'required|string|max:255',
             'degree_title' => 'required|string|max:255',
-            'group' => 'required|string|max:255',
+            'group' => 'nullable|string|max:255',
             'institution_name' => 'required|string|max:255',
-            'result' => 'required|string|max:255',
-            'scale' => 'required|numeric',
+            'result' => 'nullable|string|max:255',
+            'scale' => 'nullable|numeric',
             'cgpa' => 'required|numeric',
-            'batch' => 'required|numeric',
+            'batch' => 'nullable|numeric',
             'passing_year' => 'required|numeric',
         ]);
     
@@ -558,12 +558,12 @@ class InfoController extends Controller
         $request->validate([
             'level_of_education' => 'required|string|max:255',
             'degree_title' => 'required|string|max:255',
-            'group' => 'required|string|max:255',
+            'group' => 'nullable|string|max:255',
             'institution_name' => 'required|string|max:255',
-            'result' => 'required|string|max:255',
-            'scale' => 'required|numeric',
+            'result' => 'nullable|string|max:255',
+            'scale' => 'nullable|numeric',
             'cgpa' => 'required|numeric',
-            'batch' => 'required|numeric',
+            'batch' => 'nullable|numeric',
             'passing_year' => 'required|numeric',
         ]);
 
@@ -866,11 +866,11 @@ class InfoController extends Controller
         $request->validate([
             'user' => 'required',
             'training_title' => 'required',
-            'country' => 'required',
+            'country' => 'nullable',
             'topic' => 'required',
             'institution_name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'nullable',
+            'end_date' => 'nullable',
             'training_year' => 'required|numeric',
         ]);
 
@@ -929,11 +929,11 @@ class InfoController extends Controller
         
         $request->validate([
             'training_title' => 'required',
-            'country' => 'required',
+            'country' => 'nullable',
             'topic' => 'required',
             'institution_name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'nullable',
+            'end_date' => 'nullable',
             'training_year' => 'required|numeric',
         ]);
 
@@ -1240,8 +1240,8 @@ class InfoController extends Controller
             'designation' => 'required',
             'department' => 'required',
             'company_location' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'nullable',
+            'end_date' => 'nullable',
             
         ]);
 
@@ -1302,8 +1302,8 @@ class InfoController extends Controller
             'designation' => 'required',
             'department' => 'required',
             'company_location' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'nullable',
+            'end_date' => 'nullable',
         ]);
 
         $employee = ExperienceDetail::findOrFail($request->id);
@@ -1328,7 +1328,7 @@ class InfoController extends Controller
     }//End Method
 
 
-    /////////////////////////                          Employee Experience Search                           ////////////////////////////////
+    /////////////////////////                      Employee Experience Search                    ////////////////////////////////
 
 
     //Employee Pagination
