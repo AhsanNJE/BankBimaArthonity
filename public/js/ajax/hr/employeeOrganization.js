@@ -176,7 +176,7 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $(this).attr('data-id');
         $.ajax({
-            url: `/employee/personal/delete`,
+            url: `/employee/organization/delete`,
             method: 'DELETE',
             data: { id:id },
             success: function (res) {

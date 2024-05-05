@@ -271,7 +271,7 @@ $(document).ready(function () {
     $(document).on('click', '#deleteExperience', function (e) {
         e.preventDefault();
         $('#deleteModalExperience').show();
-        let id = $(this).data('id');
+        let id =$(this).attr('data-id');
         $('#confirm').attr('data-id',id);
         $('#cancel').focus();
     });
@@ -287,7 +287,7 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $(this).attr('data-id');
         $.ajax({
-            url: `/employee/personal/delete`,
+            url: `/employee/experience/delete`,
             method: 'DELETE',
             data: { id:id },
             success: function (res) {
