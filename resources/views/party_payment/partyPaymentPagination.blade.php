@@ -4,10 +4,9 @@
         <tr>
             <th>SL:</th>
             <th>Id</th>
-            <th>Transaction With</th>
             <th>User</th>
             <th>Amount</th>
-            <th>Transaction Ids</th>
+            {{-- <th>Transaction Ids</th> --}}
             <th>Action</th>
         </tr>
     </thead>
@@ -16,10 +15,9 @@
             <tr>
                 <td>{{ $party->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
-                <td>{{ $item->withs->tran_with_name }}</td>
                 <td>{{ $item->User->user_name }}</td>
-                <td>{{ $item->amount }}</td>
-                <td>
+                <td style="text-align: right">{{ number_format($item->amount, 0, '.', ',') }} Tk.</td>
+                {{-- <td>
                     @php
                         $values = explode(',', $item->party_tran_id);
                     @endphp
@@ -27,7 +25,7 @@
                     @foreach ($values as $value)
                         {{ $value }} <br>
                     @endforeach
-                </td>
+                </td> --}}
                 <td style="display: flex;gap:5px;">
                     <button class="btn btn-info btn-sm open-modal editParty" data-modal-id="editParty"
                         data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>

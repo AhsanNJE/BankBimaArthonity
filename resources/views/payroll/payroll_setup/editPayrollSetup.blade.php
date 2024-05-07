@@ -1,15 +1,11 @@
 <div id="editPayrollSetup" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Edit Payroll Setup</h3>
-            <span class="close-modal" data-modal-id="editPayrollSetup">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Edit Payroll Setup</h3>
+                        <span class="close-modal" data-modal-id="editPayrollSetup">&times;</span>
                     </div>
                 </div>
                 <!-- form start -->

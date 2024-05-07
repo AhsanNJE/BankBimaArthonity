@@ -1,15 +1,11 @@
 <div id="addPayrollMiddlewire" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Payroll Middlewire</h3>
-            <span class="close-modal" data-modal-id="addPayrollMiddlewire">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Payroll Middlewire</h3>
+                        <span class="close-modal" data-modal-id="addPayrollMiddlewire">&times;</span>
                     </div>
                 </div>
                 <!-- form start -->
@@ -55,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="date">Select Date</label>
-                                <input type="date" name="date" class="form-control" id="date">
+                                <input type="date" name="date" class="form-control" id="date" value="{{ date('Y-m-d') }}">
                                 <span class="text-danger error" id="date_error"></span>
                             </div>
                             <div class="center">
@@ -64,8 +60,9 @@
                         </div>
                     </div>
                 </form>
-                <table class="show-table middlewire">
+                <table class="show-table payroll-grid">
                     <thead>
+                        {{-- <caption class="caption">Payroll Details</caption> --}}
                         <tr>
                             <th>Sl:</th>
                             <th>Payroll Category</th>

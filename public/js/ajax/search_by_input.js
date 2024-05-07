@@ -650,9 +650,19 @@ $(document).ready(function () {
     //search Transaction User on add modal
     $(document).on('keyup', '#user', function (e) {
         let tranUser = $(this).val();
-        let tranUserType = $('#with').val();
+        let tranUserType;
+        let within;
+        if ($('#within').length) {
+            tranUserType = $('.with-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+            within = 1;
+        } else {
+            tranUserType = $('#with').val();
+            within = 0;
+        }
         let id = $(this).attr('data-id');
-        UserKeyUp(e, tranUserType, tranUser, id, '#user', '#user-list ul');
+        UserKeyUp(e, tranUserType, within, tranUser, id, '#user', '#user-list ul');
         $('.due-grid tbody, .due-grid tfoot').html('');
     });
 
@@ -679,13 +689,15 @@ $(document).ready(function () {
     $(document).on('click', '#user-list li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
+        let withs = $(this).data('with');
         $('#user').val(value);
         $('#user').attr('data-id', id);
+        $('#user').attr('data-with', withs);
         $('#user-list ul').html('');
         getDueListByUserId(id, '.due-grid tbody');
         getPayrollByUserId(id, '.payroll-grid tbody');
-        getPayrollSetupByUserId(id, '.setup tbody');
-        getPayrollMiddlewireByUserId(id, '.middlewire tbody');
+        // getPayrollSetupByUserId(id, '.setup tbody');
+        // getPayrollMiddlewireByUserId(id, '.middlewire tbody');
     });
 
 
@@ -693,10 +705,20 @@ $(document).ready(function () {
     // User Focus Event
     $(document).on('focus', '#user', function (e) {
         let tranUser = $(this).val();
-        let tranUserType = $('#with').val();
+        let tranUserType;
+        let within;
+        if ($('#within').length) {
+            tranUserType = $('.with-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+            within = 1;
+        } else {
+            tranUserType = $('#with').val();
+            within = 0;
+        }
         let id = $(this).attr('data-id');
         if(id == undefined){
-            getTransactionUser(tranUserType, tranUser, '#user-list ul');
+            getTransactionUser(tranUserType, within, tranUser, '#user-list ul');
         }
         else{
             e.preventDefault();
@@ -721,9 +743,19 @@ $(document).ready(function () {
     //search Transaction User on edit modal
     $(document).on('keyup', '#updateUser', function (e) {
         let tranUser = $(this).val();
-        let tranUserType = $('#updateWith').val();
+        let tranUserType;
+        let within;
+        if ($('#updatewithin').length) {
+            tranUserType = $('.updatewith-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+            within = 1;
+        } else {
+            tranUserType = $('#updateWith').val();
+            within = 0;
+        }
         let id = $(this).attr('data-id');
-        UserKeyUp(e, tranUserType, tranUser, id, '#updateUser', '#update-user ul');
+        UserKeyUp(e, tranUserType, within, tranUser, id, '#updateUser', '#update-user ul');
     });
 
 
@@ -749,8 +781,10 @@ $(document).ready(function () {
     $(document).on('click', '#update-user li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
+        let withs = $(this).data('with');
         $('#updateUser').val(value);
         $('#updateUser').attr('data-id', id);
+        $('#updateUser').attr('data-with', withs);
         $('#update-user ul').html('');
         getDueListByUserId(id, '.due-grid tbody');
     });
@@ -759,10 +793,20 @@ $(document).ready(function () {
     // User Focus Event
     $(document).on('focus', '#updateUser', function (e) {
         let tranUser = $(this).val();
-        let tranUserType = $('#updateWith').val();
+        let tranUserType;
+        let within;
+        if ($('#updatewithin').length) {
+            tranUserType = $('.updatewith-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+            within = 1;
+        } else {
+            tranUserType = $('#updateWith').val();
+            within = 0;
+        }
         let id = $(this).attr('data-id');
         if(id == undefined){
-            getTransactionUser(tranUserType, tranUser, '#update-user ul');
+            getTransactionUser(tranUserType, within, tranUser, '#update-user ul');
         }
         else{
             e.preventDefault();
@@ -785,14 +829,15 @@ $(document).ready(function () {
 
 
     // User Key Up Event Function
-    function UserKeyUp(e, tranUserType, tranUser, id, targetElement1, targetElement2){
+    function UserKeyUp(e, tranUserType, within, tranUser, id, targetElement1, targetElement2){
         if (e.keyCode === 13) { // Enter Key
             e.preventDefault();
         }
         else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
             //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
             $(targetElement1).removeAttr('data-id');
-            getTransactionUser(tranUserType, tranUser, targetElement2);
+            $(targetElement1).removeAttr('data-with');
+            getTransactionUser(tranUserType, within, tranUser, targetElement2);
         }
         else if (e.keyCode === 9) { // Tab key
             if (id != undefined) {
@@ -800,7 +845,8 @@ $(document).ready(function () {
             }
             else{
                 $(targetElement1).removeAttr('data-id');
-                getTransactionUser(tranUserType, tranUser, targetElement2);
+                $(targetElement1).removeAttr('data-with');
+                getTransactionUser(tranUserType, within, tranUser, targetElement2);
             }
         }
     }
@@ -815,12 +861,14 @@ $(document).ready(function () {
                 list.first().focus();
                 $(targetElement1).val(list.first().text());
                 $(targetElement1).attr("data-id", list.data('id'));
+                $(targetElement1).attr("data-with", list.data('with'));
             } 
             else if (e.keyCode === 38) { // Up arrow key
                 e.preventDefault();
                 list.last().focus();
                 $(targetElement1).val(list.last().text());
                 $(targetElement1).attr("data-id", list.data('id'));
+                $(targetElement1).attr("data-with", list.data('with'));
             } 
             else if (e.keyCode === 13) { // Enter key
                 e.preventDefault();
@@ -844,6 +892,7 @@ $(document).ready(function () {
             list.eq(nextIndex).focus();
             $(targetElement1).val(list.eq(nextIndex).text());
             $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+            $(targetElement1).attr("data-with", list.eq(nextIndex).data('with'));
         } 
         else if (e.keyCode === 38) { // Up arrow key
             e.preventDefault();
@@ -854,14 +903,15 @@ $(document).ready(function () {
             list.eq(prevIndex).focus();
             $(targetElement1).val(list.eq(prevIndex).text());
             $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+            $(targetElement1).attr("data-with", list.eq(nextIndex).data('with'));
         } 
         else if (e.keyCode === 13) { // Enter key
             e.preventDefault();
             let id = $(targetElement1).attr('data-id');
             getDueListByUserId(id, '.due-grid tbody');
             getPayrollByUserId(id, '.payroll-grid tbody');
-            getPayrollSetupByUserId(id, '.setup tbody');
-            getPayrollMiddlewireByUserId(id, '.middlewire tbody');
+            // getPayrollSetupByUserId(id, '.setup tbody');
+            // getPayrollMiddlewireByUserId(id, '.middlewire tbody');
             $(targetElement2).html('');
             $(targetElement1).focus();
         }
@@ -870,11 +920,11 @@ $(document).ready(function () {
 
 
     // Search Transaction User by Name
-    function getTransactionUser(tranUserType, tranUser, targetElement1) {
+    function getTransactionUser(tranUserType, within, tranUser, targetElement1) {
         $.ajax({
             url: "/transaction/get/tranuser",
             method: 'GET',
-            data: { tranUserType: tranUserType, tranUser: tranUser },
+            data: { tranUserType: tranUserType, within:within, tranUser: tranUser },
             success: function (res) {
                 $(targetElement1).html(res);
             }
@@ -895,8 +945,9 @@ $(document).ready(function () {
                     let transactions = res.transaction.data;
                     // Calculate total amount
                     let totalAmount = transactions.reduce((sum, transaction) => sum + transaction.due, 0);
+                    const formattedTotalAmount = totalAmount.toLocaleString('en-US');
                     $('.due-grid tfoot').html(`<tr>
-                                                    <td colspan="4" style="text-align:right;"> Total Due: ${totalAmount}</td>
+                                                    <td colspan="4" style="text-align:right;"> Total Due: ${formattedTotalAmount} Tk.</td>
                                                 </tr>`)
                 }
                 else{
@@ -925,43 +976,277 @@ $(document).ready(function () {
         });
     }
 
-    //Get Payroll Setup By User Id
-    function getPayrollSetupByUserId(id, grid) {
-        $.ajax({
-            url: "/payroll/setup/get/user",
-            method: 'GET',
-            data: { id:id },
-            success: function (res) {
-                if(res.status === 'success'){
-                    $(grid).html(res.data);
-                }
-                else{
-                    $(grid).html('');
-                }
-                
-            }
-        });
-    }
-
-
-    //Get Payroll Middlewire By User Id
-    function getPayrollMiddlewireByUserId(id, grid) {
-        $.ajax({
-            url: "/payroll/middlewire/get/user",
-            method: 'GET',
-            data: { id:id },
-            success: function (res) {
-                if(res.status === 'success'){
-                    $(grid).html(res.data);
-                }
-                else{
-                    $(grid).html('');
-                }
-                
-            }
-        });
-    }
 
     ////////////// ------------------- Search Transaction user and add value to input ajax part end --------------- ////////////////////////////
+
+
+
+    /////////////// ------------------ Search Heads By Name And Groupe add value to input ajax part start ---------------- /////////////////////////////
+    // Head Keyup Event
+    $(document).on('keyup', '#head', function (e) {
+        let head = $(this).val();
+        let groupe;
+        let groupein;
+        if ($('#groupein').length) {
+            groupe = $('.groupe-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+            groupein = 1;
+        } else {
+            groupe = $('#groupe').val();
+            groupein = 0;
+        }
+        let id = $(this).attr('data-id');
+        HeadKeyUp(e, groupe, groupein, head, id, '#head', '#head-list ul');
+    });
+
+    // Head Key down Event
+    $(document).on('keydown', '#head', function (e) {
+        let list = $('#head-list ul li');
+        HeadKeyDown(e, list, '#head', '#head-list ul');
+    });
+
+
+    // Head List Key down Event
+    $(document).on('keydown', '#head-list ul li', function (e) {
+        let list = $('#head-list ul li');
+        let focused = $('#head-list ul li:focus');
+        HeadListKeyDown(e, list, focused, '#head', '#head-list ul');
+    });
+
+
+    // Head Focus Event
+    $(document).on('focus', '#head', function (e) {
+        let head = $(this).val();
+        let groupe;
+        let groupein;
+        if ($('#groupein').length) {
+            groupe = $('.groupe-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+            groupein = 1;
+        } else {
+            groupe = $('#groupe').val();
+            groupein = 0;
+        }
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getHeadByGroupe(groupe, groupein, head,  '#head-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Head Focous out event
+    $(document).on('focusout', '#head', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#head-list ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Head List Click Event
+    $(document).on('click', '#head-list li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        let groupe = $(this).data('groupe');
+        $('#head').val(value);
+        $('#head').attr('data-id', id);
+        $('#head').attr('data-groupe', groupe);
+        $('#head-list ul').html('');
+    });
+
+
+
+    // Update Head Keyup event
+    $(document).on('keyup', '#updateHead', function (e) {
+        let head = $(this).val();
+        let groupe;
+        let groupein;
+        if ($('#updategroupein').length) {
+            groupe = $('.updategroupe-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+            groupein = 1;
+        } else {
+            groupe = $('#with').val();
+            groupein = 0;
+        }
+        let id = $(this).attr('data-id');
+        HeadKeyUp(e, groupe, groupein, head, id, '#updateHead', '#update-head ul');
+    });
+
+
+
+    // Update Head Keydown event
+    $(document).on('keydown', '#updateHead', function (e) {
+        let list = $('#update-head ul li');
+        HeadKeyDown(e, list, '#updateHead', '#update-head ul');
+    });
+
+
+
+    // Update Head List Keydown event
+    $(document).on('keydown', '#update-head ul li', function (e) {
+        let list = $('#update-head ul li');
+        let focused = $('#update-head ul li:focus');
+        HeadListKeyDown(e, list, focused, '#updateHead', '#update-head ul');
+    });
+
+
+
+    // Update Head Focus Event
+    $(document).on('focus', '#updateHead', function (e) {
+        let head = $(this).val();
+        let groupe;
+        let groupein;
+        if ($('#updategroupein').length) {
+            groupe = $('.updategroupe-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+            groupein = 1;
+        } else {
+            groupe = $('#updateGroupe').val();
+            groupein = 0;
+        }
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getHeadByGroupe(groupe, groupein, head, '#update-head ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    
+    // Update Head Focousout event
+    $(document).on('focusout', '#updateHead', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-head ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Update Head Click Event
+    $(document).on('click', '#update-head li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        let groupe = $(this).data('groupe');
+        $('#updateHead').val(value);
+        $('#updateHead').attr('data-id', id);
+        $('#updateHead').attr('data-groupe', groupe);
+        $('#update-head ul').html('');
+    });
+
+
+
+    // Head Key Up Event Function
+    function HeadKeyUp(e, groupe, groupein, head, id, targetElement1, targetElement2){
+        if (e.keyCode === 13) { // Enter Key
+            e.preventDefault();
+        }
+        else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
+            //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
+            $(targetElement1).removeAttr('data-id');
+            $(targetElement1).removeAttr('data-groupe');
+            getHeadByGroupe(groupe, groupein, head,  targetElement2);
+        }
+        else if (e.keyCode === 9) { // Tab key
+            if (id != undefined) {
+                e.preventDefault();
+            }
+            else{
+                $(targetElement1).removeAttr('data-id');
+                $(targetElement1).removeAttr('data-groupe');
+                getHeadByGroupe(groupe, groupein, head,  targetElement2);
+            }
+        }
+    }
+
+
+    // Head Key Down Event Function
+    function HeadKeyDown(e, list, targetElement1, targetElement2) {
+        if (list.length > 0) {
+            if (e.keyCode === 40) { // Down arrow key
+                e.preventDefault();
+                list.first().focus();
+                $(targetElement1).val(list.first().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+                $(targetElement1).attr("data-groupe", list.data('groupe'));
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
+                e.preventDefault();
+                list.last().focus();
+                $(targetElement1).val(list.last().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+                $(targetElement1).attr("data-groupe", list.data('groupe'));
+            } 
+            else if (e.keyCode === 13) { // Enter key
+                e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
+            }
+        }
+    }
+
+
+    // Head List Key Down Event function
+    function HeadListKeyDown(e, list, focused, targetElement1, targetElement2) {
+        if (e.keyCode === 40) { // Down arrow key
+            e.preventDefault();
+            let nextIndex = focused.index() + 1;
+            if (nextIndex >= list.length) {
+                nextIndex = 0; // Loop to the first item
+            }
+            list.eq(nextIndex).focus();
+            $(targetElement1).val(list.eq(nextIndex).text());
+            $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+            $(targetElement1).attr("data-groupe", list.eq(nextIndex).data('groupe'));
+        } 
+        else if (e.keyCode === 38) { // Up arrow key
+            e.preventDefault();
+            let prevIndex = focused.index() - 1;
+            if (prevIndex < 0) {
+                prevIndex = list.length - 1; // Loop to the last item
+            }
+            list.eq(prevIndex).focus();
+            $(targetElement1).val(list.eq(prevIndex).text());
+            $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+            $(targetElement1).attr("data-groupe", list.eq(prevIndex).data('groupe'));
+        } 
+        else if (e.keyCode === 13) { // Enter key
+            e.preventDefault();
+            $(targetElement2).html('');
+            $(targetElement1).focus();
+        }
+    }
+
+    // Search Head by Name
+    function getHeadByGroupe(groupe, groupein, head, targetElement1) {
+        $.ajax({
+            url: "/transaction/get/heads/groupe",
+            method: 'GET',
+            data: { groupe: groupe, groupein:groupein, head:head },
+            success: function (res) {
+                $(targetElement1).html(res);
+            }
+        });
+    }
+
+    /////////////// ------------------ Search Head By Name And Groupe add value to input ajax part end ---------------- /////////////////////////////
 
 });

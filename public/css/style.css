@@ -11,14 +11,6 @@
 }
 
 
-.add {
-    background-color: green;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 15px;
-}
-
 .center {
     display: flex;
     align-items: center;
@@ -33,6 +25,56 @@
 #paginate {
     margin-top: 20px;
 }
+
+
+/* ------------------------------------- Button Custom Design Starts --------------------------------------------------- */
+.add {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+}
+
+
+#delete{
+    color:white;
+    background: red;
+    border: none;
+    border-radius: 10%;
+    padding: 5px 10px;
+}
+
+#delete:hover{
+    background: #f13f13;
+}
+
+#edit{
+    color:white;
+    background: #00a7ffd9;
+    border: none;
+    border-radius: 10%;
+    padding: 5px 10px;
+}
+
+#edit:hover{
+    background: #2ae1f4d9;
+}
+
+#details{
+    color:black;
+    background: #20c997;
+    border: none;
+    border-radius: 10%;
+    padding: 5px 10px;
+}
+
+#details:hover{
+    background: #1ce0a6;
+}
+/* ------------------------------------- Button Custom Design Ends --------------------------------------------------- */
+
+
 
 
 /* -------------------------------------- Table custom design starts --------------------------------------------------- */
@@ -71,6 +113,10 @@
 .invoice-table tr td:nth-child(2){
     text-align: right !important;
     letter-spacing: 0.02em;
+}
+
+thead tr{
+    background: #20c997;
 }
 
 /* ---------------------------------------- Table custom design end ----------------------------------------------------- */
@@ -117,7 +163,7 @@
     cursor: pointer;
     position: absolute;
     right: 25px;
-    top: 10px;
+    /* top: 10px; */
 }
 
 .close-modal:hover {
@@ -339,6 +385,13 @@ div[id$="-list"] li:focus, div[id^="update-"] li:focus {
     margin: 20px 0;
 }
 
+.icon-center{
+    font-size: 120px;
+    margin-top: 20px;
+    color: blue;
+}
+
+
 .add-search .row {
     justify-content: center; /* This will center the row's contents horizontally */
 }
@@ -403,5 +456,3 @@ div.col-md-4 label {
 .rotate {
     transform: rotate(90deg);
 }
-
-

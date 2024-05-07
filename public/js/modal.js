@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Close modal if clicked outside the modal
-    window.addEventListener('click', function (event) {
-        if (event.target.classList.contains('modal-container')) {
-            event.target.style.display = 'none';
-        }
-    });
+    // window.addEventListener('click', function (event) {
+    //     if (event.target.classList.contains('modal-container')) {
+    //         event.target.style.display = 'none';
+    //     }
+    // });
 });
