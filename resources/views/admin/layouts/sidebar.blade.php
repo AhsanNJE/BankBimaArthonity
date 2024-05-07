@@ -23,6 +23,7 @@
 
         <!-- Sidebar Menu -->
 
+
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
@@ -62,13 +63,13 @@
                     </ul>
                 </li>
 
+
                 <!-- Transaction With Bank -->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            TRANSACTION WITH BANK
-                            <i class="fas fa-angle-left right"></i>
+                            TRANSACTION WITH BANK<i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -86,6 +87,7 @@
                         </li>
                     </ul>
                 </li>
+
 
                 <!-- Party Payments -->
                 <li class="nav-item">
@@ -187,17 +189,6 @@
                                         <p>Payroll / Salary Payment</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>SALARY GENERATION</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>VIEW SALARY</p>
-                                    </a>
-                                </li>
-                                <!-- Add more submenu items as needed -->
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -205,7 +196,6 @@
                                 <i class="fa-solid fa-envelope"></i>
                                 <p>
                                     Department
-                                    <!-- <i class="fas fa-angle-left right"></i> -->
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
@@ -399,8 +389,7 @@
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            Main Head
-                            <i class="fas fa-angle-left right"></i>
+                            Main Head <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -412,6 +401,7 @@
                         </li>
                     </ul>
                 </li>
+
 
 
                 <li class="nav-item">
@@ -449,6 +439,7 @@
                         </li>
                     </ul>
                 </li>
+
 
 
                 <li class="nav-item">
@@ -491,8 +482,13 @@
 
                 <hr>
 
+
+
+                <hr>
+
             </ul>
         </nav>
+
 
         <!-- /.sidebar-menu -->
     </div>

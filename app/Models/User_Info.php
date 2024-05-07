@@ -26,6 +26,38 @@ class User_Info extends Model
 
     public function Withs(){
         return $this->belongsTo(Transaction_With::class,'tran_user_type','id');
+    
+    }
+
+    public function personalDetail()
+    {
+        return $this->belongsTo(PersonalDetail::class, 'user_id', 'employee_id');
+    }
+
+    public function educationDetail()
+    {
+        return $this->belongsTo(EducationDetail::class, 'user_id', 'emp_id');
+    }
+
+    public function educationDetails()
+    {
+        return $this->hasMany(EducationDetail::class);
+    }
+
+
+    public function trainingDetail()
+    {
+        return $this->belongsTo(TrainingDetail::class, 'user_id', 'emp_id');
+    }
+
+    public function experienceDetail()
+    {
+        return $this->belongsTo(ExperienceDetail::class, 'user_id', 'emp_id');
+    }
+
+    public function organizationDetail()
+    {
+        return $this->belongsTo(OrganizationDetail::class, 'user_id', 'emp_id');
     }
 
     ///// client base due find for user_type User_Info Table /////////
@@ -34,4 +66,6 @@ class User_Info extends Model
     {
         return $this->hasMany(Transaction_Main::class, 'tran_user', 'user_id');
     }
+
+    
 }

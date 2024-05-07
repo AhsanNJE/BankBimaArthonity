@@ -90,12 +90,16 @@ $(document).ready(function () {
     $(document).on('submit', '#AddTransactionReceiveForm', function (e) {
         e.preventDefault();
         let tranId = $('#tranId').val();
+        let withs = $('#user').attr('data-with');
         let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let head = $('#head').attr('data-id');
+        let groupe = $('#head').attr('data-groupe');
         let formData = new FormData(this);
+        formData.append('with', withs === undefined ? '' : withs);
         formData.append('user', user === undefined ? '' : user);
         formData.append('head', head === undefined ? '' : head);
+        formData.append('groupe', groupe === undefined ? '' : groupe);
         formData.append('location', locations === undefined ? '' : locations);
         formData.append('method', 'Receive');
         formData.append('type', '1');
@@ -114,6 +118,7 @@ $(document).ready(function () {
                     getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
                     $('#head').val('');
                     $('#head').removeAttr('data-id');
+                    $('#head').removeAttr('data-groupe');
                     $('#quantity').val('1');
                     $('#amount').val('');
                     $('#totAmount').val('');
@@ -138,7 +143,7 @@ $(document).ready(function () {
         let tranId = $('#tranId').val();
         let method = 'Receive';
         let type = '1';
-        let withs = $('#with').val();
+        let withs = $('#user').attr('data-with');
         let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let amountRP = $('#amountRP').val();
@@ -158,6 +163,7 @@ $(document).ready(function () {
                     $('#AddTransactionReceiveForm')[0].reset();
                     $('#location').removeAttr('data-id');
                     $('#user').removeAttr('data-id');
+                    $('#user').removeAttr('data-with');
                     $('.transaction_grid tbody').html('');
                     $('.transaction-receive').load(location.href + ' .transaction-receive');
                     $('#addTransactionReceive').hide();

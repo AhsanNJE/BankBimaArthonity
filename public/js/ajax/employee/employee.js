@@ -26,43 +26,43 @@ $(document).ready(function () {
     $(document).on('click', '.details li', function(e){
         let id = $(this).attr('data-id');
         if(id == 1){
-            if($('.general').is(':visible')){
-                $('.general').hide()
+            if($('.personal').is(':visible')){
+                $('.personal').hide()
             }
             else{
-                $('.general').show();
+                $('.personal').show();
             }
         }
         else if(id == 2){
-            if($('.contact').is(':visible')){
-                $('.contact').hide()
+            if($('.education').is(':visible')){
+                $('.education').hide()
             }
             else{
-                $('.contact').show();
+                $('.education').show();
             }
         }
         else if(id == 3){
-            if($('.address').is(':visible')){
-                $('.address').hide()
+            if($('.training').is(':visible')){
+                $('.training').hide()
             }
             else{
-                $('.address').show();
+                $('.training').show();
             }
         }
         else if(id == 4){
-            if($('.payroll').is(':visible')){
-                $('.payroll').hide()
+            if($('.experience').is(':visible')){
+                $('.experience').hide()
             }
             else{
-                $('.payroll').show();
+                $('.experience').show();
             }
         }
         else if(id == 5){
-            if($('.others').is(':visible')){
-                $('.others').hide()
+            if($('.organization').is(':visible')){
+                $('.organization').hide()
             }
             else{
-                $('.others').show();
+                $('.organization').show();
             }
         }
     });
@@ -71,10 +71,12 @@ $(document).ready(function () {
     /////////////// ------------------ Add Employee Ajax Part Start ---------------- /////////////////////////////
     $(document).on('submit', '#AddEmployeeForm', function (e) {
         e.preventDefault();
+        let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let department = $('#department').attr('data-id');
         let designation = $('#designation').attr('data-id');
         let formData = new FormData(this);
+        formData.append('user', user === undefined ? '' : user);
         formData.append('department', department === undefined ? '' : department);
         formData.append('location', locations === undefined ? '' : locations);
         formData.append('designation', designation === undefined ? '' : designation);
@@ -93,6 +95,7 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     $('#AddEmployeeForm')[0].reset();
                     $('#name').focus();
+                    $('#user').removeAttr('data-id');
                     $('#location').removeAttr('data-id');
                     $('#department').removeAttr('data-id');
                     $('#designation').removeAttr('data-id');

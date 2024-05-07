@@ -10,6 +10,9 @@ use App\Models\Employee_Info;
 use App\Models\Location_Info;
 use App\Models\Department_Info;
 use App\Models\User_Info;
+use App\Models\EducationDetail;
+use App\Models\TrainingDetail;
+use App\Models\ExperienceDetail;
 use App\Models\Pay_Roll_Setup;
 use App\Models\Transaction_With;
 
@@ -511,10 +514,13 @@ class EmployeeController extends Controller
 
     //Show Employee Details
     public function ShowEmployeeDetails(Request $req){
-        $employee = User_Info::with('Designation','Department','Location','Withs')->where('id', "=", $req->id)->first();
-        $payroll = Pay_Roll_Setup::with('Head','Employee')->where('emp_id', $employee->user_id)->get();
+        $employee = User_Info::with('Designation','Department','Location','Withs','personalDetail','educationDetail','trainingDetail','experienceDetail','organizationDetail')->where('user_id', "=", $req->id)->first();
+        $education = EducationDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
+        $training = TrainingDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
+        $experience = ExperienceDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
+        // $payroll = Pay_Roll_Setup::with('Head','Employee')->where('emp_id', $employee->user_id)->get();
         return response()->json([
-            'data'=>view('employee.details', compact('employee','payroll'))->render(),
+            'data'=>view('employee.details', compact('employee','education','training','experience'))->render(),
         ]);
     }//End Method
 
@@ -560,8 +566,6 @@ class EmployeeController extends Controller
             "loc_id" => $req->location,
             "user_type" => 'employee',
             "tran_user_type" => $req->type,
-            "dept_id" => $req->department,
-            "designation_id" => $req->designation,
             "dob" => $req->dob,
             "nid" => $req->nid,
             "address" => $req->address,
