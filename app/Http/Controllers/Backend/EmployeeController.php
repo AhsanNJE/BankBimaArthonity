@@ -683,9 +683,9 @@ class EmployeeController extends Controller
         $education = EducationDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
         $training = TrainingDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
         $experience = ExperienceDetail::where('emp_id', $req->id)->orderBy('created_at','asc')->get();
-        // $payroll = Pay_Roll_Setup::with('Head','Employee')->where('emp_id', $employee->user_id)->get();
+        $payroll = Pay_Roll_Setup::with('Head','Employee')->where('emp_id', $employee->user_id)->get();
         return response()->json([
-            'data'=>view('employee.details', compact('employee','education','training','experience'))->render(),
+            'data'=>view('employee.details', compact('employee','education','training','experience','payroll'))->render(),
         ]);
     }//End Method
 
