@@ -1,19 +1,23 @@
 $(document).ready(function () {
     //get last transaction id by transaction type
     $(document).on('click', '.add', function (e) {
-        let type = "payment";
-        getTransactionId(type, '#tranId');
-        getTransactionWith(type, '#with')
+        let type = '2';
+        let method = 'Payment';
+        let user = "Supplier";
+        $('#with').focus();
+        // getTransactionId(type, method, '#tranId');
+        getTransactionWith(null, method, user, '#within')
     });
     
 
     // Search by Date Range
     $(document).on('change', '#startDate, #endDate', function(e){
         e.preventDefault();
-        let type = "payment";
+        let type = '2';
+        let method = 'Payment';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
-        searchPartyPayment(`/party/search/date`, {startDate:startDate, endDate:endDate, type:type})
+        searchPartyPayment(`/party/search/date`, {startDate:startDate, endDate:endDate, type:type, method:method}, '.party-payment')
     });
     
     
@@ -70,9 +74,10 @@ $(document).ready(function () {
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         formData.append('location', locations === undefined ? '' : locations);
-        formData.append('groupe', 4);
-        formData.append('head', 15);
-        formData.append('type', "payment");
+        formData.append('groupe', 2);
+        formData.append('head', 2);
+        formData.append('type', "2");
+        formData.append('method', "Payment");
         $.ajax({
             url: "/party/insert/party",
             method: 'POST',
@@ -88,7 +93,8 @@ $(document).ready(function () {
                     $('#AddPartyForm')[0].reset();
                     $('#location').removeAttr('data-id');
                     $('#user').removeAttr('data-id');
-                    $('.party').load(location.href + ' .party');
+                    $('.party-payment').load(location.href + ' .party-payment');
+                    $('#addTransaction').hide();
                     $('.due-grid tbody').html('');
                     toastr.success('Party Payment Added Successfully', 'Added!');
                 }
@@ -149,11 +155,12 @@ $(document).ready(function () {
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
-        let type = "payment";
+        let type = '2';
+        let method = 'Payment';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[1];
-        searchPartyPayment(`/party/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type});
+        searchPartyPayment(`/party/pagination?page=${page}`, {startDate:startDate, endDate:endDate, type:type, method:method}, '.party-payment');
     });
 
 
@@ -164,16 +171,14 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $(this).val();
-        let type = "payment";
+        let type = '2';
+        let method = 'Payment';
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            searchPartyPayment(`/party/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type})
+            searchPartyPayment(`/party/search/tranid`, {search:search, startDate:startDate, endDate:endDate, type:type, method:method}, '.party-payment')
         }
         if(searchOption == "2"){
-            searchPartyPayment(`/party/search/with`, {search:search, startDate:startDate, endDate:endDate, type:type})
-        }
-        if(searchOption == "3"){
-            searchPartyPayment(`/party/search/user`, {search:search, startDate:startDate, endDate:endDate, type:type})
+            searchPartyPayment(`/party/search/user`, {search:search, startDate:startDate, endDate:endDate, type:type, method:method}, '.party-payment')
         }
     });
 
@@ -189,57 +194,53 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $('#search').val();
-        let type = "payment";
+        let type = '2';
+        let method = 'Payment';
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[1];
         if(searchOption == "1"){
-            searchPartyPayment(`/party/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+            searchPartyPayment(`/party/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type, method:method}, '.party-payment')
         }
         if(searchOption == "2"){
-            searchPartyPayment(`/party/pagination/with?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
-        }
-        if(searchOption == "3"){
-            searchPartyPayment(`/party/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type})
+            searchPartyPayment(`/party/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, type:type, method:method}, '.party-payment')
         }
     });
 
 
 
-    //get last transaction id by transaction type function
-    function getTransactionId(type, targetElement) {
-        $.ajax({
-            url: "/party/get/tranid",
-            method: 'GET',
-            data: {type:type},
-            success: function (res) {
-                if(res.status === 'success'){
-                    $(targetElement).val(res.id);
-                }
-                else{
-                    $(targetElement).val(res.tran_id);
-                }
+    // // Get Last Transaction Id By Transaction Method And Type function
+    // function getTransactionId(type, method, targetElement) {
+    //     $.ajax({
+    //         url: "/transaction/get/tranid",
+    //         method: 'GET',
+    //         data: {method:method, type:type},
+    //         success: function (res) {
+    //             if(res.status === 'success'){
+    //                 $(targetElement).val(res.id);
+    //                 getTransactionGrid(res.tran_id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
+    //             }
+    //             else{
+    //                 $(targetElement).val(res.tran_id);
+    //             }
                 
-            }
-        });
-    }
+    //         }
+    //     });
+    // }
 
 
-    //get last transaction with by transaction type function
-    function getTransactionWith(type, targetElement) {
+    // get last transaction with by transaction type function
+    function getTransactionWith(type, method, user, targetElement) {
         $.ajax({
-            url: "/party/get/tranwith",
+            url: "/transaction/get/tranwith",
             method: 'GET',
-            data: { type: type },
+            data: { type: type, method:method, user:user },
             success: function (res) {
                 if (res.status === 'success') {
-                    // Create options dynamically
-                    $(targetElement).empty();
-                    $(targetElement).append(`<option value="" }>Select Transaction With</option>`);
+                    $(targetElement).html('');
                     $.each(res.tranwith, function (key, withs) {
-                        $(targetElement).append(`<option value="${withs.id}"}>${withs.tran_with_name}</option>`);
+                        $(targetElement).append(`<input type="checkbox" id="with[]" class="with-checkbox" name="with" value="${withs.id}" checked>`);
                     });
                 }
-
             }
         });
     }
@@ -247,20 +248,21 @@ $(document).ready(function () {
 
 
     // Search Party Payment Details
-    function searchPartyPayment(url, data) {
+    function searchPartyPayment(url, data, targetElement) {
         $.ajax({
             url: url,
             method: 'GET',
             data: data,
             success: function (res) {
                 if(res.status === 'success'){
-                    $('.party').html(res.data);
+                    console.log(res.data)
+                    $(targetElement).html(res.data);
                     if(res.paginate){
-                        $('.party').append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
+                        $(targetElement).append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
                     }
                 }
                 else{
-                    $('.party').html(`<span class="text-danger">Result not Found </span>`);
+                    $(targetElement).html(`<span class="text-danger">Result not Found </span>`);
                 }
             }
         });

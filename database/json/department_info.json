@@ -1,21 +1,8 @@
 [
-    {
-        "dept_name": "Acounts"
-    },
-    {
-        "dept_name": "Editor"
-    },
-    {
-        "dept_name": "Marketing"
-    },
-    {
-        "dept_name": "Worker"
-    },
-    {
-        "dept_name": "Reporter"
-    },
-    {
-        "dept_name": "Printing"
-    }
-    
+    { "dept_name": "Acounts" },
+    { "dept_name": "Editor" },
+    { "dept_name": "Marketing" },
+    { "dept_name": "Worker" },
+    { "dept_name": "Reporter" },
+    { "dept_name": "Printing" }
 ]

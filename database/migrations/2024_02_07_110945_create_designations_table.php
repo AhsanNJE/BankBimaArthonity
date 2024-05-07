@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('designation');
             $table->unsignedBigInteger('dept_id');
-            $table->foreign('dept_id')->references('id')->on('department__infos')
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
+
+            //Foreignkey Decleration
+            $table->foreign('dept_id')->references('id')->on('department__infos')
+                    ->onUpdate('cascade');
         });
     }
 

@@ -21,6 +21,7 @@ class TransactionGroupeSeeder extends Seeder
             Transaction_Groupe::create([
                 "tran_groupe_name"=>$groupe->tran_groupe_name,
                 "tran_groupe_type"=>$groupe->tran_groupe_type,
+                "tran_method"=>$groupe->tran_method,
             ]);
         });
     }

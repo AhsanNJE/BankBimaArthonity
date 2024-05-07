@@ -357,6 +357,9 @@ $(document).ready(function () {
         if(searchOption == "9"){
             loadEmployeeData(`/admin/employees/search/employees/designation`, {search:search}, '.employee')
         }
+        if(searchOption == "10"){
+            loadEmployeeData(`/admin/employees/search/employees/type`, {search:search}, '.employee')
+        }
     });
 
 
@@ -394,6 +397,9 @@ $(document).ready(function () {
         }
         else if(searchOption == "9"){
             loadEmployeeData(`/admin/employees/search/pagination/designation?page=${page}`, {search:search}, '.employee');
+        }
+        else if(searchOption == "10"){
+            loadEmployeeData(`/admin/employees/search/pagination/type?page=${page}`, {search:search}, '.employee');
         }
         
     });

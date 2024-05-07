@@ -7,10 +7,11 @@ $(document).ready(function () {
         e.preventDefault();
         let groupeName = $('#groupeName').val();
         let type = $('#type').val();
+        let method = $('#method').val();
         $.ajax({
             url: "/transaction/insert/groupes",
             method: 'POST',
-            data: { groupeName:groupeName, type:type },
+            data: { groupeName:groupeName, type:type, method:method },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -46,13 +47,20 @@ $(document).ready(function () {
             success: function (res) {
                 $('#id').val(id);
                 $('#updateGroupeName').val(res.groupes.tran_groupe_name);
-                $('#updateType').empty();
-                $('#updateType').append(`<option value="" >Select Transaction With</option>
-                                        <option value="Receive" ${res.groupes.tran_groupe_type === 'Receive' ? 'selected' : ''}>Receive</option>
-                                        <option value="Payment" ${res.groupes.tran_groupe_type === 'Payment' ? 'selected' : ''}>Payment</option>
-                                        <option value="Invoice" ${res.groupes.tran_groupe_type === 'Invoice' ? 'selected' : ''}>Invoice</option>
-                                        <option value="Both" ${res.groupes.tran_groupe_type === 'Both' ? 'selected' : ''}>Both</option>`);
+                $('#updateType').html('');
+                $('#updateType').append(`<option value="" >Select Transaction Type</option>`);
+                $.each(res.types, function (key, type) {
+                    $('#updateType').append(`<option value="${type.id}" ${res.groupes.tran_groupe_type == type.id ? 'selected' : ''}>${type.type_name}</option>`);
+                });
+
+
+                $('#updateMethod').empty();
+                $('#updateMethod').append(`<option value="" >Select Transaction Method</option>
+                                         <option value="Receive" ${res.groupes.tran_method === 'Receive' ? 'selected' : ''}>Receive</option>
+                                         <option value="Payment" ${res.groupes.tran_method === 'Payment' ? 'selected' : ''}>Payment</option>
+                                         <option value="Both" ${res.groupes.tran_method === 'Both' ? 'selected' : ''}>Both</option>`);
                 
+
                 $('#updateGroupeName').focus();
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -71,10 +79,11 @@ $(document).ready(function () {
         let id = $('#id').val();
         let groupeName = $('#updateGroupeName').val();
         let type = $('#updateType').val();
+        let method = $('#updateMethod').val();
         $.ajax({
             url: `/transaction/update/groupes`,
             method: 'PUT',
-            data: { groupeName: groupeName, type:type, id:id },
+            data: { groupeName: groupeName, type:type, method:method, id:id },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -157,11 +166,22 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
-    $(document).on('keyup', '#search', function (e) {
+    $(document).on('click keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
-        loadTransactionGroupeData(`/transaction/search/groupes`, {search:search}, '.groupe')
+        let method = $('#methods').val();
+        let type = $('#types').val();
+        loadTransactionGroupeData(`/transaction/search/groupes`, {search:search, method:method, type:type}, '.groupe')
     });
+
+    $(document).on('change', '#methods, #types', function (e) {
+        e.preventDefault();
+        let search = $('#search').val();
+        let method = $('#methods').val();
+        let type = $('#types').val();
+        loadTransactionGroupeData(`/transaction/search/groupes`, {search:search, method:method, type:type}, '.groupe')
+    });
+    /////////////// ------------------ Search ajax part End ---------------- /////////////////////////////
 
 
 
@@ -171,7 +191,9 @@ $(document).ready(function () {
         $('.paginate').addClass('hidden');
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
-        loadTransactionGroupeData(`/transaction/groupes/search/pagination?page=${page}`, {search:search}, '.groupe');
+        let method = $('#methods').val();
+        let type = $('#types').val();
+        loadTransactionGroupeData(`/transaction/groupes/search/pagination?page=${page}`, {search:search, method:method, type:type}, '.groupe');
     });
 
 

@@ -331,5 +331,44 @@ class SupplierController extends Controller
         
     }//End Method
 
+
+
+    //Search Supplier by Type
+    public function SearchSupplierByType(Request $request){
+        if($request->search != ""){
+            $supplier = User_Info::with('Withs')
+            ->whereHas('Withs', function ($query) use ($request) {
+                $query->where('tran_with_name', 'like', '%'.$request->search.'%');
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->where('user_type','supplier')
+            ->paginate(15);
+        }
+        else{
+            $supplier = User_Info::with('Withs')
+            ->whereHas('Withs', function ($query) use ($request) {
+                $query->orderBy('tran_with_name','asc');
+            })
+            ->where('user_type','supplier')
+            ->paginate(15);
+        }
+        
+
+        $paginationHtml = $supplier->links()->toHtml();
+        
+        if($supplier->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('supplier.searchSupplier', compact('supplier'))->render(),
+                'paginate' => $paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
     /////////////////////////// --------------- Suppliers Methods start---------- //////////////////////////
 }

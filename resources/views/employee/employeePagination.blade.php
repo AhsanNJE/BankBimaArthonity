@@ -5,6 +5,7 @@
             <th>SL:</th>
             <th>Id</th>
             <th>Name</th>
+            <th>Employee Type</th>
             <th>DOB</th>
             <th>Gender</th>
             <th>Email</th>
@@ -20,6 +21,7 @@
                 <td>{{ $employee->firstItem() + $key }}</td>
                 <td>{{ $item->user_id }}</td>
                 <td>{{ $item->user_name }}</td>
+                <td>{{ $item->Withs->tran_with_name }}</td>
                 <td>{{ $item->dob }}</td>
                 <td>{{ $item->gender }}</td>
                 <td>{{ $item->user_email }}</td>

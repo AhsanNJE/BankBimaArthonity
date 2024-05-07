@@ -23,6 +23,7 @@
 
         <!-- Sidebar Menu -->
 
+
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
@@ -62,30 +63,31 @@
                     </ul>
                 </li>
 
+
                 <!-- Transaction With Bank -->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            TRANSACTION WITH BANK
-                            <i class="fas fa-angle-left right"></i>
+                            TRANSACTION WITH BANK<i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('show.bank.withdraws')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Withdraw from Bank</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('show.bank.deposits')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Deposit to Bank</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
 
                 <!-- Party Payments -->
                 <li class="nav-item">
@@ -112,14 +114,13 @@
                     </ul>
                 </li>
 
-
+                <!-- HR & PAYROLL -->
                 <li class="nav-item">
                     <a href="javascript:void(0)" class="nav-link">
                         <i class="fa-solid fa-house"></i>
                         <p>HR & PAYROLL</p>
                         <i class="fas fa-angle-left right"></i>
                     </a>
-                    
                     <ul class="nav nav-treeview">
                         <!-- EMPLOYEE -->
                         <li class="nav-item">
@@ -130,44 +131,29 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add New</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Educaton</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Experience</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{route('show.employees')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Employee</p>
+                                        <p>View Employee Details</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{route('show.personalinfo')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Personal Details</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('show.educationinfo')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Education Details</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('show.traininginfo')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Training Details</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{route('show.experienceinfo')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Experience Details</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{route('show.organizationinfo')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Organization Details</p>
-                                    </a>
-                                </li>
-
                                 <li class="nav-item">
                                     <a href="{{ route('employee.attend.list') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -177,7 +163,7 @@
                                 <!-- Add more submenu items as needed -->
                             </ul>
                         </li>
-
+                        <!-- PAYROLL -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-envelope"></i>
@@ -203,27 +189,13 @@
                                         <p>Payroll / Salary Payment</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>SALARY GENERATION</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>VIEW SALARY</p>
-                                    </a>
-                                </li>
-                                <!-- Add more submenu items as needed -->
                             </ul>
                         </li>
-
-              
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-envelope"></i>
                                 <p>
                                     Department
-                                    <!-- <i class="fas fa-angle-left right"></i> -->
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
@@ -387,7 +359,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('show.banks')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All Banks</p>
                             </a>
@@ -417,19 +389,19 @@
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            Main Head
-                            <i class="fas fa-angle-left right"></i>
+                            Main Head <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('show.transaction.types')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Main Head</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
 
 
                 <li class="nav-item">
@@ -469,6 +441,7 @@
                 </li>
 
 
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-pen-to-square"></i>
@@ -479,7 +452,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('show.tranwithgroupe')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All Tran With Groupe</p>
                             </a>
@@ -509,8 +482,13 @@
 
                 <hr>
 
+
+
+                <hr>
+
             </ul>
         </nav>
+
 
         <!-- /.sidebar-menu -->
     </div>

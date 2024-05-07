@@ -9,16 +9,12 @@
 
 <div id="editEmployee" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Edit Employee</h3>
-            <span class="close-modal" data-modal-id="editEmployee">&times;</span>
-        </div>
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Edit Employee</h3>
+                        <span class="close-modal" data-modal-id="editEmployee">&times;</span>
                     </div>
                 </div>
                 

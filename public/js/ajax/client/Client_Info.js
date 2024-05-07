@@ -269,6 +269,9 @@ $(document).ready(function () {
         else if(searchOption == '5'){
             loadClientData(`/search/client/address`, {search:search}, '.client')
         }
+        else if(searchOption == '6'){
+            loadClientData(`/search/client/type`, {search:search}, '.client')
+        }
     });
 
 
@@ -294,6 +297,9 @@ $(document).ready(function () {
         }
         else if(searchOption == '5'){
             loadClientData(`/client/address/pagination?page=${page}`, {search:search}, '.client')
+        }
+        else if(searchOption == '6'){
+            loadClientData(`/client/type/pagination?page=${page}`, {search:search}, '.client')
         }
     });
 
