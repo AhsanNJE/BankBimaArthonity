@@ -11,7 +11,7 @@
                 <span class="name"> {{$item->user->user_name}} </span><br>
             </div>   
         </div>
-        <ul>
+        
         
         <div class="details-table" style="">
             <div class="row each-row">

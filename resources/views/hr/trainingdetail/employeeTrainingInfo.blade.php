@@ -67,7 +67,7 @@
                 <div class="col-md-4">@isset($item->country)
                                         {{ $item->country }}
                                     @else
-                                        No country available
+                                        Country unavailable
                                     @endisset</div>
             </div>
             <div class="row each-row">
@@ -81,13 +81,13 @@
                 <div class="col-md-4">@isset($item->start_date)
                                         {{ $item->start_date }}
                                     @else
-                                        No start date available
+                                        Start date unavailable
                                     @endisset</div>
                 <div class="col-md-2 bold">End Date</div>
                 <div class="col-md-4">@isset($item->end_date)
                                         {{ $item->end_date }}
                                     @else
-                                        No end date available
+                                        End date unavailable
                                     @endisset</div>
             </div>
             <div class="row each-row">

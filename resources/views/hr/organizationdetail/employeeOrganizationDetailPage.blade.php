@@ -39,7 +39,7 @@
                         data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
                     <button class="btn btn-info btn-sm open-modal editOrganization" data-modal-id="editOrganization"
                         data-id="{{ $item->user_id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->emp_id }}" id="deleteOrganization"><i
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="deleteOrganization"><i
                             class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>

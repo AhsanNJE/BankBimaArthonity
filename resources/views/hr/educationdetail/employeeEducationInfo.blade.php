@@ -75,7 +75,7 @@
                 <div class="col-md-4">@isset($item->group)
                                         {{ $item->group }}
                                     @else
-                                        No group available
+                                         Group unavailable
                                     @endisset</div>
                 <div class="col-md-2 bold">Institution Name</div> 
                 <div class="col-md-4">{{ $item->institution_name }}</div>
@@ -85,13 +85,13 @@
                 <div class="col-md-4">@isset($item->result)
                                         {{ $item->result }}
                                     @else
-                                        No result available
+                                        Result unavailable
                                     @endisset</div>
                 <div class="col-md-2 bold">Scale</div> 
                 <div class="col-md-4">@isset($item->scale)
                                         {{ $item->scale }}
                                     @else
-                                        No scale available
+                                        Scale unavailable
                                     @endisset</div>
             </div>
             <div class="row each-row">
@@ -101,7 +101,7 @@
                 <div class="col-md-4">@isset($item->batch)
                                         {{ $item->batch }}
                                     @else
-                                        No batch available
+                                        Batch unavailable
                                     @endisset</div>
             </div>
             <div class="row each-row">

@@ -86,21 +86,37 @@
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">Group</div>
-                    <div class="col-md-4">{{$employees->group}}</div>
+                    <div class="col-md-4">@isset($item->group)
+                                            {{ $item->group }}
+                                        @else
+                                            Group unavailable
+                                        @endisset</div>
                     <div class="col-md-2 bold">Institution Name</div>
                     <div class="col-md-4">{{$employees->institution_name}}</div>
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">Result</div>
-                    <div class="col-md-4">{{$employees->result}}</div>
+                    <div class="col-md-4">@isset($item->result)
+                                            {{ $item->result }}
+                                        @else
+                                            Result unavailable
+                                        @endisset</div>
                     <div class="col-md-2 bold">Scale</div>
-                    <div class="col-md-4">{{$employees->scale}}</div>
+                    <div class="col-md-4">@isset($item->scale)
+                                            {{ $item->scale }}
+                                        @else
+                                            Scale unavailable
+                                        @endisset</div>
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">CGPA</div>
                     <div class="col-md-4">{{$employees->cgpa}}</div>
                     <div class="col-md-2 bold">Batch</div>
-                    <div class="col-md-4">{{$employees->batch}}</div>
+                    <div class="col-md-4">@isset($item->batch)
+                                            {{ $item->batch }}
+                                        @else
+                                            Batch unavailable
+                                        @endisset</div>
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">Passing Year</div>
@@ -130,7 +146,11 @@
                     <div class="col-md-2 bold">Training Title</div>
                     <div class="col-md-4">{{$employees->training_title}}</div>
                     <div class="col-md-2 bold">Country</div>
-                    <div class="col-md-4">{{$employees->country}}</div>
+                    <div class="col-md-4">@isset($item->country)
+                                            {{ $item->country }}
+                                        @else
+                                            Country unavailable
+                                        @endisset</div>
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">Topic</div>
@@ -140,9 +160,17 @@
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">Start Date</div>
-                    <div class="col-md-4">{{$employees->start_date}}</div>
+                    <div class="col-md-4">@isset($item->start_date)
+                                            {{ $item->start_date }}
+                                        @else
+                                            Start date unavailable
+                                        @endisset</div>
                     <div class="col-md-2 bold">End Date</div>
-                    <div class="col-md-4">{{$employees->end_date}}</div>
+                    <div class="col-md-4">@isset($item->end_date)
+                                            {{ $item->end_date }}
+                                        @else
+                                            End date unavailable
+                                        @endisset</div>
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">Training Year</div>
@@ -177,13 +205,21 @@
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">Start Date</div>
-                    <div class="col-md-4">{{$employees->start_date}}</div>
+                    <div class="col-md-4">@isset($item->start_date)
+                                        {{ $item->start_date }}
+                                    @else
+                                        Start date unavailable
+                                    @endisset</div>
                     <div class="col-md-2 bold">End Date</div>
-                    <div class="col-md-4">{{$employees->end_date}}</div>
+                    <div class="col-md-4">@isset($item->end_date)
+                                        {{ $item->end_date }}
+                                    @else
+                                        End date unavailable
+                                    @endisset</div>
                 </div>
                 <div class="row each-row"> 
                     <div class="col-md-2 bold">Department</div>
-                    <div class="col-md-4">{{$employees->dept_name}}</div>
+                    <div class="col-md-4">{{$employees->department}}</div>
                     <div class="col-md-2 bold">Company Location</div>
                     <div class="col-md-4">{{$employees->company_location}}</div>
                 </div>

@@ -1628,7 +1628,7 @@ class InfoController extends Controller
             'designation' => 'required',
         ]);
 
-        //Insert Employee Joining Details
+        //Insert Employee Organization Details
         OrganizationDetail::insert([
             'emp_id' =>  $request->user,
             "joining_date" => $request->joining_date,
