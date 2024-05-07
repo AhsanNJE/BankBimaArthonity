@@ -25,7 +25,7 @@ class InfoController extends Controller
     //Personal Detail View Show
     public function ShowEmployeesPersonal(){
 
-        return view('hr.personaldetail.addPersonalDetail.');
+        return view('hr.personaldetail.addPersonalDetail');
 
     } // End Method 
 
@@ -1645,14 +1645,14 @@ class InfoController extends Controller
     
 
     public function ShowEmployeesOrganizationInfo(Request $request){
-        $employee = User_Info::where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
+        $employee = User_Info::with('organizationDetail')->where('user_type','employee')->orderBy('added_at','asc')->paginate(15);
         $tranwith = Transaction_With::where('user_type','Employee')->get();
         return view('hr.organizationdetail.employeeOrganizationDetails', compact('employee','tranwith'));
-        
     }
 
+
     public function EmployeesOrganizationInfo(Request $request){
-        $employeeorganization = OrganizationDetail::with('personalDetail')->where('emp_id', $request->id)->get();
+        $employeeorganization = OrganizationDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
         return response()->json([
             'data'=>view('hr.organizationdetail.employeeOrganizationInfo', compact('employeeorganization'))->render(),
         ]);

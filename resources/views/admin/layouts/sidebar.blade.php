@@ -133,25 +133,37 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add New</p>
+                                        <p>All Employee</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('show.personalinfo') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Educaton</p>
+                                        <p>Add Personal Details</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('show.educationinfo') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Experience</p>
+                                        <p>Add Education Details</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('show.employees')}}" class="nav-link">
+                                    <a href="{{ route('show.traininginfo') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>View Employee Details</p>
+                                        <p>Add Training Details</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('show.experienceinfo') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Experience Details</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('show.organizationinfo') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Organization Details</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
