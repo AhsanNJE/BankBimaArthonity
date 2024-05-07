@@ -11,8 +11,6 @@
 }
 
 
-
-
 .center {
     display: flex;
     align-items: center;
@@ -79,8 +77,6 @@
 
 
 
-
-
 /* -------------------------------------- Table custom design starts --------------------------------------------------- */
 .show-table {
     font-family: arial, sans-serif;
@@ -118,7 +114,6 @@
     text-align: right !important;
     letter-spacing: 0.02em;
 }
-
 
 thead tr{
     background: #20c997;
@@ -366,7 +361,11 @@ div[id$="-list"] li:focus, div[id^="update-"] li:focus {
 }
 
 
-.details ul li{
+.details ul li,
+.employeeeducationdetails ul li, 
+.employeetrainingdetails ul li, 
+.employeeexperiencedetails ul li, 
+.employeeorganizationdetails ul li{
     margin-bottom: 1px;
     list-style: none;
     background-color: #04f8c1;
@@ -386,8 +385,6 @@ div[id$="-list"] li:focus, div[id^="update-"] li:focus {
     margin: 20px 0;
 }
 
-
-
 .icon-center{
     font-size: 120px;
     margin-top: 20px;
@@ -395,4 +392,67 @@ div[id$="-list"] li:focus, div[id^="update-"] li:focus {
 }
 
 
+.add-search .row {
+    justify-content: center; /* This will center the row's contents horizontally */
+}
 
+.search {
+    display: flex;
+    justify-content: center; /* This centers the children of the 'search' div */
+    flex-wrap: wrap; /* Allows elements to wrap into the next line if needed */
+}
+
+
+/* ---------------------------------- HR Employee Design -------------------------------------------------*/
+
+div.col-md-4 label {
+    font-size: 16px;
+    font-weight: normal;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-md-4 {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.col-md-4 label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.col-md-4 input,
+.col-md-4 select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.col-md-4 input[type="file"] {
+    padding: 4px;
+}
+
+/* Add a class to style the hide button */
+.hideButton {
+    background-color: red;
+    color: white;
+}
+
+.dropdown-caret {
+    /* transform: rotate(90deg);
+    transition: transform 0.3s ease; Optional: Add a transition effect */
+    transition: transform 0.3s ease; /* Add a transition effect */
+}
+
+.rotate {
+    transform: rotate(90deg);
+}
