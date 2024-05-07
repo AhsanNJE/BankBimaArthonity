@@ -25,7 +25,7 @@ $(document).ready(function () {
         let tranId = $('#tranId').val();
         let method = 'Payment';
         let type = '4';
-        let withs = $('#with').val();
+        let withs = $('#user').attr('data-with');
         let user = $('#user').attr('data-id');
         let locations = $('#location').attr('data-id');
         let amountRP = $('#amount').val();

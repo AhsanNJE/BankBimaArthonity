@@ -80,20 +80,6 @@ class PayRollController extends Controller
 
 
 
-    // //Get Payroll Setup By User iD
-    // public function GetPayrollSetupByUserId(Request $req){
-    //     $setup = Pay_Roll_Setup::with('Head')
-    //     ->where('emp_id', $req->id)
-    //     ->get();
-
-    //     return response()->json([
-    //         'status'=> 'success',
-    //         'data'=> view('payroll.payroll_setup.details',compact('setup'))->render(),
-    //     ]); 
-    // }
-
-
-
     // Get Payroll By User
     public function GetPayrollByUserId(Request $req){
         $currentYear = Carbon::now()->year; // Get the current date in 'Y-m-d' format
@@ -127,6 +113,7 @@ class PayRollController extends Controller
             'data'=> view('payroll.details',compact('payrolls'))->render(),
         ]); 
     } // End Method 
+
 
 
 
@@ -269,24 +256,9 @@ class PayRollController extends Controller
 
 
 
-    // //Get Payroll Middlewire By User iD
-    // public function GetPayrollMiddlewireByUserId(Request $req){
-    //     $middlewire = Pay_Roll_Middlewire::with('Head')
-    //     ->where('emp_id', $req->id)
-    //     ->get();
-
-    //     return response()->json([
-    //         'status'=> 'success',
-    //         'data'=> view('payroll.payroll_middlewire.details',compact('middlewire'))->render(),
-    //     ]); 
-    // }
-
-
-
     // Add Payroll Middlewire
     public function AddPayrollMiddlewire(Request $req){
         $req->validate([
-            "with" => 'required',
             "user" => 'required',
             "head" => 'required',
             "amount" => 'required',
@@ -429,6 +401,48 @@ class PayRollController extends Controller
     } // End Method 
 
 
+
+    // Get Payroll By User And Date
+    public function GetPayrollByUserIdAndDate(Request $req){
+        $currentYear = $req->year; // Get the current date in 'Y-m-d' format
+        $currentMonth = $req->month;
+        $payrolls = Pay_Roll_Setup::with('Employee')->select(
+            'emp_id',
+            'head_id',
+            'amount',
+            \DB::raw('0 as date'),
+        )
+        ->where('emp_id', $req->id)
+        ->union(
+            Pay_Roll_Middlewire::select(
+                'emp_id',
+                'head_id',
+                'amount',
+                'date',
+            )
+            ->where('emp_id', $req->id)
+            ->where(function ($query) use ($currentYear, $currentMonth) {
+                $query->whereYear('date', $currentYear)
+                    ->whereMonth('date', $currentMonth)
+                    ->orWhereNull('date');
+            })
+        )
+        ->orderBy('emp_id')
+        ->get();
+        
+        $heads = Transaction_Head::where('groupe_id','1')->get();
+        return response()->json([
+            'status'=> 'success',
+            'data'=> view('payroll.details',compact('payrolls'))->render(),
+            'payrolls'=> $payrolls,
+            'heads' => $heads
+        ]); 
+    } // End Method 
+
+
+
+
+
     // Add Payroll / Process Payroll
     public function AddPayroll(Request $req){
         $employees = User_Info::select('user_id','user_name','tran_user_type')->where('user_type','employee')->orderBy('added_at','asc')->get();
@@ -498,20 +512,38 @@ class PayRollController extends Controller
 
     // Search Payroll by user
     public function SearchPayroll(Request $req){
-        $payroll = Pay_Roll_Setup::with($req->searchOption == 1 ? 'Employee' : 'Head')
-        ->whereHas($req->searchOption == 1 ? 'Employee' : 'Head', function ($query) use ($req) {
-            $query->where($req->searchOption == 1 ? 'user_name' : 'tran_head_name', 'like', '%'.$req->search.'%');
-            $query->orderby($req->searchOption == 1 ? 'user_name' : 'tran_head_name');
+        $currentYear = $req->year;
+        $currentMonth = $req->month;
+        $payroll = Pay_Roll_Setup::with('Employee')
+        ->whereHas('Employee', function ($query) use ($req) {
+            $query->where('user_name', 'like', '%'.$req->search.'%');
+            $query->orWhere('user_id', 'like', '%'.$req->search.'%');
         })
-        ->paginate(15);
+        ->select('emp_id', 'amount', \DB::raw('NULL as date')) 
+        ->unionall(
+            Pay_Roll_Middlewire::select('emp_id', 'amount', 'date')
+                ->whereYear('date', $currentYear)
+                ->whereMonth('date', $currentMonth)
+                ->orWhereNull('date')
+        )
+        ->orderBy('emp_id')
+        ->get()
+        ->groupBy('emp_id')
+        ->map(function ($group) {
+            return [
+                'emp_id' => $group->first()->emp_id,
+                'emp_name' => $group->first()->employee->user_name,
+                'salary' => $group->sum('amount')
+            ];
+        })
+        ->values();
 
-        $paginationHtml = $payroll->links()->toHtml();
+
 
         if($payroll->count() > 0){
             return response()->json([
                 'status' => 'success',
-                'data' => view('payroll.payroll_setup.search', compact('payroll'))->render(),
-                'paginate' =>$paginationHtml
+                'data' => view('payroll.payroll_installment.search',compact('payroll'))->render(),
             ]);
         }
         else{

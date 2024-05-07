@@ -507,6 +507,7 @@ Route::controller(PayRollController::class)->group(function(){
     // payroll search and pagination routes
     Route::get('/payroll/pagination', 'PayrollPagination');
     Route::get('/payroll/get/user', 'GetPayrollByUserId');
+    Route::get('/payroll/get/user/date', 'GetPayrollByUserIdAndDate');
     Route::get('/search/payroll', 'SearchPayroll');
 });
 

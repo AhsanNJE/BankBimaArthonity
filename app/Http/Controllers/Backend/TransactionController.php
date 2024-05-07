@@ -604,7 +604,7 @@ class TransactionController extends Controller
             if($heads->count() > 0){
                 $list = "";
                 foreach($heads as $index => $head) {
-                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$head->id.'">'.$head->tran_head_name.'</li>';
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">'.$head->tran_head_name.'</li>';
                 }
             }
             else{
@@ -623,7 +623,7 @@ class TransactionController extends Controller
             if($heads->count() > 0){
                 $list = "";
                 foreach($heads as $index => $head) {
-                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$head->id.'">'.$head->tran_head_name.'</li>';
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">'.$head->tran_head_name.'</li>';
                 }
             }
             else{
@@ -835,7 +835,7 @@ class TransactionController extends Controller
             if($users->count() > 0){
                 $list = "";
                 foreach($users as $index => $user) {
-                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$user->user_id.'">'.$user->user_name.'</li>';
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$user->user_id.'"  data-with="'.$user->tran_user_type.'">'.$user->user_name.'</li>';
                 }
             }
             else{
@@ -854,7 +854,7 @@ class TransactionController extends Controller
             if($users->count() > 0){
                 $list = "";
                 foreach($users as $index => $user) {
-                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$user->user_id.'">'.$user->user_name.'</li>';
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$user->user_id.'" data-with="'.$user->tran_user_type.'">'.$user->user_name.'</li>';
                 }
             }
             else{
@@ -912,9 +912,9 @@ class TransactionController extends Controller
             "method" => 'required',
             "location" => 'required|numeric',
             "type" => 'required',
-            // "groupe" => 'required',
+            "groupe" => 'required',
             "head" => 'required',
-            // "with" => 'required',
+            "with" => 'required',
             "user" => 'required',
             "amount" => 'required',
             "quantity" => 'required',
@@ -926,9 +926,9 @@ class TransactionController extends Controller
             "loc_id" => $req->location,
             "tran_type" => $req->type,
             "tran_method" => $req->method,
-            // "tran_groupe_id" => $req->groupe,
+            "tran_groupe_id" => $req->groupe,
             "tran_head_id" => $req->head,
-            // "tran_type_with" => $req->with,
+            "tran_type_with" => $req->with,
             "tran_user" => $req->user,
             "amount" => $req->amount,
             "quantity" => $req->quantity,
@@ -948,7 +948,7 @@ class TransactionController extends Controller
             "tranId" => 'required|unique:transaction__mains,tran_id',
             "method" => 'required',
             "type" => 'required',
-            // "withs" => 'required',
+            "withs" => 'required',
             "user" => 'required',
             "locations" => 'required',
             "amountRP" => 'required',
@@ -972,7 +972,7 @@ class TransactionController extends Controller
             "tran_id" => $req->tranId,
             "tran_type" => $req->type,
             "tran_method" => $req->method,
-            // "tran_type_with" => $req->withs,
+            "tran_type_with" => $req->withs,
             "tran_user" => $req->user,
             "loc_id" => $req->locations,
             "bill_amount" => $req->amountRP,

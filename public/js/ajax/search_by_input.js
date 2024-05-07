@@ -689,8 +689,10 @@ $(document).ready(function () {
     $(document).on('click', '#user-list li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
+        let withs = $(this).data('with');
         $('#user').val(value);
         $('#user').attr('data-id', id);
+        $('#user').attr('data-with', withs);
         $('#user-list ul').html('');
         getDueListByUserId(id, '.due-grid tbody');
         getPayrollByUserId(id, '.payroll-grid tbody');
@@ -779,8 +781,10 @@ $(document).ready(function () {
     $(document).on('click', '#update-user li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
+        let withs = $(this).data('with');
         $('#updateUser').val(value);
         $('#updateUser').attr('data-id', id);
+        $('#updateUser').attr('data-with', withs);
         $('#update-user ul').html('');
         getDueListByUserId(id, '.due-grid tbody');
     });
@@ -832,6 +836,7 @@ $(document).ready(function () {
         else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
             //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
             $(targetElement1).removeAttr('data-id');
+            $(targetElement1).removeAttr('data-with');
             getTransactionUser(tranUserType, within, tranUser, targetElement2);
         }
         else if (e.keyCode === 9) { // Tab key
@@ -840,6 +845,7 @@ $(document).ready(function () {
             }
             else{
                 $(targetElement1).removeAttr('data-id');
+                $(targetElement1).removeAttr('data-with');
                 getTransactionUser(tranUserType, within, tranUser, targetElement2);
             }
         }
@@ -855,12 +861,14 @@ $(document).ready(function () {
                 list.first().focus();
                 $(targetElement1).val(list.first().text());
                 $(targetElement1).attr("data-id", list.data('id'));
+                $(targetElement1).attr("data-with", list.data('with'));
             } 
             else if (e.keyCode === 38) { // Up arrow key
                 e.preventDefault();
                 list.last().focus();
                 $(targetElement1).val(list.last().text());
                 $(targetElement1).attr("data-id", list.data('id'));
+                $(targetElement1).attr("data-with", list.data('with'));
             } 
             else if (e.keyCode === 13) { // Enter key
                 e.preventDefault();
@@ -884,6 +892,7 @@ $(document).ready(function () {
             list.eq(nextIndex).focus();
             $(targetElement1).val(list.eq(nextIndex).text());
             $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+            $(targetElement1).attr("data-with", list.eq(nextIndex).data('with'));
         } 
         else if (e.keyCode === 38) { // Up arrow key
             e.preventDefault();
@@ -894,6 +903,7 @@ $(document).ready(function () {
             list.eq(prevIndex).focus();
             $(targetElement1).val(list.eq(prevIndex).text());
             $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+            $(targetElement1).attr("data-with", list.eq(nextIndex).data('with'));
         } 
         else if (e.keyCode === 13) { // Enter key
             e.preventDefault();
@@ -1046,8 +1056,10 @@ $(document).ready(function () {
     $(document).on('click', '#head-list li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
+        let groupe = $(this).data('groupe');
         $('#head').val(value);
         $('#head').attr('data-id', id);
+        $('#head').attr('data-groupe', groupe);
         $('#head-list ul').html('');
     });
 
@@ -1132,8 +1144,10 @@ $(document).ready(function () {
     $(document).on('click', '#update-head li', function () {
         let value = $(this).text();
         let id = $(this).data('id');
+        let groupe = $(this).data('groupe');
         $('#updateHead').val(value);
         $('#updateHead').attr('data-id', id);
+        $('#updateHead').attr('data-groupe', groupe);
         $('#update-head ul').html('');
     });
 
@@ -1147,6 +1161,7 @@ $(document).ready(function () {
         else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
             //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
             $(targetElement1).removeAttr('data-id');
+            $(targetElement1).removeAttr('data-groupe');
             getHeadByGroupe(groupe, groupein, head,  targetElement2);
         }
         else if (e.keyCode === 9) { // Tab key
@@ -1155,6 +1170,7 @@ $(document).ready(function () {
             }
             else{
                 $(targetElement1).removeAttr('data-id');
+                $(targetElement1).removeAttr('data-groupe');
                 getHeadByGroupe(groupe, groupein, head,  targetElement2);
             }
         }
@@ -1169,12 +1185,14 @@ $(document).ready(function () {
                 list.first().focus();
                 $(targetElement1).val(list.first().text());
                 $(targetElement1).attr("data-id", list.data('id'));
+                $(targetElement1).attr("data-groupe", list.data('groupe'));
             } 
             else if (e.keyCode === 38) { // Up arrow key
                 e.preventDefault();
                 list.last().focus();
                 $(targetElement1).val(list.last().text());
                 $(targetElement1).attr("data-id", list.data('id'));
+                $(targetElement1).attr("data-groupe", list.data('groupe'));
             } 
             else if (e.keyCode === 13) { // Enter key
                 e.preventDefault();
@@ -1197,6 +1215,7 @@ $(document).ready(function () {
             list.eq(nextIndex).focus();
             $(targetElement1).val(list.eq(nextIndex).text());
             $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+            $(targetElement1).attr("data-groupe", list.eq(nextIndex).data('groupe'));
         } 
         else if (e.keyCode === 38) { // Up arrow key
             e.preventDefault();
@@ -1207,6 +1226,7 @@ $(document).ready(function () {
             list.eq(prevIndex).focus();
             $(targetElement1).val(list.eq(prevIndex).text());
             $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+            $(targetElement1).attr("data-groupe", list.eq(prevIndex).data('groupe'));
         } 
         else if (e.keyCode === 13) { // Enter key
             e.preventDefault();

@@ -1,13 +1,27 @@
-<div id="editPayroll" class="modal-container">
+<div id="showPayrollDetails" class="modal-container">
     <div class="modal-subject">
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Edit Payroll</h3>
-                        <span class="close-modal" data-modal-id="editPayroll">&times;</span>
+                        <h3 class="card-title">Payroll Details</h3>
+                        <span class="close-modal" data-modal-id="showPayrollDetails">&times;</span>
                     </div>
                 </div>
+                <table class="show-table payroll-grid">
+                    <thead>
+                        <tr>
+                            <th>Sl:</th>
+                            <th>Payroll Category</th>
+                            <th>Amount</th>
+                            <th>Month</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
                 <!-- form start -->
                 <form id="EditPayrollForm" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -16,36 +30,23 @@
                         <div class="card-body">
                             <input type="hidden" name="id" id="id">
                             <div class="form-group">
-                                <label for="updateWith">Employee Type</label>
-                                <select name="with" id="updateWith">
-                                    <option value="">Select employee Type</option>
-                                </select>
-                                <span class="text-danger error" id="update_with_error"></span>
+                                <label for="employee">Employee Name</label>
+                                <input type="text" name="user" class="form-control" id="employee" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="updateUser">Employee Name</label>
-                                <input type="text" name="user" class="form-control" id="updateUser">
-                                <div id="update-user">
-                                    <ul>
-
-                                    </ul>
-                                </div>
-                                <span class="text-danger error" id="update_user_error"></span>
-                            </div>
-                            <div class="form-group">
-                                <label for="updateHead">Payroll Category</label>
-                                <select name="head" id="updateHead">
+                                <label for="head">Payroll Category</label>
+                                <select name="head" id="head">
                                     <option value="">Select Payroll Category</option>
                                 </select>
-                                <span class="text-danger error" id="update_head_error"></span>
+                                <span class="text-danger error" id="head_error"></span>
                             </div>
                             <div class="form-group">
-                                <label for="updateAmount">Amount</label>
-                                <input type="text" name="amount" class="form-control" id="updateAmount">
-                                <span class="text-danger error" id="update_amount_error"></span>
+                                <label for="amount">Amount</label>
+                                <input type="text" name="amount" class="form-control" id="amount">
+                                <span class="text-danger error" id="amount_error"></span>
                             </div>
                             <div class="center">
-                                <button type="submit" class="btn btn-primary" id="UpdatePayroll">Submit</button>
+                                <button type="submit" class="btn btn-primary" id="EditPayroll">Submit</button>
                             </div>
                         </div>
                     </div>

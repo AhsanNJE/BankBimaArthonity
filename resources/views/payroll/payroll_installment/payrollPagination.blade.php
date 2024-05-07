@@ -17,10 +17,9 @@
                 <td>{{ $item['emp_name'] }}</td>
                 <td>{{ number_format($item['salary'], 0, '.', ',') }}</td>
                 <td>
-                    <button class="open-modal editPayroll" data-modal-id="editPayroll" id="edit"
-                            data-id="{{ $item['emp_id'] }}"><i class="fas fa-edit"></i>Details</button>
+                    <button class="open-modal" data-modal-id="showPayrollDetails" id="details"
+                            data-id="{{ $item['emp_id'] }}"><i class="fa-solid fa-circle-info"></i></button>
                 </td>
-             
             </tr>
         @endforeach
     </tbody>
