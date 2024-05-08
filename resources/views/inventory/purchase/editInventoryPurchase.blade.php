@@ -1,11 +1,11 @@
-<div id="addInventoryTransaction" class="modal-container">
+<div id="editInventoryPurchase" class="modal-container">
     <div class="modal-subject">
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Add Inventory Transaction</h3>
-                        <span class="close-modal" data-modal-id="addInventoryTransaction">&times;</span>
+                        <h3 class="card-title">Edit Inventory Purchase</h3>
+                        <span class="close-modal" data-modal-id="editInventoryPurchase">&times;</span>
                     </div>
                 </div>
                 

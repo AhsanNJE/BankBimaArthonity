@@ -3,7 +3,7 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="addInventoryTransaction">Add Inventory Transaction</button>
+                <button class="open-modal add" data-modal-id="addInventoryIssue">Add Inventory Issue</button>
             </div>
             <div class="col-md-2">
                 <label for="startDate">Start Date</label>
@@ -31,20 +31,20 @@
 
 
     <!-- table show -->
-    <div class="inventory-tran" style="overflow-x:auto;">
-        @include('transaction.inventory.inventoryTransactionPagination')
+    <div class="inv-issue" style="overflow-x:auto;">
+        @include('inventory.issue.inventoryIssuePagination')
     </div>
 
 
-    @include('transaction.inventory.addInventoryTransaction')
+    @include('inventory.issue.addInventoryIssue')
 
-    @include('transaction.inventory.editInventoryTransaction')
+    @include('inventory.issue.editInventoryIssue')
 
 @endsection
 
 
 <!-- ajax part start from here -->
 @section('ajax')
-    <script src="{{ asset('js/ajax/transaction/inventory_transaction.js') }}"></script>
+    <script src="{{ asset('js/ajax/inventory/inv_issue.js') }}"></script>
     <script src="{{ asset('js/ajax/search_by_input.js') }}"></script>
 @endsection

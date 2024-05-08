@@ -1,11 +1,24 @@
-<div id="addInventoryTransaction" class="modal-container">
+@section('style')
+<style>
+    .modal-subject {
+        width: 80%;
+    }
+
+    #search {
+        width: 100%;
+        margin: 0;
+    }
+</style>
+@endsection
+
+<div id="addInventoryIssue" class="modal-container">
     <div class="modal-subject">
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Add Inventory Transaction</h3>
-                        <span class="close-modal" data-modal-id="addInventoryTransaction">&times;</span>
+                        <h3 class="card-title">Add Inventory Issue</h3>
+                        <span class="close-modal" data-modal-id="addInventoryIssue">&times;</span>
                     </div>
                 </div>
                 
