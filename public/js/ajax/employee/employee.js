@@ -65,6 +65,14 @@ $(document).ready(function () {
                 $('.organization').show();
             }
         }
+        else if(id == 6){
+            if($('.payroll').is(':visible')){
+                $('.payroll').hide()
+            }
+            else{
+                $('.payroll').show();
+            }
+        }
     });
 
 

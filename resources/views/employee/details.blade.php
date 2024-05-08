@@ -265,5 +265,26 @@
         </div>
     </div>
     @endif
+
+    {{-- Payroll details part starts --}}
+    <li data-id="6">Payroll Details</li>
+    <div class="payroll">
+        <table class="show-table">
+            <thead>
+                <tr>
+                    <th>Income Description</th>
+                    <th>Income Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($payroll as $pay)
+                    <tr>
+                        <td>{{ $pay->Head->tran_head_name }}</td>
+                        <td>{{ $pay->amount }} Tk.</td>
+                    </tr>   
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endif
 </ul>
