@@ -23,19 +23,16 @@
 <body>
 <div id= "editOrganization" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Edit Organization Detail</h3>
-            <span class="close-modal" data-modal-id="editOrganization">&times;</span>
-        </div>
 
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Edit Organization Detail</h3>
+                        <span class="close-modal" data-modal-id="editOrganization">&times;</span>
                     </div>
                 </div>
-                
+                <br>
                 <!-- form start -->
                 <form id="EditOrganizationDetailForm" action="{{ route('insertorganization.info')}}" method="POST" enctype="multipart/form-data">
                     @csrf

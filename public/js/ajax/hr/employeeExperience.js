@@ -7,9 +7,9 @@ $(document).ready(function () {
         $('#formContainer').append(form); // Append the form to the container
         formIndex++; // Increment form index
     });
-
-     //Experience Form Field Empty and Insert Data in Add Form 
-     $('#InsertExperience').on('click', function() {
+    
+    //Experience Form Field Empty and Insert Data in Add Form 
+    $('#InsertExperience').on('click', function() {
         // Check if forms have already been submitted
         if ($(this).data('submitted')) {
             // Forms already submitted, do nothing
@@ -19,20 +19,20 @@ $(document).ready(function () {
         // Mark the button as submitted
         $(this).data('submitted', true);
     
-        // Loop through each experience form
-        $('.experience-form').each(function(index, form) {
-            $(form).submit(); // Submit the current form only once
-        });
+        // Start submitting forms sequentially
+        submitForm($('.experience-form').first());
     });
     
-    $(document).on('submit', '.experience-form', function(e) {
-        e.preventDefault();
+    // Function to submit forms sequentially
+    function submitForm(form) {
+        if (!form.length) {
+            // No more forms to submit
+            return;
+        }
     
         let user = $('#user').attr('data-id');
-        let formData = new FormData(this);
+        let formData = new FormData(form[0]);
         formData.append('user', user === undefined ? '' : user);
-    
-        const currentForm = $(this); // Store the current form object
     
         $.ajax({
             url: "/insert/experience/info",
@@ -42,18 +42,18 @@ $(document).ready(function () {
             cache: false,
             data: formData,
             beforeSend: function() {
-                currentForm.find('span.error').text(''); // Clear errors
+                form.find('span.error').text(''); // Clear errors
             },
             success: function(res) {
                 console.log(res);
                 if (res.status === "success") {
-                    currentForm[0].reset(); // Reset the current form
-                    currentForm.find('#name').focus(); // Set focus
+                    form[0].reset(); // Reset the current form
+                    form.find('#name').focus(); // Set focus
     
                     // Clear errors and fields within the current form
-                    currentForm.find('.text-danger').text('');
-                    currentForm.find('#user').removeAttr('data-id');
-                    currentForm.find('#search').val('');
+                    form.find('.text-danger').text('');
+                    form.find('#user').removeAttr('data-id');
+                    form.find('#search').val('');
     
                     // Clear fields outside the form (if necessary)
                     $('#with').val('');
@@ -61,26 +61,28 @@ $(document).ready(function () {
                     $('#user-list ul').empty();
     
                     toastr.success('Experience Detail Added Successfully', 'Added!');
-
-                    $('.experience-form').not(':first').remove();  // Commented out for safety
+    
+                    // Submit the next form recursively
+                    submitForm(form.next('.experience-form'));
                 }
             },
             error: function(err) {
                 console.log(err);
                 let error = err.responseJSON;
                 $.each(error.errors, function(key, value) {
-                    currentForm.find('#' + key + "_error").text(value); // Set error messages
+                    form.find('#' + key + "_error").text(value); // Set error messages
                 });
             }
         });
-    });
-
+    }
+    
     // Function to create a new form
     function createForm(index) {
         var form = $('<form>', {
             id: 'form' + index,
             class: 'experience-form'
         });
+    
 
         // Add form fields
         form.append(`

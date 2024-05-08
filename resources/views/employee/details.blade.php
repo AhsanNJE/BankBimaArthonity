@@ -1,8 +1,4 @@
-<style>
-.center-text {
-    text-align: center;
-}
-</style>
+
 
 @if(!$employee && !$employee->personalDetail && !$education->isNotEmpty() && !$training->isNotEmpty() && !$experience->isNotEmpty() && !$employee->organizationDetail)
     <div class="details-table">

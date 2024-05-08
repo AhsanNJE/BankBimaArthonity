@@ -1658,11 +1658,18 @@ class InfoController extends Controller
         ]);
     }
 
+    public function EmployeesOrganization(Request $request){
+        $employeeorganization = OrganizationDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
+        return response()->json([
+            'data'=>view('hr.organizationdetail.detailsorganization', compact('employeeorganization'))->render(),
+        ]);
+    }
+
     
 
     //Edit Employees Organization
     public function EditEmployeeOrganization(Request $request){
-        $employee = OrganizationDetail::with('Department','Designation','Location')->where('emp_id', $request->id)->first();
+        $employee = OrganizationDetail::with('Department','Designation','Location')->where('id', $request->id)->first();
         $tranwith = Transaction_With::where('user_type','Employee')->get();
         return response()->json([
             'employee'=>$employee,

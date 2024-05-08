@@ -35,7 +35,7 @@
                     @endif
                 </td>
                 <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal emp_educationDetail" data-modal-id="emp_educationDetail"
+                        <button class="btn btn-info btn-sm open-modal emp_educationDetail" data-modal-id="emp_educationDetail"
                         data-id="{{ $item->user_id }}"><i class="fas fa-caret-down dropdown-caret"></i>Show</button>
                         <button class="btn btn-info btn-sm open-modal EmployeeEducationDetails" data-modal-id="EmployeeEducationDetails"
                         data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i>Details</button>

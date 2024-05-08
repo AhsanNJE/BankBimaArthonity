@@ -1,3 +1,4 @@
+
 <table class="show-table">
     <thead>
         <caption class="caption">Employee Organization Details</caption>
@@ -35,12 +36,15 @@
                     @endif
                 </td>
                 <td style="display: flex;gap:5px;">
+                    <button class="btn btn-info btn-sm open-modal emp_organizationDetail" data-modal-id="emp_organizationDetail"
+                        data-id="{{ $item->user_id }}"><i class="fas fa-caret-down dropdown-caret"></i>Show</button>
                     <button class="btn btn-info btn-sm open-modal EmployeeOrganizationDetails" data-modal-id="EmployeeOrganizationDetails"
                         data-id="{{ $item->user_id }}"><i class="fa-solid fa-circle-info"></i>Details</button>
-                    <button class="btn btn-info btn-sm open-modal editOrganization" data-modal-id="editOrganization"
-                        data-id="{{ $item->user_id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->organizationDetail->id }}" id="deleteOrganization"><i
-                            class="fas fa-trash"></i>Delete</button>
+                </td>
+            </tr>
+            <tr id = "detailsorganization{{ $item->user_id }}" style = "display:none">
+                <td colspan = "10">
+
                 </td>
             </tr>
         @endforeach
