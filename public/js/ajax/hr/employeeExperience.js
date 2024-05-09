@@ -23,17 +23,24 @@ $(document).ready(function () {
         submitForm($('.experience-form').first());
     });
     
+
+    var isFirstFormInserted = false;
+
     // Function to submit forms sequentially
     function submitForm(form) {
         if (!form.length) {
             // No more forms to submit
+            if (isFirstFormInserted) {
+                // Remove all forms except the first one
+                removeAllFormsExceptFirst();
+            }
             return;
         }
-    
+
         let user = $('#user').attr('data-id');
         let formData = new FormData(form[0]);
         formData.append('user', user === undefined ? '' : user);
-    
+
         $.ajax({
             url: "/insert/experience/info",
             method: 'POST',
@@ -49,20 +56,20 @@ $(document).ready(function () {
                 if (res.status === "success") {
                     form[0].reset(); // Reset the current form
                     form.find('#name').focus(); // Set focus
-    
+
                     // Clear errors and fields within the current form
                     form.find('.text-danger').text('');
                     form.find('#user').removeAttr('data-id');
                     form.find('#search').val('');
-    
-                    // Clear fields outside the form (if necessary)
-                    $('#with').val('');
-                    $('#user').val('');
-                    $('#user-list ul').empty();
-    
+
                     toastr.success('Experience Detail Added Successfully', 'Added!');
-    
-                    // Submit the next form recursively
+                    if (!isFirstFormInserted) {
+                        isFirstFormInserted = true;
+                    }
+                }
+
+                // Submit the next form recursively only if the first form was inserted successfully
+                if (isFirstFormInserted) {
                     submitForm(form.next('.experience-form'));
                 }
             },
@@ -75,9 +82,15 @@ $(document).ready(function () {
             }
         });
     }
-    
+
+    // Function to remove all forms except the first one
+    function removeAllFormsExceptFirst() {
+        $('.experience-form').not(':first').remove();
+    }
+
     // Function to create a new form
     function createForm(index) {
+        
         var form = $('<form>', {
             id: 'form' + index,
             class: 'experience-form'
@@ -89,28 +102,28 @@ $(document).ready(function () {
         <div class="row">  
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "company_name">Company Name</label>
+                    <label for = "company_name">Company Name<span class="red">*</span></label>
                     <input type="text" name="company_name" id="company_name" class="form-control">
                     <span class="text-danger error" id="company_name_error"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "department">Department</label>
+                    <label for = "department">Department<span class="red">*</span></label>
                     <input type="text" name="department" id="department" class="form-control">
                     <span class="text-danger error" id="department_error"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "designation">Designation</label>
+                    <label for = "designation">Designation<span class="red">*</span></label>
                     <input type="text" name="designation" id="designation" class="form-control">
                     <span class="text-danger error" id="designation_error"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "company_location">Company Address</label>
+                    <label for = "company_location">Company Address<span class="red">*</span></label>
                     <input type="text" name="company_location" id="company_location"  class="form-control">
                     <span class="text-danger error" id="company_location_error"></span>
                 </div>

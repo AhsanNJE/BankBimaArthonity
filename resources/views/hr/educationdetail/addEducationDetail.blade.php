@@ -10,6 +10,9 @@
         .container {
         background-color: #E8E8E8!important; 
         }
+        .red {
+            color: red;
+        }
     </style>
 @endsection
 
@@ -37,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-6">  
                             <div class="form-group">   
-                                <label for="with">Employee Type</label>
+                                <label for="with">Employee Type<span class="red">*</span></label>
                                 <select name="with" id="with">
                                     <option value="">Select Employee Type</option>
                                     @foreach ($tranwith as $with)
@@ -49,7 +52,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="user">Name</label>
+                                <label for="user">Name<span class="red">*</span></label>
                                 <input type="text" name="user" class="form-control" id="user" autocomplete="off">
                                 <div id="user-list">
                                     <ul>
@@ -69,14 +72,14 @@
                                 <div class="row"> 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "level_of_education">Level of Education</label>
+                                            <label for = "level_of_education">Level of Education<span class="red">*</span></label>
                                             <input type="text" name="level_of_education" id="level_of_education" class="form-control">
                                             <span class="text-danger error" id="level_of_education_error"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "degree_title">Degree Title</label>
+                                            <label for = "degree_title">Degree Title<span class="red">*</span></label>
                                             <input type="text" name="degree_title" id="degree_title" class="form-control">
                                             <span class="text-danger error" id="degree_title_error"></span>
                                         </div>
@@ -90,7 +93,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "institution_name">Institution Name</label>
+                                            <label for = "institution_name">Institution Name<span class="red">*</span></label>
                                             <input type="text" name="institution_name" id="institution_name" class="form-control">
                                             <span class="text-danger error" id="institution_name_error"></span>
                                         </div>
@@ -111,7 +114,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "cgpa">CGPA</label>
+                                            <label for = "cgpa">CGPA<span class="red">*</span></label>
                                             <input type="decimal" name="cgpa" id="cgpa" class="form-control">
                                             <span class="text-danger error" id="cgpa_error"></span>
                                         </div>
@@ -125,7 +128,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "passing_year">Passing Year</label>
+                                            <label for = "passing_year">Passing Year<span class="red">*</span></label>
                                             <input type="integer" name="passing_year" id="passing_year" class="form-control">
                                             <span class="text-danger error" id="passing_year_error"></span>
                                         </div>
