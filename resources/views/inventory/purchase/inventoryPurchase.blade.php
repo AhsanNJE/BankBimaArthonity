@@ -38,6 +38,8 @@
 
     @include('inventory.purchase.editInventoryPurchase')
 
+    @include('transaction.printDetails')
+
 @endsection
 
 

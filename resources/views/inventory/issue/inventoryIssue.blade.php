@@ -40,6 +40,8 @@
 
     @include('inventory.issue.editInventoryIssue')
 
+    @include('transaction.printDetails')
+
 @endsection
 
 

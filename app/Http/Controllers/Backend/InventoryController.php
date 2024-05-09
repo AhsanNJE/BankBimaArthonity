@@ -43,6 +43,101 @@ class InventoryController extends Controller
         return view('inventory.issue.inventoryIssue', compact('inventory','groupes'));
     }//End Method
 
+
+    //Insert Inventory Issue
+    public function InsertInventoryIssue(Request $req){
+        $req->validate([
+            "tranId" => 'required',
+            "method" => 'required',
+            "location" => 'required|numeric',
+            "type" => 'required',
+            "groupe" => 'required',
+            "head" => 'required',
+            "with" => 'required',
+            "user" => 'required',
+            "amount" => 'required',
+            "quantity" => 'required',
+            "totAmount" => 'required',
+        ]);
+
+        if($req->head != null){
+            $product = Transaction_Detail::where('tran_head_id',$req->head)
+            ->where('quantity', '>', 0)
+            ->orderBy('tran_date','asc')
+            ->get();
+
+            if($product->count() > 0){
+                $quantity = $req->quantity;
+                $totQuantity = 0;
+                foreach($product as $index => $pro) {
+                    $totQuantity = $totQuantity + $pro->quantity;
+                }
+
+                if($quantity > 0){
+                    if($totQuantity < $quantity){
+                        return response()->json([
+                            'errors' => [
+                                'quantity' => ['Only '. $totQuantity . 'product available in stock']
+                            ]
+                        ], 422);
+                    }
+                    else{
+                        foreach($product as $index => $pro) {
+                            if($quantity != 0){
+                                if($pro->quantity <= $quantity){
+                                    $issue =  $pro->quantity_issue + $pro->quantity ;
+                                    Transaction_Detail::findOrFail($pro->id)->update([
+                                        "quantity_issue" => $issue,
+                                        "quantity" => 0,
+                                        "updated_at" => now()
+                                    ]);
+
+                                    $quantity = $quantity - $pro->quantity;
+                                }
+                                else if($pro->quantity > $quantity){
+                                    $issue =  $pro->quantity_issue + $quantity ;
+                                    $dueQuantity = $pro->quantity - $quantity;
+                                    Transaction_Detail::findOrFail($pro->id)->update([
+                                        "quantity_issue" => $issue,
+                                        "quantity" => $dueQuantity,
+                                        "updated_at" => now()
+                                    ]);
+
+                                    Transaction_Detail::insert([
+                                        "tran_id" => $req->tranId,
+                                        "loc_id" => $req->location,
+                                        "tran_type" => $req->type,
+                                        "tran_method" => $req->method,
+                                        "tran_groupe_id" => $req->groupe,
+                                        "tran_head_id" => $req->head,
+                                        "tran_type_with" => $req->with,
+                                        "tran_user" => $req->user,
+                                        "amount" => $req->amount,
+                                        "quantity" => $req->quantity,
+                                        "tot_amount" => $req->totAmount,
+                                    ]);
+
+                                    $quantity = 0;
+                                }
+                            }
+                        }
+    
+                        return response()->json([
+                            'status'=>'success',
+                        ]); 
+                    }
+                }
+            }
+            else{
+                return response()->json([
+                    'errors' => [
+                        'head' => ['Product Stock out']
+                    ]
+                ], 422);
+            }
+        }
+    }//End Method
+
     /////////////////////////// --------------- Inventory Issue Methods Ends ---------- //////////////////////////
     
 

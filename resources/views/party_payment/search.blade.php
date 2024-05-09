@@ -16,11 +16,13 @@
                 <td>{{ $item->tran_id }}</td>
                 <td>{{ $item->User->user_name }}</td>
                 <td style="text-align: right">{{ number_format($item->amount, 0, '.', ',') }} Tk.</td>
-                <td style="display: flex;gap:5px;">
-                    <button class="btn btn-info btn-sm open-modal editParty" data-modal-id="editParty"
-                        data-id="{{ $item->id }}"><i class="fas fa-edit"></i>Edit</button>
-                    <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
-                            class="fas fa-trash"></i>Delete</button>
+                <td>
+                    <div style="display: flex;gap:5px;">
+                        <button class="open-modal editParty" data-modal-id="editParty" id="edit"
+                            data-id="{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
+                            class="fas fa-trash"></i></button>
+                    </div>
                 </td>
             </tr>
         @endforeach

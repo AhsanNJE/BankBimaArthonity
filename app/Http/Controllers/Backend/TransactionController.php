@@ -903,6 +903,22 @@ class TransactionController extends Controller
 
 
 
+    // Print Transaction Details
+    public function PrintTransactionDetails(Request $req)
+    {
+        $transDetailsInvoice = Transaction_Detail::where('tran_id', $req->id)->get();
+        $transSum = Transaction_Detail::where('tran_id', $req->id)->sum('tot_amount');
+        $transactionMain = Transaction_Main::where('tran_id', $req->id)->first();
+
+        return response()->json([
+            'status'=>'success',
+            'data'=> view('transaction.details', compact('transactionMain', 'transDetailsInvoice', 'transSum'))->render(),
+        ]);
+    } // End Method 
+
+
+
+
     //Insert Transaction Details
     public function InsertTransactionDetails(Request $req){
         $req->validate([

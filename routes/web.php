@@ -352,6 +352,7 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/edit/details', 'EditTransactionDetails')->name('edit.transaction.details');
         Route::put('/update/details', 'UpdateTransactionDetails')->name('update.transaction.details');
         Route::delete('/delete/details', 'DeleteTransactionDetails')->name('delete.transaction.details');
+        Route::get('/print', 'PrintTransactionDetails')->name('print.transaction');
         //search routes start
         Route::get('/search/date', 'ShowTransactionByDate')->name('search.transaction.date');
         Route::get('/search/tranid', 'SearchTransactionByTranId')->name('show.transaction.tranid');

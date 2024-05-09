@@ -38,6 +38,8 @@
 
     @include('transaction.general.receive.editTransactionReceive')
 
+    @include('transaction.printDetails')
+
 @endsection
 
 

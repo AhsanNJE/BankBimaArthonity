@@ -7,6 +7,35 @@ $(document).ready(function () {
         getTransactionId(type, method, '#tranId');
         getTransactionWith(type, method, '#within')
     });
+
+    // Show Transaction Print Details 
+    $(document).on('click','#details', function(e){
+        let modalId = $(this).data('modal-id');
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/transaction/print`,
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                $('.print-details').html(res.data);
+
+                var modal = document.getElementById(modalId);
+                modal.style.display = 'block';
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    // Print Transaction Details 
+    $(document).on('click','#print', function(){
+        var printContent = document.getElementById("print-part").innerHTML;
+        var originalContent = document.body.innerHTML;
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+    });
     
 
     // Search by Date Range
@@ -559,7 +588,6 @@ $(document).ready(function () {
             data: data,
             success: function (res) {
                 if(res.status === 'success'){
-                    console.log(res.data)
                     $(targetElement).html(res.data);
                     if(res.paginate){
                         $(targetElement).append('<div class="center search-paginate" id="paginate">' + res.paginate + '</div>');
