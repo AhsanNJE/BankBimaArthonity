@@ -136,8 +136,8 @@
                                         <p>All Employee</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('show.personalinfo') }}" class="nav-link">
+                                <li class="nav-item {{ Request::is('show/personal/info') ? 'menu-open' : '' }}">
+                                    <a href="{{ route('show.personalinfo') }}" class="nav-link {{ Request::is('show/personal/info') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Personal Details</p>
                                     </a>
