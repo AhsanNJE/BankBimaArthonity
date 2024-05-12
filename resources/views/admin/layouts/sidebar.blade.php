@@ -1,3 +1,14 @@
+@section('style')
+    <style>
+    .nav-item.menu-open-expanded > .nav-link > .right {
+        transform: rotate(-90deg);
+    }
+    .nav-item.menu-open-expanded > .nav-link + .nav-treeview {
+        display: block !important;
+    }
+    </style>
+@endsection
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.dashboard') }}" class="brand-link">
@@ -28,14 +39,181 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
+                <li class="nav-item">
                     <a href="#" class="nav-link active">
                         <i class="fa-solid fa-house"></i>
                         <p>
                             ADMINISTRATOR
-                            <!-- <i class="right fas fa-angle-left"></i> -->
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-people-roof"></i>
+                                <p>
+                                    Client
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.clients')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Clients</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-people-roof"></i>
+                                <p>
+                                    Supplier
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.suppliers')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Suppliers</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-people-roof"></i>
+                                <p>
+                                    Bank
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.banks')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Banks</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <p>
+                                    Location
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.locations')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Location</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                <p>
+                                     Main Head 
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.transaction.types')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Main Head</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <p>
+                                    Tran With
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.tranwith')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Tran With</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa fa-arrows-h"></i>
+                                <p>
+                                    Transaction Group
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.transaction.groupes')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Groupe</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <p>
+                                    Tran With Groupe
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.tranwithgroupe')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Tran With Groupe</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa fa-arrows-h"></i>
+                                <p>
+                                    Transaction Head
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.transaction.heads')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Head</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
 
                 <!-- Transaction -->
@@ -311,170 +489,11 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-people-roof"></i>
-                        <p>
-                            Client
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.clients')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Clients</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-people-roof"></i>
-                        <p>
-                            Supplier
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.suppliers')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Suppliers</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-people-roof"></i>
-                        <p>
-                            Bank
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.banks')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Banks</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <p>
-                            Location
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.locations')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Location</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        <p>
-                            Main Head <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.transaction.types')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Main Head</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        <p>
-                            Tran With
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.tranwith')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Tran With</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        <p>
-                            Transaction Group
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.transaction.groupes')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transaction Groupe</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        <p>
-                            Tran With Groupe
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.tranwithgroupe')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Tran With Groupe</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-solid fa-right-left"></i>
-                        <p>
-                            Transaction Head
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.transaction.heads')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transaction Head</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                
 
 
 
