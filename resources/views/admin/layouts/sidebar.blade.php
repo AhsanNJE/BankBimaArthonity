@@ -221,7 +221,7 @@
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            GENERAL TRANSACTIONS
+                            GENERAL TRANSACTION
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
