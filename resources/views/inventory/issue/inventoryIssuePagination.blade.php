@@ -1,6 +1,6 @@
 <table class="show-table">
     <thead>
-        <caption class="caption">Transaction Details</caption>
+        <caption class="caption">Inventory Issue Details</caption>
         <tr>
             <th>SL:</th>
             <th>Id</th>
@@ -16,9 +16,9 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($transaction as $key => $item)
+        @foreach ($inventory as $key => $item)
             <tr>
-                <td>{{ $transaction->firstItem() + $key }}</td>
+                <td>{{ $inventory->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
                 <td>{{ $item->User->user_name }}</td>
                 <td style="text-align: right">{{ number_format($item->bill_amount, 0, '.', ',') }}</td>
@@ -30,19 +30,18 @@
                 <td style="text-align: right">{{ number_format($item->due_col, 0, '.', ',') }}</td>
                 <td style="text-align: right">{{ number_format($item->due_disc, 0, '.', ',') }}</td>
                 <td style="text-align: right">{{ number_format($item->due, 0, '.', ',') }}</td>
-                <td>
-                    <div style="display: flex;gap:5px;">
-                        <button class="open-modal" data-modal-id="printDetails" id="details"
-                            data-id="{{ $item->tran_id }}"><i class="fa-solid fa-circle-info"></i></button>
-                        <button class="open-modal" data-modal-id="editTransaction" id="edit"
-                            data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i></button>
-                        <button data-id="{{ $item->tran_id }}" id="delete"><i class="fas fa-trash"></i></button>
-                    </div>
+                <td style="display: flex;gap:5px;">
+                    <button class="open-modal" data-modal-id="printDetails" id="details"
+                        data-id="{{ $item->tran_id }}"><i class="fa-solid fa-circle-info"></i></button>
+                    <button class="btn btn-info btn-sm open-modal editTransaction" data-modal-id="editTransaction"
+                        data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i>Edit</button>
+                    <button class="btn btn-danger btn-sm" data-id="{{ $item->tran_id }}" id="deleteMain"><i
+                            class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>
         @endforeach
     </tbody>
-    @if($transaction->count() > 0)
+    @if($inventory->count() > 0)
         <tfoot>
             <tr>
                 @php
@@ -54,7 +53,7 @@
                     $totalDueDiscount = 0;
                     $totalDue = 0;
                 @endphp
-                @foreach ($transaction as $key => $item)
+                @foreach ($inventory as $key => $item)
                     @php
                         $totalBillAmount += $item->bill_amount;
                         $totalDiscount += $item->discount;
@@ -78,3 +77,8 @@
         </tfoot>      
     @endif
 </table>
+
+
+<div class="center paginate" id="paginate">
+    {!! $inventory->links() !!}
+</div>

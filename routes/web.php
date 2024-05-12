@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\PartyPaymentController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\PayRollController;
 use App\Http\Controllers\Backend\InfoController;
+use App\Http\Controllers\Backend\InventoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -351,6 +352,7 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/edit/details', 'EditTransactionDetails')->name('edit.transaction.details');
         Route::put('/update/details', 'UpdateTransactionDetails')->name('update.transaction.details');
         Route::delete('/delete/details', 'DeleteTransactionDetails')->name('delete.transaction.details');
+        Route::get('/print', 'PrintTransactionDetails')->name('print.transaction');
         //search routes start
         Route::get('/search/date', 'ShowTransactionByDate')->name('search.transaction.date');
         Route::get('/search/tranid', 'SearchTransactionByTranId')->name('show.transaction.tranid');
@@ -704,6 +706,55 @@ Route::controller(PayRollController::class)->group(function(){
     Route::get('/get/employee/organization/by/name', [InfoController::class,'GetEmployeeOrganizationByName'])->name('get.employee.organizationby.name');
 
 
-    
+
+
+
+
+///////////////////////////// InventoryController Routes ////////////////////////////////
+Route::controller(InventoryController::class)->group(function(){
+    Route::prefix('/inventory')->group(function () {
+        //////////////// ------------------ Inventory Purchase Routes ------------------- //////////////////
+        // Inventory Purchase Crude Routes
+        Route::get('/purchase', 'ShowInventoryPurchase')->name('show.inventory.purchase');
+        Route::post('/insert/purchase', 'InsertInventoryPurchase')->name('insert.inventory.purchase');
+        Route::post('/insert/purchase/main', 'InsertInventoryPurchaseMain')->name('insert.inventory.purchase.main');
+        Route::get('/edit/purchase', 'EditInventoryPurchase')->name('edit.inventory.purchase');
+        Route::put('/update/purchase', 'UpdateInventoryPurchase')->name('update.inventory.purchase');
+        Route::delete('/delete/purchase', 'DeleteInventoryPurchase')->name('delete.inventory.purchase');
+        
+        
+        
+        
+        
+        // Inventory Issue Crude Routes
+        Route::get('/issue', 'ShowInventoryIssue')->name('show.inventory.issue');
+        Route::post('/insert/issue', 'InsertInventoryIssue')->name('insert.inventory.issue');
+        Route::post('/insert/issue/main', 'InsertInventoryIssueMain')->name('insert.inventory.issue.main');
+        Route::get('/edit/issue', 'EditInventoryIssue')->name('edit.inventory.issue');
+        Route::put('/update/issue', 'UpdateInventoryIssue')->name('update.inventory.issue');
+        Route::delete('/delete/issue', 'DeleteInventoryIssue')->name('delete.inventory.issue');
+        
+        
+        
+        
+        // Inventory Return Crude Routes
+        Route::get('/return', 'ShowInventoryReturn')->name('show.inventory.return');
+        Route::post('/insert/return', 'InsertInventoryReturn')->name('insert.inventory.return');
+        Route::post('/insert/return/main', 'InsertInventoryReturnMain')->name('insert.inventory.return.main');
+        Route::get('/edit/return', 'EditInventoryReturn')->name('edit.inventory.return');
+        Route::put('/update/return', 'UpdateInventoryReturn')->name('update.inventory.return');
+        Route::delete('/delete/return', 'DeleteInventoryReturn')->name('delete.inventory.return');
+
+
+
+
+
+
+
+
+
+
+    });
+});
     
    

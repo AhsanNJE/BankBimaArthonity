@@ -1,6 +1,6 @@
 <table class="show-table">
     <thead>
-        <caption class="caption">Transaction Details</caption>
+        <caption class="caption">Inventory Purchase Details</caption>
         <tr>
             <th>SL:</th>
             <th>Id</th>

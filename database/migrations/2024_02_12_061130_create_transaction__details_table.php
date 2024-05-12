@@ -22,9 +22,11 @@ return new class extends Migration
             $table->string('tran_user')->nullable();
             $table->unsignedBigInteger('tran_groupe_id')->nullable();
             $table->unsignedBigInteger('tran_head_id')->nullable();
-            $table->float('quantity')->nullable();
-            $table->float('amount')->nullable();
-            $table->float('tot_amount')->nullable();
+            $table->double('quantity')->default(1);
+            $table->double('quantity_issue')->default(0);
+            $table->double('amount')->nullable();
+            $table->double('tot_amount')->nullable();
+            $table->date('expiry_date')->nullable();
             $table->timestamp('tran_date')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             

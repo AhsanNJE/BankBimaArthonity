@@ -776,8 +776,7 @@ class TransactionController extends Controller
             '3' => ['Receive' => 'PRR', 'Payment' => 'PRP'],
             '4' => ['Receive' => 'BMW', 'Payment' => 'BMD'],
             '5' => ['Receive' => 'ITR', 'Payment' => 'ITP'],
-            '6' => ['Receive' => 'KTR', 'Payment' => 'KTP'],
-            '7' => ['Receive' => 'PTR', 'Payment' => 'PTP']
+            '6' => ['Receive' => 'MTR', 'Payment' => 'MTP'],
         ];
     
         if ($req->type && isset($prefixes[$req->type])) {
@@ -830,7 +829,6 @@ class TransactionController extends Controller
             ->orderBy('user_name','asc')
             ->take(10)
             ->get();
-
 
             if($users->count() > 0){
                 $list = "";
@@ -905,6 +903,22 @@ class TransactionController extends Controller
 
 
 
+    // Print Transaction Details
+    public function PrintTransactionDetails(Request $req)
+    {
+        $transDetailsInvoice = Transaction_Detail::where('tran_id', $req->id)->get();
+        $transSum = Transaction_Detail::where('tran_id', $req->id)->sum('tot_amount');
+        $transactionMain = Transaction_Main::where('tran_id', $req->id)->first();
+
+        return response()->json([
+            'status'=>'success',
+            'data'=> view('transaction.details', compact('transactionMain', 'transDetailsInvoice', 'transSum'))->render(),
+        ]);
+    } // End Method 
+
+
+
+
     //Insert Transaction Details
     public function InsertTransactionDetails(Request $req){
         $req->validate([
@@ -933,6 +947,7 @@ class TransactionController extends Controller
             "amount" => $req->amount,
             "quantity" => $req->quantity,
             "tot_amount" => $req->totAmount,
+            "expiry_date" => $req->expiry == null ? null :$req->expiry,
         ]);
 
         return response()->json([
@@ -1167,9 +1182,8 @@ class TransactionController extends Controller
         $viewMapping = [
             '1' => 'transaction.general.search',
             '2' => 'party_payment.search',
-            // '3' => 'transaction.differentType2.search',
             '4' => 'transaction.bank.search',
-            '5' => 'transaction.inventory.search',
+            '5' => 'inventory.purchase.search',
             '6' => 'transaction.pharmacy.search'
         ];
     
@@ -1210,9 +1224,8 @@ class TransactionController extends Controller
         $viewMapping = [
             '1' => 'transaction.general.search',
             '2' => 'party_payment.search',
-            // '3' => 'transaction.differentType2.search',
             '4' => 'transaction.bank.search',
-            '5' => 'transaction.inventory.search',
+            '5' => 'inventory.purchase.search',
             '6' => 'transaction.pharmacy.search'
         ];
     
@@ -1256,9 +1269,8 @@ class TransactionController extends Controller
         $viewMapping = [
             '1' => 'transaction.general.search',
             '2' => 'party_payment.search',
-            // '3' => 'transaction.differentType2.search',
             '4' => 'transaction.bank.search',
-            '5' => 'transaction.inventory.search',
+            '5' => 'inventory.purchase.search',
             '6' => 'transaction.pharmacy.search'
         ];
     

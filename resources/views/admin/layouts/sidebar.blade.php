@@ -224,7 +224,6 @@
                                 <i class="fa-solid fa-pen-to-square"></i>
                                 <p>
                                     Designation
-                                    <!-- <i class="fas fa-angle-left right"></i> -->
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
@@ -241,7 +240,7 @@
 
                 <!-- INVENTORY -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="" class="nav-link">
                         <i class="fa-solid fa-right-left"></i>
                         <p>INVENTORY</p>
                         <i class="fas fa-angle-left right"></i>
@@ -249,39 +248,26 @@
                     <ul class="nav nav-treeview">
                         <!-- EMPLOYEE -->
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-people-roof"></i>
-                                <p>inventory 1</p>
-                                <!-- <i class="fas fa-angle-left right"></i> -->
+                            <a href="{{route('show.inventory.purchase')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Inventory Purchase</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add inventory</p>
-                                    </a>
-                                </li>
-                                <!-- Add more submenu items as needed -->
-                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-people-roof"></i>
-                                <p>inventory 2</p>
-                                <!-- <i class="fas fa-angle-left right"></i> -->
+                            <a href="{{route('show.inventory.issue')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Inventory Issue</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add inventory</p>
-                                    </a>
-                                </li>
-                                <!-- Add more submenu items as needed -->
-                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.inventory.return')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Inventory Return</p>
+                            </a>
                         </li>
                     </ul>
                 </li>
+
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
