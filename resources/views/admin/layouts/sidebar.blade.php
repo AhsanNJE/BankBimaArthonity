@@ -267,31 +267,6 @@
                 </li>
 
 
-                <!-- Party Payments -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-brands fa-cc-amazon-pay"></i>
-                        <p>
-                            PARTY PAYMENT
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('show.party.receive')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Receive from Client</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('show.party.payment')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Payment to Supplier</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
                 <!-- HR & PAYROLL -->
                 <li class="nav-item">
                     <a href="javascript:void(0)" class="nav-link">
@@ -446,7 +421,32 @@
                     </ul>
                 </li>
 
+                <!-- Party Payments -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-brands fa-cc-amazon-pay"></i>
+                        <p>
+                            PARTY PAYMENT
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('show.party.receive')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Receive from Client</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.party.payment')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Payment to Supplier</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
+                
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-book-open"></i>
