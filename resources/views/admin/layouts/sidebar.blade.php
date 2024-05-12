@@ -43,7 +43,7 @@
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            TRANSACTIONS
+                            GENERAL TRANSACTIONS
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -69,7 +69,7 @@
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         <p>
-                            TRANSACTION WITH BANK<i class="fas fa-angle-left right"></i>
+                            BANK TRANSACTION<i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -506,3 +506,7 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+@section('ajax')
+    <script src="{{ asset('js/ajax/layout/sidebar.js') }}"></script>
+@endsection

@@ -63,7 +63,11 @@
     @endif
     <div class="education">
         <div class="details-table" style="">
-        
+        @if(!$item->level_of_education && !$item->degree_title && !$item->group && !$item->institution_name && !$item->result && !$item->scale && !$item->cgpa && !$item->batch && !$item->passing_year)
+            <div class="row each-row">
+                <div class="col-md-12">No education details available</div>
+            </div>
+        @else
             <div class="row each-row">
                 <div class="col-md-2 bold">Level of Education</div> 
                 <div class="col-md-4">{{ $item->level_of_education }}</div>
@@ -108,7 +112,7 @@
                 <div class="col-md-2 bold">Passing Year</div> 
                 <div class="col-md-4">{{ $item->passing_year }}</div>
             </div>
-        
+            @endif
         </div>
     </div>  
     @endforeach
