@@ -438,12 +438,11 @@ div.col-md-4 label {
     color: white;
 }
 
-.dropdown-caret {
-    /* transform: rotate(90deg);
-    transition: transform 0.3s ease; Optional: Add a transition effect */
+
+.fa-chevron-circle-right {
     transition: transform 0.3s ease; /* Add a transition effect */
 }
 
-.rotate {
-    transform: rotate(90deg);
+.fa-chevron-circle-right.rotate {
+    transform: rotate(90deg); /* Rotate the icon */
 }

@@ -56,7 +56,7 @@ $(document).on('click', '.emp_organizationDetail', function (e) {
     if ($detailsRow.is(':visible')) {
         // If the row is visible, hide it, change button text to "Show", and remove caret rotation
         $detailsRow.hide();
-        $button.find('.dropdown-caret').removeClass('rotate');
+        $button.find('.fa-chevron-circle-right').removeClass('rotate');
     } else {
         // Fetch data and show it, then change button text to "Hide", and add caret rotation
         $.ajax({
@@ -67,7 +67,7 @@ $(document).on('click', '.emp_organizationDetail', function (e) {
                 console.log(res);
                 $detailsRow.find('td').html(res.data);
                 $detailsRow.show();
-                $button.find('.dropdown-caret').addClass('rotate');
+                $button.find('.fa-chevron-circle-right').addClass('rotate');
             },
             error: function (err) {
                 console.log(err);
