@@ -732,6 +732,16 @@ Route::controller(InventoryController::class)->group(function(){
         Route::get('/edit/issue', 'EditInventoryIssue')->name('edit.inventory.issue');
         Route::put('/update/issue', 'UpdateInventoryIssue')->name('update.inventory.issue');
         Route::delete('/delete/issue', 'DeleteInventoryIssue')->name('delete.inventory.issue');
+        //Inventory Issue Search Routes
+        Route::get('/issue/pagination', 'InventoryIssuePagination');
+        Route::get('/issue/search/date', 'ShowInventoryIssueByDate');
+        Route::get('/issue/search/tranid', 'SearchInventoryIssueByTranId');
+        Route::get('/issue/search/user', 'SearchInventoryIssueByTranUser');
+        // Inventory Issue Pagination Routes'
+        Route::get('/issue/pagination/date', 'ShowInventoryIssueByDate');
+        Route::get('/issue/pagination/tranid', 'SearchInventoryIssueByTranId');
+        Route::get('/issue/pagination/user', 'SearchInventoryIssueByTranUser');
+
         
         
         

@@ -162,6 +162,11 @@
                                     </table>
                                 </div>
                                 <div class="center">
+                                    <span class="text-danger error" id="discount_error"></span>
+                                    <span class="text-danger error" id="advance_error"></span>
+                                    <span class="text-danger error" id="message_error"></span>
+                                </div>
+                                <div class="center">
                                     <button id="InsertMainIssue" class="btn btn-success addButton">Submit</button>
                                 </div>
                             </div>

@@ -935,24 +935,38 @@ class TransactionController extends Controller
             "totAmount" => 'required',
         ]);
 
-        Transaction_Detail::insert([
-            "tran_id" => $req->tranId,
-            "loc_id" => $req->location,
-            "tran_type" => $req->type,
-            "tran_method" => $req->method,
-            "tran_groupe_id" => $req->groupe,
-            "tran_head_id" => $req->head,
-            "tran_type_with" => $req->with,
-            "tran_user" => $req->user,
-            "amount" => $req->amount,
-            "quantity" => $req->quantity,
-            "tot_amount" => $req->totAmount,
-            "expiry_date" => $req->expiry == null ? null :$req->expiry,
-        ]);
+        $transaction = Transaction_Detail::where('tran_id', $req->tranId)
+        ->where('tran_head_id', $req->head)
+        ->get();
 
-        return response()->json([
-            'status'=>'success',
-        ]);  
+        if($transaction->count() > 0){
+            return response()->json([
+                'errors' => [
+                    'head' => ["You have already add this item."]
+                ]
+            ], 422);
+        }
+        else{
+            Transaction_Detail::insert([
+                "tran_id" => $req->tranId,
+                "loc_id" => $req->location,
+                "tran_type" => $req->type,
+                "tran_method" => $req->method,
+                "tran_groupe_id" => $req->groupe,
+                "tran_head_id" => $req->head,
+                "tran_type_with" => $req->with,
+                "tran_user" => $req->user,
+                "amount" => $req->amount,
+                "quantity" => $req->quantity,
+                "tot_amount" => $req->totAmount,
+                "expiry_date" => $req->expiry == null ? null :$req->expiry,
+            ]);
+    
+            return response()->json([
+                'status'=>'success',
+            ]);
+        }
+
     }//End Method
 
 
@@ -974,15 +988,40 @@ class TransactionController extends Controller
         ]);
 
 
-        if($req->method == 'Receive'){
-            $receive = $req->advance;
-            $payment = null;
+
+        if($req->discount > $req->amountRP){
+            return response()->json([
+                'errors' => [
+                    'message' => ["Discount amount can't be bigger than total amount"]
+                ]
+            ], 422);
         }
-        else if($req->method == "Payment"){
-            $payment = $req->advance;
-            $receive = null;
+        if($req->discount < 0){
+            return response()->json([
+                'errors' => [
+                    'message' => ["Discount amount can't be negative"]
+                ]
+            ], 422);
+        }
+        else if($req->advance  < 0){
+            return response()->json([
+                'errors' => [
+                    'message' => ["Advance amount can't be negative"]
+                ]
+            ], 422);
+        }
+        else if($req->advance  > $req->netAmount){
+            return response()->json([
+                'errors' => [
+                    'message' => ["Advance amount can't be bigger than Net amount"]
+                ]
+            ], 422);
         }
 
+        $receive = $req->method === 'Receive' ? $req->advance : null;
+        $payment = $req->method === 'Payment' ? $req->advance : null;
+        
+        
         Transaction_Main::insert([
             "tran_id" => $req->tranId,
             "tran_type" => $req->type,
@@ -998,9 +1037,7 @@ class TransactionController extends Controller
             "due" => $req->balance,
         ]);
 
-        return response()->json([
-            'status'=>'success',
-        ]);  
+        return response()->json(['status' => 'success']);
     }//End Method
 
 
