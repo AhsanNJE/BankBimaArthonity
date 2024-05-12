@@ -150,7 +150,7 @@
                             <tr>
                                 <td><label for="amountRP">Invoice Amount</label></td>
                                 <td><input type="text" name="amountRP" class="input-small" id="amountRP" value="0"
-                                        readonly></td>
+                                        readonly style="text-align: right;"></td>
                             </tr>
                             <tr>
                                 <td><label for="totalDiscount">Discount</label></td>
@@ -172,6 +172,11 @@
                                 <td><input type="text" name="balance" class="input-small" id="balance" value="0" readonly style="text-align: right;"></td>
                             </tr>
                         </table>
+                    </div>
+                    <div class="center">
+                        <span class="text-danger error" id="discount_error"></span>
+                        <span class="text-danger error" id="advance_error"></span>
+                        <span class="text-danger error" id="message_error"></span>
                     </div>
                     <div class="center">
                         <button id="InsertMainTransaction" class="btn btn-success addButton">Submit</button>

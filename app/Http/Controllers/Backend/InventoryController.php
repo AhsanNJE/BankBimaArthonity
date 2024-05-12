@@ -61,12 +61,24 @@ class InventoryController extends Controller
         ]);
 
         if($req->head != null){
-            $product = Transaction_Detail::where('tran_head_id',$req->head)
+            $product = Transaction_Detail::where('tran_head_id', $req->head)
             ->where('quantity', '>', 0)
-            ->orderBy('tran_date','asc')
+            ->where('tran_method', "Payment")
+            ->orderBy('tran_date', 'asc')
             ->get();
 
-            if($product->count() > 0){
+            $transaction = Transaction_Detail::where('tran_id', $req->tranId)
+            ->where('tran_head_id', $req->head)
+            ->get();
+
+            if($transaction->count() > 0){
+                return response()->json([
+                    'errors' => [
+                        'head' => ["You have already add this item."]
+                    ]
+                ], 422);
+            }
+            else if($product->count() > 0){
                 $quantity = $req->quantity;
                 $totQuantity = 0;
                 foreach($product as $index => $pro) {
@@ -135,6 +147,105 @@ class InventoryController extends Controller
                     ]
                 ], 422);
             }
+        }
+    }//End Method
+
+
+
+
+    // Inventory Issue Pagination
+    public function InventoryIssuePagination(Request $req){
+        $inventory = Transaction_Main::where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+        
+        return view('inventory.issue.inventoryIssuePagination', compact('inventory'));
+    }//End Method
+
+
+
+    // Get Inventory Issue by Date Range
+    public function ShowInventoryIssueByDate(Request $req){
+        $inventory = Transaction_Main::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method', $req->method)
+        ->where('tran_type', $req->type)
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $inventory->links()->toHtml();
+
+        
+        if($inventory->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.issue.search', compact('inventory'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Get Inventory Issue by TranId
+    public function SearchInventoryIssueByTranId(Request $req){
+        $inventory = Transaction_Main::where('tran_id', "like", '%'. $req->search .'%')
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->orderBy('tran_id','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $inventory->links()->toHtml();
+        
+        if($inventory->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.issue.search', compact('inventory'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+
+    
+    // Get Inventory Issue by Tran User
+    public function SearchInventoryIssueByTranUser(Request $req){
+        $inventory = Transaction_Main::with('User')
+        ->whereHas('User', function ($query) use ($req) {
+            $query->where('user_name', 'like', '%'.$req->search.'%');
+            $query->orderBy('user_name','asc');
+        })
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->paginate(15);
+        
+
+        $paginationHtml = $inventory->links()->toHtml();
+
+        if($inventory->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.issue.search', compact('inventory'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
         }
     }//End Method
 

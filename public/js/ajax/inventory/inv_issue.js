@@ -39,15 +39,15 @@ $(document).ready(function () {
     });
 
 
-    // // Search by Date Range
-    // $(document).on('change', '#startDate, #endDate', function(e){
-    //     e.preventDefault();
-    //     let type = '5';
-    //     let method = 'Payment';
-    //     let startDate = $('#startDate').val();
-    //     let endDate = $('#endDate').val();
-    //     searchTransaction(`/transaction/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase')
-    // });
+    // Search by Date Range
+    $(document).on('change', '#startDate, #endDate', function(e){
+        e.preventDefault();
+        let type = '5';
+        let method = 'Receive';
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        searchTransaction(`/inventory/issue/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+    });
 
 
     $(document).on('keyup', '#quantity, #amount', function (e) {
@@ -177,6 +177,58 @@ $(document).ready(function () {
     });
 
 
+    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.paginate a', function (e) {
+        e.preventDefault();
+        let type = '5';
+        let method = 'Receive';
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let page = $(this).attr('href').split('page=')[1];
+        searchTransaction(`/inventory/issue/pagination?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue');
+    });
+
+
+    /////////////// ------------------ Search ajax part start ---------------- /////////////////////////////
+    $(document).on('keyup', '#search', function (e) {
+        e.preventDefault();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let search = $(this).val();
+        let type = '5';
+        let method = 'Receive';
+        let searchOption = $("#searchOption").val();
+        if(searchOption == "1"){
+            searchTransaction(`/inventory/issue/search/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+        }
+        if(searchOption == "2"){
+            searchTransaction(`/inventory/issue/search/user`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+        }
+    });
+
+
+
+    /////////////// ------------------ Search Pagination ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.search-paginate a', function (e) {
+        e.preventDefault();
+        $('.paginate').addClass('hidden');
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let search = $('#search').val();
+        let type = '5';
+        let method = 'Receive';
+        let searchOption = $("#searchOption").val();
+        let page = $(this).attr('href').split('page=')[1];
+        if(searchOption == "1"){
+            searchTransaction(`/inventory/issue/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+        }
+        if(searchOption == "2"){
+            searchTransaction(`/inventory/issue/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+        }
+        
+    });
+
+
 
     //Get Last Transaction Id By Transaction Method And Type function
     function getTransactionId(type, method, targetElement) {
@@ -271,7 +323,7 @@ $(document).ready(function () {
 
 
 
-    // Search Transaction Receive Details
+    // Search Inventory Issue
     function searchTransaction(url, data, targetElement) {
         $.ajax({
             url: url,
