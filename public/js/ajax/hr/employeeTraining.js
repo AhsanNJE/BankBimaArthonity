@@ -360,12 +360,6 @@ $(document).ready(function () {
         if(searchOption == "7"){
             loadEmployeeData(`/search/employee/training/dob`, {search:search}, '.employee')
         }
-        if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/training/department`, {search:search}, '.employee')
-        }
-        if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/training/designation`, {search:search}, '.employee')
-        }
     });
 
 
@@ -397,12 +391,6 @@ $(document).ready(function () {
         }
         else if(searchOption == "7"){
             loadEmployeeData(`/search/page/training/dob?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/training/department?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/training/designation?page=${page}`, {search:search}, '.employee');
         }
         
     });

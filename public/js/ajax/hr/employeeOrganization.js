@@ -262,12 +262,6 @@ $(document).ready(function () {
         if(searchOption == "7"){
             loadEmployeeData(`/search/employee/organization/dob`, {search:search}, '.employee')
         }
-        if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/organization/department`, {search:search}, '.employee')
-        }
-        if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/organization/designation`, {search:search}, '.employee')
-        }
     });
 
 
@@ -300,13 +294,6 @@ $(document).ready(function () {
         else if(searchOption == "7"){
             loadEmployeeData(`/search/page/organization/dob?page=${page}`, {search:search}, '.employee');
         }
-        else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/organization/department?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/organization/designation?page=${page}`, {search:search}, '.employee');
-        }
-        
     });
 
 

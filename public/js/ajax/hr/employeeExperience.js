@@ -358,12 +358,6 @@ $(document).ready(function () {
         if(searchOption == "7"){
             loadEmployeeData(`/search/employee/experience/dob`, {search:search}, '.employee')
         }
-        if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/experience/department`, {search:search}, '.employee')
-        }
-        if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/experience/designation`, {search:search}, '.employee')
-        }
     });
 
 
@@ -395,12 +389,6 @@ $(document).ready(function () {
         }
         else if(searchOption == "7"){
             loadEmployeeData(`/search/page/experience/dob?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/experience/department?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/experience/designation?page=${page}`, {search:search}, '.employee');
         }
         
     });
