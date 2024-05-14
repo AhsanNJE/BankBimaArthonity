@@ -1,307 +1,114 @@
 $(document).ready(function () {  
     
-    // //Add Form Part start
-    // var formIndex = 2; // Initialize form index
+    var formIndex = 2; // Initialize form index
 
-    // $('#addEducation').click(function() {
-    //     var form = createForm(formIndex); // Create a new form
-    //     $('#formContainer').append(form); // Append the form to the container
-    //     formIndex++; // Increment form index
-    // });
-
-
-
-    // //Education Form Field Empty and Insert Data in Add Form 
-    // $('#InsertEducation').on('click', function() {
-    //     // Check if forms have already been submitted
-    //     if ($(this).data('submitted')) {
-    //         // Forms already submitted, do nothing
-    //         return;
-    //     }
+    $('#addEducation').click(function() {
+        var form = createForm(formIndex); // Create a new form
+        $('#formContainer').append(form); // Append the form to the container
+        formIndex++; // Increment form index
+    });
     
-    //     // Mark the button as submitted
-    //     $(this).data('submitted', true);
+    //Education Form Field Empty and Insert Data in Add Form 
+    $('#InsertEducation').on('click', function() {
+        // Check if forms have already been submitted
+        if ($(this).data('submitted')) {
+            // Forms already submitted, do nothing
+            return;
+        }
     
-    //     // Loop through each education form
-    //     $('.education-form').each(function(index, form) {
-    //         $(form).submit(); // Submit the current form only once
-    //     });
-    // });
+        // Mark the button as submitted
+        $(this).data('submitted', true);
     
-    // $(document).on('submit', '.education-form', function(e) {
-    //     e.preventDefault();
+        // Start submitting forms sequentially
+        submitForm($('.education-form').first());
+    });
     
-    //     let user = $('#user').attr('data-id');
-    //     let formData = new FormData(this);
-    //     formData.append('user', user === undefined ? '' : user);
-    
-    //     const currentForm = $(this); // Store the current form object
-    
-    //     $.ajax({
-    //         url: "/insert/education/info",
-    //         method: 'POST',
-    //         processData: false,
-    //         contentType: false,
-    //         cache: false,
-    //         data: formData,
-    //         beforeSend: function() {
-    //             currentForm.find('span.error').text(''); // Clear errors
-    //         },
-    //         success: function(res) {
-    //             console.log(res);
-    //             if (res.status === "success") {
-    //                 currentForm[0].reset(); // Reset the current form
-    //                 currentForm.find('#name').focus(); // Set focus
-    
-    //                 // Clear errors and fields within the current form
-    //                 currentForm.find('.text-danger').text('');
-    //                 currentForm.find('#user').removeAttr('data-id');
-    //                 currentForm.find('#search').val('');
-    
-    //                 // Clear fields outside the form (if necessary)
-    //                 $('#with').val('');
-    //                 $('#user').val('');
-    //                 $('#user-list ul').empty();
-    
-    //                 toastr.success('Education Detail Added Successfully', 'Added!');
 
-    //                 $('.education-form').not(':first').remove();  // Commented out for safety
-    //             }
-    //         },
-    //         error: function(err) {
-    //             console.log(err);
-    //             let error = err.responseJSON;
-    //             $.each(error.errors, function(key, value) {
-    //                 currentForm.find('#' + key + "_error").text(value); // Set error messages
-    //             });
-    //         }
-    //     });
-    // });
+    var isFirstFormInserted = false;
 
+    // Function to submit forms sequentially
+    function submitForm(form) {
+        if (!form.length) {
+            // No more forms to submit
+            if (isFirstFormInserted) {
+                // Remove all forms except the first one
+                removeAllFormsExceptFirst();
+            }
+            return;
+        }
 
-    // // Function to create a new form
-    // function createForm(index) {
-    //     var form = $('<form>', {
-    //         id: 'form' + index,
-    //         class: 'education-form'
-    //     });
+        let user = $('#user').attr('data-id');
+        let formData = new FormData(form[0]);
+        formData.append('user', user === undefined ? '' : user);
 
-    //     // Add form fields
-    //     form.append(`
-    //     <div class="row">  
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "level_of_education">Level of Education</label>
-    //             <input type="text" name="level_of_education" id="level_of_education" class="form-control">
-    //             <span class="text-danger error" id="level_of_education_error"></span>
-    //         </div>
-    //     </div>
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "degree_title">Degree Title</label>
-    //             <input type="text" name="degree_title" id="degree_title" class="form-control">
-    //             <span class="text-danger error" id="degree_title_error"></span>
-    //         </div>
-    //     </div>
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "group">Group</label>
-    //             <input type="text" name="group" id="group" class="form-control">
-    //             <span class="text-danger error" id="group_error"></span>
-    //         </div>
-    //     </div>
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "institution_name">Institution Name</label>
-    //             <input type="text" name="institution_name" id="institution_name" class="form-control">
-    //             <span class="text-danger error" id="institution_name_error"></span>
-    //         </div>
-    //     </div>
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "result">Result</label>
-    //             <input type="text" name="result" id="result" class="form-control">
-    //             <span class="text-danger error" id="result_error"></span>
-    //         </div>
-    //     </div>
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "scale">Scale</label>
-    //             <input type="decimal" name="scale" id="scale" class="form-control">
-    //             <span class="text-danger error" id="scale_error"></span>
-    //         </div>
-    //     </div>
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "cgpa">CGPA</label>
-    //             <input type="decimal" name="cgpa" id="cgpa" class="form-control">
-    //             <span class="text-danger error" id="cgpa_error"></span>
-    //         </div>
-    //     </div>
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "batch">Batch</label>
-    //             <input type="integer" name="batch" id="batch" class="form-control">
-    //             <span class="text-danger error" id="batch_error"></span>
-    //         </div>
-    //     </div>
-    //     <div class="col-md-6">
-    //         <div class="form-group">
-    //             <label for = "passing_year">Passing Year</label>
-    //             <input type="integer" name="passing_year" id="passing_year" class="form-control">
-    //             <span class="text-danger error" id="passing_year_error"></span>
-    //         </div>
-    //     </div>
-    //     </div>`);
-    //     return form;
-    // }
+        $.ajax({
+            url: "/insert/education/info",
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            beforeSend: function() {
+                form.find('span.error').text(''); // Clear errors
+            },
+            success: function(res) {
+                console.log(res);
+                if (res.status === "success") {
+                    form[0].reset(); // Reset the current form
+                    form.find('#name').focus(); // Set focus
 
+                    // Clear errors and fields within the current form
+                    form.find('.text-danger').text('');
+                    form.find('#user').removeAttr('data-id');
+                    form.find('#search').val('');
 
-    // Add Form Part start
-var formIndex = 2; // Initialize form index
-var allFormsData = []; // Array to store form data
+                    toastr.success('Education Detail Added Successfully', 'Added!');
+                    if (!isFirstFormInserted) {
+                        isFirstFormInserted = true;
+                    }
+                }
 
-$('#addEducation').click(function() {
-    var form = createForm(formIndex); // Create a new form
-    $('#formContainer').append(form); // Append the form to the container
-    formIndex++; // Increment form index
-});
-
-// Education Form Field Empty and Insert Data in Add Form 
-$('#InsertEducation').on('click', function() {
-    // Check if forms have already been submitted
-    if ($(this).data('submitted')) {
-        // Forms already submitted, do nothing
-        return;
+                // Submit the next form recursively only if the first form was inserted successfully
+                if (isFirstFormInserted) {
+                    submitForm(form.next('.education-form'));
+                }
+            },
+            error: function(err) {
+                console.log(err);
+                let error = err.responseJSON;
+                $.each(error.errors, function(key, value) {
+                    form.find('#' + key + "_error").text(value); // Set error messages
+                });
+            }
+        });
     }
 
-    // Mark the button as submitted
-    $(this).data('submitted', true);
+    // Function to remove all forms except the first one
+    function removeAllFormsExceptFirst() {
+        $('.education-form').not(':first').remove();
+    }
 
-    // Loop through each education form
-    $('.education-form').each(function(index, form) {
-        if (index === 0 || isPreviousFormFilled(index)) {
-            $(form).submit(); // Submit the current form only if the previous form is filled
-        } else {
-            toastr.error('Please fill all required fields in the previous form', 'Error!');
-        }
-    });
-});
-
-// // Check if all required fields in the previous form are filled
-// function isPreviousFormFilled(index) {
-//     var previousFormData = allFormsData[index - 1];
-//     var isFilled = true;
-
-//     // Check if any required field is empty
-//     $('.required-field', previousFormData).each(function() {
-//         if ($(this).val().trim() === '') {
-//             isFilled = false;
-//             return false; // Exit the loop early if any field is empty
-//         }
-//     });
-
-//     return isFilled;
-// }
-
-
-function isPreviousFormFilled(index) {
-    var previousFormData = allFormsData[index - 1];
-    var isFilled = true;
-
-    console.log("Previous form data:", previousFormData);
-
-    // Check if any required field is empty
-    $('.required-field', previousFormData).each(function() {
-        if ($(this).val().trim() === '') {
-            isFilled = false;
-            return false; // Exit the loop early if any field is empty
-        }
-    });
-
-    console.log("Previous form filled:", isFilled);
-
-    return isFilled;
-}
-
-$(document).on('submit', '.education-form', function(e) {
-    e.preventDefault();
-
-    let user = $('#user').attr('data-id');
-    let formData = new FormData(this);
-    formData.append('user', user === undefined ? '' : user);
-
-    const currentForm = $(this); // Store the current form object
-
-    $.ajax({
-        url: "/insert/education/info",
-        method: 'POST',
-        processData: false,
-        contentType: false,
-        cache: false,
-        data: formData,
-        beforeSend: function() {
-            currentForm.find('span.error').text(''); // Clear errors
-        },
-        success: function(res) {
-            console.log("Serialized form data:", currentForm.serializeArray());
-            if (res.status === "success") {
-                currentForm[0].reset(); // Reset the current form
-                currentForm.find('#name').focus(); // Set focus
+    // Function to create a new form
+    function createForm(index) {
         
-                // Clear errors and fields within the current form
-                currentForm.find('.text-danger').text('');
-                currentForm.find('#user').removeAttr('data-id');
-                currentForm.find('#search').val('');
-        
-                // Clear fields outside the form (if necessary)
-                $('#with').val('');
-                $('#user').val('');
-                $('#user-list ul').empty();
-        
-                toastr.success('Education Detail Added Successfully', 'Added!');
-        
-                // Save form data for validation
-                allFormsData.push(currentForm.serializeArray().reduce((obj, item) => {
-                    obj[item.name] = item.value;
-                    return obj;
-                }, {}));
-        
-                $('.education-form').not(':first').remove(); // Commented out for safety
-            }
-        },
-        
-        
-        error: function(err) {
-            console.log(err);
-            let error = err.responseJSON;
-            $.each(error.errors, function(key, value) {
-                currentForm.find('#' + key + "_error").text(value); // Set error messages
-            });
-        }
-    });
-});
+        var form = $('<form>', {
+            id: 'form' + index,
+            class: 'education-form'
+        });
 
-// Function to create a new form
-function createForm(index) {
-    var form = $('<form>', {
-        id: 'form' + index,
-        class: 'education-form'
-    });
-
-    // Add form fields
-    form.append(`
-    <div class="row">  
+        // Add form fields
+        form.append(`
+        <div class="row">  
         <div class="col-md-6">
             <div class="form-group">
-                <label for = "level_of_education">Level of Education</label>
+                <label for = "level_of_education">Level of Education<span class="red">*</span></label>
                 <input type="text" name="level_of_education" id="level_of_education" class="form-control">
                 <span class="text-danger error" id="level_of_education_error"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for = "degree_title">Degree Title</label>
+                <label for = "degree_title">Degree Title<span class="red">*</span></label>
                 <input type="text" name="degree_title" id="degree_title" class="form-control">
                 <span class="text-danger error" id="degree_title_error"></span>
             </div>
@@ -315,7 +122,7 @@ function createForm(index) {
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for = "institution_name">Institution Name</label>
+                <label for = "institution_name">Institution Name<span class="red">*</span></label>
                 <input type="text" name="institution_name" id="institution_name" class="form-control">
                 <span class="text-danger error" id="institution_name_error"></span>
             </div>
@@ -336,7 +143,7 @@ function createForm(index) {
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for = "cgpa">CGPA</label>
+                <label for = "cgpa">CGPA<span class="red">*</span></label>
                 <input type="decimal" name="cgpa" id="cgpa" class="form-control">
                 <span class="text-danger error" id="cgpa_error"></span>
             </div>
@@ -350,15 +157,14 @@ function createForm(index) {
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for = "passing_year">Passing Year</label>
+                <label for = "passing_year">Passing Year<span class="red">*</span></label>
                 <input type="integer" name="passing_year" id="passing_year" class="form-control">
                 <span class="text-danger error" id="passing_year_error"></span>
             </div>
         </div>
         </div>`);
-    return form;
-}
-
+        return form;
+    }
 
     // Show Button part
     $(document).on('click', '.emp_educationDetail', function (e) {
@@ -369,7 +175,7 @@ function createForm(index) {
         if ($detailsRow.is(':visible')) {
             // If the row is visible, hide it, change button text to "Show", and remove caret rotation
             $detailsRow.hide();
-            $button.find('.dropdown-caret').removeClass('rotate');
+            $button.find('.fa-chevron-circle-right').removeClass('rotate');
         } else {
             // Fetch data and show it, then change button text to "Hide", and add caret rotation
             $.ajax({
@@ -380,7 +186,7 @@ function createForm(index) {
                     console.log(res);
                     $detailsRow.find('td').html(res.data);
                     $detailsRow.show();
-                    $button.find('.dropdown-caret').addClass('rotate');
+                    $button.find('.fa-chevron-circle-right').addClass('rotate');
                 },
                 error: function (err) {
                     console.log(err);
@@ -432,58 +238,6 @@ function createForm(index) {
         }
     });
 
-
-//     // Edit Button Click Event
-// $(document).on('click', '.editEmployee', function () {
-//     let modalId = '#editEducationDetail';
-//     let employeeId = $(this).data('employee-id');
-//     let formIndex = $(this).data('form-index');
-
-//     // Fetch employee data for the corresponding employee ID and form index
-//     $.ajax({
-//         url: `/edit/employee`,
-//         method: 'GET',
-//         data: { id: employeeId, formIndex: formIndex },
-//         success: function (res) {
-//             // Populate modal fields with fetched employee data
-//             $(modalId + ' #id').val(res.employee.id);
-//             $(modalId + ' #empId').val(res.employee.emp_id);
-//             $(modalId + ' #updateName').val(res.employee.name);
-//             $(modalId + ' #updateEmail').val(res.employee.email);
-//             $(modalId + ' #updatePhone').val(res.employee.phone);
-//             // Populate other fields similarly
-            
-//             // Show the modal
-//             $(modalId).modal('show');
-//         },
-//         error: function (err) {
-//             console.log(err);
-//         }
-//     });
-// });
-
-// // Submit Edited Employee Form
-// $(document).on('submit', '#EditEducationDetailForm', function (e) {
-//     e.preventDefault();
-//     let formData = new FormData(this);
-
-//     // Make AJAX request to update employee data
-//     $.ajax({
-//         url: $(this).attr('action'), // Use form action attribute for update URL
-//         method: 'POST',
-//         data: formData,
-//         cache: false,
-//         processData: false,
-//         contentType: false,
-//         success: function (res) {
-//             // Handle success response
-//             // Optionally, update UI to reflect changes
-//         },
-//         error: function (err) {
-//             console.log(err);
-//         }
-//     });
-// });
 
     // Edit Button Click Event
     $(document).on('click', '.editEducationDetail', function () {
@@ -550,97 +304,6 @@ function createForm(index) {
 
 
 
-    
-    // ///////////// ------------------ Edit Employee Ajax Part Start ---------------- /////////////////////////////
-    // $(document).on('click', '.editEmployee', function () {
-    //     let modalId = $(this).data('modal-id');
-    //     let id = $(this).data('id');
-    //     $.ajax({
-    //         url: `/admin/employees/edit/employees`,
-    //         method: 'GET',
-    //         data: { id:id },
-    //         success: function (res) {
-    //             $('#id').val(id);
-    //             $('#empId').val(res.employee.user_id);
-    //             $('#updateName').val(res.employee.user_name);
-    //             $('#updateName').focus();
-    //             $('#updateEmail').val(res.employee.user_email);
-    //             $('#updatePhone').val(res.employee.user_phone);
-
-    //             // Create options dynamically
-    //             $('#updateGender').empty();
-    //             $('#updateGender').append(`<option value="male" ${res.employee.gender === 'male' ? 'selected' : ''}>Male</option>
-    //                                     <option value="female" ${res.employee.gender === 'female' ? 'selected' : ''}>Female</option>
-    //                                     <option value="others" ${res.employee.gender === 'others' ? 'selected' : ''}>Others</option>`);
-
-    //             $('#updateLocation').val(res.employee.location.upazila);
-    //             $('#updateLocation').attr('data-id',res.employee.loc_id);
-
-    //             // Create options dynamically
-    //             $('#updateType').empty();
-    //             $.each(res.tranwith, function (key, withs) {
-    //                 $('#updateType').append(`<option value="${withs.id}" ${res.employee.tran_user_type === withs.id ? 'selected' : ''}>${withs.tran_with_name}</option>`);
-    //             });
-
-    //             $('#updateDepartment').val(res.employee.department.dept_name);
-    //             $('#updateDepartment').attr('data-id',res.employee.dept_id);
-    //             $('#updateDesignation').val(res.employee.designation.designation);
-    //             $('#updateDesignation').attr('data-id',res.employee.designation_id);
-    //             $('#updateDob').val(res.employee.dob);
-    //             $('#updateNid').val(res.employee.nid);
-    //             $('#updateAddress').val(res.employee.address);
-    //             $('#updatePreviewImage').attr('src',`/storage/profiles/${res.employee.image}?${new Date().getTime()} `).show();
-
-    //             var modal = document.getElementById(modalId);
-    //             modal.style.display = 'block';
-    //         },
-    //         error: function (err) {
-    //             console.log(err);
-    //         }
-    //     });
-    // });
-
-
-
-    // /////////////// ------------------ Update Employees Ajax Part Start ---------------- /////////////////////////////
-    // $(document).on('submit', '#EditEmployeeForm', function (e) {
-    //     e.preventDefault();
-    //     let locations = $('#updateLocation').attr('data-id');
-    //     let department = $('#updateDepartment').attr('data-id');
-    //     let designation = $('#updateDesignation').attr('data-id');
-    //     let formData = new FormData(this);
-    //     formData.append('location',locations);
-    //     formData.append('department',department);
-    //     formData.append('designation',designation);
-    //     $.ajax({
-    //         url: `/admin/employees/update/employees`,
-    //         method: 'POST',
-    //         data: formData,
-    //         cache: false,
-    //         processData: false,
-    //         contentType: false,
-    //         beforeSend:function() {
-    //             $(document).find('span.error').text('');  
-    //         },
-    //         success: function (res) {
-    //             if (res.status == "success") {
-    //                 $('#editEmployee').hide();
-    //                 $('#EditEmployeeForm')[0].reset();
-    //                 $('#search').val('');
-    //                 $('.employee').load(location.href + ' .employee');
-    //                 toastr.success('Employee Updated Successfully', 'Updated!');
-    //             }
-    //         },
-    //         error: function (err) {
-    //             let error = err.responseJSON;
-    //             $.each(error.errors, function (key, value) {
-    //                 $('#update_' + key + "_error").text(value);
-    //             })
-    //         }
-    //     });
-    // });
-
-
     /////////////// ------------------ Delete Employee ajax part start ---------------- /////////////////////////////
    // Personal Delete Button Functionality
     $(document).on('click', '#deleteEducation', function (e) {
@@ -680,7 +343,7 @@ function createForm(index) {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+        loadEmployeeData(`/education/pagination?page=${page}`, {}, '.employee');
     });
 
 
@@ -718,12 +381,6 @@ function createForm(index) {
         if(searchOption == "7"){
             loadEmployeeData(`/search/employee/education/dob`, {search:search}, '.employee')
         }
-        if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/education/department`, {search:search}, '.employee')
-        }
-        if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/education/designation`, {search:search}, '.employee')
-        }
     });
 
 
@@ -756,13 +413,6 @@ function createForm(index) {
         else if(searchOption == "7"){
             loadEmployeeData(`/search/page/education/dob?page=${page}`, {search:search}, '.employee');
         }
-        else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/education/department?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/education/designation?page=${page}`, {search:search}, '.employee');
-        }
-        
     });
 
 

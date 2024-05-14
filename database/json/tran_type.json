@@ -3,7 +3,6 @@
     { "type_name": "Party Payment" },
     { "type_name": "Payroll" },
     { "type_name": "Bank" },
-    { "type_name": "Kitchen" },
     { "type_name": "Inventory" },
-    { "type_name": "Pharmacy" }
+    { "type_name": "Miscellaneous" }
 ]

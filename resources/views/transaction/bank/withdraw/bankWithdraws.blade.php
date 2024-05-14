@@ -38,6 +38,8 @@
 
     @include('transaction.bank.withdraw.editBankWithdraw')
 
+    @include('transaction.bank.withdraw.delete')
+
 @endsection
 
 

@@ -1,8 +1,15 @@
 [
-    { "dept_name": "Acounts" },
+    { "dept_name": "Accounts" },
+    { "dept_name": "Administration" },
     { "dept_name": "Editor" },
+    { "dept_name": "Finance" },
+    { "dept_name": "Human Resources" },
+    { "dept_name": "IT" },
     { "dept_name": "Marketing" },
-    { "dept_name": "Worker" },
+    { "dept_name": "Manager" },
+    { "dept_name": "Clerk" },
+    { "dept_name": "Public Relations" },
     { "dept_name": "Reporter" },
-    { "dept_name": "Printing" }
+    { "dept_name": "Sales" },
+    { "dept_name": "Worker" }
 ]

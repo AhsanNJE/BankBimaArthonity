@@ -2,95 +2,95 @@ $(document).ready(function () {
 
     var formIndex = 2; // Initialize form index
 
-$('#addTraining').click(function() {
-  var form = createForm(formIndex); // Create a new form
-  $('#formContainer').append(form); // Append the form to the container
-  formIndex++; // Increment form index
-});
-
-// Training Form Field Empty and Insert Data in Add Form
-$('#InsertTraining').on('click', function() {
-  // Check if forms have already been submitted
-  if ($(this).data('submitted')) {
-    // Forms already submitted, do nothing
-    return;
-  }
-
-  // Mark the button as submitted
-  $(this).data('submitted', true);
-
-  var hasErrors = false; // Flag to track errors
-
-  // Loop through each training form
-  $('.training-form').each(function(index, form) {
-    var isEmpty = false; // Flag to track empty fields in the form
-
-    // Loop through each input field in the form
-    $(form).find('input[required]').each(function() {
-      // Check if the input field is empty
-      if ($(this).val().trim() === '') {
-        isEmpty = true; // Set flag if empty field found
-        $(this).parent().addClass('has-error'); // Add a visual error indicator (optional)
-      } else {
-        $(this).parent().removeClass('has-error'); // Remove error indicator (optional)
-      }
+    $('#addTraining').click(function() {
+        var form = createForm(formIndex); // Create a new form
+        $('#formContainer').append(form); // Append the form to the container
+        formIndex++; // Increment form index
     });
+    
+    //Training Form Field Empty and Insert Data in Add Form 
+    $('#InsertTraining').on('click', function() {
+        // Check if forms have already been submitted
+        if ($(this).data('submitted')) {
+            // Forms already submitted, do nothing
+            return;
+        }
+    
+        // Mark the button as submitted
+        $(this).data('submitted', true);
+    
+        // Start submitting forms sequentially
+        submitForm($('.training-form').first());
+    });
+    
 
-    // If any empty field is found, handle the error
-    if (isEmpty) {
-      console.log("Error: Form " + (index + 1) + " has empty fields. Submission cancelled.");
-      hasErrors = true; // Set flag if form has errors
-      // Optionally, display a more user-friendly error message to the user
-      return false; // Exit the loop if an empty field is found
+    var isFirstFormInserted = false;
+
+    // Function to submit forms sequentially
+    function submitForm(form) {
+        if (!form.length) {
+            // No more forms to submit
+            if (isFirstFormInserted) {
+                // Remove all forms except the first one
+                removeAllFormsExceptFirst();
+            }
+            return;
+        }
+
+        let user = $('#user').attr('data-id');
+        let formData = new FormData(form[0]);
+        formData.append('user', user === undefined ? '' : user);
+
+        $.ajax({
+            url: "/insert/training/info",
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            beforeSend: function() {
+                form.find('span.error').text(''); // Clear errors
+            },
+            success: function(res) {
+                console.log(res);
+                if (res.status === "success") {
+                    form[0].reset(); // Reset the current form
+                    form.find('#name').focus(); // Set focus
+
+                    // Clear errors and fields within the current form
+                    form.find('.text-danger').text('');
+                    form.find('#user').removeAttr('data-id');
+                    form.find('#search').val('');
+
+                    toastr.success('Training Detail Added Successfully', 'Added!');
+                    if (!isFirstFormInserted) {
+                        isFirstFormInserted = true;
+                    }
+                }
+
+                // Submit the next form recursively only if the first form was inserted successfully
+                if (isFirstFormInserted) {
+                    submitForm(form.next('.training-form'));
+                }
+            },
+            error: function(err) {
+                console.log(err);
+                let error = err.responseJSON;
+                $.each(error.errors, function(key, value) {
+                    form.find('#' + key + "_error").text(value); // Set error messages
+                });
+            }
+        });
     }
 
-    let user = $('#user').attr('data-id');
-    let formData = new FormData(this);
-    formData.append('user', user === undefined ? '' : user);
-
-    // Ajax call to submit the form data
-    $.ajax({
-      url: "/insert/training/info",
-      method: 'POST',
-      processData: false,
-      contentType: false,
-      cache: false,
-      data: formData,
-      beforeSend: function() {
-        $(form).find('span.error').text(''); // Clear errors
-      },
-      success: function(res) {
-        console.log(res);
-        if (res.status === "success") {
-          $(form)[0].reset(); // Reset the current form
-          $(form).find('#name').focus(); // Set focus
-        } else {
-          hasErrors = true; // Set flag if form has errors
-          // Handle errors (similar logic to your error handling)
-        }
-      },
-      error: function(err) {
-        console.log(err);
-        hasErrors = true; // Set flag if form has errors
-        // Handle errors (similar logic to your error handling)
-      }
-    });
-  });
-
-  // Submit all forms only if there are no errors
-  if (!hasErrors) {
-    console.log("All forms submitted successfully");
-    // (Optional) Show success message
-  } else {
-    console.log("Errors found in some forms. Submission cancelled.");
-    // (Optional) Show error message
-  }
-});
-
-
+    // Function to remove all forms except the first one
+    function removeAllFormsExceptFirst() {
+        $('.training-form').not(':first').remove();
+    }
 
     // Function to create a new form
     function createForm(index) {
+        
         var form = $('<form>', {
             id: 'form' + index,
             class: 'training-form'
@@ -101,7 +101,7 @@ $('#InsertTraining').on('click', function() {
         <div class="row">  
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "training_title">Training Title</label>
+                    <label for = "training_title">Training Title<span class="red">*</span></label>
                     <input type="text" name="training_title" id="training_title" class="form-control">
                     <span class="text-danger error" id="training_title_error"></span>
                 </div>
@@ -115,14 +115,14 @@ $('#InsertTraining').on('click', function() {
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "topic">Topic</label>
+                    <label for = "topic">Topic<span class="red">*</span></label>
                     <input type="text" name="topic" id="topic" class="form-control">
                     <span class="text-danger error" id="topic_error"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "institution_name">Institution Name</label>
+                    <label for = "institution_name">Institution Name<span class="red">*</span></label>
                     <input type="text" name="institution_name" id="institution_name" class="form-control">
                     <span class="text-danger error" id="institution_name_error"></span>
                 </div>
@@ -143,7 +143,7 @@ $('#InsertTraining').on('click', function() {
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "training_year">Training Year</label>
+                    <label for = "training_year">Training Year<span class="red">*</span></label>
                     <input type="integer" name="training_year" id="training_year" class="form-control">
                     <span class="text-danger error" id="training_year_error"></span>
                 </div>
@@ -161,7 +161,7 @@ $('#InsertTraining').on('click', function() {
         if ($detailsRow.is(':visible')) {
             // If the row is visible, hide it, change button text to "Show", and remove caret rotation
             $detailsRow.hide();
-            $button.find('.dropdown-caret').removeClass('rotate');
+            $button.find('.fa-chevron-circle-right').removeClass('rotate');
         } else {
             // Fetch data and show it, then change button text to "Hide", and add caret rotation
             $.ajax({
@@ -172,7 +172,7 @@ $('#InsertTraining').on('click', function() {
                     console.log(res);
                     $detailsRow.find('td').html(res.data);
                     $detailsRow.show();
-                    $button.find('.dropdown-caret').addClass('rotate');
+                    $button.find('.fa-chevron-circle-right').addClass('rotate');
                 },
                 error: function (err) {
                     console.log(err);
@@ -322,7 +322,7 @@ $('#InsertTraining').on('click', function() {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+        loadEmployeeData(`/training/pagination?page=${page}`, {}, '.employee');
     });
 
 
@@ -360,12 +360,6 @@ $('#InsertTraining').on('click', function() {
         if(searchOption == "7"){
             loadEmployeeData(`/search/employee/training/dob`, {search:search}, '.employee')
         }
-        if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/training/department`, {search:search}, '.employee')
-        }
-        if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/training/designation`, {search:search}, '.employee')
-        }
     });
 
 
@@ -397,12 +391,6 @@ $('#InsertTraining').on('click', function() {
         }
         else if(searchOption == "7"){
             loadEmployeeData(`/search/page/training/dob?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/training/department?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/training/designation?page=${page}`, {search:search}, '.employee');
         }
         
     });

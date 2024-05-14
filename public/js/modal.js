@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Get all elements with the class 'open-modal'
-    var openModalBtns = document.querySelectorAll('.open-modal');
-
+   
+ var openModalBtns = document.querySelectorAll('.open-modal');
     // Attach event listeners to each button
     openModalBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {

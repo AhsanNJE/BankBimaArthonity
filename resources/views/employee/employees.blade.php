@@ -1,3 +1,30 @@
+@section('style')
+    <style>
+        .modal-subject {
+            width: 80%;
+        }
+        .designation{
+            color: #0af7b7f5;
+            font-size: 20px;
+        }
+        .payroll table{
+            margin: 20px 0;
+        }
+        .show-table td, th {
+            border: 1px solid #4f4a4a63;
+        }
+        .add-search .row {
+            justify-content: center; /* This will center the row's contents horizontally */
+        }
+
+        .search {
+            display: flex;
+            justify-content: center; /* This centers the children of the 'search' div */
+            flex-wrap: wrap; /* Allows elements to wrap into the next line if needed */
+        }
+    </style>
+@endsection
+
 @extends('admin.layouts/layout')
 @section('admin')
 <div class="add-search">

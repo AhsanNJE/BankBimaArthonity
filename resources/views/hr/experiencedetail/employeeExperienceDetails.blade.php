@@ -26,10 +26,11 @@
     </div>
     @include('hr.experiencedetail.addExperienceDetail')
     @include('hr.experiencedetail.employeeExperienceFullDetail')
+
+    @include('hr.experiencedetail.deleteExperienceDetail')
+    
     @include('hr.experiencedetail.editExperienceDetail')
     
-    @include('hr.experiencedetail.deleteExperienceDetail')
-
     @endsection
 
 @section('ajax')

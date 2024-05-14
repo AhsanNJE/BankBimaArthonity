@@ -9,56 +9,43 @@
                     </div>
                 </div>
 
-                {{-- <form id="EditSupplierForm" method="post" enctype="multipart/form-data">
+                <!-- form start -->
+                <form id="EditTransactionPaymentForm" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('put')
-                    <div class="center">
-                        <div class="card-body">
+                    @method('PUT')
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="updatewithin" style="display: none"> </div>
+                            <div id="updategroupein" style="display: none">
+                                @foreach ($groupes as $groupe)
+                                <input type="checkbox" id="groupe[]" name="groupe" class="updategroupe-checkbox" value="{{$groupe->id}}" checked>
+                                @endforeach
+                            </div>
+                            <input type="hidden" name="id" id="id">
+                            <input type="hidden" name="dId" id="dId">
+                            <input type="hidden" name="tranId" id="updateTranId">
                             <div class="row">
-                                <input type="hidden" name="id" id="id">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="updateType">Type</label>
-                                        <select name="type" id="updateType">
-                                            
-                                        </select>
-                                        <span class="text-danger error" id="update_type_error"></span>
+                                        <label for="updateDate">Date</label>
+                                        <input type="text" name="date" class="form-control" id="updateDate"
+                                            value="{{ date('Y-m-d') }}" disabled>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="updateName">Client Name</label>
-                                        <input type="text" name="name" class="form-control" id="updateName">
-                                        <span class="text-danger error" id="update_name_error"></span>
+                                        <label for="updateUser">Transaction User</label>
+                                        <input type="text" name="user" class="form-control" id="updateUser"
+                                            autocomplete="off">
+                                        <div id="update-user">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="update_user_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="updateEmail">Email</label>
-                                        <input type="text" name="email" class="form-control" id="updateEmail">
-                                        <span class="text-danger error" id="update_email_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="updatePhone">Phone</label>
-                                        <input type="text" name="phone" class="form-control" id="updatePhone">
-                                        <span class="text-danger error" id="update_phone_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="updateGender">Gender</label>
-                                        <select name="gender" id="updateGender">
-                                            <option value="">Select Gender</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="others">Others</option>
-                                        </select>
-                                        <span class="text-danger error" id="update_gender_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="updateLocation">Location</label>
                                         <input type="text" name="location" class="form-control" id="updateLocation"
@@ -71,20 +58,110 @@
                                         <span class="text-danger error" id="update_location_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="updateAddress">Address</label>
-                                        <input type="text" name="address" class="form-control" id="updateAddress">
-                                        <span class="text-danger error" id="update_address_error"></span>
+                                        <label for="updateHead">Transaction Head</label>
+                                        <input type="text" name="head" id="updateHead" class="form-control">
+                                        <div id="update-head">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="update_head_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="updateQuantity">Quantity</label>
+                                        <input type="text" name="quantity" class="form-control" id="updateQuantity" value="1">
+                                        <span class="text-danger error" id="update_quantity_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="updateAmount">Amount</label>
+                                        <input type="text" name="amount" class="form-control" id="updateAmount">
+                                        <span class="text-danger error" id="update_amount_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="updateTotAmount">Total</label>
+                                        <input type="text" name="totAmount" class="form-control" id="updateTotAmount"
+                                            readonly>
+                                        <span class="text-danger error" id="update_totAmount_error"></span>
                                     </div>
                                 </div>
                                 <div class="center">
-                                    <button type="submit" id="updateSupplier" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="UpdateTransactionPayment" class="btn btn-success">Add</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="update_transaction_grid" style="overflow-x:auto;">
+                                <table class="show-table">
+                                    <thead>
+                                        <tr>
+                                            <th>SL:</th>
+                                            <th>Name</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td><label for="updateAmountRP">Invoice Amount</label></td>
+                                            <td><input type="text" name="amountRP" class="input-small" id="updateAmountRP"
+                                                    value="0" readonly style="text-align: right;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="updateTotalDiscount">Discount</label></td>
+                                            <td><input type="text" name="totalDiscount" class="input-small"
+                                                    id="updateTotalDiscount" value="0" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="updateNetAmount">Net Amount</label>
+                                            <td><input type="text" name="netAmount" class="input-small" id="updateNetAmount"
+                                                    value="0" readonly style="text-align: right;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="updateAdvance">Advance</label>
+                                            <td><input type="text" name="advance" class="input-small" id="updateAdvance"
+                                                    value="0" style="text-align: right;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="updateBalance">Balance</label>
+                                            <td><input type="text" name="balance" class="input-small" id="updateBalance"
+                                                    value="0" readonly style="text-align: right;"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="center">
+                                    <span class="text-danger error" id="update_discount_error"></span>
+                                    <span class="text-danger error" id="update_advance_error"></span>
+                                    <span class="text-danger error" id="update_message_error"></span>
+                                </div>
+                                <div class="center">
+                                    <button id="UpdateMainTransaction" class="btn btn-success addButton">Submit</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form> --}}
+                </form>
             </div>
         </div>
     </div>

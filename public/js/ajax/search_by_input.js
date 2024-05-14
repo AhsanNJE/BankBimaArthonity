@@ -1076,7 +1076,7 @@ $(document).ready(function () {
             }).get();
             groupein = 1;
         } else {
-            groupe = $('#with').val();
+            groupe = $('#updategroupe').val();
             groupein = 0;
         }
         let id = $(this).attr('data-id');

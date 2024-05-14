@@ -23,19 +23,16 @@
 <body>
 <div id= "EmployeeOrganization" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Organization Detail</h3>
-            <span class="close-modal" data-modal-id="EmployeeOrganization">&times;</span>
-        </div>
-
+       
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Organization Detail</h3>
+                        <span class="close-modal" data-modal-id="EmployeeOrganization">&times;</span>
                     </div>
                 </div>
-                
+                <br>
                 <!-- form start -->
                 <form id="AddOrganizationDetailForm" action="{{ route('insertorganization.info')}}" method="POST" enctype="multipart/form-data">
                     @csrf

@@ -7,9 +7,9 @@ $(document).ready(function () {
         $('#formContainer').append(form); // Append the form to the container
         formIndex++; // Increment form index
     });
-
-     //Experience Form Field Empty and Insert Data in Add Form 
-     $('#InsertExperience').on('click', function() {
+    
+    //Experience Form Field Empty and Insert Data in Add Form 
+    $('#InsertExperience').on('click', function() {
         // Check if forms have already been submitted
         if ($(this).data('submitted')) {
             // Forms already submitted, do nothing
@@ -19,21 +19,28 @@ $(document).ready(function () {
         // Mark the button as submitted
         $(this).data('submitted', true);
     
-        // Loop through each experience form
-        $('.experience-form').each(function(index, form) {
-            $(form).submit(); // Submit the current form only once
-        });
+        // Start submitting forms sequentially
+        submitForm($('.experience-form').first());
     });
     
-    $(document).on('submit', '.experience-form', function(e) {
-        e.preventDefault();
-    
+
+    var isFirstFormInserted = false;
+
+    // Function to submit forms sequentially
+    function submitForm(form) {
+        if (!form.length) {
+            // No more forms to submit
+            if (isFirstFormInserted) {
+                // Remove all forms except the first one
+                removeAllFormsExceptFirst();
+            }
+            return;
+        }
+
         let user = $('#user').attr('data-id');
-        let formData = new FormData(this);
+        let formData = new FormData(form[0]);
         formData.append('user', user === undefined ? '' : user);
-    
-        const currentForm = $(this); // Store the current form object
-    
+
         $.ajax({
             url: "/insert/experience/info",
             method: 'POST',
@@ -42,73 +49,81 @@ $(document).ready(function () {
             cache: false,
             data: formData,
             beforeSend: function() {
-                currentForm.find('span.error').text(''); // Clear errors
+                form.find('span.error').text(''); // Clear errors
             },
             success: function(res) {
                 console.log(res);
                 if (res.status === "success") {
-                    currentForm[0].reset(); // Reset the current form
-                    currentForm.find('#name').focus(); // Set focus
-    
-                    // Clear errors and fields within the current form
-                    currentForm.find('.text-danger').text('');
-                    currentForm.find('#user').removeAttr('data-id');
-                    currentForm.find('#search').val('');
-    
-                    // Clear fields outside the form (if necessary)
-                    $('#with').val('');
-                    $('#user').val('');
-                    $('#user-list ul').empty();
-    
-                    toastr.success('Experience Detail Added Successfully', 'Added!');
+                    form[0].reset(); // Reset the current form
+                    form.find('#name').focus(); // Set focus
 
-                    $('.experience-form').not(':first').remove();  // Commented out for safety
+                    // Clear errors and fields within the current form
+                    form.find('.text-danger').text('');
+                    form.find('#user').removeAttr('data-id');
+                    form.find('#search').val('');
+
+                    toastr.success('Experience Detail Added Successfully', 'Added!');
+                    if (!isFirstFormInserted) {
+                        isFirstFormInserted = true;
+                    }
+                }
+
+                // Submit the next form recursively only if the first form was inserted successfully
+                if (isFirstFormInserted) {
+                    submitForm(form.next('.experience-form'));
                 }
             },
             error: function(err) {
                 console.log(err);
                 let error = err.responseJSON;
                 $.each(error.errors, function(key, value) {
-                    currentForm.find('#' + key + "_error").text(value); // Set error messages
+                    form.find('#' + key + "_error").text(value); // Set error messages
                 });
             }
         });
-    });
+    }
+
+    // Function to remove all forms except the first one
+    function removeAllFormsExceptFirst() {
+        $('.experience-form').not(':first').remove();
+    }
 
     // Function to create a new form
     function createForm(index) {
+        
         var form = $('<form>', {
             id: 'form' + index,
             class: 'experience-form'
         });
+    
 
         // Add form fields
         form.append(`
         <div class="row">  
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "company_name">Company Name</label>
+                    <label for = "company_name">Company Name<span class="red">*</span></label>
                     <input type="text" name="company_name" id="company_name" class="form-control">
                     <span class="text-danger error" id="company_name_error"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "department">Department</label>
+                    <label for = "department">Department<span class="red">*</span></label>
                     <input type="text" name="department" id="department" class="form-control">
                     <span class="text-danger error" id="department_error"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "designation">Designation</label>
+                    <label for = "designation">Designation<span class="red">*</span></label>
                     <input type="text" name="designation" id="designation" class="form-control">
                     <span class="text-danger error" id="designation_error"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for = "company_location">Company Address</label>
+                    <label for = "company_location">Company Address<span class="red">*</span></label>
                     <input type="text" name="company_location" id="company_location"  class="form-control">
                     <span class="text-danger error" id="company_location_error"></span>
                 </div>
@@ -141,7 +156,7 @@ $(document).ready(function () {
         if ($detailsRow.is(':visible')) {
             // If the row is visible, hide it, change button text to "Show", and remove caret rotation
             $detailsRow.hide();
-            $button.find('.dropdown-caret').removeClass('rotate');
+            $button.find('.fa-chevron-circle-right').removeClass('rotate');
         } else {
             // Fetch data and show it, then change button text to "Hide", and add caret rotation
             $.ajax({
@@ -152,7 +167,7 @@ $(document).ready(function () {
                     console.log(res);
                     $detailsRow.find('td').html(res.data);
                     $detailsRow.show();
-                    $button.find('.dropdown-caret').addClass('rotate');
+                    $button.find('.fa-chevron-circle-right').addClass('rotate');
                 },
                 error: function (err) {
                     console.log(err);
@@ -305,7 +320,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+        loadEmployeeData(`/experience/pagination?page=${page}`, {}, '.employee');
     });
 
 
@@ -343,12 +358,6 @@ $(document).ready(function () {
         if(searchOption == "7"){
             loadEmployeeData(`/search/employee/experience/dob`, {search:search}, '.employee')
         }
-        if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/experience/department`, {search:search}, '.employee')
-        }
-        if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/experience/designation`, {search:search}, '.employee')
-        }
     });
 
 
@@ -380,12 +389,6 @@ $(document).ready(function () {
         }
         else if(searchOption == "7"){
             loadEmployeeData(`/search/page/experience/dob?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/experience/department?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/experience/designation?page=${page}`, {search:search}, '.employee');
         }
         
     });

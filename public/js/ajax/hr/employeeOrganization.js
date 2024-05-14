@@ -46,6 +46,36 @@ $(document).on('submit', '#AddOrganizationDetailForm', function (e) {
     });
 });
 
+
+// Show Button part
+$(document).on('click', '.emp_organizationDetail', function (e) {
+    let id = $(this).attr('data-id');
+    let $detailsRow = $(`#detailsorganization${id}`);
+    let $button = $(this); // Reference to the clicked button
+
+    if ($detailsRow.is(':visible')) {
+        // If the row is visible, hide it, change button text to "Show", and remove caret rotation
+        $detailsRow.hide();
+        $button.find('.fa-chevron-circle-right').removeClass('rotate');
+    } else {
+        // Fetch data and show it, then change button text to "Hide", and add caret rotation
+        $.ajax({
+            url: "/employee/organization",
+            method: 'GET',
+            data: {id:id},
+            success: function (res) {
+                console.log(res);
+                $detailsRow.find('td').html(res.data);
+                $detailsRow.show();
+                $button.find('.fa-chevron-circle-right').addClass('rotate');
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+});
+
 $(document).ready(function () {
     //Show Employee Organization Details on details modal
     $(document).on('click', '.EmployeeOrganizationDetails', function (e) {
@@ -194,7 +224,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+        loadEmployeeData(`/organization/pagination?page=${page}`, {}, '.employee');
     });
 
 
@@ -232,12 +262,6 @@ $(document).ready(function () {
         if(searchOption == "7"){
             loadEmployeeData(`/search/employee/organization/dob`, {search:search}, '.employee')
         }
-        if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/organization/department`, {search:search}, '.employee')
-        }
-        if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/organization/designation`, {search:search}, '.employee')
-        }
     });
 
 
@@ -270,13 +294,6 @@ $(document).ready(function () {
         else if(searchOption == "7"){
             loadEmployeeData(`/search/page/organization/dob?page=${page}`, {search:search}, '.employee');
         }
-        else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/organization/department?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/organization/designation?page=${page}`, {search:search}, '.employee');
-        }
-        
     });
 
 

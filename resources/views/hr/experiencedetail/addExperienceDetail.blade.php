@@ -10,6 +10,9 @@
         .container {
         background-color: #E8E8E8!important; 
         }
+        .red {
+            color: red;
+        }
     </style>
 @endsection
 
@@ -23,23 +26,22 @@
 <body>
 <div id= "EmployeeExperience" class="modal-container">
     <div class="modal-subject">
-        <div class="modal-heading">
-            <h3 class="center">Add Experience Detail</h3>
-            <span class="close-modal" data-modal-id="EmployeeExperience">&times;</span>
-        </div>
+        
 
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Add Experience Detail</h3>
+                        <span class="close-modal" data-modal-id="EmployeeExperience">&times;</span>
                     </div>
                 </div>
+                <br>
                 <div id="formContainer">
                     <div class="row">
                         <div class="col-md-6">  
                             <div class="form-group">   
-                                <label for="with">Employee Type</label>
+                                <label for="with">Employee Type<span class="red">*</span></label>
                                 <select name="with" id="with">
                                     <option value="">Select Employee Type</option>
                                     @foreach ($tranwith as $with)
@@ -51,7 +53,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="user">Name</label>
+                                <label for="user">Name<span class="red">*</span></label>
                                 <input type="text" name="user" class="form-control" id="user" autocomplete="off">
                                 <div id="user-list">
                                     <ul>
@@ -71,28 +73,28 @@
                                 <div class="row"> 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "company_name">Company Name</label>
+                                            <label for = "company_name">Company Name<span class="red">*</span></label>
                                             <input type="text" name="company_name" id="company_name" class="form-control">
                                             <span class="text-danger error" id="company_name_error"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "department">Department</label>
+                                            <label for = "department">Department<span class="red">*</span></label>
                                             <input type="text" name="department" id="department" class="form-control">
                                             <span class="text-danger error" id="department_error"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "designation">Designation</label>
+                                            <label for = "designation">Designation<span class="red">*</span></label>
                                             <input type="text" name="designation" id="designation" class="form-control">
                                             <span class="text-danger error" id="designation_error"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for = "company_location">Company Address</label>
+                                            <label for = "company_location">Company Address<span class="red">*</span></label>
                                             <input type="text" name="company_location" id="company_location"  class="form-control">
                                             <span class="text-danger error" id="company_location_error"></span>
                                         </div>

@@ -1,8 +1,8 @@
 [
+    { "tran_with_name": "Bank", "user_type": "Bank", "tran_type":"4", "tran_method":"Both" },
     { "tran_with_name": "Regular Employee", "user_type": "Employee", "tran_type":"3", "tran_method":"Both" },
     { "tran_with_name": "Bit Pion", "user_type": "Employee", "tran_type":"3", "tran_method":"Both" },
     { "tran_with_name": "District Employee", "user_type": "Employee", "tran_type":"3", "tran_method":"Both" },
-    { "tran_with_name": "Bank", "user_type": "Bank", "tran_type":"4", "tran_method":"Both" },
     { "tran_with_name": "General Client", "user_type": "Client", "tran_type":"1", "tran_method":"Receive" },
     { "tran_with_name": "Advertisement Client", "user_type": "Client", "tran_type":"1", "tran_method":"Receive" },
     { "tran_with_name": "Newspaper Client", "user_type": "Client", "tran_type":"1", "tran_method":"Receive" },
