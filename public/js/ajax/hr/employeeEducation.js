@@ -239,58 +239,6 @@ $(document).ready(function () {
     });
 
 
-//     // Edit Button Click Event
-// $(document).on('click', '.editEmployee', function () {
-//     let modalId = '#editEducationDetail';
-//     let employeeId = $(this).data('employee-id');
-//     let formIndex = $(this).data('form-index');
-
-//     // Fetch employee data for the corresponding employee ID and form index
-//     $.ajax({
-//         url: `/edit/employee`,
-//         method: 'GET',
-//         data: { id: employeeId, formIndex: formIndex },
-//         success: function (res) {
-//             // Populate modal fields with fetched employee data
-//             $(modalId + ' #id').val(res.employee.id);
-//             $(modalId + ' #empId').val(res.employee.emp_id);
-//             $(modalId + ' #updateName').val(res.employee.name);
-//             $(modalId + ' #updateEmail').val(res.employee.email);
-//             $(modalId + ' #updatePhone').val(res.employee.phone);
-//             // Populate other fields similarly
-            
-//             // Show the modal
-//             $(modalId).modal('show');
-//         },
-//         error: function (err) {
-//             console.log(err);
-//         }
-//     });
-// });
-
-// // Submit Edited Employee Form
-// $(document).on('submit', '#EditEducationDetailForm', function (e) {
-//     e.preventDefault();
-//     let formData = new FormData(this);
-
-//     // Make AJAX request to update employee data
-//     $.ajax({
-//         url: $(this).attr('action'), // Use form action attribute for update URL
-//         method: 'POST',
-//         data: formData,
-//         cache: false,
-//         processData: false,
-//         contentType: false,
-//         success: function (res) {
-//             // Handle success response
-//             // Optionally, update UI to reflect changes
-//         },
-//         error: function (err) {
-//             console.log(err);
-//         }
-//     });
-// });
-
     // Edit Button Click Event
     $(document).on('click', '.editEducationDetail', function () {
         let modalId = $(this).data('modal-id');
@@ -486,7 +434,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+        loadEmployeeData(`/education/pagination?page=${page}`, {}, '.employee');
     });
 
 

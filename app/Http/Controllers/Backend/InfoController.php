@@ -528,8 +528,9 @@ class InfoController extends Controller
 
     public function EmployeesEducationInfo(Request $request){
         $employeeeducation = EducationDetail::with('personalDetail')->where('emp_id', $request->id)->get();
+        $personaldetail = PersonalDetail::where('employee_id', $request->id)->get();
         return response()->json([
-            'data'=>view('hr.educationdetail.employeeEducationInfo', compact('employeeeducation'))->render(),
+            'data'=>view('hr.educationdetail.employeeEducationInfo', compact('employeeeducation', 'personaldetail'))->render(),
         ]);
     }
 
@@ -910,8 +911,9 @@ class InfoController extends Controller
 
     public function EmployeesTrainingInfo(Request $request){
         $employeetraining = TrainingDetail::with('personalDetail')->where('emp_id', "=", $request->id)->get();
+        $personaldetail = PersonalDetail::where('employee_id', $request->id)->get();
         return response()->json([
-            'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeetraining'))->render(),
+            'data'=>view('hr.trainingdetail.employeeTrainingInfo', compact('employeetraining', 'personaldetail'))->render(),
         ]);
     }
 
@@ -1287,8 +1289,9 @@ class InfoController extends Controller
 
     public function EmployeesExperienceInfo(Request $request){
         $employeeexperience = ExperienceDetail::with('personalDetail')->where('emp_id', $request->id)->get();
+        $personaldetail = PersonalDetail::where('employee_id', $request->id)->get();
         return response()->json([
-            'data'=>view('hr.experiencedetail.employeeExperienceInfo', compact('employeeexperience'))->render(),
+            'data'=>view('hr.experiencedetail.employeeExperienceInfo', compact('employeeexperience', 'personaldetail'))->render(),
         ]);
     }
 
@@ -1653,8 +1656,9 @@ class InfoController extends Controller
 
     public function EmployeesOrganizationInfo(Request $request){
         $employeeorganization = OrganizationDetail::with('personalDetail')->where('emp_id', $request->id)->paginate(15);
+        $personaldetail = PersonalDetail::where('employee_id', $request->id)->get();
         return response()->json([
-            'data'=>view('hr.organizationdetail.employeeOrganizationInfo', compact('employeeorganization'))->render(),
+            'data'=>view('hr.organizationdetail.employeeOrganizationInfo', compact('employeeorganization', 'personaldetail'))->render(),
         ]);
     }
 

@@ -225,7 +225,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+        loadEmployeeData(`/personal/pagination?page=${page}`, {}, '.employee');
     });
 
 
