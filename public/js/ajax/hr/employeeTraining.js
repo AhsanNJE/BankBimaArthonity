@@ -161,7 +161,7 @@ $(document).ready(function () {
         if ($detailsRow.is(':visible')) {
             // If the row is visible, hide it, change button text to "Show", and remove caret rotation
             $detailsRow.hide();
-            $button.find('.dropdown-caret').removeClass('rotate');
+            $button.find('.fa-chevron-circle-right').removeClass('rotate');
         } else {
             // Fetch data and show it, then change button text to "Hide", and add caret rotation
             $.ajax({
@@ -172,7 +172,7 @@ $(document).ready(function () {
                     console.log(res);
                     $detailsRow.find('td').html(res.data);
                     $detailsRow.show();
-                    $button.find('.dropdown-caret').addClass('rotate');
+                    $button.find('.fa-chevron-circle-right').addClass('rotate');
                 },
                 error: function (err) {
                     console.log(err);
@@ -322,7 +322,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/page?page=${page}`, {}, '.employee');
+        loadEmployeeData(`/training/pagination?page=${page}`, {}, '.employee');
     });
 
 
@@ -360,12 +360,6 @@ $(document).ready(function () {
         if(searchOption == "7"){
             loadEmployeeData(`/search/employee/training/dob`, {search:search}, '.employee')
         }
-        if(searchOption == "8"){
-            loadEmployeeData(`/search/employee/training/department`, {search:search}, '.employee')
-        }
-        if(searchOption == "9"){
-            loadEmployeeData(`/search/employee/training/designation`, {search:search}, '.employee')
-        }
     });
 
 
@@ -397,12 +391,6 @@ $(document).ready(function () {
         }
         else if(searchOption == "7"){
             loadEmployeeData(`/search/page/training/dob?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "8"){
-            loadEmployeeData(`/search/page/training/department?page=${page}`, {search:search}, '.employee');
-        }
-        else if(searchOption == "9"){
-            loadEmployeeData(`/search/page/training/designation?page=${page}`, {search:search}, '.employee');
         }
         
     });
