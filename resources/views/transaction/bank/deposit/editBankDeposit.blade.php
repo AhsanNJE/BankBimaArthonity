@@ -10,39 +10,48 @@
                 </div>
                 
                 <!-- form start -->
-                {{-- <form id="AddTranWithForm" method="post">
+                <form id="EditDepositForm" method="post">
                     @csrf
-                    <div class="center">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="name">Tran With Name</label>
-                                        <input type="text" name="name" class="form-control" id="name">
-                                        <span class="text-danger error" id="name_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="type">User Type</label>
-                                        <select name="type" id="type">
-                                            <option value="">Select User Type</option>
-                                            <option value="Client">Client</option>
-                                            <option value="Supplier">Supplier</option>
-                                            <option value="Employee">Employee</option>
-                                            <option value="Bank">Bank</option>
-                                            <option value="Others">Others</option>
-                                        </select>
-                                        <span class="text-danger error" id="type_error"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="center">
-                                <button type="submit" id="InsertTranWith" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
+                    @method('PUT')
+                    <input type="hidden" name="id" id="id">
+                    @foreach ($tranwith as $with)
+                        <input type="hidden" name="with" id="updateWith" value="{{$with->id}}">
+                    @endforeach
+                    <div class="form-group">
+                        <label for="updateDate">Date</label>
+                        <input type="text" name="date" class="form-control" id="updateDate" value="{{ date('Y-m-d') }}"
+                            disabled>
+                        <span class="text-danger error" id="update_date_error"></span>
                     </div>
-                </form> --}}
+                    <div class="form-group">
+                        <label for="updateUser">Transaction User</label>
+                        <input type="text" name="user" class="form-control" id="updateUser" autocomplete="off">
+                        <div id="update-user">
+                            <ul>
+
+                            </ul>
+                        </div>
+                        <span class="text-danger error" id="update_user_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateLocation">Location</label>
+                        <input type="text" name="location" class="form-control" id="updateLocation" autocomplete="off">
+                        <div id="update-location">
+                            <ul>
+
+                            </ul>
+                        </div>
+                        <span class="text-danger error" id="update_location_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateAmount">Amount</label>
+                        <input type="text" name="amount" class="form-control" id="updateAmount">
+                        <span class="text-danger error" id="update_amount_error"></span>
+                    </div>
+                    <div class="center">
+                        <button type="submit" id="UpdateDeposit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

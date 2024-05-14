@@ -38,6 +38,8 @@
 
     @include('inventory.issue.editInventoryIssue')
 
+    @include('inventory.issue.delete')
+
     @include('transaction.printDetails')
 
 @endsection

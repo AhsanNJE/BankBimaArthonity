@@ -44,7 +44,7 @@
                                     <div class="form-group">
                                         <label for="date">Date</label>
                                         <input type="text" name="date" class="form-control" id="date"
-                                            value="{{ date('Y-m-d') }}" disabled>
+                                            value="{{ date('Y-m-d') }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -73,19 +73,6 @@
                                         <span class="text-danger error" id="location_error"></span>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="groupe">Transaction Groupe</label>
-                                        <select name="groupe" id="groupe">
-                                            <option value="">Select Transaction Groupe</option>
-                                            @foreach ($groupes as $groupe)
-                                            <option value="{{ $groupe->id }}">{{ $groupe->tran_groupe_name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error" id="groupe_error"></span>
-                                    </div>
-                                </div> --}}
 
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -126,6 +113,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="transaction_grid" style="overflow-x:auto;">
                                 <table class="show-table">

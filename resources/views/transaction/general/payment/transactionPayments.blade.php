@@ -38,6 +38,8 @@
 
     @include('transaction.general.payment.editTransactionPayment')
 
+    @include('transaction.general.payment.delete')
+
     @include('transaction.printDetails')
 
 @endsection

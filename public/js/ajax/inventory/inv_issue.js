@@ -81,6 +81,20 @@ $(document).ready(function () {
     });
 
 
+    $(document).on('keyup', '#updateTotalDiscount, #updateAdvance', function (e) {
+        // Calculate total discount
+        let amountRP = parseInt($('#updateAmountRP').val());
+        let totalDiscount = parseInt($('#updateTotalDiscount').val());
+        let advance = parseInt($('#updateAdvance').val());
+
+        let netAmount = amountRP - totalDiscount;
+        let balance = netAmount - advance;
+
+        $('#updateNetAmount').val(netAmount);
+        $('#updateBalance').val(balance);
+    });
+
+
 
 
     $(document).on('submit', '#AddInventoryIssueForm', function (e) {
@@ -111,7 +125,7 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance' );
+                    getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP','#totalDiscount', '#netAmount', '#advance', '#balance' );
                     $('#head').val('');
                     $('#head').removeAttr('data-id');
                     $('#head').removeAttr('data-groupe');
@@ -177,6 +191,249 @@ $(document).ready(function () {
     });
 
 
+
+    ///////////// ------------------ Edit Inventory Purchase Main ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.editTransaction', function () {
+        let modalId = $(this).data('modal-id');
+        let id = $(this).data('id');
+        let type = '5';
+        let method = 'Receive';
+        getTransactionWith(type, method, '#updatewithin')
+        $.ajax({
+            url: `/transaction/edit/main`,
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                
+                $('#id').val(res.transaction.id);
+                
+                $('#updateTranId').val(res.transaction.tran_id);
+
+                var timestamps = new Date(res.transaction.tran_date);
+                var formattedDate = timestamps.toLocaleDateString('en-US', { timeZone: 'UTC' });
+                $('#updateDate').val(formattedDate);
+                // $('#updateInvoice').val(res.transaction.invoice);
+                $('#updateLocation').val(res.transaction.location.upazila);
+                $('#updateLocation').attr('data-id', res.transaction.loc_id);
+                
+                $('#updateUser').attr('data-id',res.transaction.tran_user);
+                $('#updateUser').attr('data-with',res.transaction.tran_type_with);
+                $('#updateUser').val(res.transaction.user.user_name);
+
+                $('#updateTotalDiscount').val(res.transaction.discount);
+                if(res.transaction.receive == null){
+                    $('#updateAdvance').val(res.transaction.payment);
+                }
+                else{
+                    $('#updateAdvance').val(res.transaction.receive);
+                }
+                getTransactionGrid(res.transaction.tran_id, '.update_transaction_grid tbody', '#updateAmountRP', '#updateTotalDiscount', '#updateNetAmount', '#updateAdvance', '#updateBalance');
+
+                // $('#updateAmountRP').val(res.transaction.bill_amount);
+
+                // $('#updateNetAmount').val(res.transaction.net_amount);
+
+                // $('#updateBalance').val(res.transaction.due);
+                
+                
+                var modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'block';
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+
+
+
+    ///////////// ------------------ Edit Inventory Purchase Details ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.editDetail', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: "/transaction/edit/details",
+            method: 'GET',
+            data: { id:id },
+            success: function (res) {
+                $('#dId').val(res.transaction.id);
+
+                $('#updateHead').attr('data-groupe', res.transaction.tran_groupe_id);
+                $('#updateHead').attr('data-id', res.transaction.tran_head_id);
+                $('#updateHead').val(res.transaction.head.tran_head_name);
+                
+
+                $('#updateQuantity').val(res.transaction.quantity);
+                $('#updateAmount').val(res.transaction.amount);
+                $('#updateTotAmount').val(res.transaction.tot_amount);
+
+                $('#updateExpiry').val(res.transaction.expiry_date);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+
+
+    /////////////// ------------------ Update Transaction Details ajax part start ---------------- /////////////////////////////
+    $(document).on('submit', '#EditInventoryIssueForm', function (e) {
+        e.preventDefault();
+        let tranId = $('#updateTranId').val();
+        let user = $('#updateUser').attr('data-id');
+        let withs = $('#updateUser').attr('data-with');
+        let locations = $('#updateLocation').attr('data-id');
+        let groupe = $('#updateHead').attr('data-groupe');
+        let head = $('#updateHead').attr('data-id');
+        let formData = new FormData(this);
+        formData.append('user', user === undefined ? '' : user);
+        formData.append('location', locations === undefined ? '' : locations);
+        formData.append('with', withs === undefined ? '' : withs);
+        formData.append('head', head === undefined ? '' : head);
+        formData.append('groupe', groupe === undefined ? '' : groupe);
+        formData.append('type', "5");
+        formData.append('method', "Receive");
+        $.ajax({
+            url: `/transaction/update/details`,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend:function() {
+                $(document).find('span.error').text('');  
+            },
+            success: function (res) {
+                if (res.status == "success") {
+                    getTransactionGrid(tranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateTotalDiscount', '#updateNetAmount', '#updateAdvance', '#updateBalance' );
+                    $('#dId').val('');
+                    $('#updateHead').val('');
+                    $('#updateHead').removeAttr('data-id');
+                    $('#updateHead').removeAttr('data-groupe');
+                    $('#updateQuantity').val('1');
+                    $('#updateAmount').val('');
+                    $('#updateTotAmount').val('');
+                    $('#updateExpiry').val('');
+                    toastr.success('Transaction Details Updated Successfully', 'Updated!');
+                }
+            },
+            error: function (err) {
+                let error = err.responseJSON;
+                $.each(error.errors, function (key, value) {
+                    $('#update_' + key + "_error").text(value);
+                })
+            }
+        });
+    });
+
+
+
+    /////////////// ------------------ Update Transaction Receive Main ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '#UpdateMainTransaction', function (e) {
+        e.preventDefault();
+        let id = $('#id').val();
+        let method = 'Receive';
+        let amountRP = $('#updateAmountRP').val();
+        let totalDiscount = $('#updateTotalDiscount').val();
+        let netAmount = $('#updateNetAmount').val();
+        let advance = $('#updateAdvance').val();
+        let balance = $('#updateBalance').val();
+        $.ajax({
+            url: `/transaction/update/main`,
+            method: 'PUT',
+            data: { id:id, method:method, amountRP:amountRP, totalDiscount:totalDiscount, netAmount:netAmount, advance:advance, balance:balance },
+            beforeSend:function() {
+                $(document).find('span.error').text('');  
+            },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.inv-issue').load(location.href + ' .inv-issue');
+                    $('#editTransaction').hide();
+                    toastr.success('Transaction Main Updated Successfully', 'Updated!');
+                }
+            },
+            error: function (err) {
+                let error = err.responseJSON;
+                $.each(error.errors, function (key, value) {
+                    $('#update_' + key + "_error").text(value);
+                })
+            }
+        });
+    });
+
+
+    /////////////// ------------------ Delete Transaction Details ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '.deleteDetail', function (e) {
+        e.preventDefault();
+        let tranId = $('#tranId').val();
+        let updateTranId = $('#updateTranId').val();
+        let id = $(this).data('id');
+        if (confirm('Are You Sure to Delete This Transaction ??')) {
+            $.ajax({
+                url: `/transaction/delete/details`,
+                method: 'DELETE',
+                data: { id:id },
+                success: function (res) {
+                    if (res.status == "success") {
+                        if(updateTranId != ""){
+                            getTransactionGrid(updateTranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateTotalDiscount', '#updateNetAmount', '#updateAdvance', '#updateBalance' );
+                        }
+                        else if(tranId != ""){
+                            getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP','#totalDiscount', '#netAmount', '#advance', '#balance' );
+                        }
+                        toastr.success('Transaction Details Deleted Successfully', 'Deleted!');
+                    }
+                }
+            });
+        }
+    });
+
+
+
+    /////////////// ------------------ Delete Transaction Main Ajax Part Start ---------------- /////////////////////////////
+    // Delete Button Functionality
+    $(document).on('click', '.deleteMain', function (e) {
+        e.preventDefault();
+        $('#deleteModal').show();
+        let id = $(this).data('id');
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
+    });
+
+    // Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
+        e.preventDefault();
+        $('#deleteModal').hide();
+    });
+
+    // Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/transaction/delete/main`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.inv-issue').load(location.href + ' .inv-issue');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Transaction Main Data Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+    
+    
+    /////////////// ------------------ Delete Transaction With Ajax Part End ---------------- /////////////////////////////
+
+
+
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
@@ -239,7 +496,7 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status === 'success') {
                     $(targetElement).val(res.id);
-                    getTransactionGrid(res.tran_id, '.transaction_grid tbody', '#amountRP', '#netAmount', '#balance', '#totalDiscount', '#advance');
+                    getTransactionGrid(res.tran_id, '.transaction_grid tbody', '#amountRP', '#totalDiscount', '#netAmount', '#advance',  '#balance');
                 }
                 else {
                     $(targetElement).val(res.tran_id);
@@ -291,15 +548,15 @@ $(document).ready(function () {
 
 
     //Get Inserted Transacetion Grid By Transaction Id Function
-    function getTransactionGrid(tranId, grid, amount = "", total = "", balances = "", discount = "", advances = "") {
+    function getTransactionGrid(tranId, grid, amount="", discount="", total ="", advances="", balances= "" ) {
         $.ajax({
             url: "/transaction/get/transactiongrid",
             method: 'GET',
-            data: { tranId: tranId },
+            data: {tranId:tranId},
             success: function (res) {
-                if (res.status === 'success') {
+                if(res.status === 'success'){
                     $(grid).html(res.data);
-
+                    
                     let transactions = res.transaction.data;
                     // Calculate total amount
                     let totalAmount = transactions.reduce((sum, transaction) => sum + transaction.tot_amount, 0);
@@ -313,10 +570,10 @@ $(document).ready(function () {
                     $(total).val(netAmount);
                     $(balances).val(balance);
                 }
-                else {
+                else{
                     $(grid).html('');
                 }
-
+                
             }
         });
     };

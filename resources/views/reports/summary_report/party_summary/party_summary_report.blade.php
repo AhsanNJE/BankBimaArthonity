@@ -24,8 +24,8 @@
                 <label for="typeOption">Transaction Type</label>
                 <select name="typeOption" id="typeOption">
                     <option value="">Select type</option>
-                    <option value="receive">Receive</option>
-                    <option value="payment">Payment</option>
+                    <option value="Receive">Receive</option>
+                    <option value="Payment">Payment</option>
                 </select>
             </div>
             <div class="col-md-2">

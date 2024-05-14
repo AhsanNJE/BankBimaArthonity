@@ -6,9 +6,9 @@
         <td>{{ $item->amount }}</td>
         <td>{{ $item->tot_amount }}</td>
         <td style="display: flex;gap:5px;">
-            <button class="btn btn-primary btn-sm" data-id="{{ $item->id }}" id="edit"><i
+            <button class="editDetail" data-id="{{ $item->id }}" id="edit"><i
                     class="fas fa-edit"></i></button>
-            <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="delete"><i
+            <button class="deleteDetail" data-id="{{ $item->id }}" id="delete"><i
                     class="fas fa-trash"></i></button>
         </td>
     </tr>

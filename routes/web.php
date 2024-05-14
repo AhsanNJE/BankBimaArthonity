@@ -381,8 +381,11 @@ Route::controller(TransactionController::class)->group(function () {
         ////////////////////////// --------------- Bank Transaction routes ----------- ///////////////////////////
         // Bank Withdraw transaction crude Routes
         Route::get('/bank/withdraw', 'ShowBankWithdraws')->name('show.bank.withdraws');
+        Route::put('/bank/update', 'UpdateBankTransactions')->name('update.bank.transactions');
+        Route::delete('/bank/withdraw/delete', 'DeleteBankWithdraws')->name('delete.bank.withdraws');
         // Bank Deposit transaction crude Routes
         Route::get('/bank/deposit', 'ShowBankDeposits')->name('show.bank.deposits');
+        Route::delete('/bank/deposit/delete', 'DeleteBankDeposits')->name('delete.bank.deposits');
         
 
 

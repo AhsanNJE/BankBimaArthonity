@@ -38,6 +38,8 @@
 
     @include('transaction.bank.deposit.editBankDeposit')
 
+    @include('transaction.bank.deposit.delete')
+
 @endsection
 
 
