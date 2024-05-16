@@ -452,7 +452,7 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/supplier/due/transaction', 'SupplierDueTransaction')->name('supplier.due.transaction');
     Route::post('/supplier/filter', 'SupplierFilter');
 
-
+    //////////////////////////// Party Reports Routes ///////////////////////////////////////////
     Route::get('/report/invoice/details', 'ReportInvoiceDetails')->name('report.invoice.details');
     Route::get('/report/groupe', 'ReportByGroupe')->name('report.groupe');
     Route::get('/summary/report', 'SummaryReport')->name('summary.report');
@@ -468,6 +468,18 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/report/groupe/search/date', 'SearchReportByGroupeDate')->name('report.groupe.search.date');
     Route::get('/party/summary/report/search', 'SearchPartySummaryReport')->name('party.summary.report.search');
     Route::get('/party/details/report/search', 'SearchPartyDetailsReport')->name('party.details.report.search');
+
+    /////////////////////////////////// Balance Sheet Routes //////////////////////////////////////////////
+    Route::get('/report/balancesheet/details', 'BalanceSheetDetailsReport')->name('report.balance.sheet.details');
+    Route::get('/report/balancesheet/summary', 'BalanceSheetSummaryReport')->name('report.balance.sheet.summary');
+    // Pagination Routes
+    Route::get('/report/balancesheet/details/pagination', 'BalanceSheetDetailsReport');
+    Route::get('/report/balancesheet/details/search/pagination', 'SearchBalanceSheetDetailsReport');
+    Route::get('/report/balancesheet/summary/pagination', 'BalanceSheetSummaryReport');
+    Route::get('/report/balancesheet/summary/search/pagination', 'SearchBalanceSheetSummaryReport');
+    // Search Routes
+    Route::get('/report/balancesheet/details/search', 'SearchBalanceSheetDetailsReport')->name('report.balance.sheet.details.search');
+    Route::get('/report/balancesheet/summary/search', 'SearchBalanceSheetSummaryReport')->name('report.balance.sheet.summary.search');
 });
 
 ///////////////////////////// PayRollController Controller ////////////////////////////////

@@ -501,4 +501,36 @@ class ReportController extends Controller
 
 
     ///////////////////////// --------------------------- Party Details Report Part End -------------------- /////////////////////////
+    
+    
+    
+    ///////////////////////// --------------------------- Balance Sheet Summary Report Part Start -------------------- /////////////////////////
+    // Show Balance Sheet Summary Report  
+    public function BalanceSheetSummaryReport(){
+        $receive = Transaction_Main::whereRaw("DATE(tran_date) < ?", [date('Y-m-d')])->sum('receive');
+        $payment = Transaction_Main::whereRaw("DATE(tran_date) < ?", [date('Y-m-d')])->sum('payment');
+        $opening = $receive - $payment;
+
+        $transactions = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        return view('reports.balance_sheet.summary.summaryBalanceSheet', compact('transactions', 'opening'));
+    } //End Method
+    ///////////////////////// --------------------------- Balance Sheet Summary Report Part End -------------------- /////////////////////////
+    
+    
+    
+    ///////////////////////// --------------------------- Balance Sheet Details Report Part Start -------------------- /////////////////////////
+    // Show Balance Sheet Details Report 
+    public function BalanceSheetDetailsReport(){
+        $receive = Transaction_Main::whereRaw("DATE(tran_date) < ?", [date('Y-m-d')])->sum('receive');
+        $payment = Transaction_Main::whereRaw("DATE(tran_date) < ?", [date('Y-m-d')])->sum('payment');
+        $opening = $receive - $payment;
+        $transactions = Transaction_Main::whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        return view('reports.balance_sheet.details.detailsBalanceSheet', compact('transactions','opening'));
+    } //End Method
+    ///////////////////////// --------------------------- Balance Sheet Details Report Part End -------------------- /////////////////////////
+
+
+
+
+
 }
