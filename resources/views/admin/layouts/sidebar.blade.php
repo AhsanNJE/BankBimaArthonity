@@ -457,6 +457,29 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                <p>
+                                    Balance Sheet
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('report.balance.sheet.details')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Details</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('report.balance.sheet.summary')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Summary</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('pending.all.due')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All Due Statement</p>
