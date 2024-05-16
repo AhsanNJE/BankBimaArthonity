@@ -37,10 +37,10 @@
             <div class="col-md-4">{{ $item->nationality }}</div>
         </div>
         <div class="row each-row">
+        <div class="col-md-2 bold">Nid No.</div> 
+            <div class="col-md-4">{{ $item->nid_no }}</div>
             <div class="col-md-2 bold">Phone Number</div> 
             <div class="col-md-4">{{ $item->phn_no }}</div>
-            <div class="col-md-2 bold">Nid No.</div> 
-            <div class="col-md-4">{{ $item->nid_no }}</div>
         </div>
         <div class="row each-row">
             <div class="col-md-2 bold">Blood Group</div> 
@@ -49,6 +49,8 @@
             <div class="col-md-4">{{ $item->email }}</div>
         </div>
         <div class="row each-row">
+        <div class="col-md-2 bold">Work Location</div> 
+            <div class="col-md-4">{{ $item->Location->upazila }}</div>
             <div class="col-md-2 bold">Address</div> 
             <div class="col-md-4">{{ $item->address }}</div>
         </div>
