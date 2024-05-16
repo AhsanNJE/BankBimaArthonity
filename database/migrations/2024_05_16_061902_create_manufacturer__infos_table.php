@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('manufacturer__infos', function (Blueprint $table) {
             $table->id();
-            $table->string('manufacturer_id');
             $table->string('manufacturer_name');
-            $table->timestamps();
+            $table->timestamp('added_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

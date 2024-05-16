@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Manufacturer_Info extends Model
 {
     use HasFactory;
+    
+    protected $guarded = [];
+
 }

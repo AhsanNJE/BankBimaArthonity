@@ -243,7 +243,7 @@ select {
 }
 
 #search{
-    width: 40%;
+    width: 50%;
     margin-left: 5px;
 }
 
@@ -267,7 +267,7 @@ div[id$="-list"], div[id^="update-"] {
     overflow-y: auto;
     position: absolute;
     background: #fff;
-    width: 92%;
+    width: 96%;
     z-index: 10000;
 }
 

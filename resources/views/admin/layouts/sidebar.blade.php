@@ -104,6 +104,42 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
+                                <i class="fa-solid fa-people-roof"></i>
+                                <p>
+                                    Manufacturer
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.manufacturer.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Manufacturer</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-list"></i>
+                                <p>
+                                    Category
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.category.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Category Name</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <p>
                                     Location
@@ -278,7 +314,7 @@
                         <!-- EMPLOYEE -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-people-roof"></i>
+                                <i class="fa-solid fa-users"></i>
                                 <p>Employee</p>
                                 <!-- <i class="fas fa-angle-left right"></i> -->
                             </a>
