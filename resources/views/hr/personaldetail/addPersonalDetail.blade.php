@@ -23,7 +23,7 @@
 <body>
 <div id= "EmployeePersonal" class="modal-container">
     <div class="modal-subject">
-       
+
 
         <div class="center">
             <div class="card card-primary col-md-12">
@@ -31,7 +31,6 @@
                     <div class="center">
                         <h3 class="card-title">Add Employee Personal Detail</h3>
                         <span class="close-modal" data-modal-id="EmployeePersonal">&times;</span>
-                        <br>
                     </div>
                 </div>
                 
