@@ -6,9 +6,7 @@
                 <button class="open-modal add" data-modal-id="addManufacturer">Add Manufacturer</button>
             </div>
             <div class="col-md-9 search">
-                <select name="searchOption" id="searchOption" class="select-small">
-                    <option value="1">Name</option>
-                </select>
+                <input type="text" name="searchOption" id="searchOption" class="select-small" value="Name" readonly style="width: 100px;">
                 <input type="text" name="search" id="search" class="input-small" placeholder="Search here..."
                     style="width: 40%;">
             </div>
@@ -22,8 +20,6 @@
 
 
     @include('manufacturer.addManufacturer')
-
-    @include('manufacturer.manufacturerDetails')
 
     @include('manufacturer.editManufacturer')
 

@@ -8,12 +8,6 @@ use Illuminate\Http\Request;
 
 class ManufacturerController extends Controller
 {
-     //Add Manufacturer View Show
-     public function ShowManufacturerView(){
-
-        return view('manufacturer.addManufacturer');
-
-    } // End Method 
 
     public function InsertManufacturer(Request $request){
 
@@ -97,15 +91,13 @@ class ManufacturerController extends Controller
     // Search Manufacturer by Name
     public function SearchManufacturer(Request $request){
         if($request->search != ""){
-            $manufacturer = Manufacturer_Info::where('id', $request->id)
-            ->where('manufacturer_name', 'like', '%'.$request->search.'%')
+            $manufacturer = Manufacturer_Info::where('manufacturer_name', 'like', '%'.$request->search.'%')
             ->orWhere('id', 'like','%'.$request->search.'%')
             ->orderBy('manufacturer_name','asc')
             ->paginate(15);
         }
         else{
-            $manufacturer = Manufacturer_Info::where('id', $request->id)
-            ->orderBy('manufacturer_name','asc')
+            $manufacturer = Manufacturer_Info::orderBy('manufacturer_name','asc')
             ->paginate(15);
         }
 

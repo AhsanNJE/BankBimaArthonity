@@ -454,6 +454,13 @@
                                 <p>Inventory Return</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.store.list')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Inventory Store</p>
+                            </a>
+                        </li>
+                        
                     </ul>
                 </li>
 

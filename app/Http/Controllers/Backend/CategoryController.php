@@ -8,13 +8,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    //Add Category View Show
-    public function ShowCategoryView(){
-
-        return view('category.addCategory');
-
-    } // End Method 
-
+    
     public function InsertCategory(Request $request){
 
         //Validate Category Details
@@ -97,15 +91,13 @@ class CategoryController extends Controller
     // Search Category by Name
     public function SearchCategory(Request $request){
         if($request->search != ""){
-            $category = Category_Name::where('id', $request->id)
-            ->where('category_name', 'like', '%'.$request->search.'%')
+            $category = Category_Name::where('category_name', 'like', '%'.$request->search.'%')
             ->orWhere('id', 'like','%'.$request->search.'%')
             ->orderBy('category_name','asc')
             ->paginate(15);
         }
         else{
-            $category = Category_Name::where('id', $request->id)
-            ->orderBy('category_name','asc')
+            $category = Category_Name::orderBy('category_name','asc')
             ->paginate(15);
         }
 

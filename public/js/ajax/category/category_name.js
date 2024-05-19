@@ -168,9 +168,8 @@ $(document).ready(function () {
         e.preventDefault();
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
-        if(searchOption == "1"){
-            loadEmployeeData(`/search/page/category`, {search:search}, '.category')
-        }
+        // Since searchOption is always "Name", we can directly call the function
+        loadEmployeeData(`/search/page/category`, {search: search}, '.category');
     });
 
 

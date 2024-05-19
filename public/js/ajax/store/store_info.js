@@ -1,12 +1,14 @@
 $(document).ready(function () {
 
-    //Manufacturer Input Field Empty Error
-    $(document).on('submit', '#AddManufacturerForm', function (e) {
+    //Store Input Field Empty Error
+    $(document).on('submit', '#AddStoreForm', function (e) {
         e.preventDefault();
+        let locations = $('#location').attr('data-id');
         let formData = new FormData(this);
-        
+        formData.append('location', locations === undefined ? '' : locations);
+
         $.ajax({
-            url: "/insert/manufacturer",
+            url: "/insert/store",
             method: 'POST',
             processData: false,
             contentType: false,
@@ -18,11 +20,11 @@ $(document).ready(function () {
             success: function (res) {
                 console.log(res)
                 if (res.status == "success") {
-                    $('#AddManufacturerForm')[0].reset();
+                    $('#AddStoreForm')[0].reset();
                     $('#name').focus();
                     $('#search').val('');
-                    $('.manufacturer').load(location.href + ' .manufacturer');
-                    toastr.success('Manufacturer Added Successfully', 'Added!');
+                    $('.store').load(location.href + ' .store');
+                    toastr.success('Store Added Successfully', 'Added!');
                 }
             },
             error: function (err) {
@@ -36,35 +38,33 @@ $(document).ready(function () {
     });
 
 
-    //Show Manufacturer Details on details modal
-    $(document).on('click', '.showManufacturerDetails', function (e) {
-        let modal = $(this).attr('data-modal-id');
-        let id = $(this).attr('data-id');
-        $.ajax({
-            url: "/manufacturer/info",
-            method: 'GET',
-            data: {id:id},
-            success: function (res) {
-                $("#"+ modal).show();
-                $('.manufacturerdetails').html(res.data)
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    });
 
-    ///////////// ------------------ Edit Manufacturer Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('click', '.editManufacturer', function () {
+    ///////////// ------------------ Edit Store Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('click', '.editStore', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/edit/manufacturer`,
+            url: `/edit/store`,
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('#id').val(res.manufacturer.id);
-                $('#update_manufacturer_name').val(res.manufacturer.manufacturer_name);
+                $('#id').val(res.store.id);
+                $('#update_store_name').val(res.store.store_name);
+
+                // Create options dynamically
+                $('#update_division').empty();
+                $('#update_division').append(`<option value="Dhaka" ${res.store.division === 'Dhaka' ? 'selected' : ''}>Dhaka</option>
+                                         <option value="Mymensingh" ${res.store.division === 'Mymensingh' ? 'selected' : ''}>Mymensingh</option>
+                                         <option value="Sylhet" ${res.store.division === 'Sylhet' ? 'selected' : ''}>Sylhet</option>
+                                         <option value="Chattogram" ${res.store.division === 'Chattogram' ? 'selected' : ''}>Chattogram</option>
+                                         <option value="Barishal" ${res.store.division === 'Barishal' ? 'selected' : ''}>Barishal</option>
+                                         <option value="Khulna" ${res.store.division === 'Khulna' ? 'selected' : ''}>Khulna</option>
+                                         <option value="Rajshahi" ${res.store.division === 'Rajshahi' ? 'selected' : ''}>Rajshahi</option>
+                                         <option value="Rangpur" ${res.store.division === 'Rangpur' ? 'selected' : ''}>Rangpur</option>`);
+
+                $('#updateLocation').val(res.store.location.upazila);
+                $('#updateLocation').attr('data-id',res.store.location_id);
+
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
             },
@@ -76,12 +76,14 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Manufacturer Ajax Part Start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditManufacturerForm', function (e) {
+    /////////////// ------------------ Update Store Ajax Part Start ---------------- /////////////////////////////
+    $(document).on('submit', '#EditStoreForm', function (e) {
         e.preventDefault();
+        let locations = $('#updateLocation').attr('data-id');
         let formData = new FormData(this);
+        formData.append('location',locations);
         $.ajax({
-            url: `/update/manufacturer`,
+            url: `/update/store`,
             method: 'POST',
             data: formData,
             cache: false,
@@ -92,11 +94,11 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editManufacturer').hide();
-                    $('#EditManufacturerForm')[0].reset();
+                    $('#editStore').hide();
+                    $('#EditStoreForm')[0].reset();
                     $('#search').val('');
-                    $('.manufacturer').load(location.href + ' .manufacturer');
-                    toastr.success('Manufacturer Updated Successfully', 'Updated!');
+                    $('.store').load(location.href + ' .store');
+                    toastr.success('Store Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {
@@ -111,10 +113,10 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Delete Employee Ajax Part Start ---------------- /////////////////////////////
-    // Manufacturer Delete Button Functionality
+    // Store Delete Button Functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
-        $('#deleteManufacturerModal').show();
+        $('#deleteStoreModal').show();
         let id = $(this).data('id');
         $('#confirm').attr('data-id',id);
         $('#cancel').focus();
@@ -123,7 +125,7 @@ $(document).ready(function () {
     // Cancel Button Functionality
     $(document).on('click', '#cancel', function (e) {
         e.preventDefault();
-        $('#deleteManufacturerModal').hide();
+        $('#deleteStoreModal').hide();
     });
 
     // Confirm Button Functionality
@@ -131,15 +133,15 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $(this).attr('data-id');
         $.ajax({
-            url: `/manufacturer/delete`,
+            url: `/store/delete`,
             method: 'DELETE',
             data: { id:id },
             success: function (res) {
                 if (res.status == "success") {
-                    $('.manufacturer').load(location.href + ' .manufacturer');
+                    $('.store').load(location.href + ' .store');
                     $('#search').val('');
-                    $('#deleteManufacturerModal').hide();
-                    toastr.success('Manufacturer Deleted Successfully', 'Deleted!');
+                    $('#deleteStoreModal').hide();
+                    toastr.success('Store Deleted Successfully', 'Deleted!');
                 }
             }
         });
@@ -151,7 +153,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/manufacturer/pagination?page=${page}`, {}, '.manufacturer');
+        loadEmployeeData(`/store/pagination?page=${page}`, {}, '.store');
     });
 
 
@@ -168,8 +170,9 @@ $(document).ready(function () {
         e.preventDefault();
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
-        // Since searchOption is always "Name", we can directly call the function
-        loadEmployeeData(`/search/page/manufacturer`, {search: search}, '.manufacturer');
+        if(searchOption == "1"){
+            loadEmployeeData(`/search/page/store`, {search:search}, '.store')
+        }
     });
 
 
@@ -182,7 +185,7 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadEmployeeData(`/search/page/manufacturer?page=${page}`, {search:search}, '.manufacturer');
+            loadEmployeeData(`/search/page/store?page=${page}`, {search:search}, '.store');
         }
         
     });
