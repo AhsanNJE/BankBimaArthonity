@@ -12,6 +12,8 @@ use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\PayRollController;
 use App\Http\Controllers\Backend\InfoController;
 use App\Http\Controllers\Backend\InventoryController;
+use App\Http\Controllers\Backend\ManufacturerController;
+use App\Http\Controllers\Backend\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -535,7 +537,6 @@ Route::controller(PayRollController::class)->group(function(){
 
 
     //Personal Routes
-    Route::get('show/employee/personal', [InfoController::class, 'ShowEmployeesPersonal'])->name('show.employeepersonal');
     Route::post('insert/personal/info', [InfoController::class, 'InsertPersonalDetails'])->name('insertpersonal.info');  
     Route::get('show/personal/info', [InfoController::class, 'ShowEmployeesPersonalInfo'])->name('show.personalinfo');
     Route::get('/new/employee/personal', [InfoController::class, 'EmployeesPersonalInfo'])->name('employee.personaldetails');
@@ -571,8 +572,7 @@ Route::controller(PayRollController::class)->group(function(){
 
 
 
-    //Education Routes
-    Route::get('show/employee/education', [InfoController::class, 'ShowEmployeesEducation'])->name('show.employeeeducation');  
+    //Education Routes 
     Route::post('insert/education/info', [InfoController::class, 'InsertEducationDetails'])->name('inserteducation.info');
     Route::get('show/education/info', [InfoController::class, 'ShowEmployeesEducationInfo'])->name('show.educationinfo');
     Route::get('/new/employee/education', [InfoController::class, 'EmployeesEducationInfo'])->name('employee.educationdetails');
@@ -611,7 +611,6 @@ Route::controller(PayRollController::class)->group(function(){
 
 
     //Training Routes
-    Route::get('show/employee/training', [InfoController::class, 'ShowEmployeesTraining'])->name('show.employeetraining');
     Route::post('insert/training/info', [InfoController::class, 'InsertTrainingDetails'])->name('inserttraining.info');
     Route::get('show/training/info', [InfoController::class, 'ShowEmployeesTrainingInfo'])->name('show.traininginfo');
     Route::get('/new/employee/training', [InfoController::class, 'EmployeesTrainingInfo'])->name('employee.trainingdetails');
@@ -649,7 +648,6 @@ Route::controller(PayRollController::class)->group(function(){
 
 
     //Experience Routes
-    Route::get('show/employee/experience', [InfoController::class, 'ShowEmployeesExperience'])->name('show.employeeexperience'); 
     Route::post('insert/experience/info', [InfoController::class, 'InsertExperienceDetails'])->name('insertexperience.info');
     Route::get('show/experience/info', [InfoController::class, 'ShowEmployeesExperienceInfo'])->name('show.experienceinfo');
     Route::get('/new/employee/experience', [InfoController::class, 'EmployeesExperienceInfo'])->name('employee.experiencedetails');
@@ -686,7 +684,6 @@ Route::controller(PayRollController::class)->group(function(){
 
 
     //Organization Routes
-    Route::get('show/employee/organization', [InfoController::class, 'ShowEmployeesOrganization'])->name('show.employeeorganization');  
     Route::post('insert/organization/info', [InfoController::class, 'InsertOrganizationDetails'])->name('insertorganization.info');
     Route::get('show/organization/info', [InfoController::class, 'ShowEmployeesOrganizationInfo'])->name('show.organizationinfo');
     Route::get('/new/employee/organization', [InfoController::class, 'EmployeesOrganizationInfo'])->name('employee.organizationdetails');
@@ -720,11 +717,41 @@ Route::controller(PayRollController::class)->group(function(){
     //search list routs
     Route::get('/get/employee/organization/by/name', [InfoController::class,'GetEmployeeOrganizationByName'])->name('get.employee.organizationby.name');
 
+    //////////////// ------------------ Manufacturer Routes ------------------- //////////////////
+
+    Route::post('insert/manufacturer', [ManufacturerController::class, 'InsertManufacturer'])->name('insert.manufacturer');
+    Route::get('show/manufacturer/list', [ManufacturerController::class, 'ShowManufacturerList'])->name('show.manufacturer.list');
+    Route::get('/manufacturer/info', [ManufacturerController::class, 'ManufacturerInfo'])->name('manufacturer.info');
+    //Edit Employee Manufacturer
+    Route::get('/edit/manufacturer', [ManufacturerController::class,'EditManufacturer'])->name('edit.manufacturer');
+    Route::put('/update/manufacturer', [ManufacturerController::class, 'UpdateManufacturer'])->name('update.manufacturer');
+    //Delete Manufacturer
+    Route::delete('/manufacturer/delete', [ManufacturerController::class, 'DeleteManufacturer'])->name('manufacturer.delete');
+    //Manufacturer search routes start
+    Route::get('/search/manufacturer', [ManufacturerController::class, 'SearchManufacturer'])->name('search.manufacturer.name');
+    //Manufacturer pagination routes start
+    Route::get('/manufacturer/pagination', [ManufacturerController::class,'ManufacturerPagination']);
+    Route::get('/search/page/manufacturer', [ManufacturerController::class,'SearchManufacturer']);
 
 
+    //////////////// ------------------ Category Routes ------------------- //////////////////
+
+    Route::post('insert/category', [CategoryController::class, 'InsertCategory'])->name('insert.category');
+    Route::get('show/category/list', [CategoryController::class, 'ShowCategoryList'])->name('show.category.list');
+    Route::get('/category/info', [CategoryController::class, 'CategoryInfo'])->name('category.info');
+    //Edit Employee Category
+    Route::get('/edit/category', [CategoryController::class,'EditCategory'])->name('edit.category');
+    Route::put('/update/category', [CategoryController::class, 'UpdateCategory'])->name('update.category');
+    //Delete Category
+    Route::delete('/category/delete', [CategoryController::class, 'DeleteCategory'])->name('category.delete');
+    //Category search routes start
+    Route::get('/search/category', [CategoryController::class, 'SearchCategory'])->name('search.category.name');
+    //Category pagination routes start
+    Route::get('/category/pagination', [CategoryController::class,'CategoryPagination']);
+    Route::get('/search/page/category', [CategoryController::class,'SearchCategory']);
 
 
-
+    
 ///////////////////////////// InventoryController Routes ////////////////////////////////
 Route::controller(InventoryController::class)->group(function(){
     Route::prefix('/inventory')->group(function () {
@@ -770,16 +797,23 @@ Route::controller(InventoryController::class)->group(function(){
         Route::put('/update/return', 'UpdateInventoryReturn')->name('update.inventory.return');
         Route::delete('/delete/return', 'DeleteInventoryReturn')->name('delete.inventory.return');
 
-
-
-
-
-
-
-
-
-
     });
+
+     //////////////// ------------------ Store Routes ------------------- //////////////////
+
+     Route::post('insert/store', [InventoryController::class, 'InsertStore'])->name('insert.store');
+     Route::get('show/store/list', [InventoryController::class, 'ShowStoreList'])->name('show.store.list');
+     Route::get('/store/info', [InventoryController::class, 'StoreInfo'])->name('store.info');
+     //Edit Employee Store
+     Route::get('/edit/store', [InventoryController::class,'EditStore'])->name('edit.store');
+     Route::put('/update/store', [InventoryController::class, 'UpdateStore'])->name('update.store');
+     //Delete Store
+     Route::delete('/store/delete', [InventoryController::class, 'DeleteStore'])->name('store.delete');
+     //Store search routes start
+     Route::get('/search/store', [InventoryController::class, 'SearchStore'])->name('search.store.name');
+     //Store pagination routes start
+     Route::get('/store/pagination', [InventoryController::class,'StorePagination']);
+     Route::get('/search/page/store', [InventoryController::class,'SearchStore']);
 });
     
    

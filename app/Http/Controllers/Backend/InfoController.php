@@ -22,13 +22,6 @@ class InfoController extends Controller
 
 
 
-    //Personal Detail View Show
-    public function ShowEmployeesPersonal(){
-
-        return view('hr.personaldetail.addPersonalDetail');
-
-    } // End Method 
-
     public function InsertPersonalDetails(Request $request){
 
         //Validate Employee Personal Details
@@ -477,13 +470,6 @@ class InfoController extends Controller
 
 
 
-    //Education Detail View Show
-    public function ShowEmployeesEducation(){
-
-        return view('hr.educationdetail.addEducationDetail');
-
-    } // End Method 
-
     public function InsertEducationDetails(Request $request){
 
         //Validate Employee Education Details
@@ -860,15 +846,7 @@ class InfoController extends Controller
 
 
 
-    
-
-
-    //Training Detail View Show
-    public function ShowEmployeesTraining(){
-
-        return view('hr.trainingdetail.addTrainingDetail');
-
-    } // End Method 
+     
 
     public function InsertTrainingDetails(Request $request){
 
@@ -1242,13 +1220,6 @@ class InfoController extends Controller
 
 
 
-    //Experience Detail View Show
-    public function ShowEmployeesExperience(){
-
-        return view('hr.experiencedetail.addExperienceDetail');
-
-    } // End Method 
-
     public function InsertExperienceDetails(Request $request){
 
         //Validate Employee Experience Details
@@ -1611,13 +1582,6 @@ class InfoController extends Controller
 
 
 
-
-    //Organization Detail View Show
-    public function ShowEmployeesOrganization(){
-
-        return view('hr.organizationdetail.addOrganizationDetail');
-
-    } // End Method 
 
     
     public function InsertOrganizationDetails(Request $request){

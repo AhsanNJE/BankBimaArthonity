@@ -131,7 +131,7 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editEducation').hide();
+                    $('#editPersonal').hide();
                     $('#EditPersonalDetailForm')[0].reset();
                     $('#search').val('');
                     $('.employee').load(location.href + ' .employee');
