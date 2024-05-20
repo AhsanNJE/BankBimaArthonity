@@ -803,8 +803,7 @@ Route::controller(InventoryController::class)->group(function(){
 
      Route::post('insert/store', [InventoryController::class, 'InsertStore'])->name('insert.store');
      Route::get('show/store/list', [InventoryController::class, 'ShowStoreList'])->name('show.store.list');
-     Route::get('/store/info', [InventoryController::class, 'StoreInfo'])->name('store.info');
-     //Edit Employee Store
+     //Edit Store
      Route::get('/edit/store', [InventoryController::class,'EditStore'])->name('edit.store');
      Route::put('/update/store', [InventoryController::class, 'UpdateStore'])->name('update.store');
      //Delete Store
@@ -814,6 +813,21 @@ Route::controller(InventoryController::class)->group(function(){
      //Store pagination routes start
      Route::get('/store/pagination', [InventoryController::class,'StorePagination']);
      Route::get('/search/page/store', [InventoryController::class,'SearchStore']);
+
+
+      //////////////// ------------------ Product Routes ------------------- //////////////////
+
+      Route::get('show/product/list', [InventoryController::class, 'ShowProductList'])->name('show.product.list');
+      //Edit Product
+      Route::get('/edit/product', [InventoryController::class,'EditProduct'])->name('edit.product');
+      Route::put('/update/product', [InventoryController::class, 'UpdateProduct'])->name('update.product');
+      //Delete Product
+      Route::delete('/product/delete', [InventoryController::class, 'DeleteProduct'])->name('product.delete');
+      //Product search routes start
+      Route::get('/search/product', [InventoryController::class, 'SearchProduct'])->name('search.product.name');
+      //Product pagination routes start
+      Route::get('/product/pagination', [InventoryController::class,'ProductPagination']);
+      Route::get('/search/page/product', [InventoryController::class,'SearchProduct']);
 });
     
    
