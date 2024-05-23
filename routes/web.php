@@ -814,6 +814,23 @@ Route::controller(InventoryController::class)->group(function(){
      //Store pagination routes start
      Route::get('/store/pagination', [InventoryController::class,'StorePagination']);
      Route::get('/search/page/store', [InventoryController::class,'SearchStore']);
+
+    ////////////////////////// --------------- Pharmacy Product routes ----------- ///////////////////////////
+    //crud routes start
+    Route::get('/pharmacyproduct', [InventoryController::class, 'ShowPharmacyProduct'])->name('show.pharmacy.product');
+    // Route::post('/insert/heads', 'InsertTransactionHeads')->name('insert.transaction.heads');
+    // Route::get('/edit/heads', 'EditTransactionHeads')->name('edit.transaction.heads');
+    // Route::put('/update/heads', 'UpdateTransactionHeads')->name('update.transaction.heads');
+    // Route::delete('/delete/heads', 'DeleteTransactionHeads')->name('delete.transaction.heads');
+    // //search routes start
+    // Route::get('/search/heads', 'SearchTransactionHeads')->name('search.transaction.heads');
+    // Route::get('/search/heads/groupe', 'SearchTransactionHeadsByGroupe')->name('search.transaction.heads.by.groupe');
+    // //pagination routes start
+    // Route::get('/heads/pagination', 'TransactionHeadPagination');
+    // Route::get('/heads/search/pagination', 'SearchTransactionHeads');
+    // Route::get('/heads/search/pagination/groupe', 'SearchTransactionHeadsByGroupe');
+    // //search list routs
+    // Route::get('/get/heads/groupe', 'GetTransactionHeadByGroupe');
 });
     
    

@@ -15,6 +15,10 @@ use App\Models\Transaction_Main;
 use App\Models\User_Info;
 use App\Models\Party_Payment_Receive;
 use App\Models\Store;
+use App\Models\Category_Name;
+use App\Models\Manufacturer_Info;
+use App\Models\Item_Form;
+use App\Models\Item_Unite;
 
 class InventoryController extends Controller
 {
@@ -387,4 +391,19 @@ class InventoryController extends Controller
         }
         
     }//End Method
+
+
+
+    /////////////////////////// --------------- Pharmacy Product Table Methods start ---------- //////////////////////////
+    //Show All Pharmacy Product
+    public function ShowPharmacyProduct(){
+        // $unites = Item_Unite::orderBy('added_at','asc')->get();
+        // $itemforms = Item_Form::orderBy('added_at','asc')->get();
+        // $manufactures = Manufacturer_Info::orderBy('added_at','asc')->get();
+        // $categorys = Category_Name::orderBy('added_at','asc')->get();
+        // $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        // $heads = Transaction_Head::orderBy('added_at','asc')->paginate(15);
+        return view('pharmacy_product.addPharmacyProduct');
+    }//End Method
+
 }
