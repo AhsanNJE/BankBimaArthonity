@@ -57,6 +57,26 @@
                                         </select>
                                         <span class="text-danger error" id="update_groupe_error"></span>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="updatequantity">Quantity</label>
+                                        <input type="text" name="quantity" class="form-control" id="updatequantity">
+                                        <span class="text-danger error" id="update_quantity_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updatecostprice">Cost Price</label>
+                                        <input type="text" name="costprice" class="form-control" id="updatecostprice">
+                                        <span class="text-danger error" id="update_costprice_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updatemrp">MRP</label>
+                                        <input type="text" name="mrp" class="form-control" id="updatemrp">
+                                        <span class="text-danger error" id="update_mrp_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updateexpireddate">Expired Date</label>
+                                        <input type="text" name="expireddate" class="form-control" id="updateexpireddate">
+                                        <span class="text-danger error" id="update_expireddate_error"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="center">

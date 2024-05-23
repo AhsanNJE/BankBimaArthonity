@@ -856,7 +856,7 @@ Route::controller(InventoryController::class)->group(function(){
     ////////////////////////// --------------- Pharmacy Product routes ----------- ///////////////////////////
     //crud routes start
     Route::get('/pharmacyproduct', [InventoryController::class, 'ShowPharmacyProduct'])->name('show.pharmacy.product');
-    // Route::post('/insert/heads', 'InsertTransactionHeads')->name('insert.transaction.heads');
+    Route::get('/insert/pharmacyproduct', [InventoryController::class, 'InsertPharmacyProduct'])->name('insert.pharmacy.product');
     // Route::get('/edit/heads', 'EditTransactionHeads')->name('edit.transaction.heads');
     // Route::put('/update/heads', 'UpdateTransactionHeads')->name('update.transaction.heads');
     // Route::delete('/delete/heads', 'DeleteTransactionHeads')->name('delete.transaction.heads');

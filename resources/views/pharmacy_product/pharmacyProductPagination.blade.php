@@ -9,6 +9,10 @@
             <th>Manufacture Name</th>
             <th>Item Form Name</th>
             <th>Unite Name</th>
+            <th>Quantity</th>
+            <th>Cost Price</th>
+            <th>MRP</th>
+            <th>Expired Date</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -18,10 +22,14 @@
                 <td>{{ $heads->firstItem() + $key }}</td>
                 <td>{{ $item->tran_head_name }}</td>
                 <td>{{ $item->Groupe->tran_groupe_name }}</td>
-                <td>{{ $item->Category->category_name }}</td>
-                <td>{{ $item->Manufecture->manufacturer_name }}</td>
-                <td>{{ $item->ItemForm->form_name }}</td>
-                <td>{{ $item->ItemUnite->unite_name }}</td>
+                <td>{{ $item->category_id == null ? '': $item->Category->category_name }} </td>
+                <td>{{ $item->manufacture_id == null ? '': $item->Manufecture->manufacturer_name }}</td>
+                <td>{{ $item->item_form_id == null ? '': $item->ItemForm->form_name }}</td>
+                <td>{{ $item->item_unite_id == null ? '': $item->ItemUnit->unit_name }}</td>
+                <td>{{ $item->quantity }}</td>
+                <td>{{ $item->cost_price }}</td>
+                <td>{{ $item->mrp }}</td>
+                <td>{{ $item->expired_date }}</td>
                 <td>
                     <div style="display: flex;gap:5px;">
                         <button class="open-modal editPharmacyProduct" data-modal-id="editPharmacyProduct" id="edit"

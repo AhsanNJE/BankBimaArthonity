@@ -34,47 +34,73 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="category">Category Name</label>
-                                        <select name="category" id="category">
-                                            <option value="">Select Category Name</option>
-                                            @foreach ($categorys as $category)
-                                                <option value="{{ $category->id }}">{{ $category->category_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error" id="groupe_error"></span>
+                                        <input type="text" name="category" class="form-control" id="category">
+                                        <div id='category-list'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="category_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="manufacture">Manufacture Name</label>
-                                        <select name="manufacture" id="manufacture">
-                                            <option value="">Select Manufacture Name</option>
-                                            @foreach ($manufactures as $manufacture)
-                                                <option value="{{ $manufacture->id }}">{{ $manufacture->manufacturer_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error" id="groupe_error"></span>
+                                        <label for="manufacturer">Manufacture Name</label>
+                                        <input type="text" name="manufacturer" class="form-control" id="manufacturer">
+                                        <div id='manufacturer-list'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="manufacturer_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="itemform">Item Form Name</label>
-                                        <select name="itemform" id="itemform">
-                                            <option value="">Select Item Form Name</option>
-                                            @foreach ($itemforms as $itemform)
-                                                <option value="{{ $itemform->id }}">{{ $itemform->form_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error" id="groupe_error"></span>
+                                        <label for="form">Item Form Name</label>
+                                        <input type="text" name="form" class="form-control" id="form">
+                                        <div id='form-list'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="form_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="unite">Unite Name</label>
-                                        <select name="unite" id="unite">
-                                            <option value="">Select Unite Name</option>
-                                            @foreach ($unites as $unite)
-                                                <option value="{{ $unite->id }}">{{ $unite->unite_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error" id="groupe_error"></span>
+                                        <label for="unit">Unit Name</label>
+                                        <input type="text" name="unit" class="form-control" id="unit">
+                                        <div id='unit-list'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="unit_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="store">Store Name</label>
+                                        <input type="text" name="store" class="form-control" id="store">
+                                        <div id='store-list'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="store_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quantity">Quantity</label>
+                                        <input type="text" name="quantity" class="form-control" id="quantity">
+                                        <span class="text-danger error" id="quantity_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="costprice">Cost Price</label>
+                                        <input type="text" name="costprice" class="form-control" id="costprice">
+                                        <span class="text-danger error" id="costprice_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mrp">MRP</label>
+                                        <input type="text" name="mrp" class="form-control" id="mrp">
+                                        <span class="text-danger error" id="mrp_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="expireddate">Expired Date</label>
+                                        <input type="text" name="expireddate" class="form-control" id="expireddate">
+                                        <span class="text-danger error" id="expireddate_error"></span>
                                     </div>
                                 </div>
                             </div>

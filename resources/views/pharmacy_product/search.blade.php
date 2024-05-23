@@ -9,6 +9,10 @@
             <th>Manufacture Name</th>
             <th>Item Form Name</th>
             <th>Unite Name</th>
+            <th>Quantity</th>
+            <th>Cost Price</th>
+            <th>MRP</th>
+            <th>Expired Date</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -22,6 +26,10 @@
                 <td>{{ $item->Manufecture->manufacturer_name }}</td>
                 <td>{{ $item->ItemForm->form_name }}</td>
                 <td>{{ $item->ItemUnite->unite_name }}</td>
+                <td>{{ $item->quantity }}</td>
+                <td>{{ $item->cost_price }}</td>
+                <td>{{ $item->mrp }}</td>
+                <td>{{ $item->expired_date }}</td>
                 <td>
                     <div style="display: flex;gap:5px;">
                         <button class="open-modal editPharmacyProduct" data-modal-id="editPharmacyProduct" id="edit"

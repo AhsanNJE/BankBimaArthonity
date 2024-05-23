@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('manufacture_id')->nullable();
             $table->unsignedBigInteger('item_form_id')->nullable();
             $table->unsignedBigInteger('item_unite_id')->nullable();
+            $table->unsignedBigInteger('store_id')->nullable();
             $table->double('quantity')->nullable();
             $table->double('cost_price')->nullable();
             $table->double('mrp')->nullable();
@@ -36,10 +37,13 @@ return new class extends Migration
             $table->foreign('manufacture_id')->references('id')->on('manufacturer__infos')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->foreign('item_form_id')->references('id')->on('item_forms')
+            $table->foreign('item_form_id')->references('id')->on('item__forms')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->foreign('item_unite_id')->references('id')->on('item_unites')
+            $table->foreign('item_unite_id')->references('id')->on('item__units')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+            $table->foreign('store_id')->references('id')->on('stores')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });

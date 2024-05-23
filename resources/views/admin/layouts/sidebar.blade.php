@@ -473,7 +473,7 @@
                     <ul class="nav nav-treeview">
                         <!-- EMPLOYEE -->
                         <li class="nav-item">
-                            <a href="{{route('show.product.list')}}" class="nav-link">
+                            <a href="{{route('show.pharmacy.product')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Inventory Product</p>
                             </a>

@@ -612,13 +612,77 @@ class InventoryController extends Controller
     /////////////////////////// --------------- Pharmacy Product Table Methods start ---------- //////////////////////////
     //Show All Pharmacy Product
     public function ShowPharmacyProduct(){
-        // $unites = Item_Unite::orderBy('added_at','asc')->get();
-        // $itemforms = Item_Form::orderBy('added_at','asc')->get();
-        // $manufactures = Manufacturer_Info::orderBy('added_at','asc')->get();
-        // $categorys = Category_Name::orderBy('added_at','asc')->get();
-        // $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
-        // $heads = Transaction_Head::orderBy('added_at','asc')->paginate(15);
-        return view('pharmacy_product.addPharmacyProduct');
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->orderBy('added_at','asc')->get();
+        $heads = Transaction_Head::orderBy('added_at','asc')->paginate(15);
+        return view('pharmacy_product.pharmacyProduct',compact('groupes', 'heads'));
+    }//End Method
+
+
+
+     //Get Transaction Heads By Name And Groupe
+     public function GetTransactionHeadByGroupe(Request $req){
+        if($req->groupein == "1"){
+            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
+            ->whereIn('groupe_id', $req->groupe)
+            ->orderBy('tran_head_name','asc')
+            ->take(10)
+            ->get();
+
+
+            if($heads->count() > 0){
+                $list = "";
+                foreach($heads as $index => $head) {
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">'.$head->tran_head_name.'</li>';
+                }
+            }
+            else{
+                $list = '<li>No Data Found</li>';
+            }
+            return $list;
+        }
+        else{
+            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
+            ->where('groupe_id', $req->groupe)
+            ->orderBy('tran_head_name','asc')
+            ->take(10)
+            ->get();
+
+
+            if($heads->count() > 0){
+                $list = "";
+                foreach($heads as $index => $head) {
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">'.$head->tran_head_name.'</li>';
+                }
+            }
+            else{
+                $list = '<li>No Data Found</li>';
+            }
+            return $list;
+        }
+    }//End Method
+
+
+
+    //Insert Pharmacy Product
+    public function InsertPharmacyProduct(Request $req){
+        $req->validate([
+            "headName" => 'required',
+            "groupe" => 'required|numeric',
+            "category" => 'required|numeric',
+            "manufacture" => 'required|numeric',
+            "itemform" => 'required|numeric',
+            "unite" => 'required|numeric',
+            "storename" => 'required|numeric',
+        ]);
+
+        Transaction_Head::insert([
+            "tran_head_name" => $req->headName,
+            "groupe_id" => $req->groupe,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);  
     }//End Method
 
 
