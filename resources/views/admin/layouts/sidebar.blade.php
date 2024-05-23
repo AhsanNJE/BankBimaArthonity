@@ -140,6 +140,42 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
+                                <i class="fa-solid fa-capsules"></i>
+                                <p>
+                                    Item Form
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.form.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Form Type</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="fa-solid fa-flask"></i>
+                                <p>
+                                    Item Unit
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.unit.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Unit Type</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <p>
                                     Location

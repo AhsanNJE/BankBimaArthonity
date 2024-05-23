@@ -15,10 +15,233 @@ use App\Models\Transaction_Main;
 use App\Models\User_Info;
 use App\Models\Party_Payment_Receive;
 use App\Models\Store;
+use App\Models\Item_Form;
+use App\Models\Item_Unit;
 use App\Models\Product;
 
 class InventoryController extends Controller
 {
+
+    /////////////////////////// --------------- Form Methods start ---------- //////////////////////////
+
+
+    public function InsertForm(Request $request){
+
+        //Validate Form Details
+        $request->validate([
+            'form_name' => 'required',
+        ]);
+ 
+ 
+        //Insert Form Details
+        Item_Form::insert([
+            'form_name' => $request->form_name,
+        ]);
+        
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }
+
+    public function ShowFormList(Request $request){
+        $form = Item_Form::orderBy('added_at','asc')->paginate(15);
+        return view('form.forms', compact('form'));
+
+    }
+
+
+    //Edit Form
+    public function EditForm(Request $request){
+        $form = Item_Form::where('id', $request->id)->first();
+        return response()->json([
+            'form'=>$form,
+        ]);
+    }//End Method
+
+    //Update Form
+    public function UpdateForm(Request $request){
+        
+        $request->validate([
+            'form_name' => 'required',
+        ]);
+
+
+        $update = Item_Form::findOrFail($request->id)->update([
+     
+            'form_name' => $request->form_name,
+            "updated_at" => now()
+        ]);
+       
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+    //Delete Form
+    public function DeleteForm(Request $request){
+        Item_Form::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+    //Form Pagination
+    public function FormPagination(){
+        $form = Item_Form::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('form.formPagination', compact('form'))->render(),
+        ]);
+    }//End Method
+
+
+    // Search Form by Name
+    public function SearchForm(Request $request){
+        if($request->search != ""){
+            $form = Item_Form::where('form_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('form_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $form = Item_Form::orderBy('form_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $form->links()->toHtml();
+        
+        if($form->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('form.searchForm', compact('form'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+
+
+    /////////////////////////// --------------- Unit Methods start ---------- //////////////////////////
+
+
+    public function InsertUnit(Request $request){
+
+        //Validate Form Details
+        $request->validate([
+            'unit_name' => 'required',
+        ]);
+ 
+ 
+        //Insert Form Details
+        Item_Unit::insert([
+            'unit_name' => $request->unit_name,
+        ]);
+        
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }
+
+    public function ShowUnitList(Request $request){
+        $unit = Item_Unit::orderBy('added_at','asc')->paginate(15);
+        return view('unit.units', compact('unit'));
+
+    }
+
+    //Edit Form
+    public function EditUnit(Request $request){
+        $unit = Item_Unit::where('id', $request->id)->first();
+        return response()->json([
+            'unit'=>$unit,
+        ]);
+    }//End Method
+
+    //Update Form
+    public function UpdateUnit(Request $request){
+        
+        $request->validate([
+            'unit_name' => 'required',
+        ]);
+
+
+        $update = Item_Unit::findOrFail($request->id)->update([
+     
+            'unit_name' => $request->unit_name,
+            "updated_at" => now()
+        ]);
+       
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+    //Delete Form
+    public function DeleteUnit(Request $request){
+        Item_Unit::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+    //Form Pagination
+    public function UnitPagination(){
+        $unit = Item_Unit::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('unit.unitPagination', compact('unit'))->render(),
+        ]);
+    }//End Method
+
+
+    // Search Form by Name
+    public function SearchUnit(Request $request){
+        if($request->search != ""){
+            $unit = Item_Unit::where('unit_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('unit_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $unit = Item_Unit::orderBy('unit_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $unit->links()->toHtml();
+        
+        if($unit->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('unit.searchUnit', compact('unit'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+
+
+
     /////////////////////////// --------------- Inventory Purchase Methods start ---------- //////////////////////////
     // Show All Purchase Details
     public function ShowInventoryPurchase(){

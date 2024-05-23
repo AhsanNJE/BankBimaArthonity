@@ -732,6 +732,7 @@ Route::controller(PayRollController::class)->group(function(){
     //Manufacturer pagination routes start
     Route::get('/manufacturer/pagination', [ManufacturerController::class,'ManufacturerPagination']);
     Route::get('/search/page/manufacturer', [ManufacturerController::class,'SearchManufacturer']);
+    Route::get('/get/manufacturer/name', [ManufacturerController::class, 'GetManufacturerByName']);
 
 
     //////////////// ------------------ Category Routes ------------------- //////////////////
@@ -749,6 +750,44 @@ Route::controller(PayRollController::class)->group(function(){
     //Category pagination routes start
     Route::get('/category/pagination', [CategoryController::class,'CategoryPagination']);
     Route::get('/search/page/category', [CategoryController::class,'SearchCategory']);
+    Route::get('/get/category/name', [CategoryController::class, 'GetCategoryByName']);
+
+
+
+
+    //////////////// ------------------ Form Routes ------------------- //////////////////
+
+    Route::post('/insert/form', [InventoryController::class, 'InsertForm'])->name('insert.form');
+    Route::get('/show/form/list', [InventoryController::class, 'ShowFormList'])->name('show.form.list');
+    //Edit Form
+    Route::get('/edit/form', [InventoryController::class,'EditForm'])->name('edit.form');
+    Route::put('/update/form', [InventoryController::class, 'UpdateForm'])->name('update.form');
+    //Delete Form
+    Route::delete('/form/delete', [InventoryController::class, 'DeleteForm'])->name('form.delete');
+    //Form search routes start
+    Route::get('/search/form', [InventoryController::class, 'SearchForm'])->name('search.form.name');
+    //Form pagination routes start
+    Route::get('/form/pagination', [InventoryController::class,'FormPagination']);
+    Route::get('/search/page/form', [InventoryController::class,'SearchForm']);
+
+
+
+
+    //////////////// ------------------ Unit Routes ------------------- //////////////////
+
+    Route::post('/insert/unit', [InventoryController::class, 'InsertUnit'])->name('insert.unit');
+    Route::get('/show/unit/list', [InventoryController::class, 'ShowUnitList'])->name('show.unit.list');
+    //Edit Unit
+    Route::get('/edit/unit', [InventoryController::class,'EditUnit'])->name('edit.unit');
+    Route::put('/update/unit', [InventoryController::class, 'UpdateUnit'])->name('update.unit');
+    //Delete Unit
+    Route::delete('/unit/delete', [InventoryController::class, 'DeleteUnit'])->name('unit.delete');
+    //Unit search routes start
+    Route::get('/search/unit', [InventoryController::class, 'SearchUnit'])->name('search.unit.name');
+    //Unit pagination routes start
+    Route::get('/unit/pagination', [InventoryController::class,'UnitPagination']);
+    Route::get('/search/page/unit', [InventoryController::class,'SearchUnit']);
+    
 
 
     
