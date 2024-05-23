@@ -1,15 +1,15 @@
-<div id="editStore" class="modal-container">
+<div id="editProduct" class="modal-container">
     <div class="modal-subject">
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
-                        <h3 class="card-title">Edit Store</h3>
-                        <span class="close-modal" data-modal-id="editStore">&times;</span>
+                        <h3 class="card-title">Edit Product</h3>
+                        <span class="close-modal" data-modal-id="editProduct">&times;</span>
                     </div>
                 </div>
 
-                <form id="EditStoreForm" method="post" enctype="multipart/form-data">
+                <form id="EditProductForm" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="center">
@@ -18,18 +18,9 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="update_store_name">Store Name</label>
-                                        <input type="text" name="store_name" class="form-control" id="update_store_name">
-                                        <span class="text-danger error" id="update_store_name_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for = "update_division">Division</label>
-                                        <select name="division" id="update_division">
-                                            
-                                        </select>
-                                        <span class="text-danger error" id="update_division_error"></span>
+                                        <label for="update_product_name">Product Name</label>
+                                        <input type="text" name="product_name" class="form-control" id="update_product_name">
+                                        <span class="text-danger error" id="update_product_name_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -46,7 +37,7 @@
                                 </div>
                         
                                 <div class="center">
-                                    <button type="submit" id="updateStore" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="updateProduct" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
                         </div>

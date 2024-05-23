@@ -1249,4 +1249,437 @@ $(document).ready(function () {
 
     /////////////// ------------------ Search Head By Name And Groupe add value to input ajax part end ---------------- /////////////////////////////
 
+
+
+
+
+
+
+    /////////////// ------------------ Search Manufacturer by Name and add value to input ajax part start ---------------- /////////////////////////////
+    // Manufacturer Keyup Event
+    $(document).on('keyup', '#manufacturer', function (e) {
+        let manufacturer = $(this).val();
+        let id = $(this).attr('data-id');
+        ManufacturerKeyUp(e, manufacturer, id, '#manufacturer', '#manufacturer-list ul');
+    });
+
+
+    // Manufacturer Keydown Event
+    $(document).on('keydown', '#manufacturer', function (e) {
+        let list = $('#manufacturer-list ul li');
+        ManufacturerKeyDown(e, list, '#manufacturer', '#manufacturer-list ul');
+    });
+
+
+    // Manufacturer List keydown Event
+    $(document).on('keydown', '#manufacturer-list ul li', function (e) {
+        let list = $('#manufacturer-list ul li');
+        let focused = $('#manufacturer-list ul li:focus');
+        ManufacturerListKeyDown(e, list, focused, '#manufacturer', '#manufacturer-list ul');
+    });
+
+
+    // Manufacturer List Click Event
+    $(document).on('click', '#manufacturer-list li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#manufacturer').val(value);
+        $('#manufacturer').attr('data-id', id);
+        $('#manufacturer-list ul').html('');
+    });
+
+
+    // Manufacturer Focus Event
+    $(document).on('focus', '#manufacturer', function (e) {
+        let manufacturer = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getManufacturerByName(manufacturer, '#manufacturer-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Manufacturer Focusout event
+    $(document).on('focusout', '#manufacturer', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#manufacturer-list ul').html('');
+                }
+            });
+        }
+    });
+
+    // Update Manufacturer Keyup Event
+    $(document).on('keyup', '#updateManufacturer', function (e) {
+        let manufacturer = $(this).val();
+        let id = $(this).attr('data-id');
+        ManufacturerKeyUp(e, manufacturer, id, '#updateManufacturer', '#update-manufacturer ul');
+    });
+
+
+    // Update Manufacturer Keydown Event
+    $(document).on('keydown', '#updateManufacturer', function (e) {
+        let list = $('#update-manufacturer ul li');
+        ManufacturerKeyDown(e, list, '#updateManufacturer', '#update-manufacturer ul');
+    });
+
+
+    // Update Manufacturer List Keydown Event
+    $(document).on('keydown', '#update-manufacturer ul li', function (e) {
+        let list = $('#update-manufacturer ul li');
+        let focused = $('#update-manufacturer ul li:focus');
+        ManufacturerListKeyDown(e, list, focused, '#updateManufacturer', '#update-manufacturer ul');
+    });
+
+
+    // Update Manufacturer List Click Event
+    $(document).on('click', '#update-manufacturer li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#updateManufacturer').val(value);
+        $('#updateManufacturer').attr('data-id', id);
+        $('#update-manufacturer ul').html('');
+    });
+
+
+
+    // Update Manufacturer Focus Event
+    $(document).on('focus', '#updateManufacturer', function (e) {
+        let manufacturer = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getManufacturerByName(manufacturer, '#update-manufacturer ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+
+    // Update Locaation Focousout Event
+    $(document).on('focusout', '#updateManufacturer', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-manufacturer ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Manufacturer Keyup Event Function
+    function ManufacturerKeyUp(e, manufacturer, id, targetElement1, targetElement2){
+        if (e.keyCode === 13) { // Enter Key
+            e.preventDefault();
+        }
+        else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
+            //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
+            $(targetElement1).removeAttr('data-id');
+            getManufacturerByName(manufacturer, targetElement2);
+        }
+        else if (e.keyCode === 9) { // Tab key
+            if (id != undefined) {
+                e.preventDefault();
+            }
+            else{
+                $(targetElement1).removeAttr('data-id');
+                getManufacturerByName(manufacturer, targetElement2);
+            }
+        }
+    }
+
+
+    // Manufacturer Keydown Event Function
+    function ManufacturerKeyDown(e, list, targetElement1, targetElement2) {
+        if (list.length > 0) {
+            if (e.keyCode === 40) { // Down arrow key
+                e.preventDefault();
+                list.first().focus();
+                $(targetElement1).val(list.first().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
+                e.preventDefault();
+                list.last().focus();
+                $(targetElement1).val(list.last().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 13) { // Enter key
+                e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
+            }
+        }
+    }
+    
+
+    // Manufacturer List Keydown Event function
+    function ManufacturerListKeyDown(e, list, focused, targetElement1, targetElement2) {
+        if (e.keyCode === 40) { // Down arrow key
+            e.preventDefault();
+            let nextIndex = focused.index() + 1;
+            if (nextIndex >= list.length) {
+                nextIndex = 0; // Loop to the first item
+            }
+            list.eq(nextIndex).focus();
+            $(targetElement1).val(list.eq(nextIndex).text());
+            $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+        } 
+        else if (e.keyCode === 38) { // Up arrow key
+            e.preventDefault();
+            let prevIndex = focused.index() - 1;
+            if (prevIndex < 0) {
+                prevIndex = list.length - 1; // Loop to the last item
+            }
+            list.eq(prevIndex).focus();
+            $(targetElement1).val(list.eq(prevIndex).text());
+            $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+        } 
+        else if (e.keyCode === 13) { // Enter key
+            e.preventDefault();
+            $(targetElement2).html('');
+            $(targetElement1).focus();
+        }
+    }
+
+    // Search Manufacturer by Name
+    function getManufacturerByName(manufacturer, targetElement1) {
+        $.ajax({
+            url: "/get/manufacturer/name",
+            method: 'GET',
+            data: { manufacturer: manufacturer },
+            success: function (res) {
+                $(targetElement1).html(res);
+            }
+        });
+    }
+
+    /////////////// ------------------ Search Manufacturer by Name and add value to input ajax part end ---------------- /////////////////////////////
+
+
+
+
+
+
+
+
+    /////////////// ------------------ Search Category by Name and add value to input ajax part start ---------------- /////////////////////////////
+    // Category Keyup Event
+    $(document).on('keyup', '#category', function (e) {
+        let category = $(this).val();
+        let id = $(this).attr('data-id');
+        CategoryKeyUp(e, category, id, '#category', '#category-list ul');
+    });
+
+
+    // Category Keydown Event
+    $(document).on('keydown', '#category', function (e) {
+        let list = $('#category-list ul li');
+        CategoryKeyDown(e, list, '#category', '#category-list ul');
+    });
+
+
+    // Category List keydown Event
+    $(document).on('keydown', '#category-list ul li', function (e) {
+        let list = $('#category-list ul li');
+        let focused = $('#category-list ul li:focus');
+        CategoryListKeyDown(e, list, focused, '#category', '#category-list ul');
+    });
+
+
+    // Category List Click Event
+    $(document).on('click', '#category-list li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#category').val(value);
+        $('#category').attr('data-id', id);
+        $('#category-list ul').html('');
+    });
+
+
+    // Category Focus Event
+    $(document).on('focus', '#category', function (e) {
+        let category = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getCategoryByName(category, '#category-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Locaation Focousout event
+    $(document).on('focusout', '#category', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#category-list ul').html('');
+                }
+            });
+        }
+    });
+
+    // Update Category Keyup Event
+    $(document).on('keyup', '#updateCategory', function (e) {
+        let category = $(this).val();
+        let id = $(this).attr('data-id');
+        CategoryKeyUp(e, category, id, '#updateCategory', '#update-category ul');
+    });
+
+
+    // Update Category Keydown Event
+    $(document).on('keydown', '#updateCategory', function (e) {
+        let list = $('#update-category ul li');
+        CategoryKeyDown(e, list, '#updateCategory', '#update-category ul');
+    });
+
+
+    // Update Category List Keydown Event
+    $(document).on('keydown', '#update-category ul li', function (e) {
+        let list = $('#update-category ul li');
+        let focused = $('#update-category ul li:focus');
+        CategoryListKeyDown(e, list, focused, '#updateCategory', '#update-category ul');
+    });
+
+
+    // Update Category List Click Event
+    $(document).on('click', '#update-category li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#updateCategory').val(value);
+        $('#updateCategory').attr('data-id', id);
+        $('#update-category ul').html('');
+    });
+
+
+
+    // Update Category Focus Event
+    $(document).on('focus', '#updateCategory', function (e) {
+        let category = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getCategoryByName(category, '#update-category ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+
+    // Update Locaation Focousout Event
+    $(document).on('focusout', '#updateCategory', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-category ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Category Keyup Event Function
+    function CategoryKeyUp(e, category, id, targetElement1, targetElement2){
+        if (e.keyCode === 13) { // Enter Key
+            e.preventDefault();
+        }
+        else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
+            //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
+            $(targetElement1).removeAttr('data-id');
+            getCategoryByName(category, targetElement2);
+        }
+        else if (e.keyCode === 9) { // Tab key
+            if (id != undefined) {
+                e.preventDefault();
+            }
+            else{
+                $(targetElement1).removeAttr('data-id');
+                getCategoryByName(category, targetElement2);
+            }
+        }
+    }
+
+
+    // Category Keydown Event Function
+    function CategoryKeyDown(e, list, targetElement1, targetElement2) {
+        if (list.length > 0) {
+            if (e.keyCode === 40) { // Down arrow key
+                e.preventDefault();
+                list.first().focus();
+                $(targetElement1).val(list.first().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
+                e.preventDefault();
+                list.last().focus();
+                $(targetElement1).val(list.last().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 13) { // Enter key
+                e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
+            }
+        }
+    }
+    
+
+    // Category List Keydown Event function
+    function CategoryListKeyDown(e, list, focused, targetElement1, targetElement2) {
+        if (e.keyCode === 40) { // Down arrow key
+            e.preventDefault();
+            let nextIndex = focused.index() + 1;
+            if (nextIndex >= list.length) {
+                nextIndex = 0; // Loop to the first item
+            }
+            list.eq(nextIndex).focus();
+            $(targetElement1).val(list.eq(nextIndex).text());
+            $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+        } 
+        else if (e.keyCode === 38) { // Up arrow key
+            e.preventDefault();
+            let prevIndex = focused.index() - 1;
+            if (prevIndex < 0) {
+                prevIndex = list.length - 1; // Loop to the last item
+            }
+            list.eq(prevIndex).focus();
+            $(targetElement1).val(list.eq(prevIndex).text());
+            $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+        } 
+        else if (e.keyCode === 13) { // Enter key
+            e.preventDefault();
+            $(targetElement2).html('');
+            $(targetElement1).focus();
+        }
+    }
+
+    // Search Category by Name
+    function getCategoryByName(category, targetElement1) {
+        $.ajax({
+            url: "/get/category/name",
+            method: 'GET',
+            data: { category: category },
+            success: function (res) {
+                $(targetElement1).html(res);
+            }
+        });
+    }
+
+    /////////////// ------------------ Search Category by Name and add value to input ajax part end ---------------- /////////////////////////////
+
 });

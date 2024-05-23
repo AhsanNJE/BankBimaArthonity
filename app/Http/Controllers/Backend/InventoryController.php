@@ -22,6 +22,227 @@ use App\Models\Item_Unite;
 
 class InventoryController extends Controller
 {
+
+    /////////////////////////// --------------- Form Methods start ---------- //////////////////////////
+
+
+    public function InsertForm(Request $request){
+
+        //Validate Form Details
+        $request->validate([
+            'form_name' => 'required',
+        ]);
+ 
+ 
+        //Insert Form Details
+        Item_Form::insert([
+            'form_name' => $request->form_name,
+        ]);
+        
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }
+
+    public function ShowFormList(Request $request){
+        $form = Item_Form::orderBy('added_at','asc')->paginate(15);
+        return view('form.forms', compact('form'));
+
+    }
+
+
+    //Edit Form
+    public function EditForm(Request $request){
+        $form = Item_Form::where('id', $request->id)->first();
+        return response()->json([
+            'form'=>$form,
+        ]);
+    }//End Method
+
+    //Update Form
+    public function UpdateForm(Request $request){
+        
+        $request->validate([
+            'form_name' => 'required',
+        ]);
+
+
+        $update = Item_Form::findOrFail($request->id)->update([
+     
+            'form_name' => $request->form_name,
+            "updated_at" => now()
+        ]);
+       
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+    //Delete Form
+    public function DeleteForm(Request $request){
+        Item_Form::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+    //Form Pagination
+    public function FormPagination(){
+        $form = Item_Form::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('form.formPagination', compact('form'))->render(),
+        ]);
+    }//End Method
+
+
+    // Search Form by Name
+    public function SearchForm(Request $request){
+        if($request->search != ""){
+            $form = Item_Form::where('form_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('form_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $form = Item_Form::orderBy('form_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $form->links()->toHtml();
+        
+        if($form->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('form.searchForm', compact('form'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+
+
+    /////////////////////////// --------------- Unit Methods start ---------- //////////////////////////
+
+
+    public function InsertUnit(Request $request){
+
+        //Validate Form Details
+        $request->validate([
+            'unit_name' => 'required',
+        ]);
+ 
+ 
+        //Insert Form Details
+        Item_Unit::insert([
+            'unit_name' => $request->unit_name,
+        ]);
+        
+        return response()->json([
+            'status'=>'success',
+        ]);  
+    }
+
+    public function ShowUnitList(Request $request){
+        $unit = Item_Unit::orderBy('added_at','asc')->paginate(15);
+        return view('unit.units', compact('unit'));
+
+    }
+
+    //Edit Form
+    public function EditUnit(Request $request){
+        $unit = Item_Unit::where('id', $request->id)->first();
+        return response()->json([
+            'unit'=>$unit,
+        ]);
+    }//End Method
+
+    //Update Form
+    public function UpdateUnit(Request $request){
+        
+        $request->validate([
+            'unit_name' => 'required',
+        ]);
+
+
+        $update = Item_Unit::findOrFail($request->id)->update([
+     
+            'unit_name' => $request->unit_name,
+            "updated_at" => now()
+        ]);
+       
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+    //Delete Form
+    public function DeleteUnit(Request $request){
+        Item_Unit::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+    //Form Pagination
+    public function UnitPagination(){
+        $unit = Item_Unit::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('unit.unitPagination', compact('unit'))->render(),
+        ]);
+    }//End Method
+
+
+    // Search Form by Name
+    public function SearchUnit(Request $request){
+        if($request->search != ""){
+            $unit = Item_Unit::where('unit_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('unit_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $unit = Item_Unit::orderBy('unit_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $unit->links()->toHtml();
+        
+        if($unit->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('unit.searchUnit', compact('unit'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
+
+
+
+
+
+
     /////////////////////////// --------------- Inventory Purchase Methods start ---------- //////////////////////////
     // Show All Purchase Details
     public function ShowInventoryPurchase(){
@@ -303,12 +524,6 @@ class InventoryController extends Controller
         return view('store.stores', compact('store'));
     }
 
-    public function StoreInfo(Request $request){
-        $store = Store::where('id', $request->id)->get();
-        return response()->json([
-            'data'=>view('store.fullDetails', compact('store'))->render(),
-        ]);
-    }
 
     //Edit Store
     public function EditStore(Request $request){
@@ -406,4 +621,100 @@ class InventoryController extends Controller
         return view('pharmacy_product.addPharmacyProduct');
     }//End Method
 
+
+
+
+
+    /////////////////////////// --------------- Inventory Store Methods start ---------- //////////////////////////
+    
+
+    
+
+    public function ShowProductList(Request $request){
+        $product = Product::with('Heads','Manufacturers','Categories')->orderBy('added_at','asc')->paginate(15);
+        return view('product.products', compact('product'));
+    }
+
+
+    //Edit Store
+    public function EditProduct(Request $request){
+        $product = Product::with('Location')->where('id', $request->id)->first();
+        return response()->json([
+            'product'=>$product,
+        ]);
+    }//End Method
+
+    //Update Store
+    public function UpdateProduct(Request $request){
+        
+        $request->validate([
+            'store_name' => 'required',
+            'division' => 'required',
+            'location' => 'required',
+        ]);
+
+
+        $update = Store::findOrFail($request->id)->update([
+     
+            'store_name' => $request->store_name,
+            'division' => $request->division,
+            'location_id' => $request->location,
+            "updated_at" => now()
+        ]);
+       
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
+    }//End Method
+
+
+    //Delete Store
+    public function DeleteProduct(Request $request){
+        Store::findOrFail($request->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+    //Store Pagination
+    public function ProductPagination(){
+        $product = Store::orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('store.storePagination', compact('store'))->render(),
+        ]);
+    }//End Method
+
+
+    // Search Store by Name
+    public function SearchProduct(Request $request){
+        if($request->search != ""){
+            $store = Store::where('store_name', 'like', '%'.$request->search.'%')
+            ->orWhere('id', 'like','%'.$request->search.'%')
+            ->orderBy('store_name','asc')
+            ->paginate(15);
+        }
+        else{
+            $store = Store::orderBy('store_name','asc')
+            ->paginate(15);
+        }
+
+        $paginationHtml = $store->links()->toHtml();
+        
+        if($store->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('store.searchStore', compact('store'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+        
+    }//End Method
 }
