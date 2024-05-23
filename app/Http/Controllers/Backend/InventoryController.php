@@ -18,7 +18,7 @@ use App\Models\Store;
 use App\Models\Category_Name;
 use App\Models\Manufacturer_Info;
 use App\Models\Item_Form;
-use App\Models\Item_Unite;
+use App\Models\Item_Unit;
 
 class InventoryController extends Controller
 {
