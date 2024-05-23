@@ -104,7 +104,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-people-roof"></i>
+                                <i class="fa-solid fa-users"></i>
                                 <p>
                                     Manufacturer
                                     <!-- <i class="fas fa-angle-left right"></i> -->
@@ -158,7 +158,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                            <i class="fa-solid fa-flask"></i>
+                            <i class="fa-solid fa-flask-vial"></i>
                                 <p>
                                     Item Unit
                                     <!-- <i class="fas fa-angle-left right"></i> -->

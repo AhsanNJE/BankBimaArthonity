@@ -121,8 +121,8 @@ class ManufacturerController extends Controller
 
     //Get Manufacturer By Name
     public function GetManufacturerByName(Request $req){
-        $manufacturers = Manufacturer_Info::where('name', 'like', '%'.$req->manufacturer.'%')
-        ->orderBy('name','asc')
+        $manufacturers = Manufacturer_Info::where('manufacturer_name', 'like', '%'.$req->manufacturer.'%')
+        ->orderBy('manufacturer_name','asc')
         ->take(10)
         ->get();
 
@@ -130,7 +130,7 @@ class ManufacturerController extends Controller
         if($manufacturers->count() > 0){
             $list = "";
             foreach($manufacturers as $index => $manufacturer) {
-                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$manufacturer->id.'">'.$manufacturer->name.'</li>';
+                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$manufacturer->id.'">'.$manufacturer->manufacturer_name.'</li>';
             }
         }
         else{

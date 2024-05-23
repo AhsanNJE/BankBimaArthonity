@@ -1,5 +1,5 @@
 <table class="show-table">
-    <caption class="caption">Form Details</caption>
+    <caption class="caption">Unit Details</caption>
     <thead>
         <tr>
             <th>Id</th>

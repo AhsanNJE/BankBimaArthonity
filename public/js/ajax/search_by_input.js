@@ -1682,4 +1682,647 @@ $(document).ready(function () {
 
     /////////////// ------------------ Search Category by Name and add value to input ajax part end ---------------- /////////////////////////////
 
+
+
+    /////////////// ------------------ Search Form by Name and add value to input ajax part start ---------------- /////////////////////////////
+    // Form Keyup Event
+    $(document).on('keyup', '#form', function (e) {
+        let form = $(this).val();
+        let id = $(this).attr('data-id');
+        FormKeyUp(e, form, id, '#form', '#form-list ul');
+    });
+
+
+    // Form Keydown Event
+    $(document).on('keydown', '#form', function (e) {
+        let list = $('#form-list ul li');
+        FormKeyDown(e, list, '#form', '#form-list ul');
+    });
+
+
+    // Form List keydown Event
+    $(document).on('keydown', '#form-list ul li', function (e) {
+        let list = $('#form-list ul li');
+        let focused = $('#form-list ul li:focus');
+        FormListKeyDown(e, list, focused, '#form', '#form-list ul');
+    });
+
+
+    // Form List Click Event
+    $(document).on('click', '#form-list li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#form').val(value);
+        $('#form').attr('data-id', id);
+        $('#form-list ul').html('');
+    });
+
+
+    // Form Focus Event
+    $(document).on('focus', '#form', function (e) {
+        let form = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getFormByName(form, '#form-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Locaation Focousout event
+    $(document).on('focusout', '#form', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#form-list ul').html('');
+                }
+            });
+        }
+    });
+
+    // Update Form Keyup Event
+    $(document).on('keyup', '#updateForm', function (e) {
+        let form = $(this).val();
+        let id = $(this).attr('data-id');
+        FormKeyUp(e, form, id, '#updateForm', '#update-form ul');
+    });
+
+
+    // Update Form Keydown Event
+    $(document).on('keydown', '#updateForm', function (e) {
+        let list = $('#update-form ul li');
+        FormKeyDown(e, list, '#updateForm', '#update-form ul');
+    });
+
+
+    // Update Form List Keydown Event
+    $(document).on('keydown', '#update-form ul li', function (e) {
+        let list = $('#update-form ul li');
+        let focused = $('#update-form ul li:focus');
+        FormListKeyDown(e, list, focused, '#updateForm', '#update-form ul');
+    });
+
+
+    // Update Form List Click Event
+    $(document).on('click', '#update-form li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#updateForm').val(value);
+        $('#updateForm').attr('data-id', id);
+        $('#update-form ul').html('');
+    });
+
+
+
+    // Update Form Focus Event
+    $(document).on('focus', '#updateForm', function (e) {
+        let form = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getFormByName(form, '#update-form ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+
+    // Update Locaation Focousout Event
+    $(document).on('focusout', '#updateForm', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-form ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Form Keyup Event Function
+    function FormKeyUp(e, form, id, targetElement1, targetElement2){
+        if (e.keyCode === 13) { // Enter Key
+            e.preventDefault();
+        }
+        else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
+            //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
+            $(targetElement1).removeAttr('data-id');
+            getFormByName(form, targetElement2);
+        }
+        else if (e.keyCode === 9) { // Tab key
+            if (id != undefined) {
+                e.preventDefault();
+            }
+            else{
+                $(targetElement1).removeAttr('data-id');
+                getFormByName(form, targetElement2);
+            }
+        }
+    }
+
+
+    // Form Keydown Event Function
+    function FormKeyDown(e, list, targetElement1, targetElement2) {
+        if (list.length > 0) {
+            if (e.keyCode === 40) { // Down arrow key
+                e.preventDefault();
+                list.first().focus();
+                $(targetElement1).val(list.first().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
+                e.preventDefault();
+                list.last().focus();
+                $(targetElement1).val(list.last().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 13) { // Enter key
+                e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
+            }
+        }
+    }
+    
+
+    // Form List Keydown Event function
+    function FormListKeyDown(e, list, focused, targetElement1, targetElement2) {
+        if (e.keyCode === 40) { // Down arrow key
+            e.preventDefault();
+            let nextIndex = focused.index() + 1;
+            if (nextIndex >= list.length) {
+                nextIndex = 0; // Loop to the first item
+            }
+            list.eq(nextIndex).focus();
+            $(targetElement1).val(list.eq(nextIndex).text());
+            $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+        } 
+        else if (e.keyCode === 38) { // Up arrow key
+            e.preventDefault();
+            let prevIndex = focused.index() - 1;
+            if (prevIndex < 0) {
+                prevIndex = list.length - 1; // Loop to the last item
+            }
+            list.eq(prevIndex).focus();
+            $(targetElement1).val(list.eq(prevIndex).text());
+            $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+        } 
+        else if (e.keyCode === 13) { // Enter key
+            e.preventDefault();
+            $(targetElement2).html('');
+            $(targetElement1).focus();
+        }
+    }
+
+    // Search Form by Name
+    function getFormByName(form, targetElement1) {
+        $.ajax({
+            url: "/get/form/name",
+            method: 'GET',
+            data: { form: form },
+            success: function (res) {
+                $(targetElement1).html(res);
+            }
+        });
+    }
+
+    /////////////// ------------------ Search Form by Name and add value to input ajax part end ---------------- /////////////////////////////
+
+
+
+
+
+
+    /////////////// ------------------ Search Unit by Name and add value to input ajax part start ---------------- /////////////////////////////
+    // Unit Keyup Event
+    $(document).on('keyup', '#unit', function (e) {
+        let unit = $(this).val();
+        let id = $(this).attr('data-id');
+        UnitKeyUp(e, unit, id, '#unit', '#unit-list ul');
+    });
+
+
+    // Unit Keydown Event
+    $(document).on('keydown', '#unit', function (e) {
+        let list = $('#unit-list ul li');
+        UnitKeyDown(e, list, '#unit', '#unit-list ul');
+    });
+
+
+    // Unit List keydown Event
+    $(document).on('keydown', '#unit-list ul li', function (e) {
+        let list = $('#unit-list ul li');
+        let focused = $('#unit-list ul li:focus');
+        UnitListKeyDown(e, list, focused, '#unit', '#unit-list ul');
+    });
+
+
+    // Unit List Click Event
+    $(document).on('click', '#unit-list li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#unit').val(value);
+        $('#unit').attr('data-id', id);
+        $('#unit-list ul').html('');
+    });
+
+
+    // Unit Focus Event
+    $(document).on('focus', '#unit', function (e) {
+        let unit = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getUnitByName(unit, '#unit-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Locaation Focousout event
+    $(document).on('focusout', '#unit', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#unit-list ul').html('');
+                }
+            });
+        }
+    });
+
+    // Update Unit Keyup Event
+    $(document).on('keyup', '#updateUnit', function (e) {
+        let unit = $(this).val();
+        let id = $(this).attr('data-id');
+        UnitKeyUp(e, unit, id, '#updateUnit', '#update-unit ul');
+    });
+
+
+    // Update Unit Keydown Event
+    $(document).on('keydown', '#updateUnit', function (e) {
+        let list = $('#update-unit ul li');
+        UnitKeyDown(e, list, '#updateUnit', '#update-unit ul');
+    });
+
+
+    // Update Unit List Keydown Event
+    $(document).on('keydown', '#update-unit ul li', function (e) {
+        let list = $('#update-unit ul li');
+        let focused = $('#update-unit ul li:focus');
+        UnitListKeyDown(e, list, focused, '#updateUnit', '#update-unit ul');
+    });
+
+
+    // Update Unit List Click Event
+    $(document).on('click', '#update-unit li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#updateUnit').val(value);
+        $('#updateUnit').attr('data-id', id);
+        $('#update-unit ul').html('');
+    });
+
+
+
+    // Update Unit Focus Event
+    $(document).on('focus', '#updateUnit', function (e) {
+        let unit = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getUnitByName(unit, '#update-unit ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+
+    // Update Locaation Focousout Event
+    $(document).on('focusout', '#updateUnit', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-unit ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Unit Keyup Event Function
+    function UnitKeyUp(e, unit, id, targetElement1, targetElement2){
+        if (e.keyCode === 13) { // Enter Key
+            e.preventDefault();
+        }
+        else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
+            //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
+            $(targetElement1).removeAttr('data-id');
+            getUnitByName(unit, targetElement2);
+        }
+        else if (e.keyCode === 9) { // Tab key
+            if (id != undefined) {
+                e.preventDefault();
+            }
+            else{
+                $(targetElement1).removeAttr('data-id');
+                getUnitByName(unit, targetElement2);
+            }
+        }
+    }
+
+
+    // Unit Keydown Event Function
+    function UnitKeyDown(e, list, targetElement1, targetElement2) {
+        if (list.length > 0) {
+            if (e.keyCode === 40) { // Down arrow key
+                e.preventDefault();
+                list.first().focus();
+                $(targetElement1).val(list.first().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
+                e.preventDefault();
+                list.last().focus();
+                $(targetElement1).val(list.last().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 13) { // Enter key
+                e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
+            }
+        }
+    }
+    
+
+    // Unit List Keydown Event function
+    function UnitListKeyDown(e, list, focused, targetElement1, targetElement2) {
+        if (e.keyCode === 40) { // Down arrow key
+            e.preventDefault();
+            let nextIndex = focused.index() + 1;
+            if (nextIndex >= list.length) {
+                nextIndex = 0; // Loop to the first item
+            }
+            list.eq(nextIndex).focus();
+            $(targetElement1).val(list.eq(nextIndex).text());
+            $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+        } 
+        else if (e.keyCode === 38) { // Up arrow key
+            e.preventDefault();
+            let prevIndex = focused.index() - 1;
+            if (prevIndex < 0) {
+                prevIndex = list.length - 1; // Loop to the last item
+            }
+            list.eq(prevIndex).focus();
+            $(targetElement1).val(list.eq(prevIndex).text());
+            $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+        } 
+        else if (e.keyCode === 13) { // Enter key
+            e.preventDefault();
+            $(targetElement2).html('');
+            $(targetElement1).focus();
+        }
+    }
+
+    // Search Unit by Name
+    function getUnitByName(unit, targetElement1) {
+        $.ajax({
+            url: "/get/unit/name",
+            method: 'GET',
+            data: { unit: unit },
+            success: function (res) {
+                $(targetElement1).html(res);
+            }
+        });
+    }
+
+    /////////////// ------------------ Search Unit by Name and add value to input ajax part end ---------------- /////////////////////////////
+
+
+
+
+
+
+     /////////////// ------------------ Search Store by Name and add value to input ajax part start ---------------- /////////////////////////////
+    // Store Keyup Event
+    $(document).on('keyup', '#store', function (e) {
+        let store = $(this).val();
+        let id = $(this).attr('data-id');
+        StoreKeyUp(e, store, id, '#store', '#store-list ul');
+    });
+
+
+    // Store Keydown Event
+    $(document).on('keydown', '#store', function (e) {
+        let list = $('#store-list ul li');
+        StoreKeyDown(e, list, '#store', '#store-list ul');
+    });
+
+
+    // Store List keydown Event
+    $(document).on('keydown', '#store-list ul li', function (e) {
+        let list = $('#store-list ul li');
+        let focused = $('#store-list ul li:focus');
+        StoreListKeyDown(e, list, focused, '#store', '#store-list ul');
+    });
+
+
+    // Store List Click Event
+    $(document).on('click', '#store-list li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#store').val(value);
+        $('#store').attr('data-id', id);
+        $('#store-list ul').html('');
+    });
+
+
+    // Store Focus Event
+    $(document).on('focus', '#store', function (e) {
+        let store = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getStoreByName(store, '#store-list ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+    // Locaation Focousout event
+    $(document).on('focusout', '#store', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#store-list ul').html('');
+                }
+            });
+        }
+    });
+
+    // Update Store Keyup Event
+    $(document).on('keyup', '#updateStore', function (e) {
+        let store = $(this).val();
+        let id = $(this).attr('data-id');
+        StoreKeyUp(e, store, id, '#updateStore', '#update-store ul');
+    });
+
+
+    // Update Store Keydown Event
+    $(document).on('keydown', '#updateStore', function (e) {
+        let list = $('#update-store ul li');
+        StoreKeyDown(e, list, '#updateStore', '#update-store ul');
+    });
+
+
+    // Update Store List Keydown Event
+    $(document).on('keydown', '#update-store ul li', function (e) {
+        let list = $('#update-store ul li');
+        let focused = $('#update-store ul li:focus');
+        StoreListKeyDown(e, list, focused, '#updateStore', '#update-store ul');
+    });
+
+
+    // Update Store List Click Event
+    $(document).on('click', '#update-store li', function () {
+        let value = $(this).text();
+        let id = $(this).data('id');
+        $('#updateStore').val(value);
+        $('#updateStore').attr('data-id', id);
+        $('#update-store ul').html('');
+    });
+
+
+
+    // Update Store Focus Event
+    $(document).on('focus', '#updateStore', function (e) {
+        let store = $(this).val();
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            getStoreByName(store, '#update-store ul');
+        }
+        else{
+            e.preventDefault();
+        }
+    });
+
+
+
+    // Update Locaation Focousout Event
+    $(document).on('focusout', '#updateStore', function (e) {
+        let id = $(this).attr('data-id');
+        if(id == undefined){
+            $(document).on('click', function (e){
+                if($(e.target).attr('tabindex') == undefined){
+                    $('#update-store ul').html('');
+                }
+            });
+        }
+    });
+
+
+    // Store Keyup Event Function
+    function StoreKeyUp(e, store, id, targetElement1, targetElement2){
+        if (e.keyCode === 13) { // Enter Key
+            e.preventDefault();
+        }
+        else if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode === 8){
+            //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
+            $(targetElement1).removeAttr('data-id');
+            getStoreByName(store, targetElement2);
+        }
+        else if (e.keyCode === 9) { // Tab key
+            if (id != undefined) {
+                e.preventDefault();
+            }
+            else{
+                $(targetElement1).removeAttr('data-id');
+                getStoreByName(store, targetElement2);
+            }
+        }
+    }
+
+
+    // Store Keydown Event Function
+    function StoreKeyDown(e, list, targetElement1, targetElement2) {
+        if (list.length > 0) {
+            if (e.keyCode === 40) { // Down arrow key
+                e.preventDefault();
+                list.first().focus();
+                $(targetElement1).val(list.first().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 38) { // Up arrow key
+                e.preventDefault();
+                list.last().focus();
+                $(targetElement1).val(list.last().text());
+                $(targetElement1).attr("data-id", list.data('id'));
+            } 
+            else if (e.keyCode === 13) { // Enter key
+                e.preventDefault();
+            } 
+            else if (e.keyCode === 9) { // Tab key
+                $(targetElement2).html('');
+            }
+        }
+    }
+    
+
+    // Store List Keydown Event function
+    function StoreListKeyDown(e, list, focused, targetElement1, targetElement2) {
+        if (e.keyCode === 40) { // Down arrow key
+            e.preventDefault();
+            let nextIndex = focused.index() + 1;
+            if (nextIndex >= list.length) {
+                nextIndex = 0; // Loop to the first item
+            }
+            list.eq(nextIndex).focus();
+            $(targetElement1).val(list.eq(nextIndex).text());
+            $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
+        } 
+        else if (e.keyCode === 38) { // Up arrow key
+            e.preventDefault();
+            let prevIndex = focused.index() - 1;
+            if (prevIndex < 0) {
+                prevIndex = list.length - 1; // Loop to the last item
+            }
+            list.eq(prevIndex).focus();
+            $(targetElement1).val(list.eq(prevIndex).text());
+            $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
+        } 
+        else if (e.keyCode === 13) { // Enter key
+            e.preventDefault();
+            $(targetElement2).html('');
+            $(targetElement1).focus();
+        }
+    }
+
+    // Search Store by Name
+    function getStoreByName(store, targetElement1) {
+        $.ajax({
+            url: "/get/store/name",
+            method: 'GET',
+            data: { store: store },
+            success: function (res) {
+                $(targetElement1).html(res);
+            }
+        });
+    }
+
+    /////////////// ------------------ Search Store by Name and add value to input ajax part end ---------------- /////////////////////////////
+
+
 });
