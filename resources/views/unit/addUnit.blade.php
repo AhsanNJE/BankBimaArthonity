@@ -30,7 +30,7 @@
                                         <span class="text-danger error" id="unit_name_error"></span>
                                     </div>
                                 </div>
-                                
+                    
                                 <div class="center">
                                     <button type="submit" id="InsertUnit" class="btn btn-primary">Submit</button>
                                 </div>

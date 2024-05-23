@@ -129,6 +129,27 @@ class InventoryController extends Controller
     }//End Method
 
 
+    //Get Form By Name
+    public function GetFormByName(Request $req){
+        $forms = Item_Form::where('form_name', 'like', '%'.$req->form.'%')
+        ->orderBy('form_name','asc')
+        ->take(10)
+        ->get();
+
+
+        if($forms->count() > 0){
+            $list = "";
+            foreach($forms as $index => $form) {
+                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$form->id.'">'.$form->form_name.'</li>';
+            }
+        }
+        else{
+            $list = '<li>No Data Found</li>';
+        }
+        return $list;
+    }//End Method
+
+
 
 
 
@@ -235,6 +256,27 @@ class InventoryController extends Controller
             ]); 
         }
         
+    }//End Method
+
+
+    //Get Unit By Name
+    public function GetUnitByName(Request $req){
+        $units = Item_Unit::where('unit_name', 'like', '%'.$req->unit.'%')
+        ->orderBy('unit_name','asc')
+        ->take(10)
+        ->get();
+
+
+        if($units->count() > 0){
+            $list = "";
+            foreach($units as $index => $unit) {
+                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$unit->id.'">'.$unit->unit_name.'</li>';
+            }
+        }
+        else{
+            $list = '<li>No Data Found</li>';
+        }
+        return $list;
     }//End Method
 
 
@@ -605,6 +647,27 @@ class InventoryController extends Controller
         }
         
     }//End Method
+
+    //Get Unit By Name
+    public function GetStoreByName(Request $req){
+        $stores = Store::where('store_name', 'like', '%'.$req->store.'%')
+        ->orderBy('store_name','asc')
+        ->take(10)
+        ->get();
+
+
+        if($stores->count() > 0){
+            $list = "";
+            foreach($stores as $index => $store) {
+                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$store->id.'">'.$store->store_name.'</li>';
+            }
+        }
+        else{
+            $list = '<li>No Data Found</li>';
+        }
+        return $list;
+    }//End Method
+
 
 
 

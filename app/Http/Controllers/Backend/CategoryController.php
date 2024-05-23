@@ -120,8 +120,8 @@ class CategoryController extends Controller
 
     //Get Category By Name
     public function GetCategoryByName(Request $req){
-        $categories = Category_Name::where('name', 'like', '%'.$req->category.'%')
-        ->orderBy('name','asc')
+        $categories = Category_Name::where('category_name', 'like', '%'.$req->category.'%')
+        ->orderBy('category_name','asc')
         ->take(10)
         ->get();
 
@@ -129,7 +129,7 @@ class CategoryController extends Controller
         if($categories->count() > 0){
             $list = "";
             foreach($categories as $index => $category) {
-                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$category->id.'">'.$category->name.'</li>';
+                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$category->id.'">'.$category->category_name.'</li>';
             }
         }
         else{

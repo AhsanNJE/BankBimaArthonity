@@ -769,7 +769,7 @@ Route::controller(PayRollController::class)->group(function(){
     //Form pagination routes start
     Route::get('/form/pagination', [InventoryController::class,'FormPagination']);
     Route::get('/search/page/form', [InventoryController::class,'SearchForm']);
-
+    Route::get('/get/form/name', [InventoryController::class, 'GetFormByName']);
 
 
 
@@ -787,7 +787,7 @@ Route::controller(PayRollController::class)->group(function(){
     //Unit pagination routes start
     Route::get('/unit/pagination', [InventoryController::class,'UnitPagination']);
     Route::get('/search/page/unit', [InventoryController::class,'SearchUnit']);
-    
+    Route::get('/get/unit/name', [InventoryController::class, 'GetUnitByName']);
 
 
     
@@ -852,6 +852,7 @@ Route::controller(InventoryController::class)->group(function(){
      //Store pagination routes start
      Route::get('/store/pagination', [InventoryController::class,'StorePagination']);
      Route::get('/search/page/store', [InventoryController::class,'SearchStore']);
+     Route::get('/get/store/name', [InventoryController::class, 'GetStoreByName']);
 
 
       //////////////// ------------------ Product Routes ------------------- //////////////////
