@@ -30,6 +30,19 @@
                                         <span class="text-danger error" id="unit_name_error"></span>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="product">Products</label>
+                                        <input type="text" name="product" class="form-control" id="product" autocomplete="off">
+                                        <div id="product-list">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="product_error"></span>
+                                    </div>
+                                </div>
                     
                                 <div class="center">
                                     <button type="submit" id="InsertUnit" class="btn btn-primary">Submit</button>

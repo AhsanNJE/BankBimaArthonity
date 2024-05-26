@@ -30,51 +30,56 @@
                                         <span class="text-danger error" id="update_groupe_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updatecategory">Category Name</label>
-                                        <select name="category" id="updatecategory">
+                                        <label for="updateCategory">Category Name</label>
+                                        <select name="category" id="updateCategory">
                                             {{-- options will be display dynamically --}}
                                         </select>
-                                        <span class="text-danger error" id="update_groupe_error"></span>
+                                        <span class="text-danger error" id="update_category_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updatemanufacture">Manufacture Name</label>
-                                        <select name="manufacture" id="updatemanufacture">
+                                        <label for="updateManufacture">Manufacture Name</label>
+                                        <select name="manufacture" id="updateManufacture">
                                             {{-- options will be display dynamically --}}
                                         </select>
-                                        <span class="text-danger error" id="update_groupe_error"></span>
+                                        <span class="text-danger error" id="update_manufacture_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updateitemform">Item Form Name</label>
-                                        <select name="itemform" id="updateitemform">
+                                        <label for="updateItemForm">Item Form Name</label>
+                                        <select name="itemform" id="updateItemForm">
                                             {{-- options will be display dynamically --}}
                                         </select>
-                                        <span class="text-danger error" id="update_groupe_error"></span>
+                                        <span class="text-danger error" id="update_itemform_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updateunite">Unite Name</label>
-                                        <select name="unite" id="updateunite">
+                                        <label for="updateUnite">Unite Name</label>
+                                        <select name="unite" id="updateUnite">
                                             {{-- options will be display dynamically --}}
                                         </select>
-                                        <span class="text-danger error" id="update_groupe_error"></span>
+                                        <span class="text-danger error" id="update_unite_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updatequantity">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="updatequantity">
+                                        <label for="updateStore">Store</label>
+                                        <input type="text" name="store" class="form-control" id="updateStore">
+                                        <span class="text-danger error" id="update_store_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updateQuantity">Quantity</label>
+                                        <input type="text" name="quantity" class="form-control" id="updateQuantity">
                                         <span class="text-danger error" id="update_quantity_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updatecostprice">Cost Price</label>
-                                        <input type="text" name="costprice" class="form-control" id="updatecostprice">
+                                        <label for="updateCostPrice">Cost Price</label>
+                                        <input type="text" name="costprice" class="form-control" id="updateCostPrice">
                                         <span class="text-danger error" id="update_costprice_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updatemrp">MRP</label>
-                                        <input type="text" name="mrp" class="form-control" id="updatemrp">
+                                        <label for="updateMrp">MRP</label>
+                                        <input type="text" name="mrp" class="form-control" id="updateMrp">
                                         <span class="text-danger error" id="update_mrp_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updateexpireddate">Expired Date</label>
-                                        <input type="text" name="expireddate" class="form-control" id="updateexpireddate">
+                                        <label for="updateExpiredDate">Expired Date</label>
+                                        <input type="text" name="expireddate" class="form-control" id="updateExpiredDate">
                                         <span class="text-danger error" id="update_expireddate_error"></span>
                                     </div>
                                 </div>

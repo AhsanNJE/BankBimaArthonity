@@ -27,6 +27,7 @@ return new class extends Migration
             $table->double('amount')->nullable();
             $table->double('tot_amount')->nullable();
             $table->double('mrp')->nullable();
+            $table->double('unit_id')->nullable();
             $table->date('expiry_date')->nullable();
             $table->unsignedBigInteger('store_id');
             $table->timestamp('tran_date')->useCurrent();

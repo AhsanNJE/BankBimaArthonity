@@ -20,9 +20,9 @@ return new class extends Migration
             $table->unsignedBigInteger('item_form_id')->nullable();
             $table->unsignedBigInteger('item_unite_id')->nullable();
             $table->unsignedBigInteger('store_id')->nullable();
-            $table->double('quantity')->nullable();
-            $table->double('cost_price')->nullable();
-            $table->double('mrp')->nullable();
+            $table->double('quantity')->default(0);
+            $table->double('cost_price')->default(0);
+            $table->double('mrp')->default(0);
             $table->date('expired_date')->nullable();
             $table->timestamp('added_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

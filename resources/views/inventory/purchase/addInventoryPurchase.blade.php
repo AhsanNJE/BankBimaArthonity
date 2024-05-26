@@ -73,14 +73,26 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="head">Product Name</label>
-                                        <input type="text" name="head" id="head" class="form-control">
-                                        <div id="head-list">
-                                            <ul>
-
-                                            </ul>
+                                        <label for="product">Product Name</label>
+                                        <input type="text" name="product" id="product" class="form-control" autocomplete="off">
+                                        <div id="product-list">
+                                            <table class="product-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Generic Name</th>
+                                                        <th>Manufacture</th>
+                                                        <th>Form</th>
+                                                        <th>Quantity</th>
+                                                        <th>MRP</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        <span class="text-danger error" id="head_error"></span>
+                                        <span class="text-danger error" id="product_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -88,6 +100,18 @@
                                         <label for="quantity">Quantity</label>
                                         <input type="text" name="quantity" class="form-control" id="quantity" value="1">
                                         <span class="text-danger error" id="quantity_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="unit">Unit</label>
+                                        <input type="text" name="unit" class="form-control" id="unit" autocomplete="off">
+                                        <div id="unit-list">
+                                            <ul>
+                                                
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="unit_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">

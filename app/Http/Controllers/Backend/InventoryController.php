@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Models\Transaction_Type;
-use App\Models\Transaction_With;
-use App\Models\Transaction_With_Groupe;
-use App\Models\Transaction_Groupe;
-use App\Models\Transaction_Head;
-use App\Models\Transaction_Detail;
-use App\Models\Transaction_Main;
-use App\Models\User_Info;
-use App\Models\Party_Payment_Receive;
 use App\Models\Store;
-use App\Models\Category_Name;
-use App\Models\Manufacturer_Info;
+use App\Models\Product;
 use App\Models\Item_Form;
 use App\Models\Item_Unit;
+use App\Models\User_Info;
+use Illuminate\Http\Request;
+use App\Models\Category_Name;
+use Illuminate\Validation\Rule;
+use App\Models\Transaction_Head;
+use App\Models\Transaction_Main;
+use App\Models\Transaction_Type;
+use App\Models\Transaction_With;
+use App\Models\Manufacturer_Info;
+use App\Models\Transaction_Detail;
+use App\Models\Transaction_Groupe;
+use App\Http\Controllers\Controller;
+use App\Models\Party_Payment_Receive;
 
 class InventoryController extends Controller
 {
@@ -799,6 +799,7 @@ class InventoryController extends Controller
 
 
     /////////////////////////// --------------- Pharmacy Product Table Methods start ---------- //////////////////////////
+    
     //Show All Pharmacy Product
     public function ShowPharmacyProduct(){
         $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->orderBy('added_at','asc')->get();
@@ -858,15 +859,28 @@ class InventoryController extends Controller
             "headName" => 'required',
             "groupe" => 'required|numeric',
             "category" => 'required|numeric',
-            "manufacture" => 'required|numeric',
-            "itemform" => 'required|numeric',
-            "unite" => 'required|numeric',
-            "storename" => 'required|numeric',
+            "manufacturer" => 'required|numeric',
+            "form" => 'required|numeric',
+            "unit" => 'required|numeric',
+            "store" => 'required|numeric',
+            "quantity" => 'required|numeric',
+            "costprice" => 'required|numeric',
+            "mrp" => 'required|numeric',
+            "expireddate" => 'required',
         ]);
 
         Transaction_Head::insert([
             "tran_head_name" => $req->headName,
             "groupe_id" => $req->groupe,
+            "category_id" => $req->category,
+            "manufacture_id" => $req->manufacturer,
+            "item_form_id" => $req->form,
+            "item_unite_id" => $req->unit,
+            "store_id" => $req->store,
+            "quantity" => $req->quantity,
+            "cost_price" => $req->costprice,
+            "mrp" => $req->mrp,
+            "expired_date" => $req->expireddate,
         ]);
 
         return response()->json([
@@ -969,5 +983,58 @@ class InventoryController extends Controller
             ]); 
         }
         
+    }//End Method
+
+
+
+    //Get Transaction Heads By Name And Groupe
+    public function GetProductByGroupe(Request $req){
+        if($req->groupein == "1"){
+            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
+            ->whereIn('groupe_id', $req->groupe)
+            ->orderBy('tran_head_name','asc')
+            ->take(10)
+            ->get();
+
+
+            if($heads->count() > 0){
+                $list = "";
+                foreach($heads as $index => $head) {
+                    $list .= '<tr tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">
+                                <td>'.$head->tran_head_name.'</td>
+                                <td>'.$head->form_id.'</td>
+                                <td>'.$head->manufacture_id.'</td>
+                                <td>'.$head->category_id.'</td>
+                                <td>'.$head->quantity.'</td>
+                                <td>'.$head->mrp.'</td>
+                              </tr>';
+                }
+            }
+            else{
+                $list = '<tr> 
+                            <td> No Data Found </td> 
+                        </tr>';
+            }
+            return $list;
+        }
+        else{
+            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
+            ->where('groupe_id', $req->groupe)
+            ->orderBy('tran_head_name','asc')
+            ->take(10)
+            ->get();
+
+
+            if($heads->count() > 0){
+                $list = "";
+                foreach($heads as $index => $head) {
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">'.$head->tran_head_name.'</li>';
+                }
+            }
+            else{
+                $list = '<li>No Data Found</li>';
+            }
+            return $list;
+        }
     }//End Method
 }

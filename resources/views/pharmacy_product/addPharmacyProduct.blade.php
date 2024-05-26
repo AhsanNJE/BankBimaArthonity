@@ -17,7 +17,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="headName">Transaction Head</label>
+                                        <label for="headName">Product Name</label>
                                         <input type="text" name="headName" class="form-control" id="headName">
                                         <span class="text-danger error" id="headName_error"></span>
                                     </div>
@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="expireddate">Expired Date</label>
-                                        <input type="text" name="expireddate" class="form-control" id="expireddate">
+                                        <input type="date" name="expireddate" class="form-control" id="expireddate">
                                         <span class="text-danger error" id="expireddate_error"></span>
                                     </div>
                                 </div>
