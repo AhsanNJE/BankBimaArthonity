@@ -21,10 +21,10 @@ class Transaction_Head extends Model
         return $this->belongsTo(Manufacturer_Info::class,'manufacture_id','id');
     }
     public function ItemForm(){
-        return $this->belongsTo(Item__Form::class,'item_form_id','id');
+        return $this->belongsTo(Item_Form::class,'item_form_id','id');
     }
     public function ItemUnit(){
-        return $this->belongsTo(Item__Unit::class,'item_unite_id','id');
+        return $this->belongsTo(Item_Unit::class,'item_unite_id','id');
     }
     public function Store(){
         return $this->belongsTo(Store::class,'store_id','id');
