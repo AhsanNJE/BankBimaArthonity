@@ -762,6 +762,57 @@ class InventoryController extends Controller
         return response()->json([
             'status'=>'success',
         ]);  
+
+    }//End Method
+
+    //Edit Pharmacy Product
+    public function EditPharmacyProduct(Request $req){
+        $groupes = Transaction_Groupe::orderBy('added_at','asc')->get();
+        $heads = Transaction_Head::with('Groupe', 'Category', 'Manufecture', 'ItemForm', 'ItemUnit', 'Store')->findOrFail($req->id);
+        return response()->json([
+            'heads'=>$heads,
+            'groupes' => $groupes,
+        ]);
+    }//End Method
+
+    //Update Pharmacy Product
+    public function UpdatePharmacyProduct(Request $req){
+
+        $heads = Transaction_Head::findOrFail($req->id);
+
+        $req->validate([
+            "headName" => 'required',
+            "groupe" => 'required|numeric',
+            "category" => 'required|numeric',
+            "manufacturer" => 'required|numeric',
+            "form" => 'required|numeric',
+            "unit" => 'required|numeric',
+            "store" => 'required|numeric',
+            "quantity" => 'required|numeric',
+            "costprice" => 'required|numeric',
+            "mrp" => 'required|numeric',
+            "expireddate" => 'required',
+        ]);
+
+        $update = Transaction_Head::findOrFail($req->id)->update([
+            "tran_head_name" => $req->headName,
+            "groupe_id" => $req->groupe,
+            "category_id" => $req->category,
+            "manufacture_id" => $req->manufacturer,
+            "item_form_id" => $req->form,
+            "item_unite_id" => $req->unit,
+            "store_id" => $req->store,
+            "quantity" => $req->quantity,
+            "cost_price" => $req->costprice,
+            "mrp" => $req->mrp,
+            "expired_date" => $req->expireddate,
+            "updated_at" => now()
+        ]);
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+        }
     }//End Method
 
 

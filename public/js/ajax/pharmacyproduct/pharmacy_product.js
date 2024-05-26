@@ -45,23 +45,43 @@ $(document).ready(function () {
 
 
     ///////////// ------------------ Edit Transaction Head ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.editTransactionHead', function () {
+    $(document).on('click', '.editPharmacyProduct', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: `/transaction/edit/heads`,
+            url: `/edit/pharmacyproduct`,
             method: 'GET',
             data: { id:id },
             success: function (res) {
                 $('#id').val(id);
                 $('#updateHeadName').val(res.heads.tran_head_name);
                 $('#updateHeadName').focus();
-                
+
                 $('#updateGroupe').html('');
                 $('#updateGroupe').append(`<option value="" >Select Transaction Groupe</option>`);
                 $.each(res.groupes, function (key, groupe) {
                     $('#updateGroupe').append(`<option value="${groupe.id}" ${res.heads.groupe_id === groupe.id ? 'selected' : ''}>${groupe.tran_groupe_name}</option>`);
                 });
+
+                $('#updateCategory').val(res.heads.category.category_name);
+                $('#updateCategory').attr('data-id', res.heads.category.id);
+
+                $('#updateManufacturer').val(res.heads.manufecture.manufacturer_name);
+                $('#updateManufacturer').attr('data-id', res.heads.manufecture.id);
+            
+                $('#updateForm').val(res.heads.item_form.form_name);
+                $('#updateForm').attr('data-id', res.heads.item_form.id);
+
+                $('#updateUnit').val(res.heads.item_unit.unit_name);
+                $('#updateUnit').attr('data-id', res.heads.item_unit.id);
+
+                $('#updateStore').val(res.heads.store.store_name);
+                $('#updateStore').attr('data-id', res.heads.store.id);
+
+                $('#updateQuantity').val(res.heads.quantity);
+                $('#updateCostPrice').val(res.heads.cost_price);
+                $('#updateMrp').val(res.heads.mrp);
+                $('#updateExpiredDate').val(res.heads.expired_date);
 
                 var modal = document.getElementById(modalId);
                 modal.style.display = 'block';
@@ -75,25 +95,37 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Transaction Head ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#UpdateTransactionHead', function (e) {
+    $(document).on('click', '#UpdatePharmacyProduct', function (e) {
         e.preventDefault();
+
         let id = $('#id').val();
-        let headName = $('#updateHeadName').val();
+
         let groupe = $('#updateGroupe').val();
+        let headName = $('#updateHeadName').val();
+        let category = $('#updateCategory').attr('data-id');
+        let manufacturer = $('#updateManufacturer').attr('data-id');
+        let form = $('#updateForm').attr('data-id');
+        let unit = $('#updateUnit').attr('data-id');
+        let store = $('#updateStore').attr('data-id');
+        let quantity = $('#updateQuantity').val();
+        let costprice = $('#updateCostPrice').val();
+        let mrp = $('#updateMrp').val();
+        let expireddate = $('#updateExpiredDate').val();
+
         $.ajax({
-            url: `/transaction/update/heads`,
+            url: `/update/pharmacyproduct`,
             method: 'PUT',
-            data: { headName:headName, groupe:groupe, id:id },
+            data: { id:id, headName:headName, groupe:groupe, category:category, manufacturer:manufacturer, form:form, unit:unit, store:store, quantity:quantity, costprice:costprice, mrp:mrp, expireddate:expireddate },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#editTransactionHead').hide();
-                    $('#EditTransactionHeadForm')[0].reset();
+                    $('#editPharmacyProduct').hide();
+                    $('#EditPharmacyProductForm')[0].reset();
                     $('#search').val('');
                     $('.heads').load(location.href + ' .heads');
-                    toastr.success('Transaction Head Updated Successfully', 'Updated!');
+                    toastr.success('Pharmacy Product Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {

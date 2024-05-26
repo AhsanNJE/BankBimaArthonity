@@ -16,6 +16,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
+                                    
                                     <div class="form-group">
                                         <label for="headName">Product Name</label>
                                         <input type="text" name="headName" class="form-control" id="headName">

@@ -17,6 +17,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <input type="hidden" name="id" id="id">
+                                    
                                     <div class="form-group">
                                         <label for="updateHeadName">Transaction Head</label>
                                         <input type="text" name="headName" class="form-control" id="updateHeadName">
@@ -31,35 +32,52 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="updateCategory">Category Name</label>
-                                        <select name="category" id="updateCategory">
-                                            {{-- options will be display dynamically --}}
-                                        </select>
+                                        <input type="text" name="category" class="form-control" id="updateCategory">
+                                        <div id='update-category'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
                                         <span class="text-danger error" id="update_category_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updateManufacture">Manufacture Name</label>
-                                        <select name="manufacture" id="updateManufacture">
-                                            {{-- options will be display dynamically --}}
-                                        </select>
-                                        <span class="text-danger error" id="update_manufacture_error"></span>
+                                        <label for="updateManufacturer">Manufacture Name</label>
+                                        <input type="text" name="manufacturer" class="form-control" id="updateManufacturer">
+                                        <div id='update-manufacturer'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="update_manufacturer_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updateItemForm">Item Form Name</label>
-                                        <select name="itemform" id="updateItemForm">
-                                            {{-- options will be display dynamically --}}
-                                        </select>
-                                        <span class="text-danger error" id="update_itemform_error"></span>
+                                        <label for="updateForm">Item Form Name</label>
+                                        <input type="text" name="form" class="form-control" id="updateForm">
+                                        <div id='update-form'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="update_form_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updateUnite">Unite Name</label>
-                                        <select name="unite" id="updateUnite">
-                                            {{-- options will be display dynamically --}}
-                                        </select>
-                                        <span class="text-danger error" id="update_unite_error"></span>
+                                        <label for="updateUnit">Unit Name</label>
+                                        <input type="text" name="unit" class="form-control" id="updateUnit">
+                                        <div id='update-unit'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <span class="text-danger error" id="update_unit_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="updateStore">Store</label>
+                                        <label for="updateStore">Store Name</label>
                                         <input type="text" name="store" class="form-control" id="updateStore">
+                                        <div id='update-store'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
                                         <span class="text-danger error" id="update_store_error"></span>
                                     </div>
                                     <div class="form-group">
