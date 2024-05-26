@@ -377,7 +377,12 @@ Route::controller(TransactionController::class)->group(function () {
 
         // Transactionn Payment Details Routes
         Route::get('/payment', 'ShowTransactionPayment')->name('show.transaction.payment');
+        
+        // Positive Adjustment Routes
+        Route::get('/positive', 'ShowPositiveAdjustment')->name('show.positive.adjustment');
 
+        // Negative Adjustment Routes
+        Route::get('/negative', 'ShowNegativeAdjustment')->name('show.negative.adjustment');
 
 
         ////////////////////////// --------------- Bank Transaction routes ----------- ///////////////////////////

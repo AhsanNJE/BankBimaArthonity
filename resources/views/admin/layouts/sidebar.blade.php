@@ -102,77 +102,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-users"></i>
-                                <p>
-                                    Manufacturer
-                                    <!-- <i class="fas fa-angle-left right"></i> -->
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('show.manufacturer.list')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>All Manufacturer</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-list"></i>
-                                <p>
-                                    Category
-                                    <!-- <i class="fas fa-angle-left right"></i> -->
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('show.category.list')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Category Name</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-capsules"></i>
-                                <p>
-                                    Item Form
-                                    <!-- <i class="fas fa-angle-left right"></i> -->
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('show.form.list')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Form Type</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                            <i class="fa-solid fa-flask-vial"></i>
-                                <p>
-                                    Item Unit
-                                    <!-- <i class="fas fa-angle-left right"></i> -->
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('show.unit.list')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Unit Type</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -430,7 +360,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-envelope"></i>
+                                <i class="fas fa-warehouse"></i>
                                 <p>
                                     Department
                                 </p>
@@ -446,7 +376,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                            <i class="fas fa-id-badge"></i>
                                 <p>
                                     Designation
                                 </p>
@@ -462,6 +392,115 @@
                         </li>
                     </ul>
                 </li>
+
+                <!-- PHARMACY -->
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="fas fa-clinic-medical"></i>
+                        <p>PHARMACY</p>
+                        <i class="fas fa-angle-left right"></i>
+                        
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <!-- PHARMACY -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-users"></i>
+                                <p>
+                                    Manufacturer
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.manufacturer.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Manufacturer</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-list"></i>
+                                <p>
+                                    Category
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.category.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Category Name</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-capsules"></i>
+                                <p>
+                                    Item Form
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.form.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Form Type</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="fa-solid fa-flask-vial"></i>
+                                <p>
+                                    Item Unit
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.unit.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Unit Type</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="fas fa-prescription-bottle"></i>
+                                <p>
+                                    Pharmacy Service
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.pharmacy.product')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pharmacy Product</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('show.store.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pharmacy Store</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <!-- INVENTORY -->
                 <li class="nav-item">
