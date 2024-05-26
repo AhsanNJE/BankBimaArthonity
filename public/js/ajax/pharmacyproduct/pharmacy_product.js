@@ -7,20 +7,25 @@ $(document).ready(function () {
         e.preventDefault();
         let headName = $('#headName').val();
         let groupe = $('#groupe').val();
-        let category = $('#category').val();
-        let manufacture = $('#manufacture').val();
-        let itemform = $('#itemform').val();
-        let unite = $('#unite').val();
+        let category = $('#category').attr('data-id');
+        let manufacturer = $('#manufacturer').attr('data-id');
+        let form = $('#form').attr('data-id');
+        let unit = $('#unit').attr('data-id');
+        let store = $('#store').attr('data-id');
+        let quantity = $('#quantity').val();
+        let costprice = $('#costprice').val();
+        let mrp = $('#mrp').val();
+        let expireddate = $('#expireddate').val();
         $.ajax({
             url: "/insert/pharmacyproduct",
             method: 'POST',
-            data: { headName:headName, groupe:groupe, category:category, manufacture:manufacture, itemform:itemform, unite:unite },
+            data: { headName:headName, groupe:groupe, category:category, manufacturer:manufacturer, form:form, unit:unit, store:store, quantity:quantity, costprice:costprice, mrp:mrp, expireddate:expireddate },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#AddPharmacyProductForm')[0].reset();
+                    $('#addPhamacyProductForm')[0].reset();
                     $('#headName').focus();
                     $('#search').val('');
                     $('.heads').load(location.href + ' .heads');

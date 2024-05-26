@@ -3,12 +3,13 @@
     <thead>
         <tr>
             <th>SL:</th>
-            <th>Transaction Head Name</th>
+            <th>Product Name</th>
             <th>Transaction Groupe</th>
             <th>Category Name</th>
             <th>Manufacture Name</th>
             <th>Item Form Name</th>
             <th>Unite Name</th>
+            <th>Store Name</th>
             <th>Quantity</th>
             <th>Cost Price</th>
             <th>MRP</th>
@@ -26,6 +27,7 @@
                 <td>{{ $item->Manufecture->manufacturer_name }}</td>
                 <td>{{ $item->ItemForm->form_name }}</td>
                 <td>{{ $item->ItemUnite->unite_name }}</td>
+                <td>{{ $item->store }}</td>
                 <td>{{ $item->quantity }}</td>
                 <td>{{ $item->cost_price }}</td>
                 <td>{{ $item->mrp }}</td>

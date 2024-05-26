@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
+use App\Models\Store;
+use App\Models\Product;
+use App\Models\Item_Form;
+use App\Models\Item_Unit;
+use App\Models\User_Info;
 use Illuminate\Http\Request;
+use App\Models\Category_Name;
 use Illuminate\Validation\Rule;
+use App\Models\Transaction_Head;
+use App\Models\Transaction_Main;
 use App\Models\Transaction_Type;
 use App\Models\Transaction_With;
-use App\Models\Transaction_With_Groupe;
-use App\Models\Transaction_Groupe;
-use App\Models\Transaction_Head;
-use App\Models\Transaction_Detail;
-use App\Models\Transaction_Main;
-use App\Models\User_Info;
-use App\Models\Party_Payment_Receive;
-use App\Models\Store;
-use App\Models\Category_Name;
 use App\Models\Manufacturer_Info;
-use App\Models\Item_Form;
-use App\Models\Item_Unite;
+use App\Models\Transaction_Detail;
+use App\Models\Transaction_Groupe;
+use App\Http\Controllers\Controller;
+use App\Models\Party_Payment_Receive;
+use App\Models\Transaction_With_Groupe;
+use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 class InventoryController extends Controller
 {
@@ -673,6 +675,7 @@ class InventoryController extends Controller
 
 
     /////////////////////////// --------------- Pharmacy Product Table Methods start ---------- //////////////////////////
+    
     //Show All Pharmacy Product
     public function ShowPharmacyProduct(){
         $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->orderBy('added_at','asc')->get();
@@ -732,15 +735,28 @@ class InventoryController extends Controller
             "headName" => 'required',
             "groupe" => 'required|numeric',
             "category" => 'required|numeric',
-            "manufacture" => 'required|numeric',
-            "itemform" => 'required|numeric',
-            "unite" => 'required|numeric',
-            "storename" => 'required|numeric',
+            "manufacturer" => 'required|numeric',
+            "form" => 'required|numeric',
+            "unit" => 'required|numeric',
+            "store" => 'required|numeric',
+            "quantity" => 'required|numeric',
+            "costprice" => 'required|numeric',
+            "mrp" => 'required|numeric',
+            "expireddate" => 'required',
         ]);
 
         Transaction_Head::insert([
             "tran_head_name" => $req->headName,
             "groupe_id" => $req->groupe,
+            "category_id" => $req->category,
+            "manufacture_id" => $req->manufacturer,
+            "item_form_id" => $req->form,
+            "item_unite_id" => $req->unit,
+            "store_id" => $req->store,
+            "quantity" => $req->quantity,
+            "cost_price" => $req->costprice,
+            "mrp" => $req->mrp,
+            "expired_date" => $req->expireddate,
         ]);
 
         return response()->json([
