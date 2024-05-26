@@ -112,7 +112,7 @@ $(document).ready(function () {
         formData.append('method', 'Payment');
         formData.append('type', '5');
         $.ajax({
-            url: "/transaction/insert/details",
+            url: "/inventory/insert/purchase",
             method: 'POST',
             processData: false,
             contentType: false,
@@ -161,7 +161,7 @@ $(document).ready(function () {
         let advance = $('#advance').val();
         let balance = $('#balance').val();
         $.ajax({
-            url: "/transaction/insert/main",
+            url: "/inventory/insert/purchase/main",
             method: 'POST',
             data: { tranId:tranId, type:type, method:method, invoice:invoice, withs:withs, user:user, locations:locations, amountRP:amountRP,discount:discount, netAmount:netAmount, advance:advance, balance:balance },
             beforeSend: function () {

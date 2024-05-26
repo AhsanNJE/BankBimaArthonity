@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="user">Transaction User</label>
+                                        <label for="user">Supplier Name</label>
                                         <input type="text" name="user" class="form-control" id="user"
                                             autocomplete="off">
                                         <div id="user-list">
@@ -58,22 +58,22 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="location">Location</label>
-                                        <input type="text" name="location" class="form-control" id="location"
+                                        <label for="store">Store</label>
+                                        <input type="text" name="store" class="form-control" id="store"
                                             autocomplete="off">
-                                        <div id="location-list">
+                                        <div id="store-list">
                                             <ul>
 
                                             </ul>
                                         </div>
-                                        <span class="text-danger error" id="location_error"></span>
+                                        <span class="text-danger error" id="store_error"></span>
                                     </div>
                                 </div>
                                 
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="head">Transaction Head</label>
+                                        <label for="head">Product Name</label>
                                         <input type="text" name="head" id="head" class="form-control">
                                         <div id="head-list">
                                             <ul>
@@ -83,21 +83,28 @@
                                         <span class="text-danger error" id="head_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="quantity">Quantity</label>
                                         <input type="text" name="quantity" class="form-control" id="quantity" value="1">
                                         <span class="text-danger error" id="quantity_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="amount">Amount</label>
+                                        <label for="amount">Cost Price</label>
                                         <input type="text" name="amount" class="form-control" id="amount">
                                         <span class="text-danger error" id="amount_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="mrp">Mrp</label>
+                                        <input type="text" name="mrp" class="form-control" id="mrp">
+                                        <span class="text-danger error" id="amount_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="totAmount">Total</label>
                                         <input type="text" name="totAmount" class="form-control" id="totAmount"
