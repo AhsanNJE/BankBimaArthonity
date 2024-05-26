@@ -360,7 +360,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-envelope"></i>
+                                <i class="fas fa-warehouse"></i>
                                 <p>
                                     Department
                                 </p>
@@ -376,7 +376,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                            <i class="fas fa-id-badge"></i>
                                 <p>
                                     Designation
                                 </p>
