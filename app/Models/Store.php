@@ -9,6 +9,7 @@ class Store extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public $timestamps = false;
 
     public function Location(){
         return $this->belongsTo(Location_Info::class,'location_id','id');

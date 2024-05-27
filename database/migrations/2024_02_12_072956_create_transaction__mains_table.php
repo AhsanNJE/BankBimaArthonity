@@ -28,6 +28,7 @@ return new class extends Migration
             $table->float('due')->nullable();
             $table->float('due_col')->default(0)->nullable();
             $table->float('due_disc')->default(0)->nullable();
+            $table->unsignedBigInteger('store_id');
             $table->timestamp('tran_date')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             
@@ -40,6 +41,8 @@ return new class extends Migration
             $table->foreign('tran_type_with')->references('id')->on('transaction__withs')
                     ->onUpdate('cascade');
             $table->foreign('tran_user')->references('user_id')->on('user__infos')
+                    ->onUpdate('cascade');
+            $table->foreign('store_id')->references('id')->on('stores')
                     ->onUpdate('cascade');
         });
     }

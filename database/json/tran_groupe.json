@@ -3,6 +3,7 @@
     { "tran_groupe_name": "Party Payments", "tran_groupe_type":"2", "tran_method":"Both" },
     { "tran_groupe_name": "Deposit To Bank", "tran_groupe_type":"4", "tran_method":"Payment" },
     { "tran_groupe_name": "Withdraw From Bank", "tran_groupe_type":"4", "tran_method":"Receive" },
+    { "tran_groupe_name": "Pharmacy", "tran_groupe_type":"6", "tran_method":"Both" },
     { "tran_groupe_name": "Printing Tools", "tran_groupe_type":"1", "tran_method":"Payment" },
     { "tran_groupe_name": "Advertisement", "tran_groupe_type":"1", "tran_method":"Receive" },
     { "tran_groupe_name": "Utility", "tran_groupe_type":"1", "tran_method":"Payment" },
@@ -10,6 +11,5 @@
     { "tran_groupe_name": "Stationary", "tran_groupe_type":"5", "tran_method":"Both" },
     { "tran_groupe_name": "Furniture", "tran_groupe_type":"5", "tran_method":"Both" },
     { "tran_groupe_name": "Mobile", "tran_groupe_type":"5", "tran_method":"Both" },
-    { "tran_groupe_name": "Medicine", "tran_groupe_type":"5", "tran_method":"Both" },
-    { "tran_groupe_name": "Miscellaneous", "tran_groupe_type":"6", "tran_method":"Payment" }
+    { "tran_groupe_name": "Miscellaneous", "tran_groupe_type":"7", "tran_method":"Payment" }
 ]

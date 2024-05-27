@@ -1,0 +1,16 @@
+[
+    { "store_name":"Store 1", "division":"Dhaka", "location":1 },
+    { "store_name":"Store 2", "division":"Dhaka", "location":1 },
+    { "store_name":"Store 3", "division":"Dhaka", "location":1 },
+    { "store_name":"Store 4", "division":"Dhaka", "location":1 },
+    { "store_name":"Store 5", "division":"Dhaka", "location":1 },
+    { "store_name":"Store 6", "division":"Chattogram", "location":1 },
+    { "store_name":"Store 7", "division":"Chattogram", "location":1 },
+    { "store_name":"Store 8", "division":"Chattogram", "location":1 },
+    { "store_name":"Store 9", "division":"Chattogram", "location":1 },
+    { "store_name":"Store 10", "division":"Chattogram", "location":1 },
+    { "store_name":"Store 11", "division":"Sylhet", "location":1 },
+    { "store_name":"Store 12", "division":"Sylhet", "location":1 },
+    { "store_name":"Store 13", "division":"Mymensingh", "location":1 },
+    { "store_name":"Store 14", "division":"Mymensingh", "location":1 }
+]

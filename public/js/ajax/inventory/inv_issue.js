@@ -5,7 +5,7 @@ $(document).ready(function () {
         let method = 'Receive';
         $('#user').focus();
         getTransactionId(type, method, '#tranId');
-        getTransactionWith(type, method, '#within')
+        getTransactionWith(type, method, '#within');
     });
 
 

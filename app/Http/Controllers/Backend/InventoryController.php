@@ -19,8 +19,6 @@ use App\Models\Transaction_Detail;
 use App\Models\Transaction_Groupe;
 use App\Http\Controllers\Controller;
 use App\Models\Party_Payment_Receive;
-use App\Models\Transaction_With_Groupe;
-use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 class InventoryController extends Controller
 {
@@ -290,9 +288,135 @@ class InventoryController extends Controller
     /////////////////////////// --------------- Inventory Purchase Methods start ---------- //////////////////////////
     // Show All Purchase Details
     public function ShowInventoryPurchase(){
-        $inventory = Transaction_Main::where('tran_method','Payment')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $inventory = Transaction_Main::where('tran_method','Purchase')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->whereIn('tran_method',["Payment",'Both'])->orderBy('added_at','asc')->get();
         return view('inventory.purchase.inventoryPurchase', compact('inventory','groupes'));
+    }//End Method'
+
+
+    //Insert Transaction Details
+    public function InsertInventoryPurchase(Request $req){
+        $req->validate([
+            "tranId" => 'required',
+            "method" => 'required',
+            "type" => 'required',
+            "groupe" => 'required',
+            "head" => 'required',
+            "with" => 'required',
+            "user" => 'required',
+            "amount" => 'required',
+            "quantity" => 'required',
+            "totAmount" => 'required',
+            "mrp" => 'required',
+            "store" => 'required'
+        ]);
+
+        $transaction = Transaction_Detail::where('tran_id', $req->tranId)
+        ->where('tran_head_id', $req->head)
+        ->get();
+
+        if($transaction->count() > 0){
+            return response()->json([
+                'errors' => [
+                    'head' => ["You have already add this item."]
+                ]
+            ], 422);
+        }
+        else{
+            Transaction_Detail::insert([
+                "tran_id" => $req->tranId,
+                "loc_id" => $req->location,
+                "tran_type" => $req->type,
+                "tran_method" => $req->method,
+                "tran_groupe_id" => $req->groupe,
+                "tran_head_id" => $req->head,
+                "tran_type_with" => $req->with,
+                "tran_user" => $req->user,
+                "amount" => $req->amount,
+                "quantity" => $req->quantity,
+                "tot_amount" => $req->totAmount,
+                "mrp" => $req->mrp,
+                "expiry_date" => $req->expiry == null ? null :$req->expiry,
+                "store" => $req->store
+            ]);
+    
+            return response()->json([
+                'status'=>'success',
+            ]);
+        }
+
+    }//End Method
+
+
+
+    //Insert Transaction Main
+    public function InsertInventoryPurchaseMain(Request $req){
+        $req->validate([
+            "tranId" => 'required|unique:transaction__mains,tran_id',
+            "method" => 'required',
+            "type" => 'required',
+            "withs" => 'required',
+            "user" => 'required',
+            "amountRP" => 'required',
+            "discount" => 'required',
+            "netAmount" => 'required',
+            "advance" => 'required',
+            "balance" => 'required',
+            "store" => 'required'
+        ]);
+
+
+
+        if($req->discount > $req->amountRP){
+            return response()->json([
+                'errors' => [
+                    'message' => ["Discount amount can't be bigger than total amount"]
+                ]
+            ], 422);
+        }
+        if($req->discount < 0){
+            return response()->json([
+                'errors' => [
+                    'message' => ["Discount amount can't be negative"]
+                ]
+            ], 422);
+        }
+        else if($req->advance  < 0){
+            return response()->json([
+                'errors' => [
+                    'message' => ["Advance amount can't be negative"]
+                ]
+            ], 422);
+        }
+        else if($req->advance  > $req->netAmount){
+            return response()->json([
+                'errors' => [
+                    'message' => ["Advance amount can't be bigger than Net amount"]
+                ]
+            ], 422);
+        }
+
+        $receive = $req->method === 'Receive' ? $req->advance : null;
+        $payment = $req->method === 'Payment' ? $req->advance : null;
+        
+        
+        Transaction_Main::insert([
+            "tran_id" => $req->tranId,
+            "tran_type" => $req->type,
+            "tran_method" => $req->method,
+            "tran_type_with" => $req->withs,
+            "tran_user" => $req->user,
+            "loc_id" => $req->locations,
+            "bill_amount" => $req->amountRP,
+            "discount" => $req->discount,
+            "net_amount" => $req->netAmount,
+            "receive" => $receive,
+            "payment" => $payment,
+            "due" => $req->balance,
+            "store" => $req->store
+        ]);
+
+        return response()->json(['status' => 'success']);
     }//End Method
 
 
@@ -678,8 +802,8 @@ class InventoryController extends Controller
     
     //Show All Pharmacy Product
     public function ShowPharmacyProduct(){
-        $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->orderBy('added_at','asc')->get();
-        $heads = Transaction_Head::orderBy('added_at','asc')->paginate(15);
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '6')->orderBy('added_at','asc')->get();
+        $heads = Transaction_Head::where('groupe_id', 5)->orderBy('added_at','asc')->paginate(15);
         return view('pharmacy_product.pharmacyProduct',compact('groupes', 'heads'));
     }//End Method
 
@@ -739,9 +863,6 @@ class InventoryController extends Controller
             "form" => 'required|numeric',
             "unit" => 'required|numeric',
             "store" => 'required|numeric',
-            "quantity" => 'required|numeric',
-            "costprice" => 'required|numeric',
-            "mrp" => 'required|numeric',
             "expireddate" => 'required',
         ]);
 
@@ -753,9 +874,6 @@ class InventoryController extends Controller
             "item_form_id" => $req->form,
             "item_unite_id" => $req->unit,
             "store_id" => $req->store,
-            "quantity" => $req->quantity,
-            "cost_price" => $req->costprice,
-            "mrp" => $req->mrp,
             "expired_date" => $req->expireddate,
         ]);
 
@@ -910,5 +1028,58 @@ class InventoryController extends Controller
             ]); 
         }
         
+    }//End Method
+
+
+
+    //Get Transaction Heads By Name And Groupe
+    public function GetProductByGroupe(Request $req){
+        if($req->groupein == "1"){
+            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
+            ->whereIn('groupe_id', $req->groupe)
+            ->orderBy('tran_head_name','asc')
+            ->take(10)
+            ->get();
+
+
+            if($heads->count() > 0){
+                $list = "";
+                foreach($heads as $index => $head) {
+                    $list .= '<tr tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">
+                                <td>'.$head->tran_head_name.'</td>
+                                <td>'.$head->form_id.'</td>
+                                <td>'.$head->manufacture_id.'</td>
+                                <td>'.$head->category_id.'</td>
+                                <td>'.$head->quantity.'</td>
+                                <td>'.$head->mrp.'</td>
+                              </tr>';
+                }
+            }
+            else{
+                $list = '<tr> 
+                            <td> No Data Found </td> 
+                        </tr>';
+            }
+            return $list;
+        }
+        else{
+            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
+            ->where('groupe_id', $req->groupe)
+            ->orderBy('tran_head_name','asc')
+            ->take(10)
+            ->get();
+
+
+            if($heads->count() > 0){
+                $list = "";
+                foreach($heads as $index => $head) {
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">'.$head->tran_head_name.'</li>';
+                }
+            }
+            else{
+                $list = '<li>No Data Found</li>';
+            }
+            return $list;
+        }
     }//End Method
 }

@@ -70,8 +70,6 @@
                            <tr>
                               <th rowspan="2" class="text-center" style="vertical-align: middle">Sl.</th>
                               <th rowspan="2" class="text-center" style="vertical-align: middle">Employee Name</th>
-                              <th rowspan="2" class="text-center narrow-th" style="vertical-align: middle">In</th>
-                              <th rowspan="2" class="text-center narrow-th" style="vertical-align: middle">Out</th>
                               <th colspan="3" class="text-center" style="vertical-align: middle">Attendance Status</th>
                            </tr>
                            <tr>
@@ -86,8 +84,6 @@
           <input type="hidden" name="employee_id[]" value="{{$employee->id}}" class="employee_id">
           <td>{{$key+1}}</td>
           <td>{{$employee->user_name}}</td>
-          <td><input type="time" name="in[]" class="form-control small-input" id="in"></td>
-          <td><input type="time" name="out[]" class="form-control small-input" id="out"></td>
           <td colspan="3">
              <div class="switch-toggle switch-3 switch-candy">
                 <input class="present" id="present{{$key}}" name="attend_status{{$key}}" value="present" type="radio" checked="checked">

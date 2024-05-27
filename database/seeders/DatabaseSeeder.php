@@ -20,9 +20,16 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this::call([
-            LocationInfoSeeder::class,
             DepartmentInfoSeeder::class,
             DesignationSeeder::class,
+            LocationInfoSeeder::class,
+            ItemUnitSeeder::class,
+            ItemFormSeeder::class,
+            ManufacturerSeeder::class,
+            CategorySeeder::class,
+            
+            StoreSeeder::class,
+
             TransactionTypeSeeder::class,
             TransactionWithSeeder::class,
             TransactionGroupeSeeder::class,

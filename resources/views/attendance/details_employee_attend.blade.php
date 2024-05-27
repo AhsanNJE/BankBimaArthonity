@@ -36,8 +36,6 @@
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Date</th>
-                                    <th>In</th>
-                                    <th>Out</th>
                                     <th>Attend Status</th>
                                 </tr>
                             </thead>
@@ -51,8 +49,6 @@
                                             style="width:50px; height: 40px;"> </td>
                                     <td>{{ $item['employee']['user_name'] }}</td>
                                     <td>{{ date('Y-m-d',strtotime($item->date))  }}</td>
-                                    <td>{{  $item->in }}</td>
-                                    <td>{{  $item->out }}</td>
                                     <td>{{  $item->attend_status }}</td>
                                 </tr>
                                 @endforeach

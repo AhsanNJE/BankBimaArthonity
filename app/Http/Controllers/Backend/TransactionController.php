@@ -1468,4 +1468,16 @@ class TransactionController extends Controller
     }//End Method
 
     /////////////////////////// --------------- Bank Deposit Methods Ends ---------- //////////////////////////
+
+
+
+    /////////////////////////// --------------- Positive Adjustment Methods start ---------- //////////////////////////
+    //Show All Positive Adjustment Details
+    public function ShowPositiveAdjustment(){
+        $positive = Transaction_Main::where('tran_method','Receive')->where('tran_type','1')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '1')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
+        return view('inventory.positive_adjustment.positiveAdjustments', compact('positive','groupes'));
+    }//End Method
+
+    /////////////////////////// --------------- Transaction Receive Methods Ends ---------- //////////////////////////
 }

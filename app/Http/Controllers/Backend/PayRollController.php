@@ -41,8 +41,6 @@ class PayRollController extends Controller
            $attend = new Attendence();
            $attend->date = date('Y-m-d',strtotime($request->date));
            $attend->employee_id = $request->employee_id[$i];
-           $attend->in  =  $request->input('in')[$i];
-           $attend->out  = $request->input('out')[$i];
            $attend->attend_status  = $request->$attend_status;
            $attend->save();
         }

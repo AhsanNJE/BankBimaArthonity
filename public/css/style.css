@@ -119,6 +119,26 @@ thead tr{
     background: #20c997;
 }
 
+
+
+.product-table{
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.product-table td, th {
+    border: 1px solid #dddddd;
+    /* text-align: left; */
+    /* padding: 2px 10px; */
+}
+
+.product-table th {
+    text-align: center;
+    /* padding: 2px 10px; */
+}
+
 /* ---------------------------------------- Table custom design end ----------------------------------------------------- */
 
 

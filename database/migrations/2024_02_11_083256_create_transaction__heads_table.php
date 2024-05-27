@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('manufacture_id')->nullable();
             $table->unsignedBigInteger('item_form_id')->nullable();
-            $table->unsignedBigInteger('item_unite_id')->nullable();
+            $table->unsignedBigInteger('item_unite_id')->default(1);
             $table->unsignedBigInteger('store_id')->nullable();
             $table->double('quantity')->default(0);
             $table->double('cost_price')->default(0);

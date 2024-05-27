@@ -2341,25 +2341,25 @@ $(document).ready(function () {
             groupein = 0;
         }
         let id = $(this).attr('data-id');
-        HeadKeyUp(e, groupe, groupein, product, id, '#product', '#product-list ul');
+        ProductKeyUp(e, groupe, groupein, product, id, '#product', '#product-list table tbody');
     });
 
-    // Head Key down Event
+    // Product Key down Event
     $(document).on('keydown', '#product', function (e) {
-        let list = $('#product-list ul li');
-        HeadKeyDown(e, list, '#product', '#product-list ul');
+        let list = $('#product-list table tbody tr');
+        ProductKeyDown(e, list, '#product', '#product-list table tbody');
     });
 
 
-    // Head List Key down Event
-    $(document).on('keydown', '#product-list ul li', function (e) {
-        let list = $('#product-list ul li');
-        let focused = $('#product-list ul li:focus');
-        HeadListKeyDown(e, list, focused, '#product', '#product-list ul');
+    // Product List Key down Event
+    $(document).on('keydown', '#product-list table tbody tr', function (e) {
+        let list = $('#product-list table tbody tr');
+        let focused = $('#product-list table tbody tr:focus');
+        ProductListKeyDown(e, list, focused, '#product', '#product-list table tbody');
     });
 
 
-    // Head Focus Event
+    // Product Focus Event
     $(document).on('focus', '#product', function (e) {
         let product = $(this).val();
         let groupe;
@@ -2375,7 +2375,7 @@ $(document).ready(function () {
         }
         let id = $(this).attr('data-id');
         if(id == undefined){
-            getHeadByGroupe(groupe, groupein, product,  '#product-list ul');
+            getProductByGroupe(groupe, groupein, product,  '#product-list table tbody');
         }
         else{
             e.preventDefault();
@@ -2383,34 +2383,34 @@ $(document).ready(function () {
     });
 
 
-    // Head Focous out event
+    // Product Focous out event
     $(document).on('focusout', '#product', function (e) {
         let id = $(this).attr('data-id');
         if(id == undefined){
             $(document).on('click', function (e){
                 if($(e.target).attr('tabindex') == undefined){
-                    $('#product-list ul').html('');
+                    $('#product-list table tbody').html('');
                 }
             });
         }
     });
 
 
-    // Head List Click Event
-    $(document).on('click', '#product-list li', function () {
-        let value = $(this).text();
+    // Product List Click Event
+    $(document).on('click', '#product-list tbody tr', function () {
+        let value = $(this).find('td:first').text();
         let id = $(this).data('id');
         let groupe = $(this).data('groupe');
         $('#product').val(value);
         $('#product').attr('data-id', id);
         $('#product').attr('data-groupe', groupe);
-        $('#product-list ul').html('');
+        $('#product-list table tbody').html('');
     });
 
 
 
-    // Update Head Keyup event
-    $(document).on('keyup', '#updateHead', function (e) {
+    // Update Product Keyup event
+    $(document).on('keyup', '#updateProduct', function (e) {
         let product = $(this).val();
         let groupe;
         let groupein;
@@ -2424,30 +2424,30 @@ $(document).ready(function () {
             groupein = 0;
         }
         let id = $(this).attr('data-id');
-        HeadKeyUp(e, groupe, groupein, product, id, '#updateHead', '#update-product ul');
+        ProductKeyUp(e, groupe, groupein, product, id, '#updateProduct', '#update-product table');
     });
 
 
 
-    // Update Head Keydown event
-    $(document).on('keydown', '#updateHead', function (e) {
-        let list = $('#update-product ul li');
-        HeadKeyDown(e, list, '#updateHead', '#update-product ul');
+    // Update Product Keydown event
+    $(document).on('keydown', '#updateProduct', function (e) {
+        let list = $('#update-product table tbody tr');
+        ProductKeyDown(e, list, '#updateProduct', '#update-product table');
     });
 
 
 
-    // Update Head List Keydown event
-    $(document).on('keydown', '#update-product ul li', function (e) {
-        let list = $('#update-product ul li');
-        let focused = $('#update-product ul li:focus');
-        HeadListKeyDown(e, list, focused, '#updateHead', '#update-product ul');
+    // Update Product List Keydown event
+    $(document).on('keydown', '#update-product table tbody tr', function (e) {
+        let list = $('#update-product table tbody tr');
+        let focused = $('#update-product table tbody tr:focus');
+        ProductListKeyDown(e, list, focused, '#updateProduct', '#update-product table');
     });
 
 
 
-    // Update Head Focus Event
-    $(document).on('focus', '#updateHead', function (e) {
+    // Update Product Focus Event
+    $(document).on('focus', '#updateProduct', function (e) {
         let product = $(this).val();
         let groupe;
         let groupein;
@@ -2462,7 +2462,7 @@ $(document).ready(function () {
         }
         let id = $(this).attr('data-id');
         if(id == undefined){
-            getHeadByGroupe(groupe, groupein, product, '#update-product ul');
+            getProductByGroupe(groupe, groupein, product, '#update-product table');
         }
         else{
             e.preventDefault();
@@ -2471,34 +2471,34 @@ $(document).ready(function () {
 
 
     
-    // Update Head Focousout event
-    $(document).on('focusout', '#updateHead', function (e) {
+    // Update Product Focousout event
+    $(document).on('focusout', '#updateProduct', function (e) {
         let id = $(this).attr('data-id');
         if(id == undefined){
             $(document).on('click', function (e){
                 if($(e.target).attr('tabindex') == undefined){
-                    $('#update-product ul').html('');
+                    $('#update-product table').html('');
                 }
             });
         }
     });
 
 
-    // Update Head Click Event
-    $(document).on('click', '#update-product li', function () {
-        let value = $(this).text();
+    // Update Product Click Event
+    $(document).on('click', '#update-product tbody tr', function () {
+        let value = $(this).find('td:first').text();
         let id = $(this).data('id');
         let groupe = $(this).data('groupe');
-        $('#updateHead').val(value);
-        $('#updateHead').attr('data-id', id);
-        $('#updateHead').attr('data-groupe', groupe);
-        $('#update-product ul').html('');
+        $('#updateProduct').val(value);
+        $('#updateProduct').attr('data-id', id);
+        $('#updateProduct').attr('data-groupe', groupe);
+        $('#update-product table').html('');
     });
 
 
 
-    // Head Key Up Event Function
-    function HeadKeyUp(e, groupe, groupein, product, id, targetElement1, targetElement2){
+    // Product Key Up Event Function
+    function ProductKeyUp(e, groupe, groupein, product, id, targetElement1, targetElement2){
         if (e.keyCode === 13) { // Enter Key
             e.preventDefault();
         }
@@ -2506,7 +2506,7 @@ $(document).ready(function () {
             //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
             $(targetElement1).removeAttr('data-id');
             $(targetElement1).removeAttr('data-groupe');
-            getHeadByGroupe(groupe, groupein, product,  targetElement2);
+            getProductByGroupe(groupe, groupein, product,  targetElement2);
         }
         else if (e.keyCode === 9) { // Tab key
             if (id != undefined) {
@@ -2515,26 +2515,26 @@ $(document).ready(function () {
             else{
                 $(targetElement1).removeAttr('data-id');
                 $(targetElement1).removeAttr('data-groupe');
-                getHeadByGroupe(groupe, groupein, product,  targetElement2);
+                getProductByGroupe(groupe, groupein, product,  targetElement2);
             }
         }
     }
 
 
-    // Head Key Down Event Function
-    function HeadKeyDown(e, list, targetElement1, targetElement2) {
+    // Product Key Down Event Function
+    function ProductKeyDown(e, list, targetElement1, targetElement2) {
         if (list.length > 0) {
             if (e.keyCode === 40) { // Down arrow key
                 e.preventDefault();
                 list.first().focus();
-                $(targetElement1).val(list.first().text());
+                $(targetElement1).val(list.first().find('td:first').text());
                 $(targetElement1).attr("data-id", list.data('id'));
                 $(targetElement1).attr("data-groupe", list.data('groupe'));
             } 
             else if (e.keyCode === 38) { // Up arrow key
                 e.preventDefault();
                 list.last().focus();
-                $(targetElement1).val(list.last().text());
+                $(targetElement1).val(list.last().find('td:first').text());
                 $(targetElement1).attr("data-id", list.data('id'));
                 $(targetElement1).attr("data-groupe", list.data('groupe'));
             } 
@@ -2548,8 +2548,8 @@ $(document).ready(function () {
     }
 
 
-    // Head List Key Down Event function
-    function HeadListKeyDown(e, list, focused, targetElement1, targetElement2) {
+    // Product List Key Down Event function
+    function ProductListKeyDown(e, list, focused, targetElement1, targetElement2) {
         if (e.keyCode === 40) { // Down arrow key
             e.preventDefault();
             let nextIndex = focused.index() + 1;
@@ -2557,7 +2557,7 @@ $(document).ready(function () {
                 nextIndex = 0; // Loop to the first item
             }
             list.eq(nextIndex).focus();
-            $(targetElement1).val(list.eq(nextIndex).text());
+            $(targetElement1).val(list.eq(nextIndex).find('td:first').text());
             $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
             $(targetElement1).attr("data-groupe", list.eq(nextIndex).data('groupe'));
         } 
@@ -2568,7 +2568,7 @@ $(document).ready(function () {
                 prevIndex = list.length - 1; // Loop to the last item
             }
             list.eq(prevIndex).focus();
-            $(targetElement1).val(list.eq(prevIndex).text());
+            $(targetElement1).val(list.eq(prevIndex).find('td:first').text());
             $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
             $(targetElement1).attr("data-groupe", list.eq(prevIndex).data('groupe'));
         } 
@@ -2579,10 +2579,10 @@ $(document).ready(function () {
         }
     }
 
-    // Search Head by Name
-    function getHeadByGroupe(groupe, groupein, product, targetElement1) {
+    // Search Product by Name
+    function getProductByGroupe(groupe, groupein, product, targetElement1) {
         $.ajax({
-            url: "/transaction/get/products/groupe",
+            url: "/get/products/groupe",
             method: 'GET',
             data: { groupe: groupe, groupein:groupein, product:product },
             success: function (res) {

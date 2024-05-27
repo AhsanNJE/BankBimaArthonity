@@ -10,5 +10,6 @@ class Manufacturer_Info extends Model
     use HasFactory;
     
     protected $guarded = [];
+    public $timestamps = false;
 
 }

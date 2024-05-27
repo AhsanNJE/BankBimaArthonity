@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('employee_id');
             $table->date('date');
-            $table->time('in')->nullable();
-            $table->time('out')->nullable();
             $table->string('attend_status');
             $table->timestamp('entry_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
