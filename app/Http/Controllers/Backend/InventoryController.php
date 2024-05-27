@@ -288,7 +288,7 @@ class InventoryController extends Controller
     /////////////////////////// --------------- Inventory Purchase Methods start ---------- //////////////////////////
     // Show All Purchase Details
     public function ShowInventoryPurchase(){
-        $inventory = Transaction_Main::where('tran_method','Payment')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $inventory = Transaction_Main::where('tran_method','Purchase')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->whereIn('tran_method',["Payment",'Both'])->orderBy('added_at','asc')->get();
         return view('inventory.purchase.inventoryPurchase', compact('inventory','groupes'));
     }//End Method'
@@ -802,8 +802,8 @@ class InventoryController extends Controller
     
     //Show All Pharmacy Product
     public function ShowPharmacyProduct(){
-        $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->orderBy('added_at','asc')->get();
-        $heads = Transaction_Head::orderBy('added_at','asc')->paginate(15);
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '6')->orderBy('added_at','asc')->get();
+        $heads = Transaction_Head::where('groupe_id', 5)->orderBy('added_at','asc')->paginate(15);
         return view('pharmacy_product.pharmacyProduct',compact('groupes', 'heads'));
     }//End Method
 
@@ -863,9 +863,6 @@ class InventoryController extends Controller
             "form" => 'required|numeric',
             "unit" => 'required|numeric',
             "store" => 'required|numeric',
-            "quantity" => 'required|numeric',
-            "costprice" => 'required|numeric',
-            "mrp" => 'required|numeric',
             "expireddate" => 'required',
         ]);
 
@@ -877,9 +874,6 @@ class InventoryController extends Controller
             "item_form_id" => $req->form,
             "item_unite_id" => $req->unit,
             "store_id" => $req->store,
-            "quantity" => $req->quantity,
-            "cost_price" => $req->costprice,
-            "mrp" => $req->mrp,
             "expired_date" => $req->expireddate,
         ]);
 

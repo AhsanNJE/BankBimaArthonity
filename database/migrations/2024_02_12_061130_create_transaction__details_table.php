@@ -30,6 +30,7 @@ return new class extends Migration
             $table->double('unit_id')->nullable();
             $table->date('expiry_date')->nullable();
             $table->unsignedBigInteger('store_id');
+            $table->string('batch_id')->nullable();
             $table->timestamp('tran_date')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             

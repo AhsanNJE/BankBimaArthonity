@@ -84,21 +84,6 @@
                                         <span class="text-danger error" id="store_error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="quantity">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="quantity">
-                                        <span class="text-danger error" id="quantity_error"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="costprice">Cost Price</label>
-                                        <input type="text" name="costprice" class="form-control" id="costprice">
-                                        <span class="text-danger error" id="costprice_error"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="mrp">MRP</label>
-                                        <input type="text" name="mrp" class="form-control" id="mrp">
-                                        <span class="text-danger error" id="mrp_error"></span>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="expireddate">Expired Date</label>
                                         <input type="date" name="expireddate" class="form-control" id="expireddate">
                                         <span class="text-danger error" id="expireddate_error"></span>

@@ -12,14 +12,11 @@ $(document).ready(function () {
         let form = $('#form').attr('data-id');
         let unit = $('#unit').attr('data-id');
         let store = $('#store').attr('data-id');
-        let quantity = $('#quantity').val();
-        let costprice = $('#costprice').val();
-        let mrp = $('#mrp').val();
         let expireddate = $('#expireddate').val();
         $.ajax({
             url: "/insert/pharmacyproduct",
             method: 'POST',
-            data: { headName:headName, groupe:groupe, category:category, manufacturer:manufacturer, form:form, unit:unit, store:store, quantity:quantity, costprice:costprice, mrp:mrp, expireddate:expireddate },
+            data: { headName:headName, groupe:groupe, category:category, manufacturer:manufacturer, form:form, unit:unit, store:store, expireddate:expireddate },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -45,9 +42,15 @@ $(document).ready(function () {
 
 
     ///////////// ------------------ Edit Transaction Head ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.editPharmacyProduct', function () {
+    $(document).on('click', '#edit', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
+        $('#EditPharmacyProductForm')[0].reset();
+        $('#updateCategory').removeAttr('data-id')
+        $('#updateManufacturer').removeAttr('data-id')
+        $('#updateForm').removeAttr('data-id')
+        $('#updateUnit').removeAttr('data-id')
+        $('#updateStore').removeAttr('data-id')
         $.ajax({
             url: `/edit/pharmacyproduct`,
             method: 'GET',
@@ -63,20 +66,30 @@ $(document).ready(function () {
                     $('#updateGroupe').append(`<option value="${groupe.id}" ${res.heads.groupe_id === groupe.id ? 'selected' : ''}>${groupe.tran_groupe_name}</option>`);
                 });
 
-                $('#updateCategory').val(res.heads.category.category_name);
-                $('#updateCategory').attr('data-id', res.heads.category.id);
+                if(res.heads.category_id){
+                    $('#updateCategory').val(res.heads.category.category_name);
+                    $('#updateCategory').attr('data-id', res.heads.category.id);
+                }
+                
+                if(res.heads.manufacture_id){
+                    $('#updateManufacturer').val(res.heads.manufecture.manufacturer_name);
+                    $('#updateManufacturer').attr('data-id', res.heads.manufecture.id);
+                }
+                
+                if(res.heads.item_form_id){
+                    $('#updateForm').val(res.heads.item_form.form_name);
+                    $('#updateForm').attr('data-id', res.heads.item_form.id);
+                }
 
-                $('#updateManufacturer').val(res.heads.manufecture.manufacturer_name);
-                $('#updateManufacturer').attr('data-id', res.heads.manufecture.id);
-            
-                $('#updateForm').val(res.heads.item_form.form_name);
-                $('#updateForm').attr('data-id', res.heads.item_form.id);
+                if(res.heads.item_unite_id){
+                    $('#updateUnit').val(res.heads.item_unit.unit_name);
+                    $('#updateUnit').attr('data-id', res.heads.item_unit.id);
+                }
 
-                $('#updateUnit').val(res.heads.item_unit.unit_name);
-                $('#updateUnit').attr('data-id', res.heads.item_unit.id);
-
-                $('#updateStore').val(res.heads.store.store_name);
-                $('#updateStore').attr('data-id', res.heads.store.id);
+                if(res.heads.store_id){
+                    $('#updateStore').val(res.heads.store.store_name);
+                    $('#updateStore').attr('data-id', res.heads.store.id);
+                }
 
                 $('#updateQuantity').val(res.heads.quantity);
                 $('#updateCostPrice').val(res.heads.cost_price);

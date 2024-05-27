@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="updateExpiredDate">Expired Date</label>
-                                        <input type="text" name="expireddate" class="form-control" id="updateExpiredDate">
+                                        <input type="date" name="expireddate" class="form-control" id="updateExpiredDate">
                                         <span class="text-danger error" id="update_expireddate_error"></span>
                                     </div>
                                 </div>

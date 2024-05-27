@@ -27,7 +27,7 @@
                 <td>{{ $item->manufacture_id == null ? '': $item->Manufecture->manufacturer_name }}</td>
                 <td>{{ $item->item_form_id == null ? '': $item->ItemForm->form_name }}</td>
                 <td>{{ $item->item_unite_id == null ? '': $item->ItemUnit->unit_name }}</td>
-                <td>{{ $item->store_id }}</td>
+                <td>{{ $item->store_id == null ? '': $item->Store->store_name }}</td>
                 <td>{{ $item->quantity }}</td>
                 <td>{{ $item->cost_price }}</td>
                 <td>{{ $item->mrp }}</td>

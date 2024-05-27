@@ -21,6 +21,11 @@ class TransactionHeadSeeder extends Seeder
             Transaction_Head::create([
                 "tran_head_name" => $head->tran_head_name,
                 "groupe_id" => $head->groupe_id,
+                "category_id" => $head->category_id,
+                "manufacture_id" => $head->manufacture_id,
+                "item_form_id" => $head->item_form_id,
+                "store_id" => $head->store_id,
+                "expired_date" => $head->expired_date,
             ]);
         });
     }
