@@ -510,13 +510,6 @@
                         <i class="fas fa-angle-left right"></i>
                     </a>
                     <ul class="nav nav-treeview">
-                        <!-- EMPLOYEE -->
-                        <li class="nav-item">
-                            <a href="{{route('show.pharmacy.product')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Inventory Product</p>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="{{route('show.inventory.purchase')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -535,13 +528,6 @@
                                 <p>Inventory Return</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{route('show.store.list')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Inventory Store</p>
-                            </a>
-                        </li>
-                        
                     </ul>
                 </li>
 

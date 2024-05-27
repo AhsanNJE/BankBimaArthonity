@@ -859,23 +859,39 @@ Route::controller(InventoryController::class)->group(function(){
      Route::get('/search/page/store', [InventoryController::class,'SearchStore']);
      Route::get('/get/store/name', [InventoryController::class, 'GetStoreByName']);
 
-    ////////////////////////// --------------- Pharmacy Product routes ----------- ///////////////////////////
+    ////////////////////////// --------------- Pharmacy Product Routes START----------- ///////////////////////////
+
     //crud routes start
     Route::get('/pharmacyproduct', [InventoryController::class, 'ShowPharmacyProduct'])->name('show.pharmacy.product');
     Route::post('/insert/pharmacyproduct', [InventoryController::class, 'InsertPharmacyProduct'])->name('insert.pharmacy.product');
     Route::get('/edit/pharmacyproduct', [InventoryController::class, 'EditPharmacyProduct'])->name('edit.pharmacy.product');
     Route::put('/update/pharmacyproduct', [InventoryController::class, 'UpdatePharmacyProduct'])->name('update.pharmacy.product');
-    Route::delete('/delete/pharmacyproduct', [InventoryController::class, 'DeletePharmacyProduct'])->name('delete.pharmacy.product');
+    // Route::delete('/delete/pharmacyproduct', [InventoryController::class, 'DeletePharmacyProduct'])->name('delete.pharmacy.product');
    
-    // //search routes start
-    // Route::get('/search/heads', 'SearchTransactionHeads')->name('search.transaction.heads');
-    // Route::get('/search/heads/groupe', 'SearchTransactionHeadsByGroupe')->name('search.transaction.heads.by.groupe');
-    // //pagination routes start
-    // Route::get('/heads/pagination', 'TransactionHeadPagination');
-    // Route::get('/heads/search/pagination', 'SearchTransactionHeads');
-    // Route::get('/heads/search/pagination/groupe', 'SearchTransactionHeadsByGroupe');
-    // //search list routs
+    //search routes start
+    Route::get('/search/pharmacyproduct', [InventoryController::class, 'SearchPharmacyProduct'])->name('search.pharmacy.product');
+    Route::get('/search/pharmacyproduct/groupe', [InventoryController::class, 'SearchPharmacyProductGroupe'])->name('search.pharmacy.product.by.groupe');
+    Route::get('/search/pharmacyproduct/category', [InventoryController::class, 'SearchPharmacyProductCategory'])->name('search.pharmacy.product.by.category');
+    Route::get('/search/pharmacyproduct/manufacture', [InventoryController::class, 'SearchPharmacyProductManufacture'])->name('search.pharmacy.product.by.manufacture');
+    Route::get('/search/pharmacyproduct/itemform', [InventoryController::class, 'SearchPharmacyProductItemForm'])->name('search.pharmacy.product.by.itemform');
+    Route::get('/search/pharmacyproduct/unit', [InventoryController::class, 'SearchPharmacyProductUnit'])->name('search.pharmacy.product.by.unit');
+    Route::get('/search/pharmacyproduct/store', [InventoryController::class, 'SearchPharmacyProductStore'])->name('search.pharmacy.product.by.store');
+    Route::get('/search/pharmacyproduct/expireddate', [InventoryController::class, 'SearchPharmacyProductExpiredDate'])->name('search.pharmacy.product.by.expired.date');
+    //pagination routes start
+    Route::get('/pharmacyproduct/pagination', [InventoryController::class, 'PharmacyProductPagination']);
+    Route::get('/pharmacyproduct/search/pagination', [InventoryController::class, 'SearchPharmacyProduct']);
+    Route::get('/pharmacyproduct/search/pagination/groupe', [InventoryController::class, 'SearchPharmacyProductGroupe']);
+    Route::get('/pharmacyproduct/search/pagination/category', [InventoryController::class, 'SearchPharmacyProductCategory']);
+    Route::get('/pharmacyproduct/search/pagination/manufacture', [InventoryController::class, 'SearchPharmacyProductManufacture']);
+    Route::get('/pharmacyproduct/search/pagination/itemform', [InventoryController::class, 'SearchPharmacyProductItemForm']);
+    Route::get('/pharmacyproduct/search/pagination/unit', [InventoryController::class, 'SearchPharmacyProductUnit']);
+    Route::get('/pharmacyproduct/search/pagination/store', [InventoryController::class, 'SearchPharmacyProductStore']);
+    Route::get('/pharmacyproduct/search/pagination/expireddate', [InventoryController::class, 'SearchPharmacyProductExpiredDate']);
+    //search list routs
     Route::get('/get/products/groupe', 'GetProductByGroupe');
+
+    ////////////////////////// --------------- Pharmacy Product Routes END----------- ///////////////////////////  
+
 });
     
    
