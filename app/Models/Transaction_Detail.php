@@ -33,4 +33,9 @@ class Transaction_Detail extends Model
     public function Withs(){
         return $this->belongsTo(Transaction_With::class,'tran_type_with','id');
     }
+
+    public function Store(){
+        return $this->belongsTo(Store::class,'store_id','id');
+    }
+
 }

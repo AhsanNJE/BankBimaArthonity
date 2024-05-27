@@ -378,12 +378,50 @@ Route::controller(TransactionController::class)->group(function () {
         // Transactionn Payment Details Routes
         Route::get('/payment', 'ShowTransactionPayment')->name('show.transaction.payment');
         
+
+
+
+
+
+
+
+
+
+         ////////////////////////// --------------- Adjustment routes ----------- ///////////////////////////
+        //details crud routes start
+        Route::post('/insert/positive/details', 'InsertAdjustment')->name('insert.positive.transaction.details');
+        Route::get('/edit/positive', 'EditAdjustment')->name('edit.adjustment');
+        Route::put('/update/positive', 'UpdateAdjustment')->name('update.adjustment');
+        Route::delete('/delete/adjustment', 'DeleteAdjustment')->name('delete.adjustment');
+        Route::get('/print/positive', 'PrintPATransactionDetails')->name('print.positive');
+        //search routes start
+        Route::get('/search/date', 'ShowTransactionByDate')->name('search.transaction.date');
+        Route::get('/search/tranid', 'SearchTransactionByTranId')->name('show.transaction.tranid');
+        Route::get('/search/user', 'SearchTransactionByTranUser')->name('show.transaction.user');
+        //pagination routes start
+        Route::get('/pagination', 'TransactionPagination');
+        Route::get('/pagination/date', 'ShowTransactionByDate');
+        Route::get('/pagination/tranid', 'SearchTransactionByTranId');
+        Route::get('/pagination/user', 'SearchTransactionByTranUser');
+        //search list routs
+        Route::get('/get/tranid', 'GetTransactionId');
+        Route::get('/get/tranwith', 'GetTransactionWith');
+        Route::get('/get/groupes/with', 'GetTransactionGroupeByWith');
+        Route::get('/get/tranuser', 'GetTransactionUser');
+        Route::get('/get/transactiongrid', 'GetTransactionGrid');
+        Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
         // Positive Adjustment Routes
         Route::get('/positive', 'ShowPositiveAdjustment')->name('show.positive.adjustment');
 
         // Negative Adjustment Routes
         Route::get('/negative', 'ShowNegativeAdjustment')->name('show.negative.adjustment');
 
+         //details crud routes start
+         Route::post('/insert/negative/details', 'InsertAdjustment')->name('insert.negative.transaction.details');
+         Route::get('/edit/details', 'EditTransactionDetails')->name('edit.transaction.details');
+         Route::put('/update/details', 'UpdateTransactionDetails')->name('update.transaction.details');
+         Route::delete('/delete/negative', 'DeleteTransactionDetails')->name('delete.negative.transaction.details');
+         Route::get('/print/negative', 'PrintPATransactionDetails')->name('print.negative');
 
         ////////////////////////// --------------- Bank Transaction routes ----------- ///////////////////////////
         // Bank Withdraw transaction crude Routes

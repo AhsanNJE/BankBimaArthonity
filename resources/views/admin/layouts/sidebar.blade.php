@@ -425,7 +425,7 @@
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-list"></i>
                                 <p>
-                                    Category
+                                    Generic
                                     <!-- <i class="fas fa-angle-left right"></i> -->
                                 </p>
                             </a>
@@ -433,7 +433,7 @@
                                 <li class="nav-item">
                                     <a href="{{route('show.category.list')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Category Name</p>
+                                        <p>Generic Name</p>
                                     </a>
                                 </li>
                             </ul>
@@ -510,13 +510,7 @@
                         <i class="fas fa-angle-left right"></i>
                     </a>
                     <ul class="nav nav-treeview">
-                        <!-- EMPLOYEE -->
-                        <li class="nav-item">
-                            <a href="{{route('show.pharmacy.product')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Inventory Product</p>
-                            </a>
-                        </li>
+                        <!-- INVENTORY -->
                         <li class="nav-item">
                             <a href="{{route('show.inventory.purchase')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -536,9 +530,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('show.store.list')}}" class="nav-link">
+                            <a href="{{route('show.positive.adjustment')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Inventory Store</p>
+                                <p>Positive Adjustment</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.negative.adjustment')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Negative Adjustment</p>
                             </a>
                         </li>
                         
