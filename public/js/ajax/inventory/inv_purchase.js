@@ -2,10 +2,11 @@ $(document).ready(function () {
     // Get Last Transaction Id By Transaction Method and Type
     $(document).on('click', '.add', function (e) {
         let type = '5';
-        let method = 'Payment';
-        $('#user').focus();
+        let method = 'Purchase';
+        let payment = 'Payment';
         getTransactionId(type, method, '#tranId');
-        getTransactionWith(type, method, '#within')
+        getTransactionWith(type, payment, '#within')
+        $('#date').focus();
     });
 
 
@@ -43,25 +44,25 @@ $(document).ready(function () {
     $(document).on('change', '#startDate, #endDate', function(e){
         e.preventDefault();
         let type = '5';
-        let method = 'Payment';
+        let method = 'Purchase';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         searchTransaction(`/transaction/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase')
     });
 
 
-    $(document).on('keyup', '#quantity, #amount', function (e) {
+    $(document).on('keyup', '#quantity, #cp', function (e) {
         let quantity = $('#quantity').val();
-        let amount = $('#amount').val();
-        let totalAmount = quantity * amount;
+        let cp = $('#cp').val();
+        let totalAmount = quantity * cp;
         $('#totAmount').val(totalAmount);
     });
     
     
-    $(document).on('keyup', '#updateQuantity, #updateAmount', function (e) {
+    $(document).on('keyup', '#updateQuantity, #updateCp', function (e) {
         let quantity = $('#updateQuantity').val();
-        let amount = $('#updateAmount').val();
-        let totalAmount = quantity * amount;
+        let cp = $('#updateCp').val();
+        let totalAmount = quantity * cp;
         $('#updateTotAmount').val(totalAmount);
     });
 
@@ -100,16 +101,18 @@ $(document).ready(function () {
         let tranId = $('#tranId').val();
         let withs = $('#user').attr('data-with');
         let user = $('#user').attr('data-id');
-        let locations = $('#location').attr('data-id');
-        let head = $('#head').attr('data-id');
-        let groupe = $('#head').attr('data-groupe');
+        let store = $('#store').attr('data-id');
+        let product = $('#product').attr('data-id');
+        let unit = $('#unit').attr('data-id');
+        let groupe = $('#product').attr('data-groupe');
         let formData = new FormData(this);
         formData.append('with', withs === undefined ? '' : withs);
         formData.append('user', user === undefined ? '' : user);
-        formData.append('head', head === undefined ? '' : head);
+        formData.append('product', product === undefined ? '' : product);
         formData.append('groupe', groupe === undefined ? '' : groupe);
-        formData.append('location', locations === undefined ? '' : locations);
-        formData.append('method', 'Payment');
+        formData.append('store', store === undefined ? '' : store);
+        formData.append('unit', unit === undefined ? '' : unit);
+        formData.append('method', 'Purchase');
         formData.append('type', '5');
         $.ajax({
             url: "/inventory/insert/purchase",
@@ -124,11 +127,14 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP','#totalDiscount', '#netAmount', '#advance', '#balance' );
-                    $('#head').val('');
-                    $('#head').removeAttr('data-id');
-                    $('#head').removeAttr('data-groupe');
+                    $('#product').val('');
+                    $('#product').removeAttr('data-id');
+                    $('#product').removeAttr('data-groupe');
+                    $('#unit').val('');
+                    $('#unit').removeAttr('data-id');
                     $('#quantity').val('1');
-                    $('#amount').val('');
+                    $('#cp').val('');
+                    $('#mrp').val('');
                     $('#expiry').val('');
                     $('#totAmount').val('');
                     $("#head").focus();
@@ -149,21 +155,21 @@ $(document).ready(function () {
     $(document).on('click', '#InsertMainPurchase', function (e) {
         e.preventDefault();
         let tranId = $('#tranId').val();
-        let method = 'Payment';
+        let method = 'Purchase';
         let type = '5';
         let invoice = $('#invoice').val();
         let withs = $('#user').attr('data-with');
         let user = $('#user').attr('data-id');
-        let locations = $('#location').attr('data-id');
+        let store = $('#store').attr('data-id');
         let amountRP = $('#amountRP').val();
         let discount = $('#totalDiscount').val();
         let netAmount = $('#netAmount').val();
         let advance = $('#advance').val();
         let balance = $('#balance').val();
         $.ajax({
-            url: "/inventory/insert/purchase/main",
+            url: "/inventory/insert/transaction/main",
             method: 'POST',
-            data: { tranId:tranId, type:type, method:method, invoice:invoice, withs:withs, user:user, locations:locations, amountRP:amountRP,discount:discount, netAmount:netAmount, advance:advance, balance:balance },
+            data: { tranId:tranId, type:type, method:method, invoice:invoice, withs:withs, user:user, store:store, amountRP:amountRP,discount:discount, netAmount:netAmount, advance:advance, balance:balance },
             beforeSend: function () {
                 $(document).find('span.error').text('');
             },
@@ -173,9 +179,10 @@ $(document).ready(function () {
                     $('#location').removeAttr('data-id');
                     $('#user').removeAttr('data-id');
                     $('#user').removeAttr('data-with');
+                    $('#store').removeAttr('data-id');
                     $('.transaction_grid tbody').html('');
                     $('.inv-purchase').load(location.href + ' .inv-purchase');
-                    $('#addInventoryPurchase').hide();
+                    getTransactionId(type, method, '#tranId');
                     toastr.success('Inventory Purchase Added To Main TableSuccessfully', 'Added!');
                 }
             },
@@ -195,7 +202,7 @@ $(document).ready(function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         let type = '5';
-        let method = 'Payment';
+        let method = 'Purchase';
         getTransactionWith(type, method, '#updatewithin')
         $.ajax({
             url: `/transaction/edit/main`,
@@ -295,7 +302,7 @@ $(document).ready(function () {
         formData.append('head', head === undefined ? '' : head);
         formData.append('groupe', groupe === undefined ? '' : groupe);
         formData.append('type', "5");
-        formData.append('method', "Payment");
+        formData.append('method', "Purchase");
         $.ajax({
             url: `/transaction/update/details`,
             method: 'POST',
@@ -335,7 +342,7 @@ $(document).ready(function () {
     $(document).on('click', '#UpdateMainTransaction', function (e) {
         e.preventDefault();
         let id = $('#id').val();
-        let method = 'Payment';
+        let method = 'Purchase';
         let amountRP = $('#updateAmountRP').val();
         let totalDiscount = $('#updateTotalDiscount').val();
         let netAmount = $('#updateNetAmount').val();
@@ -437,7 +444,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let type = '5';
-        let method = 'Payment';
+        let method = 'Purchase';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[1];
@@ -452,7 +459,7 @@ $(document).ready(function () {
         let endDate = $('#endDate').val();
         let search = $(this).val();
         let type = '5';
-        let method = 'Payment';
+        let method = 'Purchase';
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
             searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase')
@@ -472,7 +479,7 @@ $(document).ready(function () {
         let endDate = $('#endDate').val();
         let search = $('#search').val();
         let type = '5';
-        let method = 'Payment';
+        let method = 'Purchase';
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[1];
         if(searchOption == "1"){

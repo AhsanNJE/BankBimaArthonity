@@ -799,6 +799,10 @@ Route::controller(PayRollController::class)->group(function(){
 ///////////////////////////// InventoryController Routes ////////////////////////////////
 Route::controller(InventoryController::class)->group(function(){
     Route::prefix('/inventory')->group(function () {
+
+
+
+        Route::post('/insert/transaction/main', 'InsertInventoryTransactionMain')->name('insert.inventory.transaction.main');
         //////////////// ------------------ Inventory Purchase Routes ------------------- //////////////////
         // Inventory Purchase Crude Routes
         Route::get('/purchase', 'ShowInventoryPurchase')->name('show.inventory.purchase');

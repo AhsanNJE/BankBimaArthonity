@@ -8,6 +8,13 @@
         width: 100%;
         margin: 0;
     }
+
+    #product-list{
+        max-height: 100%
+    }
+    .transaction_grid{
+        margin-top: 10px
+    }
 </style>
 @endsection
 
@@ -40,7 +47,7 @@
                                     <div class="form-group">
                                         <label for="date">Date</label>
                                         <input type="text" name="date" class="form-control" id="date"
-                                            value="{{ date('Y-m-d') }}" disabled>
+                                            value="{{ date('Y-m-d') }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -75,23 +82,7 @@
                                     <div class="form-group">
                                         <label for="product">Product Name</label>
                                         <input type="text" name="product" id="product" class="form-control" autocomplete="off">
-                                        <div id="product-list">
-                                            <table class="product-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Generic Name</th>
-                                                        <th>Manufacture</th>
-                                                        <th>Form</th>
-                                                        <th>Quantity</th>
-                                                        <th>MRP</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        
                                         <span class="text-danger error" id="product_error"></span>
                                     </div>
                                 </div>
@@ -105,27 +96,22 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="unit">Unit</label>
-                                        <input type="text" name="unit" class="form-control" id="unit" autocomplete="off">
-                                        <div id="unit-list">
-                                            <ul>
-                                                
-                                            </ul>
-                                        </div>
+                                        <input type="text" name="unit" class="form-control" id="unit" autocomplete="off" readonly>
                                         <span class="text-danger error" id="unit_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="amount">Cost Price</label>
-                                        <input type="text" name="amount" class="form-control" id="amount">
-                                        <span class="text-danger error" id="amount_error"></span>
+                                        <label for="cp">Cost Price</label>
+                                        <input type="text" name="cp" class="form-control" id="cp">
+                                        <span class="text-danger error" id="cp_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="mrp">Mrp</label>
                                         <input type="text" name="mrp" class="form-control" id="mrp">
-                                        <span class="text-danger error" id="amount_error"></span>
+                                        <span class="text-danger error" id="mrp_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -139,7 +125,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="expiry">Expiry Date</label>
-                                        <input type="date" name="expiry" class="form-control" id="expiry">
+                                        <input type="date" name="expiry" class="form-control" id="expiry" value="{{date('Y-m-d')}}">
                                         <span class="text-danger error" id="expiry_error"></span>
                                     </div>
                                 </div>
@@ -149,6 +135,26 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div id="product-list">
+                                <table class="product-table">
+                                    <caption class="caption">Product List</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Generic Name</th>
+                                            <th>Manufacture</th>
+                                            <th>Form</th>
+                                            <th>Quantity</th>
+                                            <th>MRP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
                             <div class="transaction_grid" style="overflow-x:auto;">
                                 <table class="show-table">
                                     <thead>
