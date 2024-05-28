@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
+use App\Models\User_Info;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Transaction_Head;
+use App\Models\Transaction_Main;
 use App\Models\Transaction_Type;
 use App\Models\Transaction_With;
-use App\Models\Transaction_With_Groupe;
-use App\Models\Transaction_Groupe;
-use App\Models\Transaction_Head;
 use App\Models\Transaction_Detail;
-use App\Models\Transaction_Main;
-use App\Models\User_Info;
+use App\Models\Transaction_Groupe;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Models\Party_Payment_Receive;
+use App\Models\Transaction_With_Groupe;
 
 class TransactionController extends Controller
 {
@@ -907,13 +908,23 @@ class TransactionController extends Controller
     // Print Transaction Details
     public function PrintTransactionDetails(Request $req)
     {
-        $transDetailsInvoice = Transaction_Detail::where('tran_id', $req->id)->get();
-        $transSum = Transaction_Detail::where('tran_id', $req->id)->sum('tot_amount');
+        $transDetailsInvoice = Transaction_Detail::
+                                select(
+                                    'tran_head_id', 
+                                    'amount',
+                                    DB::raw('SUM(quantity) as sum_quantity'),
+                                    DB::raw('SUM(quantity_issue) as sum_quantity_issue'),
+                                    DB::raw('SUM(tot_amount) as sum_tot_amount'),
+                                    DB::raw('COUNT(*) as count')
+                                )
+                                ->where('tran_id', $req->id)
+                                ->groupBy('tran_head_id','amount')
+                                ->get();
         $transactionMain = Transaction_Main::where('tran_id', $req->id)->first();
 
         return response()->json([
             'status'=>'success',
-            'data'=> view('transaction.details', compact('transactionMain', 'transDetailsInvoice', 'transSum'))->render(),
+            'data'=> view('transaction.details', compact('transactionMain', 'transDetailsInvoice'))->render(),
         ]);
     } // End Method 
 

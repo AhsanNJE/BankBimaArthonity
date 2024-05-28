@@ -8,6 +8,14 @@
         width: 100%;
         margin: 0;
     }
+
+    #product-list{
+        max-height: 100%
+    }
+
+    .transaction_grid{
+        margin-top: 10px
+    }
 </style>
 @endsection
 
@@ -73,14 +81,10 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="head">Product Name</label>
-                                        <input type="text" name="head" id="head" class="form-control">
-                                        <div id="head-list">
-                                            <ul>
-
-                                            </ul>
-                                        </div>
-                                        <span class="text-danger error" id="head_error"></span>
+                                        <label for="product">Product Name</label>
+                                        <input type="text" name="product" id="product" class="form-control" autocomplete="off">
+                                        
+                                        <span class="text-danger error" id="product_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -93,7 +97,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="mrp">MRP</label>
-                                        <input type="text" name="mrp" class="form-control" id="mrp">
+                                        <input type="text" name="mrp" class="form-control" id="mrp" readonly>
                                         <span class="text-danger error" id="mrp_error"></span>
                                     </div>
                                 </div>
@@ -111,6 +115,26 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div id="product-list">
+                                <table class="product-table">
+                                    <caption class="caption">Product List</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Generic Name</th>
+                                            <th>Manufacture</th>
+                                            <th>Form</th>
+                                            <th>Quantity</th>
+                                            <th>MRP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
                             <div class="transaction_grid" style="overflow-x:auto;">
                                 <table class="show-table">
                                     <thead>

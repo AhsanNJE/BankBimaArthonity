@@ -301,18 +301,19 @@ class InventoryController extends Controller
             "method" => 'required',
             "type" => 'required',
             "groupe" => 'required',
-            "head" => 'required',
+            "product" => 'required',
             "with" => 'required',
             "user" => 'required',
-            "amount" => 'required',
+            "cp" => 'required',
             "quantity" => 'required',
+            "unit" => 'required',
             "totAmount" => 'required',
             "mrp" => 'required',
             "store" => 'required'
         ]);
 
         $transaction = Transaction_Detail::where('tran_id', $req->tranId)
-        ->where('tran_head_id', $req->head)
+        ->where('tran_head_id', $req->product)
         ->get();
 
         if($transaction->count() > 0){
@@ -323,21 +324,37 @@ class InventoryController extends Controller
             ], 422);
         }
         else{
+
+            $heads = Transaction_Head::where('id',$req->product)->first();
+
+            $quantity = $heads->quantity + $req->quantity;
+            Transaction_Head::findOrFail($req->product)->update([
+                "quantity" => $quantity,
+                "cost_price" => $req->cp,
+                "mrp" => $req->mrp,
+                "expired_date" => $req->expiry,
+                "updated_at" => now()
+            ]);
+
+
+
+
             Transaction_Detail::insert([
                 "tran_id" => $req->tranId,
                 "loc_id" => $req->location,
                 "tran_type" => $req->type,
                 "tran_method" => $req->method,
                 "tran_groupe_id" => $req->groupe,
-                "tran_head_id" => $req->head,
+                "tran_head_id" => $req->product,
                 "tran_type_with" => $req->with,
                 "tran_user" => $req->user,
-                "amount" => $req->amount,
+                "amount" => $req->cp,
                 "quantity" => $req->quantity,
+                "unit_id" => $req->unit,
                 "tot_amount" => $req->totAmount,
                 "mrp" => $req->mrp,
                 "expiry_date" => $req->expiry == null ? null :$req->expiry,
-                "store" => $req->store
+                "store_id" => $req->store
             ]);
     
             return response()->json([
@@ -350,7 +367,7 @@ class InventoryController extends Controller
 
 
     //Insert Transaction Main
-    public function InsertInventoryPurchaseMain(Request $req){
+    public function InsertInventoryTransactionMain(Request $req){
         $req->validate([
             "tranId" => 'required|unique:transaction__mains,tran_id',
             "method" => 'required',
@@ -364,7 +381,6 @@ class InventoryController extends Controller
             "balance" => 'required',
             "store" => 'required'
         ]);
-
 
 
         if($req->discount > $req->amountRP){
@@ -395,9 +411,6 @@ class InventoryController extends Controller
                 ]
             ], 422);
         }
-
-        $receive = $req->method === 'Receive' ? $req->advance : null;
-        $payment = $req->method === 'Payment' ? $req->advance : null;
         
         
         Transaction_Main::insert([
@@ -410,10 +423,9 @@ class InventoryController extends Controller
             "bill_amount" => $req->amountRP,
             "discount" => $req->discount,
             "net_amount" => $req->netAmount,
-            "receive" => $receive,
-            "payment" => $payment,
+            "payment" => $req->advance,
             "due" => $req->balance,
-            "store" => $req->store
+            "store_id" => $req->store
         ]);
 
         return response()->json(['status' => 'success']);
@@ -432,7 +444,7 @@ class InventoryController extends Controller
     /////////////////////////// --------------- Inventory Issue Methods start ---------- //////////////////////////
     // Show All Issue Details
     public function ShowInventoryIssue(){
-        $inventory = Transaction_Main::where('tran_method','Receive')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $inventory = Transaction_Main::where('tran_method','Issue')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
         return view('inventory.issue.inventoryIssue', compact('inventory','groupes'));
     }//End Method
@@ -443,26 +455,26 @@ class InventoryController extends Controller
         $req->validate([
             "tranId" => 'required',
             "method" => 'required',
-            "location" => 'required|numeric',
+            "store" => 'required|numeric',
             "type" => 'required',
             "groupe" => 'required',
-            "head" => 'required',
+            "product" => 'required',
             "with" => 'required',
             "user" => 'required',
-            "amount" => 'required',
+            "mrp" => 'required',
             "quantity" => 'required',
             "totAmount" => 'required',
         ]);
 
-        if($req->head != null){
-            $product = Transaction_Detail::where('tran_head_id', $req->head)
+        if($req->product != null){
+            $product = Transaction_Detail::where('tran_head_id', $req->product)
             ->where('quantity', '>', 0)
-            ->where('tran_method', "Payment")
+            ->whereIn('tran_method', ["Purchase","Positive"])
             ->orderBy('tran_date', 'asc')
             ->get();
 
             $transaction = Transaction_Detail::where('tran_id', $req->tranId)
-            ->where('tran_head_id', $req->head)
+            ->where('tran_head_id', $req->product)
             ->get();
 
             if($transaction->count() > 0){
@@ -492,10 +504,27 @@ class InventoryController extends Controller
                             if($quantity != 0){
                                 if($pro->quantity <= $quantity){
                                     $issue =  $pro->quantity_issue + $pro->quantity ;
+                                    $total = $pro->quantity * $req->mrp;
                                     Transaction_Detail::findOrFail($pro->id)->update([
                                         "quantity_issue" => $issue,
                                         "quantity" => 0,
                                         "updated_at" => now()
+                                    ]);
+
+
+                                    Transaction_Detail::insert([
+                                        "tran_id" => $req->tranId,
+                                        "store_id" => $req->store,
+                                        "tran_type" => $req->type,
+                                        "tran_method" => $req->method,
+                                        "tran_groupe_id" => $req->groupe,
+                                        "tran_head_id" => $req->product,
+                                        "tran_type_with" => $req->with,
+                                        "tran_user" => $req->user,
+                                        "amount" => $req->mrp,
+                                        "quantity" => $pro->quantity,
+                                        "tot_amount" => $total,
+                                        "batch_id" => $pro->tran_id,
                                     ]);
 
                                     $quantity = $quantity - $pro->quantity;
@@ -503,6 +532,8 @@ class InventoryController extends Controller
                                 else if($pro->quantity > $quantity){
                                     $issue =  $pro->quantity_issue + $quantity ;
                                     $dueQuantity = $pro->quantity - $quantity;
+
+                                    $total = $quantity * $req->mrp;
                                     Transaction_Detail::findOrFail($pro->id)->update([
                                         "quantity_issue" => $issue,
                                         "quantity" => $dueQuantity,
@@ -511,22 +542,32 @@ class InventoryController extends Controller
 
                                     Transaction_Detail::insert([
                                         "tran_id" => $req->tranId,
-                                        "loc_id" => $req->location,
+                                        "store_id" => $req->store,
                                         "tran_type" => $req->type,
                                         "tran_method" => $req->method,
                                         "tran_groupe_id" => $req->groupe,
-                                        "tran_head_id" => $req->head,
+                                        "tran_head_id" => $req->product,
                                         "tran_type_with" => $req->with,
                                         "tran_user" => $req->user,
-                                        "amount" => $req->amount,
-                                        "quantity" => $req->quantity,
-                                        "tot_amount" => $req->totAmount,
+                                        "amount" => $req->mrp,
+                                        "quantity" => $quantity,
+                                        "tot_amount" => $total,
+                                        "batch_id" => $pro->tran_id,
                                     ]);
+
+
 
                                     $quantity = 0;
                                 }
                             }
                         }
+
+
+                        $heads = Transaction_Head::where('id',$req->product)->first();
+                        $remain_quantity = $heads->quantity - $req->quantity;
+                        Transaction_Head::findOrFail($req->product)->update([
+                            "quantity" => $remain_quantity
+                        ]);
     
                         return response()->json([
                             'status'=>'success',
@@ -543,7 +584,6 @@ class InventoryController extends Controller
             }
         }
     }//End Method
-
 
 
 
@@ -798,7 +838,7 @@ class InventoryController extends Controller
 
 
 
-    /////////////////////////// --------------- Pharmacy Product Table Methods start ---------- //////////////////////////
+    /////////////////////////// --------------- Pharmacy Product Table Methods START ---------- //////////////////////////
     
     //Show All Pharmacy Product
     public function ShowPharmacyProduct(){
@@ -934,10 +974,221 @@ class InventoryController extends Controller
     }//End Method
 
 
+     //Delete Pharmacy Product -----------> Using Method Re-use for Transaction Head Ajax Part---//
+
+
+    //Pharmacy Product Pagination
+    public function PharmacyProductPagination(){
+        $heads = Transaction_Head::where('groupe_id', 5)->orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('pharmacy_product.pharmacyProductPagination', compact('heads'))->render(),
+        ]);
+    }//End Method
+
+    //Pharmacy Product Search
+    public function SearchPharmacyProduct(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->where('tran_head_name', 'like', '%'.$req->search.'%')
+        ->orderBy('tran_head_name','asc')
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Groupe
+    public function SearchPharmacyProductGroupe(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('Groupe')
+        ->whereHas('Groupe', function ($query) use ($req) {
+            $query->where('tran_groupe_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('tran_groupe_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Category
+    public function SearchPharmacyProductCategory(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('Category')
+        ->whereHas('Category', function ($query) use ($req) {
+            $query->where('category_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('category_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Manufacture
+    public function SearchPharmacyProductManufacture(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('Manufecture')
+        ->whereHas('Manufecture', function ($query) use ($req) {
+            $query->where('manufacturer_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('manufacturer_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Item Form
+    public function SearchPharmacyProductItemForm(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('ItemForm')
+        ->whereHas('ItemForm', function ($query) use ($req) {
+            $query->where('form_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('form_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Unit
+    public function SearchPharmacyProductUnit(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('ItemUnit')
+        ->whereHas('ItemUnit', function ($query) use ($req) {
+            $query->where('unit_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('unit_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method    
+
+    //Pharmacy Product Search By Store
+    public function SearchPharmacyProductStore(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('Store')
+        ->whereHas('Store', function ($query) use ($req) {
+            $query->where('store_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('store_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By ExpiredDate
+    public function SearchPharmacyProductExpiredDate(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->where('expired_date', 'like', '%' . $req->search . '%')
+            ->orderBy('expired_date','asc')
+            ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    /////////////////////////// --------------- Pharmacy Product Table Methods END ---------- //////////////////////////
 
 
 
-    /////////////////////////// --------------- Inventory Store Methods start ---------- //////////////////////////
+
+
+
+    /////////////////////////// --------------- Inventory Store Methods start ---------- ////////////////////////////////
     
 
     
@@ -1035,17 +1286,17 @@ class InventoryController extends Controller
     //Get Transaction Heads By Name And Groupe
     public function GetProductByGroupe(Request $req){
         if($req->groupein == "1"){
-            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
+            $heads = Transaction_Head::with("ItemUnit")->where('tran_head_name', 'like', '%'.$req->product.'%')
             ->whereIn('groupe_id', $req->groupe)
             ->orderBy('tran_head_name','asc')
             ->take(10)
             ->get();
-
+            // dd($heads);
 
             if($heads->count() > 0){
                 $list = "";
                 foreach($heads as $index => $head) {
-                    $list .= '<tr tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'">
+                    $list .= '<tr tabindex="' . ($index + 1) . '" data-id="'.$head->id.'" data-groupe="'.$head->groupe_id.'" data-unit="'.$head->ItemUnit->unit_name.'" data-unit-id="'.$head->item_unite_id.'" data-cp="'.$head->cost_price.'" data-mrp="'.$head->mrp.'">
                                 <td>'.$head->tran_head_name.'</td>
                                 <td>'.$head->form_id.'</td>
                                 <td>'.$head->manufacture_id.'</td>
@@ -1063,7 +1314,7 @@ class InventoryController extends Controller
             return $list;
         }
         else{
-            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->head.'%')
+            $heads = Transaction_Head::where('tran_head_name', 'like', '%'.$req->product.'%')
             ->where('groupe_id', $req->groupe)
             ->orderBy('tran_head_name','asc')
             ->take(10)
