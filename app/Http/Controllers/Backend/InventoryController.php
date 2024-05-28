@@ -838,7 +838,7 @@ class InventoryController extends Controller
 
 
 
-    /////////////////////////// --------------- Pharmacy Product Table Methods start ---------- //////////////////////////
+    /////////////////////////// --------------- Pharmacy Product Table Methods START ---------- //////////////////////////
     
     //Show All Pharmacy Product
     public function ShowPharmacyProduct(){
@@ -974,10 +974,221 @@ class InventoryController extends Controller
     }//End Method
 
 
+     //Delete Pharmacy Product -----------> Using Method Re-use for Transaction Head Ajax Part---//
+
+
+    //Pharmacy Product Pagination
+    public function PharmacyProductPagination(){
+        $heads = Transaction_Head::where('groupe_id', 5)->orderBy('added_at','asc')->paginate(15);
+        return response()->json([
+            'status' => 'success',
+            'data' => view('pharmacy_product.pharmacyProductPagination', compact('heads'))->render(),
+        ]);
+    }//End Method
+
+    //Pharmacy Product Search
+    public function SearchPharmacyProduct(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->where('tran_head_name', 'like', '%'.$req->search.'%')
+        ->orderBy('tran_head_name','asc')
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Groupe
+    public function SearchPharmacyProductGroupe(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('Groupe')
+        ->whereHas('Groupe', function ($query) use ($req) {
+            $query->where('tran_groupe_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('tran_groupe_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Category
+    public function SearchPharmacyProductCategory(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('Category')
+        ->whereHas('Category', function ($query) use ($req) {
+            $query->where('category_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('category_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Manufacture
+    public function SearchPharmacyProductManufacture(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('Manufecture')
+        ->whereHas('Manufecture', function ($query) use ($req) {
+            $query->where('manufacturer_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('manufacturer_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Item Form
+    public function SearchPharmacyProductItemForm(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('ItemForm')
+        ->whereHas('ItemForm', function ($query) use ($req) {
+            $query->where('form_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('form_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By Unit
+    public function SearchPharmacyProductUnit(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('ItemUnit')
+        ->whereHas('ItemUnit', function ($query) use ($req) {
+            $query->where('unit_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('unit_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method    
+
+    //Pharmacy Product Search By Store
+    public function SearchPharmacyProductStore(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->with('Store')
+        ->whereHas('Store', function ($query) use ($req) {
+            $query->where('store_name', 'like', '%' . $req->search . '%');
+            $query->orderBy('store_name','asc');
+        })
+        ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+    //Pharmacy Product Search By ExpiredDate
+    public function SearchPharmacyProductExpiredDate(Request $req){
+        $heads = Transaction_Head::where('groupe_id', 5)->where('expired_date', 'like', '%' . $req->search . '%')
+            ->orderBy('expired_date','asc')
+            ->paginate(15);
+
+        $paginationHtml = $heads->links()->toHtml();
+        
+        if($heads->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'paginate' => $paginationHtml,
+                'data' => view('pharmacy_product.search', compact('heads'))->render(),
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+    /////////////////////////// --------------- Pharmacy Product Table Methods END ---------- //////////////////////////
 
 
 
-    /////////////////////////// --------------- Inventory Store Methods start ---------- //////////////////////////
+
+
+
+    /////////////////////////// --------------- Inventory Store Methods start ---------- ////////////////////////////////
     
 
     

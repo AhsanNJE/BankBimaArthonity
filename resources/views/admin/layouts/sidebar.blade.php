@@ -1,12 +1,13 @@
 @section('style')
-    <style>
-    .nav-item.menu-open-expanded > .nav-link > .right {
-        transform: rotate(-90deg);
-    }
-    .nav-item.menu-open-expanded > .nav-link + .nav-treeview {
-        display: block !important;
-    }
-    </style>
+<style>
+.nav-item.menu-open-expanded>.nav-link>.right {
+    transform: rotate(-90deg);
+}
+
+.nav-item.menu-open-expanded>.nav-link+.nav-treeview {
+    display: block !important;
+}
+</style>
 @endsection
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -102,7 +103,7 @@
                             </ul>
                         </li>
 
-                        
+
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -126,7 +127,7 @@
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-arrow-right-arrow-left"></i>
                                 <p>
-                                     Main Head 
+                                    Main Head
                                     <!-- <i class="fas fa-angle-left right"></i> -->
                                 </p>
                             </a>
@@ -292,7 +293,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item {{ Request::is('show/personal/info') ? 'menu-open' : '' }}">
-                                    <a href="{{ route('show.personalinfo') }}" class="nav-link {{ Request::is('show/personal/info') ? 'active' : '' }}">
+                                    <a href="{{ route('show.personalinfo') }}"
+                                        class="nav-link {{ Request::is('show/personal/info') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Personal Details</p>
                                     </a>
@@ -376,7 +378,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                            <i class="fas fa-id-badge"></i>
+                                <i class="fas fa-id-badge"></i>
                                 <p>
                                     Designation
                                 </p>
@@ -399,13 +401,13 @@
                         <i class="fas fa-clinic-medical"></i>
                         <p>PHARMACY</p>
                         <i class="fas fa-angle-left right"></i>
-                        
+
                     </a>
                     <ul class="nav nav-treeview">
                         <!-- PHARMACY -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-users"></i>
+                                <i class="fa-solid fa-industry"></i>
                                 <p>
                                     Manufacturer
                                     <!-- <i class="fas fa-angle-left right"></i> -->
@@ -423,7 +425,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-list"></i>
+                                <i class="fa-solid fa-table-cells-large"></i>
                                 <p>
                                     Generic
                                     <!-- <i class="fas fa-angle-left right"></i> -->
@@ -441,7 +443,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-capsules"></i>
+                                <i class="fa-solid fa-list-ul"></i>
                                 <p>
                                     Item Form
                                     <!-- <i class="fas fa-angle-left right"></i> -->
@@ -459,7 +461,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                            <i class="fa-solid fa-flask-vial"></i>
+                                <i class="fa-solid fa-scale-unbalanced"></i>
                                 <p>
                                     Item Unit
                                     <!-- <i class="fas fa-angle-left right"></i> -->
@@ -477,9 +479,27 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                            <i class="fas fa-prescription-bottle"></i>
+                                <i class="fa-solid fa-shop"></i>
                                 <p>
-                                    Pharmacy Service
+                                    Store Name
+                                    <!-- <i class="fas fa-angle-left right"></i> -->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('show.store.list')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Store</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="fa-solid fa-prescription-bottle-medical"></i>
+                                <p>
+                                    Pharmacy Product
                                     <!-- <i class="fas fa-angle-left right"></i> -->
                                 </p>
                             </a>
@@ -487,13 +507,7 @@
                                 <li class="nav-item">
                                     <a href="{{route('show.pharmacy.product')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Pharmacy Product</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('show.store.list')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Pharmacy Store</p>
+                                        <p>Add Product</p>
                                     </a>
                                 </li>
                             </ul>
@@ -570,7 +584,7 @@
                     </ul>
                 </li>
 
-                
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-book-open"></i>
@@ -636,11 +650,11 @@
                     </ul>
                 </li>
 
-                
 
-                
 
-                
+
+
+
 
 
 
@@ -660,5 +674,5 @@
 </aside>
 
 @section('ajax')
-    <script src="{{ asset('js/ajax/layout/sidebar.js') }}"></script>
+<script src="{{ asset('js/ajax/layout/sidebar.js') }}"></script>
 @endsection

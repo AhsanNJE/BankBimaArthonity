@@ -12,7 +12,7 @@
                     <option value="3">Category</option>
                     <option value="4">Manufacture</option>
                     <option value="5">Item Form</option>
-                    <option value="6">Unite</option>
+                    <option value="6">Unit</option>
                     <option value="7">Store</option>
                     <option value="8">Quantity</option>
                     <option value="9">Cost Price</option>

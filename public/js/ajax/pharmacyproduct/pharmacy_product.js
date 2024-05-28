@@ -2,7 +2,7 @@ $(document).ready(function () {
     $(document).on('click', '.add', function (e) {
         $('#headName').focus();
     });
-    /////////////// ------------------ Add Transaction Head ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Add Pharmacy Product ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#InsertPharmacyProduct', function (e) {
         e.preventDefault();
         let headName = $('#headName').val();
@@ -41,7 +41,7 @@ $(document).ready(function () {
 
 
 
-    ///////////// ------------------ Edit Transaction Head ajax part start ---------------- /////////////////////////////
+    ///////////// ------------------ Edit Pharmacy Product ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#edit', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
@@ -107,7 +107,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Transaction Head ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Pharmacy Product ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#UpdatePharmacyProduct', function (e) {
         e.preventDefault();
 
@@ -152,7 +152,7 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Delete Transaction Head ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------SweetAlert Delete Pharmacy Product / Transaction Head ajax part start ---------------- /////////////////////////////
     //Delete button functionality
     $(document).on('click', '#delete', function (e) {
         e.preventDefault();
@@ -189,17 +189,16 @@ $(document).ready(function () {
     });
     
     
-    /////////////// ------------------ Delete Transaction Head ajax part End ---------------- /////////////////////////////
+    /////////////// ------------------SweetAlert Delete Pharmacy Product / Transaction Head ajax part End ---------------- /////////////////////////////
     
     
-
 
 
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadTransactionHeadData(`/transaction/heads/pagination?page=${page}`, {}, '.heads');
+        loadPharmacyProductData(`/pharmacyproduct/pagination?page=${page}`, {}, '.heads');
     });
 
 
@@ -217,12 +216,29 @@ $(document).ready(function () {
         let search = $(this).val();
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadTransactionHeadData(`/transaction/search/heads`, {search:search}, '.heads')
+            loadPharmacyProductData(`/search/pharmacyproduct`, {search:search}, '.heads')
         }
         else if(searchOption == "2"){
-            loadTransactionHeadData(`/transaction/search/heads/groupe`, {search:search}, '.heads')
+            loadPharmacyProductData(`/search/pharmacyproduct/groupe`, {search:search}, '.heads')
         }
-        
+        else if(searchOption == "3"){
+            loadPharmacyProductData(`/search/pharmacyproduct/category`, {search:search}, '.heads')
+        }
+        else if(searchOption == "4"){
+            loadPharmacyProductData(`/search/pharmacyproduct/manufacture`, {search:search}, '.heads')
+        }
+        else if(searchOption == "5"){
+            loadPharmacyProductData(`/search/pharmacyproduct/itemform`, {search:search}, '.heads')
+        }
+        else if(searchOption == "6"){
+            loadPharmacyProductData(`/search/pharmacyproduct/unit`, {search:search}, '.heads')
+        }
+        else if(searchOption == "7"){
+            loadPharmacyProductData(`/search/pharmacyproduct/store`, {search:search}, '.heads')
+        }
+        else if(searchOption == "11"){
+            loadPharmacyProductData(`/search/pharmacyproduct/expireddate`, {search:search}, '.heads')
+        }
     });
 
 
@@ -235,18 +251,35 @@ $(document).ready(function () {
         let page = $(this).attr('href').split('page=')[1];
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            loadTransactionHeadData(`/transaction/heads/search/pagination?page=${page}`, {search:search}, '.heads');
+            loadPharmacyProductData(`/pharmacyproduct/search/pagination?page=${page}`, {search:search}, '.heads');
         }
         else if(searchOption == "2"){
-            loadTransactionHeadData(`/transaction/heads/search/pagination/groupe?page=${page}`, {search:search}, '.heads');
+            loadPharmacyProductData(`/pharmacyproduct/search/pagination/groupe?page=${page}`, {search:search}, '.heads');
         }
-        
+        else if(searchOption == "3"){
+            loadPharmacyProductData(`/pharmacyproduct/search/pagination/category?page=${page}`, {search:search}, '.heads');
+        }
+        else if(searchOption == "4"){
+            loadPharmacyProductData(`/pharmacyproduct/search/pagination/manufacture?page=${page}`, {search:search}, '.heads');
+        }
+        else if(searchOption == "5"){
+            loadPharmacyProductData(`/pharmacyproduct/search/pagination/itemform?page=${page}`, {search:search}, '.heads');
+        }
+        else if(searchOption == "6"){
+            loadPharmacyProductData(`/pharmacyproduct/search/pagination/unit?page=${page}`, {search:search}, '.heads');
+        }
+        else if(searchOption == "7"){
+            loadPharmacyProductData(`/pharmacyproduct/search/pagination/store?page=${page}`, {search:search}, '.heads');
+        }
+        else if(searchOption == "11"){
+            loadPharmacyProductData(`/pharmacyproduct/search/pagination/expireddate?page=${page}`, {search:search}, '.heads');
+        }
     });
 
 
 
-    //Transaction Head data load function
-    function loadTransactionHeadData(url, data, targetElement) {
+    //Pharmacy Product data load function
+    function loadPharmacyProductData(url, data, targetElement) {
         $.ajax({
             url: url,
             data: data,
