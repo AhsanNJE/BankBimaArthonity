@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     // Get Last Transaction Id By Transaction Method and Type
     $(document).on('click', '.add', function (e) {
         let type = '5';
@@ -129,7 +130,7 @@ $(document).ready(function () {
     });
 
 
-    ///////////// ------------------ Add Transaction Positive Details ajax part start ---------------- /////////////////////////////
+    ///////////// ------------------ Add Positive Adjustment ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddPositiveAdjustmentForm', function (e) {
         e.preventDefault();
         let store = $('#store').attr('data-id');
@@ -142,7 +143,7 @@ $(document).ready(function () {
         formData.append('method', 'Positive');
         formData.append('type', '5');
         $.ajax({
-            url: "/transaction/insert/positive/details",
+            url: "/transaction/insert/positive/adjustment",
             method: 'POST',
             processData: false,
             contentType: false,
@@ -154,9 +155,10 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#head').val('');
+                    $('#store').removeAttr('data-id');
                     $('#head').removeAttr('data-id');
                     $('#head').removeAttr('data-groupe');
-                    $('#quantity').val('5');
+                    $('#quantity').val('1');
                     $("#head").focus();
                     $('.positive').load(location.href + ' .positive');
                     toastr.success('Positive Adjustment Done Successfully', 'Added!');

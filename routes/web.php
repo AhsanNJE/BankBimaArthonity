@@ -389,7 +389,7 @@ Route::controller(TransactionController::class)->group(function () {
 
          ////////////////////////// --------------- Adjustment routes ----------- ///////////////////////////
         //details crud routes start
-        Route::post('/insert/positive/details', 'InsertAdjustment')->name('insert.positive.transaction.details');
+        Route::post('/insert/positive/adjustment', 'InsertAdjustment')->name('insert.positive.adjustment');
         Route::get('/edit/positive', 'EditAdjustment')->name('edit.adjustment');
         Route::put('/update/positive', 'UpdateAdjustment')->name('update.adjustment');
         Route::delete('/delete/adjustment', 'DeleteAdjustment')->name('delete.adjustment');
@@ -417,7 +417,7 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/negative', 'ShowNegativeAdjustment')->name('show.negative.adjustment');
 
          //details crud routes start
-         Route::post('/insert/negative/details', 'InsertAdjustment')->name('insert.negative.transaction.details');
+         Route::post('/insert/negative/adjustment', 'InsertAdjustment')->name('insert.negative.adjustment');
          Route::get('/edit/details', 'EditTransactionDetails')->name('edit.transaction.details');
          Route::put('/update/details', 'UpdateTransactionDetails')->name('update.transaction.details');
          Route::delete('/delete/negative', 'DeleteTransactionDetails')->name('delete.negative.transaction.details');
