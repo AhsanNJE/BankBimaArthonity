@@ -3,7 +3,7 @@
     <div class="add-search">
         <div class="row">
             <div class="col-md-3">
-                <button class="open-modal add" data-modal-id="addPositiveAdjustment">Add Transaction Receive</button>
+                <button class="open-modal add" data-modal-id="addPositiveAdjustment">Add Positive Adjustment</button>
             </div>
             <div class="col-md-2">
                 <label for="startDate">Start Date</label>
@@ -29,8 +29,8 @@
 
 
     <!-- table show -->
-    <div class="positive_adjustment-receive" style="overflow-x:auto;">
-        @include('positive_adjustment.general.positive_adjustmentPagination')
+    <div class="positive" style="overflow-x:auto;">
+        @include('inventory.adjustmentPagination')
     </div>
 
 
@@ -40,13 +40,12 @@
 
     @include('inventory.positive_adjustment.delete')
 
-    @include('inventory.positive_adjustment.printDetails')
 
 @endsection
 
 
 <!-- ajax part start from here -->
 @section('ajax')
-    <script src="{{ asset('js/ajax/inventory/positive_adjustment/positive_adjustment.js') }}"></script>
+    <script src="{{ asset('js/ajax/inventory/positive_adjustment.js') }}"></script>
     <script src="{{ asset('js/ajax/search_by_input.js') }}"></script>
 @endsection
