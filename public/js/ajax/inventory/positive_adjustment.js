@@ -16,7 +16,7 @@ $(document).ready(function () {
         let method = 'Positive';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
-        searchTransaction(`/transaction/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
+        searchTransaction(`/transaction/search/adjustment/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
     });
 
 
@@ -157,13 +157,14 @@ $(document).ready(function () {
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('#updateTranId').val(res.adjust.tran_id);
-                $('#updateStore').val(res.adjust.store.store_name);
-                $('#updateStore').attr('data-id',res.adjust.store_id);
-                $('#updateProduct').attr('data-groupe', res.adjust.tran_groupe_id);
-                $('#updateProduct').attr('data-id', res.adjust.tran_head_id);
-                $('#updateProduct').val(res.adjust.head.tran_head_name);
-                $('#updateQuantity').val(res.adjust.quantity);
+                $('input[name="id"]').val(res.adjust.id);
+                $('input[name="tranId"]').val(res.adjust.tran_id);
+                $('input[name="store"]').attr('data-id', res.adjust.store_id);
+                $('input[name="store"]').val(res.adjust.store.store_name);
+                $('input[name="product"]').attr('data-groupe', res.adjust.tran_groupe_id);
+                $('input[name="product"]').attr('data-id', res.adjust.tran_head_id);
+                $('input[name="product"]').val(res.adjust.head.tran_head_name);
+                $('input[name="quantity"]').val(res.adjust.quantity);
             },
             error: function (err) {
                 console.log(err)
@@ -175,14 +176,12 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Transaction Details ajax part start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditTransactionPositiveForm', function (e) {
+    $(document).on('submit', '#EditPositiveAdjustmentForm', function (e) {
         e.preventDefault();
-        let tranId = $('#updateTranId').val();
         let store = $('#updateStore').attr('data-id');
         let groupe = $('#updateProduct').attr('data-groupe');
         let product = $('#updateProduct').attr('data-id');
         let formData = new FormData(this);
-        formData.append('id', tranId === undefined ? '' : tranId);
         formData.append('store', store === undefined ? '' : store);
         formData.append('product', product === undefined ? '' : product);
         formData.append('groupe', groupe === undefined ? '' : groupe);
@@ -204,6 +203,8 @@ $(document).ready(function () {
                     $('#updateProduct').removeAttr('data-id');
                     $('#updateProduct').removeAttr('data-groupe');
                     $('#updateQuantity').val('1');
+                    $('.positive').load(location.href + ' .positive');
+                    $('#editAdjustment').hide();
                     toastr.success('Positive Adjustment Updated Successfully', 'Updated!');
                 }
             },
@@ -221,7 +222,7 @@ $(document).ready(function () {
 
     /////////////// ------------------ Delete Transaction Details ajax part start ---------------- /////////////////////////////
     // Delete Button Functionality
-    $(document).on('click', '.delete', function (e) {
+    $(document).on('click', '#delete', function (e) {
         e.preventDefault();
         $('#deleteModal').show();
         let id = $(this).data('id');
@@ -277,7 +278,7 @@ $(document).ready(function () {
         let method = "Positive";
         let type = "5";
         let searchOption = $("#searchOption").val();
-        if(searchOption == "5"){
+        if(searchOption == "1"){
             searchTransaction(`/transaction/search/adjustment/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
         }
         if(searchOption == "2"){

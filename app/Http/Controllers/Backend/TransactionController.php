@@ -1573,14 +1573,6 @@ class TransactionController extends Controller
 
     //Edit Transaction Details
     public function EditAdjustment(Request $req){
-
-        $adjust = Transaction_Detail::where('tran_id', $req->tranId)
-        ->where('tran_head_id', $req->product)
-        ->get();
-
-
-        $heads = Transaction_Head::where('id',$req->product)->first();
-
         $adjust = Transaction_Detail::with('Store','Head')->findOrFail($req->id);
         return response()->json([
             'adjust'=>$adjust,
@@ -1600,15 +1592,9 @@ class TransactionController extends Controller
             "product" => 'required',
         ]);
 
-        $adjust = Transaction_Detail::where('tran_id', $req->tranId)
-        ->where('tran_head_id', $req->product)
-        ->get();
-
-
-        $heads = Transaction_Head::where('id',$req->product)->first();
         
         $update = Transaction_Detail::findOrFail($req->id)->update([
-            "tran_id" => $id,
+            "tran_id" => $req->tranId,
             "store_id" => $req->store,
             "tran_type" => $req->type,
             "tran_method" => $req->method,
@@ -1658,25 +1644,11 @@ class TransactionController extends Controller
         
         $paginationHtml = $adjust->links()->toHtml();
 
-        $viewMapping = [
-            '1' => 'transaction.general.search',
-            '2' => 'party_payment.search',
-            '4' => 'transaction.bank.search',
-            '5' => 'inventory.purchase.search',
-            '6' => 'transaction.pharmacy.search',
-            '7' => 'inventory.searchAdjustment'
-        ];
-    
-        $view = $viewMapping['7']; 
-    
-        if (isset($viewMapping[$req->type])) {
-            $view = $viewMapping[$req->type];
-        }
         
         if($adjust->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view($view, compact('adjust'))->render(),
+                'data' => view('inventory.searchAdjustment', compact('adjust'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -1700,26 +1672,11 @@ class TransactionController extends Controller
         
         $paginationHtml = $adjust->links()->toHtml();
 
-
-        $viewMapping = [
-            '1' => 'transaction.general.search',
-            '2' => 'party_payment.search',
-            '4' => 'transaction.bank.search',
-            '5' => 'inventory.purchase.search',
-            '6' => 'transaction.pharmacy.search',
-            '7' => 'inventory.searchAdjustment'
-        ];
-    
-        $view = $viewMapping['7']; 
-    
-        if (isset($viewMapping[$req->type])) {
-            $view = $viewMapping[$req->type];
-        }
         
         if($adjust->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view($view, compact('adjust'))->render(),
+                'data' => view('inventory.searchAdjustment', compact('adjust'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }
@@ -1747,25 +1704,10 @@ class TransactionController extends Controller
 
         $paginationHtml = $adjust->links()->toHtml();
 
-        $viewMapping = [
-            '1' => 'transaction.general.search',
-            '2' => 'party_payment.search',
-            '4' => 'transaction.bank.search',
-            '5' => 'inventory.purchase.search',
-            '6' => 'transaction.pharmacy.search',
-            '7' => 'inventory.searchAdjustment'
-        ];
-    
-        $view = $viewMapping['7']; 
-    
-        if (isset($viewMapping[$req->type])) {
-            $view = $viewMapping[$req->type];
-        }
-
         if($adjust->count() >= 1){
             return response()->json([
                 'status' => 'success',
-                'data' => view($view, compact('adjust'))->render(),
+                'data' => view('inventory.searchAdjustment', compact('adjust'))->render(),
                 'paginate' =>$paginationHtml
             ]);
         }

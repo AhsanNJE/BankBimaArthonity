@@ -49,13 +49,8 @@
 
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="updateProduct">Product</label>
-                                                <input type="text" name="product" id="updateProduct" class="form-control">
-                                                <div id="update-product">
-                                                    <ul>
-
-                                                    </ul>
-                                                </div>
+                                                <label for="updateProduct">Product Name</label>
+                                                <input type="text" name="product" id="updateProduct" class="form-control" autocomplete="off">
                                                 <span class="text-danger error" id="update_product_error"></span>
                                             </div>
                                         </div>
