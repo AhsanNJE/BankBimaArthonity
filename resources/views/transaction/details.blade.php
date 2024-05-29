@@ -49,9 +49,9 @@
         <tr>
             <td>{{ $key+1 }}</td>
             <td> {{ $item->Head->tran_head_name }} </td>
-            <td> {{ $item->quantity + $item->quantity_issue }} </td>
+            <td> {{ $item->sum_quantity + $item->sum_quantity_issue }} </td>
             <td> {{ $item->amount }} </td>
-            <td> {{ $item->tot_amount }} </td>
+            <td> {{ $item->sum_tot_amount }} </td>
         </tr>
         @endforeach
     </tbody>

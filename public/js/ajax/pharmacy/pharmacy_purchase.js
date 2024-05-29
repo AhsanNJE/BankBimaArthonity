@@ -1,12 +1,12 @@
 $(document).ready(function () {
     // Get Last Transaction Id By Transaction Method and Type
     $(document).on('click', '.add', function (e) {
-        let type = '5';
-        let method = 'Issue';
-        let receive = 'Receive';
-        getTransactionId(type, method, '#tranId');
-        getTransactionWith(type, receive, '#within');
+        let type = '6';
+        let method = 'Purchase';
+        let payment = 'Payment';
         $('#user').focus();
+        getTransactionId(type, method, '#tranId');
+        getTransactionWith(type, payment, '#within')
     });
 
 
@@ -43,27 +43,26 @@ $(document).ready(function () {
     // Search by Date Range
     $(document).on('change', '#startDate, #endDate', function(e){
         e.preventDefault();
-        let type = '5';
-        let method = 'Issue';
+        let type = '6';
+        let method = 'Purchase';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
-        searchTransaction(`/inventory/issue/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+        searchTransaction(`/transaction/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase')
     });
 
 
-    $(document).on('keyup', '#quantity, #mrp', function (e) {
+    $(document).on('keyup', '#quantity, #cp', function (e) {
         let quantity = $('#quantity').val();
-        let mrp = $('#mrp').val();
-        let totalAmount = quantity * mrp;
+        let cp = $('#cp').val();
+        let totalAmount = quantity * cp;
         $('#totAmount').val(totalAmount);
     });
-
-
-
-    $(document).on('keyup', '#updateQuantity, #updateAmount', function (e) {
+    
+    
+    $(document).on('keyup', '#updateQuantity, #updateCp', function (e) {
         let quantity = $('#updateQuantity').val();
-        let mrp = $('#updateMrp').val();
-        let totalAmount = quantity * mrp;
+        let cp = $('#updateCp').val();
+        let totalAmount = quantity * cp;
         $('#updateTotAmount').val(totalAmount);
     });
 
@@ -97,25 +96,24 @@ $(document).ready(function () {
 
 
 
-
-    $(document).on('submit', '#AddInventoryIssueForm', function (e) {
+    $(document).on('submit', '#AddInventoryPurchaseForm', function (e) {
         e.preventDefault();
         let tranId = $('#tranId').val();
         let withs = $('#user').attr('data-with');
         let user = $('#user').attr('data-id');
-        let store = $('#store').attr('data-id');
-        let product = $('#product').attr('data-id');
-        let groupe = $('#product').attr('data-groupe');
+        let locations = $('#location').attr('data-id');
+        let head = $('#head').attr('data-id');
+        let groupe = $('#head').attr('data-groupe');
         let formData = new FormData(this);
         formData.append('with', withs === undefined ? '' : withs);
         formData.append('user', user === undefined ? '' : user);
-        formData.append('product', product === undefined ? '' : product);
+        formData.append('head', head === undefined ? '' : head);
         formData.append('groupe', groupe === undefined ? '' : groupe);
-        formData.append('store', store === undefined ? '' : store);
-        formData.append('method', 'Issue');
-        formData.append('type', '5');
+        formData.append('location', locations === undefined ? '' : locations);
+        formData.append('method', 'Purchase');
+        formData.append('type', '6');
         $.ajax({
-            url: "/inventory/insert/issue",
+            url: "/inventory/insert/purchase",
             method: 'POST',
             processData: false,
             contentType: false,
@@ -127,14 +125,15 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     getTransactionGrid(tranId, '.transaction_grid tbody', '#amountRP','#totalDiscount', '#netAmount', '#advance', '#balance' );
-                    $('#product').val('');
-                    $('#product').removeAttr('data-id');
-                    $('#product').removeAttr('data-groupe');
+                    $('#head').val('');
+                    $('#head').removeAttr('data-id');
+                    $('#head').removeAttr('data-groupe');
                     $('#quantity').val('1');
-                    $('#mrp').val('');
+                    $('#cp').val('');
+                    $('#expiry').val('');
                     $('#totAmount').val('');
                     $("#head").focus();
-                    toastr.success('Inventory Issue Added Successfully', 'Added!');
+                    toastr.success('Inventory Purchase Added Successfully', 'Added!');
                 }
             },
             error: function (err) {
@@ -148,37 +147,37 @@ $(document).ready(function () {
 
 
 
-    $(document).on('click', '#InsertMainIssue', function (e) {
+    $(document).on('click', '#InsertMainPurchase', function (e) {
         e.preventDefault();
         let tranId = $('#tranId').val();
-        let method = 'Issue';
-        let type = '5';
+        let method = 'Purchase';
+        let type = '6';
         let invoice = $('#invoice').val();
         let withs = $('#user').attr('data-with');
         let user = $('#user').attr('data-id');
-        let store = $('#store').attr('data-id');
+        let locations = $('#location').attr('data-id');
         let amountRP = $('#amountRP').val();
         let discount = $('#totalDiscount').val();
         let netAmount = $('#netAmount').val();
         let advance = $('#advance').val();
         let balance = $('#balance').val();
         $.ajax({
-            url: "/inventory/insert/transaction/main",
+            url: "/inventory/insert/purchase/main",
             method: 'POST',
-            data: { tranId:tranId, type:type, method:method, invoice:invoice, withs:withs, user:user, store:store, amountRP:amountRP,discount:discount, netAmount:netAmount, advance:advance, balance:balance },
+            data: { tranId:tranId, type:type, method:method, invoice:invoice, withs:withs, user:user, locations:locations, amountRP:amountRP,discount:discount, netAmount:netAmount, advance:advance, balance:balance },
             beforeSend: function () {
                 $(document).find('span.error').text('');
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#AddInventoryIssueForm')[0].reset();
-                    $('#store').removeAttr('data-id');
+                    $('#AddInventoryPurchaseForm')[0].reset();
+                    $('#location').removeAttr('data-id');
                     $('#user').removeAttr('data-id');
                     $('#user').removeAttr('data-with');
                     $('.transaction_grid tbody').html('');
-                    $('.inv-issue').load(location.href + ' .inv-issue');
-                    $('#addInventoryIssue').hide();
-                    toastr.success('Inventory Issue Added To Main Table Successfully', 'Added!');
+                    $('.inv-purchase').load(location.href + ' .inv-purchase');
+                    $('#addInventoryPurchase').hide();
+                    toastr.success('Inventory Purchase Added To Main TableSuccessfully', 'Added!');
                 }
             },
             error: function (err) {
@@ -196,8 +195,8 @@ $(document).ready(function () {
     $(document).on('click', '.editTransaction', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
-        let type = '5';
-        let method = 'Issue';
+        let type = '6';
+        let method = 'Purchase';
         getTransactionWith(type, method, '#updatewithin')
         $.ajax({
             url: `/transaction/edit/main`,
@@ -261,6 +260,7 @@ $(document).ready(function () {
             success: function (res) {
                 $('#dId').val(res.transaction.id);
 
+                
                 $('#updateHead').attr('data-groupe', res.transaction.tran_groupe_id);
                 $('#updateHead').attr('data-id', res.transaction.tran_head_id);
                 $('#updateHead').val(res.transaction.head.tran_head_name);
@@ -281,7 +281,7 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Transaction Details ajax part start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditInventoryIssueForm', function (e) {
+    $(document).on('submit', '#EditInventoryPurchaseForm', function (e) {
         e.preventDefault();
         let tranId = $('#updateTranId').val();
         let user = $('#updateUser').attr('data-id');
@@ -295,8 +295,8 @@ $(document).ready(function () {
         formData.append('with', withs === undefined ? '' : withs);
         formData.append('head', head === undefined ? '' : head);
         formData.append('groupe', groupe === undefined ? '' : groupe);
-        formData.append('type', "5");
-        formData.append('method', "Issue");
+        formData.append('type', "6");
+        formData.append('method', "Purchase");
         $.ajax({
             url: `/transaction/update/details`,
             method: 'POST',
@@ -332,11 +332,11 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Transaction Issue Main ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Transaction Receive Main ajax part start ---------------- /////////////////////////////
     $(document).on('click', '#UpdateMainTransaction', function (e) {
         e.preventDefault();
         let id = $('#id').val();
-        let method = 'Issue';
+        let method = 'Purchase';
         let amountRP = $('#updateAmountRP').val();
         let totalDiscount = $('#updateTotalDiscount').val();
         let netAmount = $('#updateNetAmount').val();
@@ -351,7 +351,7 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('.inv-issue').load(location.href + ' .inv-issue');
+                    $('.inv-purchase').load(location.href + ' .inv-purchase');
                     $('#editTransaction').hide();
                     toastr.success('Transaction Main Updated Successfully', 'Updated!');
                 }
@@ -420,7 +420,7 @@ $(document).ready(function () {
             data: { id:id },
             success: function (res) {
                 if (res.status == "success") {
-                    $('.inv-issue').load(location.href + ' .inv-issue');
+                    $('.inv-purchase').load(location.href + ' .inv-purchase');
                     $('#search').val('');
                     $('#deleteModal').hide();
                     toastr.success('Transaction Main Data Deleted Successfully', 'Deleted!');
@@ -437,12 +437,12 @@ $(document).ready(function () {
     /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
-        let type = '5';
-        let method = 'Issue';
+        let type = '6';
+        let method = 'Purchase';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[1];
-        searchTransaction(`/inventory/issue/pagination?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue');
+        searchTransaction(`/transaction/pagination?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase');
     });
 
 
@@ -452,14 +452,14 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $(this).val();
-        let type = '5';
-        let method = 'Issue';
+        let type = '6';
+        let method = 'Purchase';
         let searchOption = $("#searchOption").val();
         if(searchOption == "1"){
-            searchTransaction(`/inventory/issue/search/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+            searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase')
         }
         if(searchOption == "2"){
-            searchTransaction(`/inventory/issue/search/user`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+            searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase')
         }
     });
 
@@ -472,18 +472,19 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let search = $('#search').val();
-        let type = '5';
-        let method = 'Issue';
+        let type = '6';
+        let method = 'Purchase';
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[1];
         if(searchOption == "1"){
-            searchTransaction(`/inventory/issue/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+            searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase')
         }
         if(searchOption == "2"){
-            searchTransaction(`/inventory/issue/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-issue')
+            searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.inv-purchase')
         }
         
     });
+
 
 
 
@@ -518,7 +519,6 @@ $(document).ready(function () {
                     let id = [];
                     $(targetElement).html('');
                     $.each(res.tranwith, function (key, withs) {
-                        console.log(targetElement)
                         id.push(withs.id)
                         $(targetElement).append(`<input type="checkbox" id="with[]" class="with-checkbox" name="with" value="${withs.id}" checked>`);
                     });
@@ -547,7 +547,7 @@ $(document).ready(function () {
     // }
 
 
-    //Get Inserted Transacetion Grid By Transaction Id Function
+    // Get Inserted Transacetion Grid By Transaction Id Function
     function getTransactionGrid(tranId, grid, amount="", discount="", total ="", advances="", balances= "" ) {
         $.ajax({
             url: "/transaction/get/transactiongrid",
@@ -580,7 +580,7 @@ $(document).ready(function () {
 
 
 
-    // Search Inventory Issue
+    // Search Transaction Receive Details
     function searchTransaction(url, data, targetElement) {
         $.ajax({
             url: url,

@@ -148,7 +148,7 @@ class InfoController extends Controller
 
         $employee = PersonalDetail::where('employee_id', $request->employee_id)->first();
         $path = 'public/profiles/'.$employee->image;
-        //dd($path);
+        
         if($request->image != null){
             $request->validate([
                 "image" => 'image|mimes:jpg,jpeg,png,gif|max:2048',

@@ -23,8 +23,6 @@
 <body>
 <div id= "EmployeePersonal" class="modal-container">
     <div class="modal-subject">
-
-
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">

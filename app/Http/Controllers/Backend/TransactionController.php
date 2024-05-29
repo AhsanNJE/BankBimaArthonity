@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
+use App\Models\User_Info;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Transaction_Head;
+use App\Models\Transaction_Main;
 use App\Models\Transaction_Type;
 use App\Models\Transaction_With;
-use App\Models\Transaction_With_Groupe;
-use App\Models\Transaction_Groupe;
-use App\Models\Transaction_Head;
 use App\Models\Transaction_Detail;
-use App\Models\Transaction_Main;
-use App\Models\User_Info;
+use App\Models\Transaction_Groupe;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Models\Party_Payment_Receive;
+use App\Models\Transaction_With_Groupe;
 
 class TransactionController extends Controller
 {
@@ -775,8 +776,9 @@ class TransactionController extends Controller
             '2' => ['Receive' => 'PPR', 'Payment' => 'PPP'],
             '3' => ['Receive' => 'PRR', 'Payment' => 'PRP'],
             '4' => ['Receive' => 'BMW', 'Payment' => 'BMD'],
-            '5' => ['Receive' => 'ITR', 'Payment' => 'ITP'],
-            '6' => ['Receive' => 'MTR', 'Payment' => 'MTP'],
+            '5' => ['Issue' => 'ITR', 'Purchase' => 'ITP', 'Negative' => 'INA', 'Positive' => 'IPA', "Supplier Return" => 'ISR', "Client Return"=>'ICR'],
+            '6' => ['Issue' => 'PTR', 'Purchase' => 'PTP', 'Negative' => 'PNA', 'Positive' => 'PPA', "Supplier Return" => 'PSR', "Client Return"=>'PCR'],
+            '7' => ['Receive' => 'MTR', 'Payment' => 'MTP'],
         ];
     
         if ($req->type && isset($prefixes[$req->type])) {
@@ -906,13 +908,23 @@ class TransactionController extends Controller
     // Print Transaction Details
     public function PrintTransactionDetails(Request $req)
     {
-        $transDetailsInvoice = Transaction_Detail::where('tran_id', $req->id)->get();
-        $transSum = Transaction_Detail::where('tran_id', $req->id)->sum('tot_amount');
+        $transDetailsInvoice = Transaction_Detail::
+                                select(
+                                    'tran_head_id', 
+                                    'amount',
+                                    DB::raw('SUM(quantity) as sum_quantity'),
+                                    DB::raw('SUM(quantity_issue) as sum_quantity_issue'),
+                                    DB::raw('SUM(tot_amount) as sum_tot_amount'),
+                                    DB::raw('COUNT(*) as count')
+                                )
+                                ->where('tran_id', $req->id)
+                                ->groupBy('tran_head_id','amount')
+                                ->get();
         $transactionMain = Transaction_Main::where('tran_id', $req->id)->first();
 
         return response()->json([
             'status'=>'success',
-            'data'=> view('transaction.details', compact('transactionMain', 'transDetailsInvoice', 'transSum'))->render(),
+            'data'=> view('transaction.details', compact('transactionMain', 'transDetailsInvoice'))->render(),
         ]);
     } // End Method 
 
@@ -1472,12 +1484,141 @@ class TransactionController extends Controller
 
 
     /////////////////////////// --------------- Positive Adjustment Methods start ---------- //////////////////////////
+
+
+    // Print Transaction Details
+    public function PrintPATransactionDetails(Request $req)
+    {
+        $transDetailsInvoice = Transaction_Detail::where('tran_id', $req->id)->get();
+        $transSum = Transaction_Detail::where('tran_id', $req->id)->sum('tot_amount');
+        $transactionMain = Transaction_Main::where('tran_id', $req->id)->first();
+
+        return response()->json([
+            'status'=>'success',
+            'data'=> view('transaction.details', compact('transactionMain', 'transDetailsInvoice', 'transSum'))->render(),
+        ]);
+    } // End Method 
+
+
     //Show All Positive Adjustment Details
     public function ShowPositiveAdjustment(){
-        $positive = Transaction_Main::where('tran_method','Receive')->where('tran_type','1')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $adjust = Transaction_Detail::where('tran_method','Positive')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
         $groupes = Transaction_Groupe::where('tran_groupe_type', '1')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
-        return view('inventory.positive_adjustment.positiveAdjustments', compact('positive','groupes'));
+        return view('inventory.positive_adjustment.positiveAdjustments', compact('adjust','groupes'));
     }//End Method
+
+
+    //Show All Negative Adjustment Details
+    public function ShowNegativeAdjustment(){
+        $adjust = Transaction_Detail::where('tran_method','Negative')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '1')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
+        return view('inventory.negative_adjustment.negativeAdjustments', compact('adjust','groupes'));
+    }//End Method
+
+    //Insert Transaction Details
+    public function InsertAdjustment(Request $req){
+        $req->validate([
+            "method" => 'required',
+            "store" => 'required|numeric',
+            "type" => 'required',
+            "groupe" => 'required',
+            "head" => 'required',
+        ]);
+
+
+        $prefixes = [
+            '5' => ['Negative' => 'INA', 'Positive' => 'IPA'],
+            '6' => ['Negative' => 'PNA', 'Positive' => 'PPA'],
+        ];
+    
+        if ($req->type && isset($prefixes[$req->type])) {
+            $prefix = $prefixes[$req->type][$req->method] ?? null;
+            if ($prefix) {
+                $transaction = Transaction_Detail::where('tran_type', $req->type)
+                    ->where('tran_method', $req->method)
+                    ->latest('tran_id')
+                    ->first();
+    
+                $id = ($transaction) ? $prefix . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : $prefix . '000000001';
+    
+            }
+        }
+
+
+        Transaction_Detail::insert([
+            "tran_id" => $id,
+            "store_id" => $req->store,
+            "tran_type" => $req->type,
+            "tran_method" => $req->method,
+            "tran_groupe_id" => $req->groupe,
+            "tran_head_id" => $req->head,
+            "quantity" => $req->quantity,
+        ]);
+
+        return response()->json([
+            'status'=>'success',
+        ]);
+
+    }//End Method
+
+
+
+    
+
+
+
+    //Edit Transaction Details
+    public function EditAdjustment(Request $req){
+        $adjust = Transaction_Detail::with('Store','Head')->findOrFail($req->id);
+        return response()->json([
+            'adjust'=>$adjust,
+        ]);
+    }//End Method
+
+
+
+    //Update Transaction Details
+    public function UpdateAdjustment(Request $req){
+        
+        $req->validate([
+            "method" => 'required',
+            "store" => 'required|numeric',
+            "type" => 'required',
+            "groupe" => 'required',
+            "head" => 'required',
+        ]);
+
+        
+        $update = Transaction_Detail::findOrFail($req->id)->update([
+            "tran_id" => $id,
+            "store_id" => $req->store,
+            "tran_type" => $req->type,
+            "tran_method" => $req->method,
+            "tran_groupe_id" => $req->groupe,
+            "tran_head_id" => $req->head,
+            "quantity" => $req->quantity,
+            "updated_at" => now()
+        ]);
+
+        if($update){
+            return response()->json([
+                'status'=>'success'
+            ]); 
+            }
+            
+        
+    }//End Method
+
+    //Delete Transaction Details
+    public function DeleteAdjustment(Request $req){
+        Transaction_Detail::findOrFail($req->id)->delete();
+        return response()->json([
+            'status'=>'success'
+        ]); 
+    }//End Method
+
+
+
 
     /////////////////////////// --------------- Transaction Receive Methods Ends ---------- //////////////////////////
 }

@@ -2341,13 +2341,13 @@ $(document).ready(function () {
             groupein = 0;
         }
         let id = $(this).attr('data-id');
-        ProductKeyUp(e, groupe, groupein, product, id, '#product', '#product-list table tbody');
+        ProductKeyUp(e, groupe, groupein, product, id, '#product', '#product-list table tbody', '#mrp', '#cp', '#unit');
     });
 
     // Product Key down Event
     $(document).on('keydown', '#product', function (e) {
         let list = $('#product-list table tbody tr');
-        ProductKeyDown(e, list, '#product', '#product-list table tbody');
+        ProductKeyDown(e, list, '#product', '#product-list table tbody', '#mrp', '#cp', '#unit');
     });
 
 
@@ -2355,7 +2355,7 @@ $(document).ready(function () {
     $(document).on('keydown', '#product-list table tbody tr', function (e) {
         let list = $('#product-list table tbody tr');
         let focused = $('#product-list table tbody tr:focus');
-        ProductListKeyDown(e, list, focused, '#product', '#product-list table tbody');
+        ProductListKeyDown(e, list, focused, '#product', '#product-list table tbody', '#mrp', '#cp', '#unit');
     });
 
 
@@ -2401,10 +2401,21 @@ $(document).ready(function () {
         let value = $(this).find('td:first').text();
         let id = $(this).data('id');
         let groupe = $(this).data('groupe');
+        let cp = $(this).data('cp');
+        let mrp = $(this).data('mrp');
+        let unitid = $(this).data('unit-id');
+        let unitname = $(this).data('unit');
+
         $('#product').val(value);
         $('#product').attr('data-id', id);
         $('#product').attr('data-groupe', groupe);
+        $('#mrp').val(mrp);
+        $('#cp').val(cp);
+        $('#unit').val(unitname);
+        $('#unit').attr('data-id', unitid);
         $('#product-list table tbody').html('');
+        $('#product').focus();
+        
     });
 
 
@@ -2424,7 +2435,7 @@ $(document).ready(function () {
             groupein = 0;
         }
         let id = $(this).attr('data-id');
-        ProductKeyUp(e, groupe, groupein, product, id, '#updateProduct', '#update-product table');
+        ProductKeyUp(e, groupe, groupein, product, id, '#updateProduct', '#update-product table', '#updateMrp', '#updateCp', '#updateUnit');
     });
 
 
@@ -2432,7 +2443,7 @@ $(document).ready(function () {
     // Update Product Keydown event
     $(document).on('keydown', '#updateProduct', function (e) {
         let list = $('#update-product table tbody tr');
-        ProductKeyDown(e, list, '#updateProduct', '#update-product table');
+        ProductKeyDown(e, list, '#updateProduct', '#update-product table', '#updateMrp', '#updateCp', '#updateUnit');
     });
 
 
@@ -2441,7 +2452,7 @@ $(document).ready(function () {
     $(document).on('keydown', '#update-product table tbody tr', function (e) {
         let list = $('#update-product table tbody tr');
         let focused = $('#update-product table tbody tr:focus');
-        ProductListKeyDown(e, list, focused, '#updateProduct', '#update-product table');
+        ProductListKeyDown(e, list, focused, '#updateProduct', '#update-product table', '#updateMrp', '#updateCp', '#updateUnit');
     });
 
 
@@ -2489,16 +2500,26 @@ $(document).ready(function () {
         let value = $(this).find('td:first').text();
         let id = $(this).data('id');
         let groupe = $(this).data('groupe');
+        let cp = $(this).data('cp');
+        let mrp = $(this).data('mrp');
+        let unitid = $(this).data('unit-id');
+        let unitname = $(this).data('unit');
+
         $('#updateProduct').val(value);
         $('#updateProduct').attr('data-id', id);
         $('#updateProduct').attr('data-groupe', groupe);
+        $('#updateMrp').val(mrp);
+        $('#updateCp').val(cp);
+        $('#updateUnit').val(unitname);
+        $('#updateUnit').attr('data-id', unitid);
         $('#update-product table').html('');
+        $('#updateProduct').focus();
     });
 
 
 
     // Product Key Up Event Function
-    function ProductKeyUp(e, groupe, groupein, product, id, targetElement1, targetElement2){
+    function ProductKeyUp(e, groupe, groupein, product, id, targetElement1, targetElement2, targetElement3, targetElement4, targetElement5){
         if (e.keyCode === 13) { // Enter Key
             e.preventDefault();
         }
@@ -2506,6 +2527,10 @@ $(document).ready(function () {
             //keyCode 65 = a, keyCode 90 = z, keyCode 96 = 0, keyCode 105 = 9, keyCode 8 = backSpace
             $(targetElement1).removeAttr('data-id');
             $(targetElement1).removeAttr('data-groupe');
+            $(targetElement5).removeAttr('data-id');
+            $(targetElement3).val('');
+            $(targetElement4).val('');
+            $(targetElement5).val('');
             getProductByGroupe(groupe, groupein, product,  targetElement2);
         }
         else if (e.keyCode === 9) { // Tab key
@@ -2515,6 +2540,10 @@ $(document).ready(function () {
             else{
                 $(targetElement1).removeAttr('data-id');
                 $(targetElement1).removeAttr('data-groupe');
+                $(targetElement5).removeAttr('data-id');
+                $(targetElement3).val('');
+                $(targetElement4).val('');
+                $(targetElement5).val('');
                 getProductByGroupe(groupe, groupein, product,  targetElement2);
             }
         }
@@ -2522,7 +2551,7 @@ $(document).ready(function () {
 
 
     // Product Key Down Event Function
-    function ProductKeyDown(e, list, targetElement1, targetElement2) {
+    function ProductKeyDown(e, list, targetElement1, targetElement2, targetElement3, targetElement4, targetElement5) {
         if (list.length > 0) {
             if (e.keyCode === 40) { // Down arrow key
                 e.preventDefault();
@@ -2530,6 +2559,10 @@ $(document).ready(function () {
                 $(targetElement1).val(list.first().find('td:first').text());
                 $(targetElement1).attr("data-id", list.data('id'));
                 $(targetElement1).attr("data-groupe", list.data('groupe'));
+                $(targetElement5).attr('data-id',list.data('unit-id'));
+                $(targetElement3).val(list.first().attr('data-mrp'));
+                $(targetElement4).val(list.first().attr('data-cp'));
+                $(targetElement5).val(list.first().attr('data-unit'));
             } 
             else if (e.keyCode === 38) { // Up arrow key
                 e.preventDefault();
@@ -2537,6 +2570,10 @@ $(document).ready(function () {
                 $(targetElement1).val(list.last().find('td:first').text());
                 $(targetElement1).attr("data-id", list.data('id'));
                 $(targetElement1).attr("data-groupe", list.data('groupe'));
+                $(targetElement5).attr('data-id',list.data('unit-id'));
+                $(targetElement3).val(list.last().attr('data-mrp'));
+                $(targetElement4).val(list.last().attr('data-cp'));
+                $(targetElement5).val(list.last().attr('data-unit'));
             } 
             else if (e.keyCode === 13) { // Enter key
                 e.preventDefault();
@@ -2549,7 +2586,7 @@ $(document).ready(function () {
 
 
     // Product List Key Down Event function
-    function ProductListKeyDown(e, list, focused, targetElement1, targetElement2) {
+    function ProductListKeyDown(e, list, focused, targetElement1, targetElement2, targetElement3, targetElement4, targetElement5) {
         if (e.keyCode === 40) { // Down arrow key
             e.preventDefault();
             let nextIndex = focused.index() + 1;
@@ -2560,6 +2597,10 @@ $(document).ready(function () {
             $(targetElement1).val(list.eq(nextIndex).find('td:first').text());
             $(targetElement1).attr("data-id", list.eq(nextIndex).data('id'));
             $(targetElement1).attr("data-groupe", list.eq(nextIndex).data('groupe'));
+            $(targetElement5).attr('data-id',list.data('unit-id'));
+            $(targetElement3).val(list.eq(nextIndex).attr('data-mrp'));
+            $(targetElement4).val(list.eq(nextIndex).attr('data-cp'));
+            $(targetElement5).val(list.eq(nextIndex).attr('data-unit'));
         } 
         else if (e.keyCode === 38) { // Up arrow key
             e.preventDefault();
@@ -2571,11 +2612,18 @@ $(document).ready(function () {
             $(targetElement1).val(list.eq(prevIndex).find('td:first').text());
             $(targetElement1).attr("data-id", list.eq(prevIndex).data('id'));
             $(targetElement1).attr("data-groupe", list.eq(prevIndex).data('groupe'));
+            $(targetElement5).attr('data-id',list.data('unit-id'));
+            $(targetElement3).val(list.eq(prevIndex).attr('data-mrp'));
+            $(targetElement4).val(list.eq(prevIndex).attr('data-cp'));
+            $(targetElement5).val(list.eq(prevIndex).attr('data-unit'));
         } 
         else if (e.keyCode === 13) { // Enter key
             e.preventDefault();
             $(targetElement2).html('');
             $(targetElement1).focus();
+        }
+        else if (e.keyCode === 9) { // Tab key
+            e.preventDefault();
         }
     }
 

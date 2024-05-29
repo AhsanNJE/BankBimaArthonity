@@ -181,7 +181,7 @@
 
 
 
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-pen-to-square"></i>
                                 <p>
@@ -197,7 +197,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -427,7 +427,7 @@
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-table-cells-large"></i>
                                 <p>
-                                    Category
+                                    Generic
                                     <!-- <i class="fas fa-angle-left right"></i> -->
                                 </p>
                             </a>
@@ -435,7 +435,7 @@
                                 <li class="nav-item">
                                     <a href="{{route('show.category.list')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Category Name</p>
+                                        <p>Generic Name</p>
                                     </a>
                                 </li>
                             </ul>
@@ -524,6 +524,7 @@
                         <i class="fas fa-angle-left right"></i>
                     </a>
                     <ul class="nav nav-treeview">
+                        <!-- INVENTORY -->
                         <li class="nav-item">
                             <a href="{{route('show.inventory.purchase')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -542,6 +543,19 @@
                                 <p>Inventory Return</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.positive.adjustment')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Positive Adjustment</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.negative.adjustment')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Negative Adjustment</p>
+                            </a>
+                        </li>
+                        
                     </ul>
                 </li>
 
