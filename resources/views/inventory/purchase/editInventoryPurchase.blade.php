@@ -21,7 +21,6 @@
                                 @endforeach
                             </div>
                             <input type="hidden" name="id" id="id">
-                            <input type="hidden" name="dId" id="dId">
                             <input type="hidden" name="tranId" id="updateTranId">
                             <div class="row">
                                 <div class="col-md-12">

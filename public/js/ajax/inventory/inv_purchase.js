@@ -398,7 +398,7 @@ $(document).ready(function () {
     });
 
 
-    /////////////// ------------------ Delete Transaction Details ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Delete Inventory Purchase Details ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.deleteDetail', function (e) {
         e.preventDefault();
         let tranId = $('#tranId').val();
@@ -554,29 +554,10 @@ $(document).ready(function () {
                         id.push(withs.id)
                         $(targetElement).append(`<input type="checkbox" id="with[]" class="with-checkbox" name="with" value="${withs.id}" checked>`);
                     });
-                    // getTransactionGroupe(id, '#groupein');
                 }
             }
         });
     }
-
-
-    //get transaction groupe by transaction with function
-    // function getTransactionGroupe(withs, targetElement) {
-    //     $.ajax({
-    //         url: "/transaction/get/groupes/with",
-    //         method: 'GET',
-    //         data: { withs: withs },
-    //         success: function (res) {
-    //             if (res.status === 'success') {
-    //                 $(targetElement).html('');
-    //                 $.each(res.groupes, function (key, groupe) {
-    //                     $(targetElement).append(`<input type="checkbox" id="groupe[]" class="groupe-checkbox" name="groupe" value="${groupe.groupe_id}" checked>`);
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
 
 
     // Get Inserted Transacetion Grid By Transaction Id Function
