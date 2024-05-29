@@ -142,7 +142,7 @@ $(document).ready(function () {
         formData.append('method', 'Negative');
         formData.append('type', '5');
         $.ajax({
-            url: "/transaction/insert/negative/details",
+            url: "/transaction/insert/negative/adjustment",
             method: 'POST',
             processData: false,
             contentType: false,
@@ -153,6 +153,8 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
+                    $('#store').val('');
+                    $('#store').removeAttr('data-id');
                     $('#head').val('');
                     $('#head').removeAttr('data-id');
                     $('#head').removeAttr('data-groupe');

@@ -154,8 +154,9 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#head').val('');
+                    $('#store').val('');
                     $('#store').removeAttr('data-id');
+                    $('#head').val('');
                     $('#head').removeAttr('data-id');
                     $('#head').removeAttr('data-groupe');
                     $('#quantity').val('1');
@@ -186,10 +187,11 @@ $(document).ready(function () {
             data: { id:id },
             success: function (res) {
                 $('#tranId').val(res.adjust.tran_id);
-                $('#updateStore').val(res.adjust.store);
+                $('#updateStore').val(res.adjust.store.store_name);
+                $('#updateStore').attr('data-id',res.adjust.store_id);
                 $('#updateHead').attr('data-groupe', res.adjust.tran_groupe_id);
                 $('#updateHead').attr('data-id', res.adjust.tran_head_id);
-                $('#updateHead').attr('data-id', res.adjust.tran_head_name);
+                $('#updateHead').val(res.adjust.head.tran_head_name);
                 $('#updateQuantity').val(res.adjust.quantity);
             },
             error: function (err) {
@@ -247,41 +249,51 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Delete Transaction Details ajax part start ---------------- /////////////////////////////
+    // Delete Button Functionality
     $(document).on('click', '.delete', function (e) {
         e.preventDefault();
-        let tranId = $('#tranId').val();
-        let updateTranId = $('#updateTranId').val();
+        $('#deleteModal').show();
         let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Transaction ??')) {
-            $.ajax({
-                url: `/transaction/delete/adjustment`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        if(updateTranId != ""){
-                        }
-                        else if(tranId != ""){
-                        }
-                        toastr.success('Transaction Details Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
+        $('#confirm').attr('data-id',id);
+        $('#cancel').focus();
     });
 
-
-
-    /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.paginate a', function (e) {
+    // Cancel Button Functionality
+    $(document).on('click', '#cancel', function (e) {
         e.preventDefault();
-        let method = "Positive";
-        let type = "5";
-        let startDate = $('#startDate').val();
-        let endDate = $('#endDate').val();
-        let page = $(this).attr('href').split('page=')[5];
-        searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive');
+        $('#deleteModal').hide();
     });
+
+    // Confirm Button Functionality
+    $(document).on('click', '#confirm', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `/transaction/delete/adjustment`,
+            method: 'DELETE',
+            data: { id:id },
+            success: function (res) {
+                if (res.status == "success") {
+                    $('.positive').load(location.href + ' .positive');
+                    $('#search').val('');
+                    $('#deleteModal').hide();
+                    toastr.success('Transaction Main Data Deleted Successfully', 'Deleted!');
+                }
+            }
+        });
+    });
+
+
+        /////////////// ------------------ Pagination ajax part start ---------------- /////////////////////////////
+        $(document).on('click', '.paginate a', function (e) {
+            e.preventDefault();
+            let method = "Positive";
+            let type = "5";
+            let startDate = $('#startDate').val();
+            let endDate = $('#endDate').val();
+            let page = $(this).attr('href').split('page=')[5];
+            searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive');
+        });
 
 
 

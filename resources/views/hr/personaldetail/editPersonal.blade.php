@@ -14,9 +14,8 @@
     <title>Document</title>
 </head>
 <body>
-<div id= "editPersonal" class="modal-container">
+<div id="editPersonal" class="modal-container">
     <div class="modal-subject">
-    
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
@@ -27,7 +26,7 @@
                 </div>
                 <br>
                 <!-- form start -->
-                <form id="EditPersonalDetailForm" action="{{ route('insertpersonal.info')}}" method="POST" enctype="multipart/form-data">
+                <form id="EditPersonalDetailForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('put')
                 <!-- Personal Details Section -->    

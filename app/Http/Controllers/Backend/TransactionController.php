@@ -1569,7 +1569,7 @@ class TransactionController extends Controller
 
     //Edit Transaction Details
     public function EditAdjustment(Request $req){
-        $adjust = Transaction_Detail::findOrFail($req->id);
+        $adjust = Transaction_Detail::with('Store','Head')->findOrFail($req->id);
         return response()->json([
             'adjust'=>$adjust,
         ]);

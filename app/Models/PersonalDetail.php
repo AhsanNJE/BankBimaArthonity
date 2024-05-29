@@ -11,11 +11,6 @@ class PersonalDetail extends Model
     
     protected $guarded = [];
 
-    public function personalDetail()
-    {
-        return $this->hasOne(PersonalDetail::class);
-    }
-
     public function educationDetail()
     {
         return $this->belongsTo(EducationDetail::class, 'employee_id', 'emp_id');
