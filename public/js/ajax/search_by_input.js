@@ -2435,7 +2435,7 @@ $(document).ready(function () {
             groupein = 0;
         }
         let id = $(this).attr('data-id');
-        ProductKeyUp(e, groupe, groupein, product, id, '#updateProduct', '#update-product table', '#updateMrp', '#updateCp', '#updateUnit');
+        ProductKeyUp(e, groupe, groupein, product, id, '#updateProduct', '#update-product table tbody', '#updateMrp', '#updateCp', '#updateUnit');
     });
 
 
@@ -2443,7 +2443,7 @@ $(document).ready(function () {
     // Update Product Keydown event
     $(document).on('keydown', '#updateProduct', function (e) {
         let list = $('#update-product table tbody tr');
-        ProductKeyDown(e, list, '#updateProduct', '#update-product table', '#updateMrp', '#updateCp', '#updateUnit');
+        ProductKeyDown(e, list, '#updateProduct', '#update-product table tbody', '#updateMrp', '#updateCp', '#updateUnit');
     });
 
 
@@ -2452,7 +2452,7 @@ $(document).ready(function () {
     $(document).on('keydown', '#update-product table tbody tr', function (e) {
         let list = $('#update-product table tbody tr');
         let focused = $('#update-product table tbody tr:focus');
-        ProductListKeyDown(e, list, focused, '#updateProduct', '#update-product table', '#updateMrp', '#updateCp', '#updateUnit');
+        ProductListKeyDown(e, list, focused, '#updateProduct', '#update-product table tbody', '#updateMrp', '#updateCp', '#updateUnit');
     });
 
 
@@ -2473,7 +2473,7 @@ $(document).ready(function () {
         }
         let id = $(this).attr('data-id');
         if(id == undefined){
-            getProductByGroupe(groupe, groupein, product, '#update-product table');
+            getProductByGroupe(groupe, groupein, product, '#update-product table tbody');
         }
         else{
             e.preventDefault();
@@ -2488,7 +2488,7 @@ $(document).ready(function () {
         if(id == undefined){
             $(document).on('click', function (e){
                 if($(e.target).attr('tabindex') == undefined){
-                    $('#update-product table').html('');
+                    $('#update-product table tbody').html('');
                 }
             });
         }
@@ -2512,7 +2512,7 @@ $(document).ready(function () {
         $('#updateCp').val(cp);
         $('#updateUnit').val(unitname);
         $('#updateUnit').attr('data-id', unitid);
-        $('#update-product table').html('');
+        $('#update-product table tbody').html('');
         $('#updateProduct').focus();
     });
 
@@ -2552,9 +2552,11 @@ $(document).ready(function () {
 
     // Product Key Down Event Function
     function ProductKeyDown(e, list, targetElement1, targetElement2, targetElement3, targetElement4, targetElement5) {
+        console.log(list)
         if (list.length > 0) {
             if (e.keyCode === 40) { // Down arrow key
                 e.preventDefault();
+                console.log('abc')
                 list.first().focus();
                 $(targetElement1).val(list.first().find('td:first').text());
                 $(targetElement1).attr("data-id", list.data('id'));

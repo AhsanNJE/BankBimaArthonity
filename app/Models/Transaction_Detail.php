@@ -38,4 +38,8 @@ class Transaction_Detail extends Model
         return $this->belongsTo(Store::class,'store_id','id');
     }
 
+    public function Unit(){
+        return $this->belongsTo(Item_Unit::class,'unit_id','id');
+    }
+
 }

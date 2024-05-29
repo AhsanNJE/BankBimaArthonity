@@ -28,7 +28,7 @@ return new class extends Migration
             $table->float('due')->nullable();
             $table->float('due_col')->default(0)->nullable();
             $table->float('due_disc')->default(0)->nullable();
-            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('store_id')->nullable();
             $table->timestamp('tran_date')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             

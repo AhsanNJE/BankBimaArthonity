@@ -34,7 +34,7 @@
                     <div style="display: flex;gap:5px;">
                         <button class="open-modal" data-modal-id="printDetails" id="details"
                             data-id="{{ $item->tran_id }}"><i class="fa-solid fa-circle-info"></i></button>
-                        <button class="open-modal editTransaction" data-modal-id="editTransaction" id="edit"
+                        <button class="open-modal editInventoryPurchase" data-modal-id="editInventoryPurchase" id="edit"
                             data-id="{{ $item->tran_id }}"><i class="fas fa-edit"></i></button>
                         <button class="deleteMain" data-id="{{ $item->tran_id }}" id="delete"><i class="fas fa-trash"></i></button>
                     </div>

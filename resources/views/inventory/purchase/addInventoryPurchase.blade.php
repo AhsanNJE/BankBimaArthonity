@@ -9,10 +9,11 @@
         margin: 0;
     }
 
-    #product-list{
+    #product-list, #update-product{
         max-height: 100%
     }
-    .transaction_grid{
+
+    .transaction_grid, .update_transaction_grid{
         margin-top: 10px
     }
 </style>
