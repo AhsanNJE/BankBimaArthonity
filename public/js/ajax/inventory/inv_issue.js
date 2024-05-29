@@ -227,14 +227,7 @@ $(document).ready(function () {
                 else{
                     $('#updateAdvance').val(res.transaction.receive);
                 }
-                getTransactionGrid(res.transaction.tran_id, '.update_transaction_grid tbody', '#updateAmountRP', '#updateTotalDiscount', '#updateNetAmount', '#updateAdvance', '#updateBalance');
-
-                // $('#updateAmountRP').val(res.transaction.bill_amount);
-
-                // $('#updateNetAmount').val(res.transaction.net_amount);
-
-                // $('#updateBalance').val(res.transaction.due);
-                
+                getTransactionGrid(res.transaction.tran_id, '.update_transaction_grid tbody', '#updateAmountRP', '#updateTotalDiscount', '#updateNetAmount', '#updateAdvance', '#updateBalance');                
                 
                 var modal = document.getElementById(modalId);
                 if (modal) {
@@ -522,29 +515,10 @@ $(document).ready(function () {
                         id.push(withs.id)
                         $(targetElement).append(`<input type="checkbox" id="with[]" class="with-checkbox" name="with" value="${withs.id}" checked>`);
                     });
-                    // getTransactionGroupe(id, '#groupein');
                 }
             }
         });
     }
-
-
-    //get transaction groupe by transaction with function
-    // function getTransactionGroupe(withs, targetElement) {
-    //     $.ajax({
-    //         url: "/transaction/get/groupes/with",
-    //         method: 'GET',
-    //         data: { withs: withs },
-    //         success: function (res) {
-    //             if (res.status === 'success') {
-    //                 $(targetElement).html('');
-    //                 $.each(res.groupes, function (key, groupe) {
-    //                     $(targetElement).append(`<input type="checkbox" id="groupe[]" class="groupe-checkbox" name="groupe" value="${groupe.groupe_id}" checked>`);
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
 
 
     //Get Inserted Transacetion Grid By Transaction Id Function
