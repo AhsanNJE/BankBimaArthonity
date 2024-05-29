@@ -28,7 +28,7 @@
     @include('hr.personaldetail.employeePersonalFullDetail')
     @include('hr.personaldetail.editPersonal')
     @include('hr.personaldetail.deletePersonal')
-    @endsection
+@endsection
 
 @section('ajax')
     <script src="{{ asset('js/ajax/hr/employeePersonal.js') }}"></script>

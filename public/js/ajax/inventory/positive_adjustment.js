@@ -7,36 +7,7 @@ $(document).ready(function () {
         getTransactionWith(type, method, '#within')
         $('#user').focus();
     });
-
-    // Show Transaction Print Details 
-    $(document).on('click','#details', function(e){
-        let modalId = $(this).data('modal-id');
-        let id = $(this).data('id');
-        $.ajax({
-            url: `/transaction/print/positive`,
-            method: 'GET',
-            data: { id:id },
-            success: function (res) {
-                $('.print-details').html(res.data);
-
-                var modal = document.getElementById(modalId);
-                modal.style.display = 'block';
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
-    });
-
-    // Print Transaction Details 
-    $(document).on('click','#print', function(){
-        var printContent = document.getElementById("print-part").innerHTML;
-        var originalContent = document.body.innerHTML;
-        document.body.innerHTML = printContent;
-        window.print();
-        document.body.innerHTML = originalContent;
-    });
-    
+ 
 
     // Search by Date Range
     $(document).on('change', '#startDate, #endDate', function(e){
@@ -45,7 +16,7 @@ $(document).ready(function () {
         let method = 'Positive';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
-        searchTransaction(`/transaction/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+        searchTransaction(`/transaction/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
     });
 
 
@@ -134,10 +105,10 @@ $(document).ready(function () {
     $(document).on('submit', '#AddPositiveAdjustmentForm', function (e) {
         e.preventDefault();
         let store = $('#store').attr('data-id');
-        let head = $('#head').attr('data-id');
-        let groupe = $('#head').attr('data-groupe');
+        let product = $('#product').attr('data-id');
+        let groupe = $('#product').attr('data-groupe');
         let formData = new FormData(this);
-        formData.append('head', head === undefined ? '' : head);
+        formData.append('product', product === undefined ? '' : product);
         formData.append('groupe', groupe === undefined ? '' : groupe);
         formData.append('store', store === undefined ? '' : store);
         formData.append('method', 'Positive');
@@ -156,9 +127,9 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     $('#store').val('');
                     $('#store').removeAttr('data-id');
-                    $('#head').val('');
-                    $('#head').removeAttr('data-id');
-                    $('#head').removeAttr('data-groupe');
+                    $('#product').val('');
+                    $('#product').removeAttr('data-id');
+                    $('#product').removeAttr('data-groupe');
                     $('#quantity').val('1');
                     $("#head").focus();
                     $('.positive').load(location.href + ' .positive');
@@ -186,12 +157,12 @@ $(document).ready(function () {
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('#tranId').val(res.adjust.tran_id);
+                $('#updateTranId').val(res.adjust.tran_id);
                 $('#updateStore').val(res.adjust.store.store_name);
                 $('#updateStore').attr('data-id',res.adjust.store_id);
-                $('#updateHead').attr('data-groupe', res.adjust.tran_groupe_id);
-                $('#updateHead').attr('data-id', res.adjust.tran_head_id);
-                $('#updateHead').val(res.adjust.head.tran_head_name);
+                $('#updateProduct').attr('data-groupe', res.adjust.tran_groupe_id);
+                $('#updateProduct').attr('data-id', res.adjust.tran_head_id);
+                $('#updateProduct').val(res.adjust.head.tran_head_name);
                 $('#updateQuantity').val(res.adjust.quantity);
             },
             error: function (err) {
@@ -208,12 +179,12 @@ $(document).ready(function () {
         e.preventDefault();
         let tranId = $('#updateTranId').val();
         let store = $('#updateStore').attr('data-id');
-        let groupe = $('#updateHead').attr('data-groupe');
-        let head = $('#updateHead').attr('data-id');
+        let groupe = $('#updateProduct').attr('data-groupe');
+        let product = $('#updateProduct').attr('data-id');
         let formData = new FormData(this);
         formData.append('id', tranId === undefined ? '' : tranId);
         formData.append('store', store === undefined ? '' : store);
-        formData.append('head', head === undefined ? '' : head);
+        formData.append('product', product === undefined ? '' : product);
         formData.append('groupe', groupe === undefined ? '' : groupe);
         formData.append('type', "5");
         formData.append('method', "Positive");
@@ -229,11 +200,11 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#updateHead').val('');
-                    $('#updateHead').removeAttr('data-id');
-                    $('#updateHead').removeAttr('data-groupe');
-                    $('#updateQuantity').val('5');
-                    toastr.success('Transaction Details Updated Successfully', 'Updated!');
+                    $('#updateProduct').val('');
+                    $('#updateProduct').removeAttr('data-id');
+                    $('#updateProduct').removeAttr('data-groupe');
+                    $('#updateQuantity').val('1');
+                    toastr.success('Positive Adjustment Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {
@@ -292,7 +263,7 @@ $(document).ready(function () {
             let startDate = $('#startDate').val();
             let endDate = $('#endDate').val();
             let page = $(this).attr('href').split('page=')[5];
-            searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive');
+            searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, method:method, type:type}, '.positive');
         });
 
 
@@ -307,10 +278,10 @@ $(document).ready(function () {
         let type = "5";
         let searchOption = $("#searchOption").val();
         if(searchOption == "5"){
-            searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+            searchTransaction(`/transaction/search/adjustment/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
         }
         if(searchOption == "2"){
-            searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+            searchTransaction(`/transaction/search/adjustment/product`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
         }
         
     });
@@ -329,10 +300,10 @@ $(document).ready(function () {
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[5];
         if(searchOption == "5"){
-            searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+            searchTransaction(`/transaction/adjustment/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
         }
         if(searchOption == "2"){
-            searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+            searchTransaction(`/transaction//adjustment/pagination/product?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
         }
         
     });
@@ -343,9 +314,9 @@ $(document).ready(function () {
 
 
     //get last transaction with by transaction type function
-    function getTransactionWith(type, method, targetElement) {
+    function GetAdjustmentWith(type, method, targetElement) {
         $.ajax({
-            url: "/transaction/get/tranwith",
+            url: "/transaction/adjustment/get/tranwith",
             method: 'GET',
             data: { type: type, method:method },
             success: function (res) {
@@ -365,9 +336,9 @@ $(document).ready(function () {
 
 
     //get transaction groupe by transaction with function
-    function getTransactionGroupe(withs, targetElement) {
+    function GetAdjustmentGroupeByWith(withs, targetElement) {
         $.ajax({
-            url: "/transaction/get/groupes/with",
+            url: "/transaction/adjustment/get/groupes/with",
             method: 'GET',
             data: { withs: withs },
             success: function (res) {
@@ -382,7 +353,7 @@ $(document).ready(function () {
     }
 
 
-    // Search Transaction Positive Details
+    // Search Positive Details
     function searchTransaction(url, data, targetElement) {
         $.ajax({
             url: url,
