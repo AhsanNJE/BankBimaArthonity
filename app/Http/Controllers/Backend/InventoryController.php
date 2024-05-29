@@ -312,19 +312,41 @@ class InventoryController extends Controller
             "store" => 'required'
         ]);
 
+        // Check If Product is Already entered into this transaction or not 
         $transaction = Transaction_Detail::where('tran_id', $req->tranId)
         ->where('tran_head_id', $req->product)
-        ->get();
+        ->first();
 
-        if($transaction->count() > 0){
+        if($transaction){
+            // Find the Product and Update the Quantity in Product Table
+            $products = Transaction_Head::where('id', $req->product)->first();
+            $quantity = $products->quantity + $req->quantity - $transaction->quantity;
+            Transaction_Head::findOrFail($req->product)->update([
+                "quantity" => $quantity,
+                "cost_price" => $req->cp,
+                "mrp" => $req->mrp,
+                "expired_date" => $req->expiry,
+                "updated_at" => now()
+            ]);
+
+
+            Transaction_Detail::findOrFail($transaction->id)->update([
+                "tran_groupe_id" => $req->groupe,
+                "tran_head_id" => $req->product,
+                "quantity" => $req->quantity,
+                "unit_id" => $req->unit,
+                "amount" => $req->cp,
+                "mrp" => $req->mrp,
+                "tot_amount" => $req->totAmount,
+                "expiry_date" => $req->expiry,
+                "updated_at" => now()
+            ]);
+
             return response()->json([
-                'errors' => [
-                    'head' => ["You have already add this item."]
-                ]
-            ], 422);
+                'status'=>'success',
+            ]);
         }
         else{
-
             $heads = Transaction_Head::where('id',$req->product)->first();
 
             $quantity = $heads->quantity + $req->quantity;
@@ -335,8 +357,6 @@ class InventoryController extends Controller
                 "expired_date" => $req->expiry,
                 "updated_at" => now()
             ]);
-
-
 
 
             Transaction_Detail::insert([
@@ -361,7 +381,6 @@ class InventoryController extends Controller
                 'status'=>'success',
             ]);
         }
-
     }//End Method
 
 
@@ -431,9 +450,6 @@ class InventoryController extends Controller
         return response()->json(['status' => 'success']);
     }//End Method
 
-
-
-
     /////////////////////////// --------------- Inventory Purchase Methods Ends ---------- //////////////////////////
     
 
@@ -480,7 +496,7 @@ class InventoryController extends Controller
             if($transaction->count() > 0){
                 return response()->json([
                     'errors' => [
-                        'head' => ["You have already add this item."]
+                        'product' => ["You have already add this item."]
                     ]
                 ], 422);
             }

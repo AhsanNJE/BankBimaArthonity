@@ -1,18 +1,17 @@
-<div id="editTransaction" class="modal-container">
+<div id="editInventoryPurchase" class="modal-container">
     <div class="modal-subject">
         <div class="center">
             <div class="card card-primary col-md-12">
                 <div class="card-header">
                     <div class="center">
                         <h3 class="card-title">Edit Inventory Purchase</h3>
-                        <span class="close-modal" data-modal-id="editTransaction">&times;</span>
+                        <span class="close-modal" data-modal-id="editInventoryPurchase">&times;</span>
                     </div>
                 </div>
 
                 <!-- form start -->
                 <form id="EditInventoryPurchaseForm" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
                     <div class="row">
                         <div class="col-md-6">
                             <div id="updatewithin" style="display: none"> </div>
@@ -47,45 +46,54 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="updateLocation">Location</label>
-                                        <input type="text" name="location" class="form-control" id="updateLocation"
+                                        <label for="updateStore">Store</label>
+                                        <input type="text" name="store" class="form-control" id="updateStore"
                                             autocomplete="off">
-                                        <div id="update-location">
+                                        <div id="update-store">
                                             <ul>
 
                                             </ul>
                                         </div>
-                                        <span class="text-danger error" id="update_location_error"></span>
+                                        <span class="text-danger error" id="update_store_error"></span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="updateHead">Transaction Head</label>
-                                        <input type="text" name="head" id="updateHead" class="form-control">
-                                        <div id="update-head">
-                                            <ul>
-
-                                            </ul>
-                                        </div>
-                                        <span class="text-danger error" id="update_head_error"></span>
+                                        <label for="updateProduct">Product Name</label>
+                                        <input type="text" name="product" id="updateProduct" class="form-control" autocomplete="off">
+                                        <span class="text-danger error" id="update_product_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="updateQuantity">Quantity</label>
                                         <input type="text" name="quantity" class="form-control" id="updateQuantity" value="1">
                                         <span class="text-danger error" id="update_quantity_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="updateAmount">Amount</label>
-                                        <input type="text" name="amount" class="form-control" id="updateAmount">
-                                        <span class="text-danger error" id="update_amount_error"></span>
+                                        <label for="updateUnit">Unit</label>
+                                        <input type="text" name="unit" class="form-control" id="updateUnit" autocomplete="off" readonly>
+                                        <span class="text-danger error" id="update_unit_error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="updateCp">Cost Price</label>
+                                        <input type="text" name="cp" class="form-control" id="updateCp">
+                                        <span class="text-danger error" id="update_cp_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="updateMrp">Mrp</label>
+                                        <input type="text" name="mrp" class="form-control" id="updateMrp">
+                                        <span class="text-danger error" id="update_mrp_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="updateTotAmount">Total</label>
                                         <input type="text" name="totAmount" class="form-control" id="updateTotAmount"
@@ -96,7 +104,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="updateExpiry">Expiry Date</label>
-                                        <input type="date" name="expiry" class="form-control" id="updateExpiry">
+                                        <input type="date" name="expiry" class="form-control" id="updateExpiry" value="{{date('Y-m-d')}}">
                                         <span class="text-danger error" id="update_expiry_error"></span>
                                     </div>
                                 </div>
@@ -105,9 +113,28 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="col-md-6">
+                            <div id="update-product">
+                                <table class="product-table">
+                                    <caption class="caption">Product List</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Generic Name</th>
+                                            <th>Manufacture</th>
+                                            <th>Form</th>
+                                            <th>Quantity</th>
+                                            <th>MRP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
                             <div class="update_transaction_grid" style="overflow-x:auto;">
                                 <table class="show-table">
                                     <thead>
@@ -163,7 +190,7 @@
                                     <span class="text-danger error" id="update_message_error"></span>
                                 </div>
                                 <div class="center">
-                                    <button id="UpdateMainTransaction" class="btn btn-success addButton">Submit</button>
+                                    <button id="UpdateInventoryPurchaseMain" class="btn btn-success addButton">Update</button>
                                 </div>
                             </div>
                         </div>

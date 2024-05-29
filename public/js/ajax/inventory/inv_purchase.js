@@ -6,6 +6,17 @@ $(document).ready(function () {
         let payment = 'Payment';
         getTransactionId(type, method, '#tranId');
         getTransactionWith(type, payment, '#within')
+        $('#product').val('');
+        $('#product').removeAttr('data-id');
+        $('#product').removeAttr('data-groupe');
+        $('#unit').val('');
+        $('#unit').removeAttr('data-id');
+        $('#quantity').val('1');
+        $('#cp').val('');
+        $('#mrp').val('');
+        let currentDate = new Date().toISOString().split('T')[0];
+        $('#expiry').val(currentDate);
+        $('#totAmount').val('');
         $('#date').focus();
     });
 
@@ -95,7 +106,7 @@ $(document).ready(function () {
     });
 
 
-
+    /////////////// ------------------ Add Inventory Purchase Details Ajax Part Start ---------------- /////////////////////////////
     $(document).on('submit', '#AddInventoryPurchaseForm', function (e) {
         e.preventDefault();
         let tranId = $('#tranId').val();
@@ -135,9 +146,10 @@ $(document).ready(function () {
                     $('#quantity').val('1');
                     $('#cp').val('');
                     $('#mrp').val('');
-                    $('#expiry').val('');
+                    let currentDate = new Date().toISOString().split('T')[0];
+                    $('#expiry').val(currentDate);
                     $('#totAmount').val('');
-                    $("#head").focus();
+                    $("#product").focus();
                     toastr.success('Inventory Purchase Added Successfully', 'Added!');
                 }
             },
@@ -151,7 +163,7 @@ $(document).ready(function () {
     });
 
 
-
+    /////////////// ------------------ Add Inventory Purchase Main Ajax Part Start ---------------- /////////////////////////////
     $(document).on('click', '#InsertMainPurchase', function (e) {
         e.preventDefault();
         let tranId = $('#tranId').val();
@@ -198,12 +210,24 @@ $(document).ready(function () {
 
 
     ///////////// ------------------ Edit Inventory Purchase Main ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.editTransaction', function () {
+    $(document).on('click', '.editInventoryPurchase', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         let type = '5';
-        let method = 'Purchase';
-        getTransactionWith(type, method, '#updatewithin')
+        let method = 'Payment';
+        $('#updateProduct').val('');
+        $('#updateProduct').removeAttr('data-id');
+        $('#updateProduct').removeAttr('data-groupe');
+        $('#updateUnit').val('');
+        $('#updateUnit').removeAttr('data-id');
+        $('#updateQuantity').val('1');
+        $('#updateCp').val('');
+        $('#updateMrp').val('');
+        let currentDate = new Date().toISOString().split('T')[0];
+        $('#updateExpiry').val(currentDate);
+        $('#updateTotAmount').val('');
+        $('#dId').val('');
+        getTransactionWith(type, method, '#updatewithin');
         $.ajax({
             url: `/transaction/edit/main`,
             method: 'GET',
@@ -217,9 +241,9 @@ $(document).ready(function () {
                 var timestamps = new Date(res.transaction.tran_date);
                 var formattedDate = timestamps.toLocaleDateString('en-US', { timeZone: 'UTC' });
                 $('#updateDate').val(formattedDate);
-                // $('#updateInvoice').val(res.transaction.invoice);
-                $('#updateLocation').val(res.transaction.location.upazila);
-                $('#updateLocation').attr('data-id', res.transaction.loc_id);
+
+                $('#updateStore').val(res.transaction.store.store_name);
+                $('#updateStore').attr('data-id', res.transaction.store_id);
                 
                 $('#updateUser').attr('data-id',res.transaction.tran_user);
                 $('#updateUser').attr('data-with',res.transaction.tran_type_with);
@@ -234,12 +258,6 @@ $(document).ready(function () {
                 }
                 getTransactionGrid(res.transaction.tran_id, '.update_transaction_grid tbody', '#updateAmountRP', '#updateTotalDiscount', '#updateNetAmount', '#updateAdvance', '#updateBalance');
 
-                // $('#updateAmountRP').val(res.transaction.bill_amount);
-
-                // $('#updateNetAmount').val(res.transaction.net_amount);
-
-                // $('#updateBalance').val(res.transaction.due);
-                
                 
                 var modal = document.getElementById(modalId);
                 if (modal) {
@@ -264,19 +282,21 @@ $(document).ready(function () {
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('#dId').val(res.transaction.id);
+                $('input[name="dId"]').val(res.transaction.id);
 
+                $('input[name="product"]').attr('data-groupe', res.transaction.tran_groupe_id);
+                $('input[name="product"]').attr('data-id', res.transaction.tran_head_id);
+                $('input[name="product"]').val(res.transaction.head.tran_head_name);
                 
-                $('#updateHead').attr('data-groupe', res.transaction.tran_groupe_id);
-                $('#updateHead').attr('data-id', res.transaction.tran_head_id);
-                $('#updateHead').val(res.transaction.head.tran_head_name);
-                
 
-                $('#updateQuantity').val(res.transaction.quantity);
-                $('#updateAmount').val(res.transaction.amount);
-                $('#updateTotAmount').val(res.transaction.tot_amount);
+                $('input[name="quantity"]').val(res.transaction.quantity);
+                $('input[name="unit"]').val(res.transaction.unit.unit_name);
+                $('input[name="unit"]').attr('data-id',res.transaction.unit_id);
+                $('input[name="cp"]').val(res.transaction.amount);
+                $('input[name="mrp"]').val(res.transaction.mrp);
+                $('input[name="totAmount"]').val(res.transaction.tot_amount);
 
-                $('#updateExpiry').val(res.transaction.expiry_date);
+                $('input[name="expiry"]').val(res.transaction.expiry_date);
             },
             error: function (err) {
                 console.log(err)
@@ -286,25 +306,27 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Transaction Details ajax part start ---------------- /////////////////////////////
+    /////////////// ------------------ Update Inventory Purchase Details ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#EditInventoryPurchaseForm', function (e) {
         e.preventDefault();
         let tranId = $('#updateTranId').val();
         let user = $('#updateUser').attr('data-id');
         let withs = $('#updateUser').attr('data-with');
-        let locations = $('#updateLocation').attr('data-id');
-        let groupe = $('#updateHead').attr('data-groupe');
-        let head = $('#updateHead').attr('data-id');
+        let store = $('#updateStore').attr('data-id');
+        let product = $('#updateProduct').attr('data-id');
+        let unit = $('#updateUnit').attr('data-id');
+        let groupe = $('#updateProduct').attr('data-groupe');
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
-        formData.append('location', locations === undefined ? '' : locations);
+        formData.append('store', store === undefined ? '' : store);
         formData.append('with', withs === undefined ? '' : withs);
-        formData.append('head', head === undefined ? '' : head);
+        formData.append('product', product === undefined ? '' : product);
         formData.append('groupe', groupe === undefined ? '' : groupe);
+        formData.append('unit', unit === undefined ? '' : unit);
         formData.append('type', "5");
         formData.append('method', "Purchase");
         $.ajax({
-            url: `/transaction/update/details`,
+            url: `/inventory/insert/purchase`,
             method: 'POST',
             data: formData,
             processData: false,
@@ -316,15 +338,19 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     getTransactionGrid(tranId, '.update_transaction_grid tbody', '#updateAmountRP', '#updateTotalDiscount', '#updateNetAmount', '#updateAdvance', '#updateBalance' );
-                    $('#dId').val('');
-                    $('#updateHead').val('');
-                    $('#updateHead').removeAttr('data-id');
-                    $('#updateHead').removeAttr('data-groupe');
+                    $('#updateProduct').val('');
+                    $('#updateProduct').removeAttr('data-id');
+                    $('#updateProduct').removeAttr('data-groupe');
+                    $('#updateUnit').val('');
+                    $('#updateUnit').removeAttr('data-id');
                     $('#updateQuantity').val('1');
-                    $('#updateAmount').val('');
+                    $('#updateCp').val('');
+                    $('#updateMrp').val('');
+                    let currentDate = new Date().toISOString().split('T')[0];
+                    $('#updateExpiry').val(currentDate);
                     $('#updateTotAmount').val('');
-                    $('#updateExpiry').val('');
-                    toastr.success('Transaction Details Updated Successfully', 'Updated!');
+                    $('#updateProduct').focus();
+                    toastr.success('Inventory Purchase Details Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {
@@ -338,8 +364,8 @@ $(document).ready(function () {
 
 
 
-    /////////////// ------------------ Update Transaction Receive Main ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#UpdateMainTransaction', function (e) {
+    /////////////// ------------------ Update Inventory Purchase Main ajax part start ---------------- /////////////////////////////
+    $(document).on('click', '#UpdateInventoryPurchaseMain', function (e) {
         e.preventDefault();
         let id = $('#id').val();
         let method = 'Purchase';
@@ -358,8 +384,8 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('.inv-purchase').load(location.href + ' .inv-purchase');
-                    $('#editTransaction').hide();
-                    toastr.success('Transaction Main Updated Successfully', 'Updated!');
+                    $('#editInventoryPurchase').hide();
+                    toastr.success('Inventory Purchase Main Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {
@@ -503,7 +529,7 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status === 'success') {
                     $(targetElement).val(res.id);
-                    getTransactionGrid(res.tran_id, '.transaction_grid tbody', '#amountRP', '#totalDiscount', '#netAmount', '#advance',  '#balance');
+                    getTransactionGrid(res.id, '.transaction_grid tbody', '#amountRP', '#totalDiscount', '#netAmount', '#advance',  '#balance');
                 }
                 else {
                     $(targetElement).val(res.tran_id);

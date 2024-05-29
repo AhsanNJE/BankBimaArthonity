@@ -1056,7 +1056,7 @@ class TransactionController extends Controller
 
     //Edit Transaction Main
     public function EditTransactionMain(Request $req){
-        $transaction = Transaction_Main::with('Location','User','withs')->where('tran_id', $req->id )->first();
+        $transaction = Transaction_Main::with('Location','User','withs','Store')->where('tran_id', $req->id )->first();
         return response()->json([
             'transaction'=>$transaction,
         ]);
@@ -1065,7 +1065,7 @@ class TransactionController extends Controller
 
     //Edit Transaction Details
     public function EditTransactionDetails(Request $req){
-        $transaction = Transaction_Detail::with('Head')->findOrFail($req->id);
+        $transaction = Transaction_Detail::with('Head', 'Unit')->findOrFail($req->id);
         return response()->json([
             'transaction'=>$transaction,
         ]);
@@ -1195,8 +1195,8 @@ class TransactionController extends Controller
         }
 
 
-        $receive = $req->method === 'Receive' ? $req->advance : null;
-        $payment = $req->method === 'Payment' ? $req->advance : null;
+        $receive = ($req->method === 'Receive' || $req->method === 'Issue') ? $req->advance : null;
+        $payment = ($req->method === 'Payment' || $req->method === 'Purchase') ? $req->advance : null;
 
         $update = Transaction_Main::findOrFail($req->id)->update([
             "bill_amount" => $req->amountRP,
