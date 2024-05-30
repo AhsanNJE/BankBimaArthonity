@@ -1,39 +1,11 @@
 $(document).ready(function () {
+
     // Get Last Transaction Id By Transaction Method and Type
     $(document).on('click', '.add', function (e) {
         let type = '5';
         let method = 'Negative';
         getTransactionWith(type, method, '#within')
         $('#user').focus();
-    });
-
-    // Show Transaction Print Details 
-    $(document).on('click','#details', function(e){
-        let modalId = $(this).data('modal-id');
-        let id = $(this).data('id');
-        $.ajax({
-            url: `/transaction/print/negative`,
-            method: 'GET',
-            data: { id:id },
-            success: function (res) {
-                $('.print-details').html(res.data);
-
-                var modal = document.getElementById(modalId);
-                modal.style.display = 'block';
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
-    });
-
-    // Print Transaction Details 
-    $(document).on('click','#print', function(){
-        var printContent = document.getElementById("print-part").innerHTML;
-        var originalContent = document.body.innerHTML;
-        document.body.innerHTML = printContent;
-        window.print();
-        document.body.innerHTML = originalContent;
     });
     
 
@@ -44,7 +16,7 @@ $(document).ready(function () {
         let method = 'Negative';
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
-        searchTransaction(`/transaction/search/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+        searchTransaction(`/transaction/search/adjustment/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.negative')
     });
 
 
@@ -68,32 +40,6 @@ $(document).ready(function () {
     });
 
 
-    $(document).on('keyup', '#totalDiscount, #advance', function (e) {
-        // Calculate total discount
-        let amountRP = parseInt($('#amountRP').val());
-        let totalDiscount = parseInt($('#totalDiscount').val());
-        let advance = parseInt($('#advance').val());
-
-        let netAmount = amountRP - totalDiscount;
-        let balance = netAmount - advance;
-
-        $('#netAmount').val(netAmount);
-        $('#balance').val(balance);
-    });
-
-
-    $(document).on('keyup', '#updateTotalDiscount, #updateAdvance', function (e) {
-        // Calculate total discount
-        let amountRP = parseInt($('#updateAmountRP').val());
-        let totalDiscount = parseInt($('#updateTotalDiscount').val());
-        let advance = parseInt($('#updateAdvance').val());
-
-        let netAmount = amountRP - totalDiscount;
-        let balance = netAmount - advance;
-
-        $('#updateNetAmount').val(netAmount);
-        $('#updateBalance').val(balance);
-    });
 
 
     $(document).on('change', '#groupe', function (e) {
@@ -129,7 +75,7 @@ $(document).ready(function () {
     });
 
 
-    ///////////// ------------------ Add Transaction Negative Details ajax part start ---------------- /////////////////////////////
+    ///////////// ------------------ Add Negative Adjustment ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddNegativeAdjustmentForm', function (e) {
         e.preventDefault();
         let store = $('#store').attr('data-id');
@@ -179,22 +125,27 @@ $(document).ready(function () {
     ///////////// ------------------ Edit Transaction Details ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.editAdjustment', function (e) {
         e.preventDefault();
+        let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
-            url: "/transaction/edit/details",
+            url: "/transaction/edit/negative",
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('#dId').val(res.transaction.id);
+                $('input[name="id"]').val(res.adjust.id);
+                $('input[name="tranId"]').val(res.adjust.tran_id);
+                $('input[name="store"]').attr('data-id', res.adjust.store_id);
+                $('input[name="store"]').val(res.adjust.store.store_name);
+                $('input[name="product"]').attr('data-groupe', res.adjust.tran_groupe_id);
+                $('input[name="product"]').attr('data-id', res.adjust.tran_head_id);
+                $('input[name="product"]').val(res.adjust.head.tran_head_name);
+                $('input[name="quantity"]').val(res.adjust.quantity);
 
-                $('#updateStore').val(res.transaction.store);
-                $('#updateHead').attr('data-groupe', res.transaction.tran_groupe_id);
-                $('#updateHead').attr('data-id', res.transaction.tran_head_id);
-                $('#updateHead').val(res.transaction.head.tran_head_name);
-               
+                var modal = document.getElementById(modalId);
 
-                $('#updateQuantity').val(res.transaction.quantity);
-        
+                if (modal) {
+                    modal.style.display = 'block';
+                }
             },
             error: function (err) {
                 console.log(err)
@@ -206,24 +157,19 @@ $(document).ready(function () {
 
 
     /////////////// ------------------ Update Transaction Details ajax part start ---------------- /////////////////////////////
-    $(document).on('submit', '#EditTransactionNegativeForm', function (e) {
+    $(document).on('submit', '#EditNegativeAdjustmentForm', function (e) {
         e.preventDefault();
-        let tranId = $('#updateTranId').val();
-        let user = $('#updateUser').attr('data-id');
-        let withs = $('#updateUser').attr('data-with');
         let store = $('#updateStore').attr('data-id');
-        let product = $('#updateProduct').attr('data-id');
         let groupe = $('#updateProduct').attr('data-groupe');
+        let product = $('#updateProduct').attr('data-id');
         let formData = new FormData(this);
-        formData.append('user', user === undefined ? '' : user);
         formData.append('store', store === undefined ? '' : store);
-        formData.append('with', withs === undefined ? '' : withs);
         formData.append('product', product === undefined ? '' : product);
         formData.append('groupe', groupe === undefined ? '' : groupe);
         formData.append('type', "5");
         formData.append('method', "Negative");
         $.ajax({
-            url: `/transaction/update/details`,
+            url: `/transaction/update/negative`,
             method: 'POST',
             data: formData,
             processData: false,
@@ -234,15 +180,13 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == "success") {
-                    $('#dId').val('');
                     $('#updateProduct').val('');
                     $('#updateProduct').removeAttr('data-id');
                     $('#updateProduct').removeAttr('data-groupe');
-                    $('#updateQuantity').val('5');
-                    $('#updateAmount').val('');
-                    $('#updateTotAmount').val('');
-                    $('#updateExpiry').val('');
-                    toastr.success('Transaction Details Updated Successfully', 'Updated!');
+                    $('#updateQuantity').val('1');
+                    $('.negative').load(location.href + ' .negative');
+                    $('#editAdjustment').hide();
+                    toastr.success('Negative Adjustment Updated Successfully', 'Updated!');
                 }
             },
             error: function (err) {
@@ -252,74 +196,13 @@ $(document).ready(function () {
                 })
             }
         });
-    });
-
-
-
-    /////////////// ------------------ Update Transaction Negative Main ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '#UpdateMainTransaction', function (e) {
-        e.preventDefault();
-        let id = $('#id').val();
-        let method = 'Negative';
-        let amountRP = $('#updateAmountRP').val();
-        let totalDiscount = $('#updateTotalDiscount').val();
-        let netAmount = $('#updateNetAmount').val();
-        let advance = $('#updateAdvance').val();
-        let balance = $('#updateBalance').val();
-        $.ajax({
-            url: `/transaction/update/main`,
-            method: 'PUT',
-            data: { id:id, method:method, amountRP:amountRP, totalDiscount:totalDiscount, netAmount:netAmount, advance:advance, balance:balance },
-            beforeSend:function() {
-                $(document).find('span.error').text('');  
-            },
-            success: function (res) {
-                if (res.status == "success") {
-                    $('.transaction-receive').load(location.href + ' .transaction-receive');
-                    $('#editTransaction').hide();
-                    toastr.success('Transaction Main Updated Successfully', 'Updated!');
-                }
-            },
-            error: function (err) {
-                let error = err.responseJSON;
-                $.each(error.errors, function (key, value) {
-                    $('#update_' + key + "_error").text(value);
-                })
-            }
-        });
-    });
-
-
-
-    /////////////// ------------------ Delete Transaction Details ajax part start ---------------- /////////////////////////////
-    $(document).on('click', '.deleteNegativeModal', function (e) {
-        e.preventDefault();
-        let tranId = $('#tranId').val();
-        let updateTranId = $('#updateTranId').val();
-        let id = $(this).data('id');
-        if (confirm('Are You Sure to Delete This Transaction ??')) {
-            $.ajax({
-                url: `/transaction/delete/negative`,
-                method: 'DELETE',
-                data: { id:id },
-                success: function (res) {
-                    if (res.status == "success") {
-                        if(updateTranId != ""){
-                        }
-                        else if(tranId != ""){
-                        }
-                        toastr.success('Transaction Details Deleted Successfully', 'Deleted!');
-                    }
-                }
-            });
-        }
     });
 
 
 
     /////////////// ------------------ Delete Transaction Main Ajax Part Start ---------------- /////////////////////////////
     // Delete Button Functionality
-    $(document).on('click', '.deleteMain', function (e) {
+    $(document).on('click', '#delete', function (e) {
         e.preventDefault();
         $('#deleteModal').show();
         let id = $(this).attr('data-id');
@@ -338,15 +221,15 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $(this).attr('data-id');
         $.ajax({
-            url: `/transaction/delete/main`,
+            url: `/transaction/delete/adjustment`,
             method: 'DELETE',
             data: { id:id },
             success: function (res) {
                 if (res.status == "success") {
-                    $('.transaction-receive').load(location.href + ' .transaction-receive');
+                    $('.negative').load(location.href + ' .negative');
                     $('#search').val('');
                     $('#deleteModal').hide();
-                    toastr.success('Transaction Main Data Deleted Successfully', 'Deleted!');
+                    toastr.success('Adjustment Deleted Successfully', 'Deleted!');
                 }
             }
         });
@@ -364,7 +247,7 @@ $(document).ready(function () {
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let page = $(this).attr('href').split('page=')[5];
-        searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive');
+        searchTransaction(`/transaction/adjustment/pagination?page=${page}`, {startDate:startDate, endDate:endDate, method:method, type:type}, '.negative');
     });
 
 
@@ -378,11 +261,11 @@ $(document).ready(function () {
         let method = "Negative";
         let type = "5";
         let searchOption = $("#searchOption").val();
-        if(searchOption == "5"){
-            searchTransaction(`/transaction/search/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+        if(searchOption == "1"){
+            searchTransaction(`/transaction/search/adjustment/tranid`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.negative')
         }
         if(searchOption == "2"){
-            searchTransaction(`/transaction/search/user`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+            searchTransaction(`/transaction/search/adjustment/product`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.negative')
         }
         
     });
@@ -400,11 +283,11 @@ $(document).ready(function () {
         let type = "5";
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[5];
-        if(searchOption == "5"){
-            searchTransaction(`/transaction/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+        if(searchOption == "1"){
+            searchTransaction(`/transaction/adjustment/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.negative')
         }
         if(searchOption == "2"){
-            searchTransaction(`/transaction/pagination/user?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.transaction-receive')
+            searchTransaction(`/transaction/adjustment/pagination/product?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.negative')
         }
         
     });
@@ -417,7 +300,7 @@ $(document).ready(function () {
     //get last transaction with by transaction type function
     function getTransactionWith(type, method, targetElement) {
         $.ajax({
-            url: "/transaction/get/tranwith",
+            url: "/transaction/adjustment/get/tranwith",
             method: 'GET',
             data: { type: type, method:method },
             success: function (res) {
@@ -439,7 +322,7 @@ $(document).ready(function () {
     //get transaction groupe by transaction with function
     function getTransactionGroupe(withs, targetElement) {
         $.ajax({
-            url: "/transaction/get/groupes/with",
+            url: "/transaction/adjustment/get/groupes/with",
             method: 'GET',
             data: { withs: withs },
             success: function (res) {

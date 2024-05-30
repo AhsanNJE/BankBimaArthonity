@@ -4,6 +4,7 @@
         <tr>
             <th>SL:</th>
             <th>Id</th>
+            <th>Date</th>
             <th>Product Name</th>
             <th>Store Name</th>
             <th>Quantity</th>
@@ -15,6 +16,7 @@
             <tr>
                 <td>{{ $adjust->firstItem() + $key }}</td>
                 <td>{{ $item->tran_id }}</td>
+                <td>{{ $item->tran_date }}</td>
                 <td>{{ $item->Head->tran_head_name }}</td>
                 <td>{{ $item->Store->store_name }}</td>
                 <td>{{ $item->quantity }}</td>
