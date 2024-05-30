@@ -181,7 +181,7 @@
 
 
 
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-pen-to-square"></i>
                                 <p>
@@ -197,7 +197,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li> --}}
+                        </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -255,15 +255,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('show.bank.withdraws')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Withdraw from Bank</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{route('show.bank.deposits')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Deposit to Bank</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('show.bank.withdraws')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Withdraw from Bank</p>
                             </a>
                         </li>
                     </ul>
@@ -427,7 +427,7 @@
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-table-cells-large"></i>
                                 <p>
-                                    Generic
+                                    Category
                                     <!-- <i class="fas fa-angle-left right"></i> -->
                                 </p>
                             </a>
@@ -435,7 +435,7 @@
                                 <li class="nav-item">
                                     <a href="{{route('show.category.list')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Generic Name</p>
+                                        <p>Category Name</p>
                                     </a>
                                 </li>
                             </ul>
@@ -497,7 +497,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                            <i class="fa-solid fa-prescription-bottle-medical"></i>
+                                <i class="fa-solid fa-prescription-bottle-medical"></i>
                                 <p>
                                     Pharmacy Product
                                     <!-- <i class="fas fa-angle-left right"></i> -->
@@ -555,7 +555,6 @@
                                 <p>Negative Adjustment</p>
                             </a>
                         </li>
-                        
                     </ul>
                 </li>
 
@@ -649,21 +648,6 @@
                         </li>
                     </ul>
                 </li>
-
-
-
-
-
-
-
-
-
-                <hr>
-
-
-
-                <hr>
-
             </ul>
         </nav>
 
