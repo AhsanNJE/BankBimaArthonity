@@ -16,7 +16,7 @@
                     <div class="center">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div id="updatewithin" style="display: none"> </div>
                                     <div id="updategroupein" style="display: none">
                                         @foreach ($groupes as $groupe)
@@ -49,14 +49,9 @@
 
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="updateHead">Product</label>
-                                                <input type="text" name="head" id="updateHead" class="form-control">
-                                                <div id="update-head">
-                                                    <ul>
-
-                                                    </ul>
-                                                </div>
-                                                <span class="text-danger error" id="update_head_error"></span>
+                                                <label for="updateProduct">Product Name</label>
+                                                <input type="text" name="product" id="updateProduct" class="form-control" autocomplete="off">
+                                                <span class="text-danger error" id="update_product_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -66,10 +61,30 @@
                                                 <span class="text-danger error" id="update_quantity_error"></span>
                                             </div>
                                         </div>
-                                        <div class="center">
-                                            <button type="submit" id="UpdateAdjustment" class="btn btn-success">Update</button>
-                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="update-product">
+                                        <table class="product-table">
+                                            <caption class="caption">Product List</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Generic Name</th>
+                                                    <th>Manufacture</th>
+                                                    <th>Form</th>
+                                                    <th>Quantity</th>
+                                                    <th>MRP</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="center">
+                                    <button type="submit" id="UpdateAdjustment" class="btn btn-success">Update</button>
                                 </div>
                             </div>
                         </div>

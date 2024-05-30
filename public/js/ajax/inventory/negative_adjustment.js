@@ -133,10 +133,10 @@ $(document).ready(function () {
     $(document).on('submit', '#AddNegativeAdjustmentForm', function (e) {
         e.preventDefault();
         let store = $('#store').attr('data-id');
-        let head = $('#head').attr('data-id');
-        let groupe = $('#head').attr('data-groupe');
+        let product = $('#product').attr('data-id');
+        let groupe = $('#product').attr('data-groupe');
         let formData = new FormData(this);
-        formData.append('head', head === undefined ? '' : head);
+        formData.append('product', product === undefined ? '' : product);
         formData.append('groupe', groupe === undefined ? '' : groupe);
         formData.append('store', store === undefined ? '' : store);
         formData.append('method', 'Negative');
@@ -155,10 +155,10 @@ $(document).ready(function () {
                 if (res.status == "success") {
                     $('#store').val('');
                     $('#store').removeAttr('data-id');
-                    $('#head').val('');
-                    $('#head').removeAttr('data-id');
-                    $('#head').removeAttr('data-groupe');
-                    $('#quantity').val('5');
+                    $('#product').val('');
+                    $('#product').removeAttr('data-id');
+                    $('#product').removeAttr('data-groupe');
+                    $('#quantity').val('1');
                     $("#head").focus();
                     $('.negative').load(location.href + ' .negative');
                     toastr.success('Negative Adjustment Done Successfully', 'Added!');
@@ -212,13 +212,13 @@ $(document).ready(function () {
         let user = $('#updateUser').attr('data-id');
         let withs = $('#updateUser').attr('data-with');
         let store = $('#updateStore').attr('data-id');
-        let groupe = $('#updateHead').attr('data-groupe');
-        let head = $('#updateHead').attr('data-id');
+        let product = $('#updateProduct').attr('data-id');
+        let groupe = $('#updateProduct').attr('data-groupe');
         let formData = new FormData(this);
         formData.append('user', user === undefined ? '' : user);
         formData.append('store', store === undefined ? '' : store);
         formData.append('with', withs === undefined ? '' : withs);
-        formData.append('head', head === undefined ? '' : head);
+        formData.append('product', product === undefined ? '' : product);
         formData.append('groupe', groupe === undefined ? '' : groupe);
         formData.append('type', "5");
         formData.append('method', "Negative");
@@ -235,9 +235,9 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status == "success") {
                     $('#dId').val('');
-                    $('#updateHead').val('');
-                    $('#updateHead').removeAttr('data-id');
-                    $('#updateHead').removeAttr('data-groupe');
+                    $('#updateProduct').val('');
+                    $('#updateProduct').removeAttr('data-id');
+                    $('#updateProduct').removeAttr('data-groupe');
                     $('#updateQuantity').val('5');
                     $('#updateAmount').val('');
                     $('#updateTotAmount').val('');

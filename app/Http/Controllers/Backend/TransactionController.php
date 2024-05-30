@@ -1483,7 +1483,7 @@ class TransactionController extends Controller
 
 
 
-    /////////////////////////// --------------- Positive Adjustment Methods start ---------- //////////////////////////
+    /////////////////////////// --------------- Adjustment Methods start ---------- //////////////////////////
 
 
     // Print Transaction Details
@@ -1522,8 +1522,15 @@ class TransactionController extends Controller
             "store" => 'required|numeric',
             "type" => 'required',
             "groupe" => 'required',
-            "head" => 'required',
+            "product" => 'required',
         ]);
+
+        $adjust = Transaction_Detail::where('tran_id', $req->tranId)
+        ->where('tran_head_id', $req->product)
+        ->get();
+
+
+        $heads = Transaction_Head::where('id',$req->product)->first();
 
 
         $prefixes = [
@@ -1551,7 +1558,7 @@ class TransactionController extends Controller
             "tran_type" => $req->type,
             "tran_method" => $req->method,
             "tran_groupe_id" => $req->groupe,
-            "tran_head_id" => $req->head,
+            "tran_head_id" => $req->product,
             "quantity" => $req->quantity,
         ]);
 
@@ -1561,9 +1568,6 @@ class TransactionController extends Controller
 
     }//End Method
 
-
-
-    
 
 
 
@@ -1585,17 +1589,17 @@ class TransactionController extends Controller
             "store" => 'required|numeric',
             "type" => 'required',
             "groupe" => 'required',
-            "head" => 'required',
+            "product" => 'required',
         ]);
 
         
         $update = Transaction_Detail::findOrFail($req->id)->update([
-            "tran_id" => $id,
+            "tran_id" => $req->tranId,
             "store_id" => $req->store,
             "tran_type" => $req->type,
             "tran_method" => $req->method,
             "tran_groupe_id" => $req->groupe,
-            "tran_head_id" => $req->head,
+            "tran_head_id" => $req->product,
             "quantity" => $req->quantity,
             "updated_at" => now()
         ]);
@@ -1618,7 +1622,234 @@ class TransactionController extends Controller
     }//End Method
 
 
+    //Adjustment Pagination
+    public function AdjustmentPagination(Request $req){
+        $adjust = Transaction_Detail::where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        ->orderBy('tran_date','asc')->paginate(15);
+        
+        return view('inventory.positive_adjustment.adjustmentPagination', compact('adjust'));
+    }//End Method
 
 
-    /////////////////////////// --------------- Transaction Receive Methods Ends ---------- //////////////////////////
+
+    // Get Adjustment Details by Date Range
+    public function ShowAdjustmentByDate(Request $req){
+        $adjust = Transaction_Detail::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method', $req->method)
+        ->where('tran_type', $req->type)
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $adjust->links()->toHtml();
+
+        
+        if($adjust->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.searchAdjustment', compact('adjust'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Get Adjustment by TranId
+    public function SearchAdjustmentByTranId(Request $req){
+        $adjust = Transaction_Detail::where('tran_id', "like", '%'. $req->search .'%')
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->orderBy('tran_id','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $adjust->links()->toHtml();
+
+        
+        if($adjust->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.searchAdjustment', compact('adjust'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+
+    
+    // Get Adjustment by Product
+    public function SearchAdjustmentByProduct(Request $req){
+        $adjust = Transaction_Detail::with('Head')
+        ->whereHas('Head', function ($query) use ($req) {
+            $query->where('tran_head_name', 'like', '%'.$req->search.'%');
+            $query->orderBy('tran_head_name','asc');
+        })
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->paginate(15);
+        
+
+        $paginationHtml = $adjust->links()->toHtml();
+
+        if($adjust->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.searchAdjustment', compact('adjust'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+
+    // Get Transaction Id By Transaction Method And Type 
+    public function GetAdjustmentId(Request $req){
+        $prefixes = [
+            '5' => ['Negative' => 'INA', 'Positive' => 'IPA'],
+            '6' => ['Negative' => 'PNA', 'Positive' => 'PPA'],
+        ];
+    
+        if ($req->type && isset($prefixes[$req->type])) {
+            $prefix = $prefixes[$req->type][$req->method] ?? null;
+            if ($prefix) {
+                $transaction = Transaction_Main::where('tran_type', $req->type)
+                    ->where('tran_method', $req->method)
+                    ->latest('tran_id')
+                    ->first();
+    
+                $id = ($transaction) ? $prefix . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : $prefix . '000000001';
+    
+                return response()->json([
+                    'status' => 'success',
+                    'id' => $id,
+                ]);
+            }
+        }
+    
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Invalid request parameters',
+        ]);
+    }//End Method
+
+
+
+    // Get Transaction With By Transaction Method And Type
+    public function GetAdjustmentWith(Request $req){
+        if($req->type == null){
+            $tranwith = Transaction_With::whereIn('tran_method', [$req->method, 'Both'])->where('user_type', $req->user)->get();
+        }
+        else{
+            $tranwith = Transaction_With::whereIn('tran_method', [$req->method, 'Both'])->where('tran_type',$req->type)->get();
+        }
+        
+        return response()->json([
+            'status' => 'success',
+            'tranwith' => $tranwith,
+        ]);
+    }//End Method
+
+
+    
+    // Get Transaction User By Transaction User Type
+    public function GetAdjustmentGroupeByWith(Request $req){
+        if($req->within == "1"){
+            $users = User_Info::where('user_name', 'like', '%'.$req->tranUser.'%')
+            ->whereIn('tran_user_type', $req->tranUserType)
+            ->orderBy('user_name','asc')
+            ->take(10)
+            ->get();
+
+            if($users->count() > 0){
+                $list = "";
+                foreach($users as $index => $user) {
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$user->user_id.'"  data-with="'.$user->tran_user_type.'">'.$user->user_name.'</li>';
+                }
+            }
+            else{
+                $list = '<li>No Data Found</li>';
+            }
+            return $list;
+        }
+        else{
+            $users = User_Info::where('user_name', 'like', '%'.$req->tranUser.'%')
+            ->where('tran_user_type', $req->tranUserType)
+            ->orderBy('user_name','asc')
+            ->take(10)
+            ->get();
+
+
+            if($users->count() > 0){
+                $list = "";
+                foreach($users as $index => $user) {
+                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$user->user_id.'" data-with="'.$user->tran_user_type.'">'.$user->user_name.'</li>';
+                }
+            }
+            else{
+                $list = '<li>No Data Found</li>';
+            }
+            return $list;
+        }
+    }//End Method
+
+
+
+
+    // Get Transaction Groupe By Transaction With
+    public function GetAdjustmentProduct(Request $req){
+        $groupes = Transaction_With_Groupe::select('groupe_id')->whereIn('with_id', $req->withs)->groupBy('groupe_id')->get();
+
+        return response()->json([
+            'status' => 'success',
+            'groupes' => $groupes,
+        ]);
+    }//End Method
+
+
+
+
+
+    //Get Inserted Transacetion Grid By Transaction Id
+    public function GetAdjustmentGrid(Request $request){
+        if($request->tranId != ""){
+            $transaction = Transaction_Detail::where('tran_id', 'like', $request->tranId)
+            ->orderBy('tran_id','asc')
+            ->paginate(15);
+
+            if ($transaction) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => view('transaction.general.transactionGrid', compact('transaction'))->render(),
+                    'transaction' => $transaction
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'null'
+                ]); 
+            }
+        }
+    }//End Method
+
+
+
+
+
+    /////////////////////////// --------------- Adjustment Methods Ends ---------- //////////////////////////
 }

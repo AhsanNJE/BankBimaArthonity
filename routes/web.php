@@ -393,23 +393,22 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/edit/positive', 'EditAdjustment')->name('edit.adjustment');
         Route::put('/update/positive', 'UpdateAdjustment')->name('update.adjustment');
         Route::delete('/delete/adjustment', 'DeleteAdjustment')->name('delete.adjustment');
-        Route::get('/print/positive', 'PrintPATransactionDetails')->name('print.positive');
         //search routes start
-        Route::get('/search/date', 'ShowTransactionByDate')->name('search.transaction.date');
-        Route::get('/search/tranid', 'SearchTransactionByTranId')->name('show.transaction.tranid');
-        Route::get('/search/user', 'SearchTransactionByTranUser')->name('show.transaction.user');
+        Route::get('/search/adjustment/date', 'ShowAdjustmentByDate')->name('search.adjustment.date');
+        Route::get('/search/adjustment/tranid', 'SearchAdjustmentByTranId')->name('show.adjustment.tranid');
+        Route::get('/search/adjustment/product', 'SearchAdjustmentByProduct')->name('show.adjustment.product');
         //pagination routes start
-        Route::get('/pagination', 'TransactionPagination');
-        Route::get('/pagination/date', 'ShowTransactionByDate');
-        Route::get('/pagination/tranid', 'SearchTransactionByTranId');
-        Route::get('/pagination/user', 'SearchTransactionByTranUser');
+        Route::get('/adjustment/pagination', 'AdjustmentPagination');
+        Route::get('/adjustment/pagination/date', 'ShowAdjustmentByDate');
+        Route::get('/adjustment/pagination/tranid', 'SearchAdjustmentByTranId');
+        Route::get('/adjustment/pagination/product', 'SearchAdjustmentByProduct');
         //search list routs
-        Route::get('/get/tranid', 'GetTransactionId');
-        Route::get('/get/tranwith', 'GetTransactionWith');
-        Route::get('/get/groupes/with', 'GetTransactionGroupeByWith');
-        Route::get('/get/tranuser', 'GetTransactionUser');
-        Route::get('/get/transactiongrid', 'GetTransactionGrid');
-        Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
+        Route::get('/adjustment/get/tranid', 'GetAdjustmentId');
+        Route::get('/adjustment/get/tranwith', 'GetAdjustmentWith');
+        Route::get('/adjustment/get/groupes/with', 'GetAdjustmentGroupeByWith');
+        Route::get('/adjustment/get/product', 'GetAdjustmentProduct');
+        Route::get('/adjustment/get/adjustgrid', 'GetAdjustmentGrid');
+        Route::get('/adjustment/getdetails/tranid', 'GetAdjustmentDetailsByTranId');
         // Positive Adjustment Routes
         Route::get('/positive', 'ShowPositiveAdjustment')->name('show.positive.adjustment');
 
