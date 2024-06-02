@@ -1349,4 +1349,499 @@ class InventoryController extends Controller
             return $list;
         }
     }//End Method
+
+
+
+
+
+    /////////////////////////// --------------- Client Return Methods start ---------- //////////////////////////
+    // Show All ClientReturn Details
+    public function ShowClientReturn(){
+        $clientreturn = Transaction_Main::where('tran_method','Issue')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
+        return view('inventory.return.client_return.clientReturn', compact('clientreturn','groupes'));
+    }//End Method
+
+
+    //Insert Client Return
+    public function InsertClientReturn(Request $req){
+        $req->validate([
+            "tranId" => 'required',
+            "method" => 'required',
+            "store" => 'required|numeric',
+            "type" => 'required',
+            "groupe" => 'required',
+            "product" => 'required',
+            "with" => 'required',
+            "user" => 'required',
+            "mrp" => 'required',
+            "quantity" => 'required',
+            "totAmount" => 'required',
+        ]);
+
+        if($req->product != null){
+            $product = Transaction_Detail::where('tran_head_id', $req->product)
+            ->where('quantity', '>', 0)
+            ->whereIn('tran_method', ["Purchase","Positive"])
+            ->orderBy('tran_date', 'asc')
+            ->get();
+
+            $transaction = Transaction_Detail::where('tran_id', $req->tranId)
+            ->where('tran_head_id', $req->product)
+            ->get();
+
+            if($transaction->count() > 0){
+                return response()->json([
+                    'errors' => [
+                        'product' => ["You have already add this item."]
+                    ]
+                ], 422);
+            }
+            else if($product->count() > 0){
+                $quantity = $req->quantity;
+                $totQuantity = 0;
+                foreach($product as $index => $pro) {
+                    $totQuantity = $totQuantity + $pro->quantity;
+                }
+
+                if($quantity > 0){
+                    if($totQuantity < $quantity){
+                        return response()->json([
+                            'errors' => [
+                                'quantity' => ['Only '. $totQuantity . 'product available in stock']
+                            ]
+                        ], 422);
+                    }
+                    else{
+                        foreach($product as $index => $pro) {
+                            if($quantity != 0){
+                                if($pro->quantity <= $quantity){
+                                    $issue =  $pro->quantity_issue + $pro->quantity ;
+                                    $total = $pro->quantity * $req->mrp;
+                                    Transaction_Detail::findOrFail($pro->id)->update([
+                                        "quantity_issue" => $issue,
+                                        "quantity" => 0,
+                                        "updated_at" => now()
+                                    ]);
+
+
+                                    Transaction_Detail::insert([
+                                        "tran_id" => $req->tranId,
+                                        "store_id" => $req->store,
+                                        "tran_type" => $req->type,
+                                        "tran_method" => $req->method,
+                                        "tran_groupe_id" => $req->groupe,
+                                        "tran_head_id" => $req->product,
+                                        "tran_type_with" => $req->with,
+                                        "tran_user" => $req->user,
+                                        "amount" => $req->mrp,
+                                        "quantity" => $pro->quantity,
+                                        "tot_amount" => $total,
+                                        "batch_id" => $pro->tran_id,
+                                    ]);
+
+                                    $quantity = $quantity - $pro->quantity;
+                                }
+                                else if($pro->quantity > $quantity){
+                                    $issue =  $pro->quantity_issue + $quantity ;
+                                    $dueQuantity = $pro->quantity - $quantity;
+
+                                    $total = $quantity * $req->mrp;
+                                    Transaction_Detail::findOrFail($pro->id)->update([
+                                        "quantity_issue" => $issue,
+                                        "quantity" => $dueQuantity,
+                                        "updated_at" => now()
+                                    ]);
+
+                                    Transaction_Detail::insert([
+                                        "tran_id" => $req->tranId,
+                                        "store_id" => $req->store,
+                                        "tran_type" => $req->type,
+                                        "tran_method" => $req->method,
+                                        "tran_groupe_id" => $req->groupe,
+                                        "tran_head_id" => $req->product,
+                                        "tran_type_with" => $req->with,
+                                        "tran_user" => $req->user,
+                                        "amount" => $req->mrp,
+                                        "quantity" => $quantity,
+                                        "tot_amount" => $total,
+                                        "batch_id" => $pro->tran_id,
+                                    ]);
+
+
+
+                                    $quantity = 0;
+                                }
+                            }
+                        }
+
+
+                        $heads = Transaction_Head::where('id',$req->product)->first();
+                        $remain_quantity = $heads->quantity - $req->quantity;
+                        Transaction_Head::findOrFail($req->product)->update([
+                            "quantity" => $remain_quantity
+                        ]);
+    
+                        return response()->json([
+                            'status'=>'success',
+                        ]); 
+                    }
+                }
+            }
+            else{
+                return response()->json([
+                    'errors' => [
+                        'head' => ['Product Stock out']
+                    ]
+                ], 422);
+            }
+        }
+    }//End Method
+
+
+
+    // Client Return Pagination
+    public function ClientReturnPagination(Request $req){
+        $clientreturn = Transaction_Main::where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+        
+        return view('inventory.return.client_return.clientReturnPagination', compact('clientreturn'));
+    }//End Method
+
+
+
+    // Get Client Return by Date Range
+    public function ShowClientReturnByDate(Request $req){
+        $clientreturn = Transaction_Main::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method', $req->method)
+        ->where('tran_type', $req->type)
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $clientreturn->links()->toHtml();
+
+        
+        if($clientreturn->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.return.client_return.search', compact('clientreturn'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Get Client Return by TranId
+    public function SearchClientReturnByTranId(Request $req){
+        $clientreturn = Transaction_Main::where('tran_id', "like", '%'. $req->search .'%')
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->orderBy('tran_id','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $clientreturn->links()->toHtml();
+        
+        if($clientreturn->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.return.client_return.search', compact('clientreturn'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+
+    
+    // Get Client Return by Tran User
+    public function SearchClientReturnByTranUser(Request $req){
+        $clientreturn = Transaction_Main::with('User')
+        ->whereHas('User', function ($query) use ($req) {
+            $query->where('user_name', 'like', '%'.$req->search.'%');
+            $query->orderBy('user_name','asc');
+        })
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->paginate(15);
+        
+
+        $paginationHtml = $clientreturn->links()->toHtml();
+
+        if($clientreturn->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.return.client_return.search', compact('clientreturn'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+    /////////////////////////// --------------- Client Return Methods Ends ---------- //////////////////////////
+    
+
+
+
+    /////////////////////////// --------------- Supplier Return Methods start ---------- //////////////////////////
+    // Show All SupplierReturn Details
+    public function ShowSupplierReturn(){
+        $supplierreturn = Transaction_Main::where('tran_method','Issue')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
+        return view('inventory.return.supplier_return.supplierReturn', compact('supplierreturn','groupes'));
+    }//End Method
+
+
+    //Insert Supplier Return
+    public function InsertSupplierReturn(Request $req){
+        $req->validate([
+            "tranId" => 'required',
+            "method" => 'required',
+            "store" => 'required|numeric',
+            "type" => 'required',
+            "groupe" => 'required',
+            "product" => 'required',
+            "with" => 'required',
+            "user" => 'required',
+            "mrp" => 'required',
+            "quantity" => 'required',
+            "totAmount" => 'required',
+        ]);
+
+        if($req->product != null){
+            $product = Transaction_Detail::where('tran_head_id', $req->product)
+            ->where('quantity', '>', 0)
+            ->whereIn('tran_method', ["Purchase","Positive"])
+            ->orderBy('tran_date', 'asc')
+            ->get();
+
+            $transaction = Transaction_Detail::where('tran_id', $req->tranId)
+            ->where('tran_head_id', $req->product)
+            ->get();
+
+            if($transaction->count() > 0){
+                return response()->json([
+                    'errors' => [
+                        'product' => ["You have already add this item."]
+                    ]
+                ], 422);
+            }
+            else if($product->count() > 0){
+                $quantity = $req->quantity;
+                $totQuantity = 0;
+                foreach($product as $index => $pro) {
+                    $totQuantity = $totQuantity + $pro->quantity;
+                }
+
+                if($quantity > 0){
+                    if($totQuantity < $quantity){
+                        return response()->json([
+                            'errors' => [
+                                'quantity' => ['Only '. $totQuantity . 'product available in stock']
+                            ]
+                        ], 422);
+                    }
+                    else{
+                        foreach($product as $index => $pro) {
+                            if($quantity != 0){
+                                if($pro->quantity <= $quantity){
+                                    $issue =  $pro->quantity_issue + $pro->quantity ;
+                                    $total = $pro->quantity * $req->mrp;
+                                    Transaction_Detail::findOrFail($pro->id)->update([
+                                        "quantity_issue" => $issue,
+                                        "quantity" => 0,
+                                        "updated_at" => now()
+                                    ]);
+
+
+                                    Transaction_Detail::insert([
+                                        "tran_id" => $req->tranId,
+                                        "store_id" => $req->store,
+                                        "tran_type" => $req->type,
+                                        "tran_method" => $req->method,
+                                        "tran_groupe_id" => $req->groupe,
+                                        "tran_head_id" => $req->product,
+                                        "tran_type_with" => $req->with,
+                                        "tran_user" => $req->user,
+                                        "amount" => $req->mrp,
+                                        "quantity" => $pro->quantity,
+                                        "tot_amount" => $total,
+                                        "batch_id" => $pro->tran_id,
+                                    ]);
+
+                                    $quantity = $quantity - $pro->quantity;
+                                }
+                                else if($pro->quantity > $quantity){
+                                    $issue =  $pro->quantity_issue + $quantity ;
+                                    $dueQuantity = $pro->quantity - $quantity;
+
+                                    $total = $quantity * $req->mrp;
+                                    Transaction_Detail::findOrFail($pro->id)->update([
+                                        "quantity_issue" => $issue,
+                                        "quantity" => $dueQuantity,
+                                        "updated_at" => now()
+                                    ]);
+
+                                    Transaction_Detail::insert([
+                                        "tran_id" => $req->tranId,
+                                        "store_id" => $req->store,
+                                        "tran_type" => $req->type,
+                                        "tran_method" => $req->method,
+                                        "tran_groupe_id" => $req->groupe,
+                                        "tran_head_id" => $req->product,
+                                        "tran_type_with" => $req->with,
+                                        "tran_user" => $req->user,
+                                        "amount" => $req->mrp,
+                                        "quantity" => $quantity,
+                                        "tot_amount" => $total,
+                                        "batch_id" => $pro->tran_id,
+                                    ]);
+
+
+
+                                    $quantity = 0;
+                                }
+                            }
+                        }
+
+
+                        $heads = Transaction_Head::where('id',$req->product)->first();
+                        $remain_quantity = $heads->quantity - $req->quantity;
+                        Transaction_Head::findOrFail($req->product)->update([
+                            "quantity" => $remain_quantity
+                        ]);
+    
+                        return response()->json([
+                            'status'=>'success',
+                        ]); 
+                    }
+                }
+            }
+            else{
+                return response()->json([
+                    'errors' => [
+                        'head' => ['Product Stock out']
+                    ]
+                ], 422);
+            }
+        }
+    }//End Method
+
+
+
+    // Supplier Return Pagination
+    public function SupplierReturnPagination(Request $req){
+        $supplierreturn = Transaction_Main::where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+        
+        return view('inventory.return.supplier_return.supplierReturnPagination', compact('supplierreturn'));
+    }//End Method
+
+
+
+    // Get Supplier Return by Date Range
+    public function ShowSupplierReturnByDate(Request $req){
+        $supplierreturn = Transaction_Main::whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method', $req->method)
+        ->where('tran_type', $req->type)
+        ->orderBy('tran_date','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $supplierreturn->links()->toHtml();
+
+        
+        if($supplierreturn->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.return.supplier_return.search', compact('supplierreturn'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    }//End Method
+
+
+
+    // Get Supplier Return by TranId
+    public function SearchSupplierReturnByTranId(Request $req){
+        $supplierreturn = Transaction_Main::where('tran_id', "like", '%'. $req->search .'%')
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->orderBy('tran_id','asc')
+        ->paginate(15);
+        
+        $paginationHtml = $supplierreturn->links()->toHtml();
+        
+        if($supplierreturn->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.return.supplier_return.search', compact('supplierreturn'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+
+    
+    // Get Supplier Return by Tran User
+    public function SearchSupplierReturnByTranUser(Request $req){
+        $supplierreturn = Transaction_Main::with('User')
+        ->whereHas('User', function ($query) use ($req) {
+            $query->where('user_name', 'like', '%'.$req->search.'%');
+            $query->orderBy('user_name','asc');
+        })
+        ->whereRaw("DATE(tran_date) BETWEEN ? AND ?", [$req->startDate, $req->endDate])
+        ->where('tran_method',$req->method)
+        ->where('tran_type', $req->type)
+        ->paginate(15);
+        
+
+        $paginationHtml = $supplierreturn->links()->toHtml();
+
+        if($supplierreturn->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('inventory.return.supplier_return.search', compact('supplierreturn'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]);
+        }
+    }//End Method
+
+    /////////////////////////// --------------- Supplier Return Methods Ends ---------- //////////////////////////
 }

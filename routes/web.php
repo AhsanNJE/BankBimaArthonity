@@ -364,13 +364,7 @@ Route::controller(TransactionController::class)->group(function () {
         Route::get('/pagination/date', 'ShowTransactionByDate');
         Route::get('/pagination/tranid', 'SearchTransactionByTranId');
         Route::get('/pagination/user', 'SearchTransactionByTranUser');
-        //search list routs
-        Route::get('/get/tranid', 'GetTransactionId');
-        Route::get('/get/tranwith', 'GetTransactionWith');
-        Route::get('/get/groupes/with', 'GetTransactionGroupeByWith');
-        Route::get('/get/tranuser', 'GetTransactionUser');
-        Route::get('/get/transactiongrid', 'GetTransactionGrid');
-        Route::get('/getdetails/tranid', 'GetTransactionDetailsByTranId');
+        
 
         // Transactionn Receive Details Routes
         Route::get('/receive', 'ShowTransactionReceive')->name('show.transaction.receive');
@@ -881,6 +875,45 @@ Route::controller(InventoryController::class)->group(function(){
         Route::get('/edit/return', 'EditInventoryReturn')->name('edit.inventory.return');
         Route::put('/update/return', 'UpdateInventoryReturn')->name('update.inventory.return');
         Route::delete('/delete/return', 'DeleteInventoryReturn')->name('delete.inventory.return');
+
+
+
+
+        // Client Return Crude Routes
+        Route::get('/client', 'ShowClientReturn')->name('show.inventory.client');
+        Route::post('/insert/client', 'InsertClientReturn')->name('insert.inventory.client');
+        Route::post('/insert/client/main', 'InsertClientReturnMain')->name('insert.inventory.client.main');
+        Route::get('/edit/client', 'EditClientReturn')->name('edit.inventory.client');
+        Route::put('/update/client', 'UpdateClientReturn')->name('update.inventory.client');
+        Route::delete('/delete/client', 'DeleteClientReturn')->name('delete.inventory.client');
+        // Client Return Search Routes
+        Route::get('/client/pagination', 'ClientReturnPagination');
+        Route::get('/client/search/date', 'ShowClientReturnByDate');
+        Route::get('/client/search/tranid', 'SearchClientReturnByTranId');
+        Route::get('/client/search/user', 'SearchClientReturnByTranUser');
+        // Client Return Pagination Routes'
+        Route::get('/client/pagination/date', 'ShowClientReturnByDate');
+        Route::get('/client/pagination/tranid', 'SearchClientReturnByTranId');
+        Route::get('/client/pagination/user', 'SearchClientReturnByTranUser');
+
+
+
+         // Supplier Return Crude Routes
+         Route::get('/supplier', 'ShowSupplierReturn')->name('show.inventory.suppplier');
+         Route::post('/insert/supplier', 'InsertSupplierReturn')->name('insert.inventory.supplier');
+         Route::post('/insert/supplier/main', 'InsertSupplierReturnMain')->name('insert.inventory.supplier.main');
+         Route::get('/edit/supplier', 'EditSupplierReturn')->name('edit.inventory.supplier');
+         Route::put('/update/supplier', 'UpdateSupplierReturn')->name('update.inventory.supplier');
+         Route::delete('/delete/supplier', 'DeleteSupplierReturn')->name('delete.inventory.supplier');
+         // Supplier Return Search Routes
+         Route::get('/supplier/pagination', 'SupplierReturnPagination');
+         Route::get('/supplier/search/date', 'ShowSupplierReturnByDate');
+         Route::get('/supplier/search/tranid', 'SearchSupplierReturnByTranId');
+         Route::get('/supplier/search/user', 'SearchSupplierReturnByTranUser');
+         // Supplier Return Pagination Routes'
+         Route::get('/supplier/pagination/date', 'ShowSupplierReturnByDate');
+         Route::get('/supplier/pagination/tranid', 'SearchSupplierReturnByTranId');
+         Route::get('/supplier/pagination/user', 'SearchSupplierReturnByTranUser');
 
     });
 

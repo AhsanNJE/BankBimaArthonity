@@ -28,9 +28,9 @@
                 <td><img src="/storage/profiles/{{ $item->image !== null ? $item->image : ($item->gender == 'female' ? 'female.png' : 'male.png') }}" alt="" height="50px" width="50px"></td>
                 <td>
                     @if ($item->status == 1)
-                        <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Active</button>
+                        <button class="btn btn-success btn-sm toggle-status" data-id="{{$item->id}}" data-status="{{$item->status}}" data-target=".client">Active</button>
                     @else
-                        <button class="btn btn-danger btn-sm toggle-status" data-id="{{$item->id}}" data-table="Inv_Client_Info" data-status="{{$item->status}}" data-target=".client">Inactive</button>
+                        <button class="btn btn-danger btn-sm toggle-status" data-id="{{$item->id}}" data-status="{{$item->status}}" data-target=".client">Inactive</button>
                     @endif
                 </td>
                 <td style="display: flex;gap:5px;">
@@ -39,7 +39,7 @@
                     <button class="btn btn-info btn-sm open-modal editPersonal" data-modal-id="editPersonal"
                         data-id="{{ $item->user_id }}"><i class="fas fa-edit"></i>Edit</button>
                     <button class="btn btn-danger btn-sm" data-id="{{ $item->id }}" id="deletePersonal"><i
-                            class="fas fa-trash"></i>Delete</button>
+                        class="fas fa-trash"></i>Delete</button>
                 </td>
             </tr>
         @endforeach
