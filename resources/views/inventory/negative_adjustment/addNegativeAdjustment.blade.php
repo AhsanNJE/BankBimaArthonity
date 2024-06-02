@@ -9,7 +9,7 @@
         margin: 0;
     }
 
-    #product-list{
+    #product-list, #update-product{
         max-height: 100%
     }
     .transaction_grid{

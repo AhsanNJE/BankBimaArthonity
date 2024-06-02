@@ -8,7 +8,7 @@
             <th>Category Name</th>
             <th>Manufacture Name</th>
             <th>Item Form Name</th>
-            <th>Unite Name</th>
+            <th>Unit Name</th>
             <th>Store Name</th>
             <th>Quantity</th>
             <th>Cost Price</th>

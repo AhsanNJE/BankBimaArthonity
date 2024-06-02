@@ -1486,18 +1486,6 @@ class TransactionController extends Controller
     /////////////////////////// --------------- Adjustment Methods start ---------- //////////////////////////
 
 
-    // Print Transaction Details
-    public function PrintPATransactionDetails(Request $req)
-    {
-        $transDetailsInvoice = Transaction_Detail::where('tran_id', $req->id)->get();
-        $transSum = Transaction_Detail::where('tran_id', $req->id)->sum('tot_amount');
-        $transactionMain = Transaction_Main::where('tran_id', $req->id)->first();
-
-        return response()->json([
-            'status'=>'success',
-            'data'=> view('transaction.details', compact('transactionMain', 'transDetailsInvoice', 'transSum'))->render(),
-        ]);
-    } // End Method 
 
 
     //Show All Positive Adjustment Details
@@ -1508,6 +1496,7 @@ class TransactionController extends Controller
     }//End Method
 
 
+    
     //Show All Negative Adjustment Details
     public function ShowNegativeAdjustment(){
         $adjust = Transaction_Detail::where('tran_method','Negative')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
@@ -1529,9 +1518,7 @@ class TransactionController extends Controller
         ->where('tran_head_id', $req->product)
         ->get();
 
-
         $heads = Transaction_Head::where('id',$req->product)->first();
-
 
         $prefixes = [
             '5' => ['Negative' => 'INA', 'Positive' => 'IPA'],
@@ -1552,26 +1539,65 @@ class TransactionController extends Controller
         }
 
 
-        Transaction_Detail::insert([
-            "tran_id" => $id,
-            "store_id" => $req->store,
-            "tran_type" => $req->type,
-            "tran_method" => $req->method,
-            "tran_groupe_id" => $req->groupe,
-            "tran_head_id" => $req->product,
-            "quantity" => $req->quantity,
-        ]);
+        if($adjust){
+            // Find the Product and Update the Quantity in Product Table
+            $products = Transaction_Head::where('id', $req->product)->first();
+            if ($req->method === "Positive") {
+                $quantity = $products->quantity + $req->quantity;
+                Transaction_Head::findOrFail($req->product)->update([
+                    "quantity" => $quantity,
+                    "updated_at" => now()
+                ]);
 
-        return response()->json([
-            'status'=>'success',
-        ]);
+                Transaction_Detail::insert([
+                    "tran_id" => $id,
+                    "store_id" => $req->store,
+                    "tran_type" => $req->type,
+                    "tran_method" => $req->method,
+                    "tran_groupe_id" => $req->groupe,
+                    "tran_head_id" => $req->product,
+                    "quantity" => $req->quantity,
+                ]);
+
+                return response()->json([
+                    'status'=>'success',
+                ]);
+
+            }elseif ($req->method === "Negative") {
+                $quantity = $products->quantity - $req->quantity;
+                Transaction_Head::findOrFail($req->product)->update([
+                    "quantity" => $quantity,
+                    "updated_at" => now()
+                ]);
+
+                Transaction_Detail::insert([
+                    "tran_id" => $id,
+                    "store_id" => $req->store,
+                    "tran_type" => $req->type,
+                    "tran_method" => $req->method,
+                    "tran_groupe_id" => $req->groupe,
+                    "tran_head_id" => $req->product,
+                    "quantity" => $req->quantity,
+                ]);
+
+                return response()->json([
+                    'status'=>'success',
+                ]);
+
+            }else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid method'
+                ]);
+            }
+        }
 
     }//End Method
 
 
 
 
-    //Edit Transaction Details
+    //Edit Adjustment
     public function EditAdjustment(Request $req){
         $adjust = Transaction_Detail::with('Store','Head')->findOrFail($req->id);
         return response()->json([
@@ -1580,42 +1606,122 @@ class TransactionController extends Controller
     }//End Method
 
 
-
     //Update Transaction Details
-    public function UpdateAdjustment(Request $req){
-        
+    public function UpdateAdjustment(Request $req)
+    {
+        // Validate the request inputs
         $req->validate([
             "method" => 'required',
             "store" => 'required|numeric',
             "type" => 'required',
             "groupe" => 'required',
             "product" => 'required',
+            "quantity" => 'required|numeric'
         ]);
-
-        
-        $update = Transaction_Detail::findOrFail($req->id)->update([
-            "tran_id" => $req->tranId,
-            "store_id" => $req->store,
-            "tran_type" => $req->type,
-            "tran_method" => $req->method,
-            "tran_groupe_id" => $req->groupe,
-            "tran_head_id" => $req->product,
-            "quantity" => $req->quantity,
-            "updated_at" => now()
-        ]);
-
-        if($update){
-            return response()->json([
-                'status'=>'success'
-            ]); 
+    
+        // Find the existing transaction
+        $transaction = Transaction_Detail::where('tran_id', $req->tranId)
+            ->where('tran_head_id', $req->product)
+            ->first();
+    
+        if ($transaction) {
+            // Find the product
+            $product = Transaction_Head::where('id', $req->product)->first();
+            if (!$product) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Product not found'
+                ]);
             }
-            
+    
+            // Calculate the new quantity based on the method
+            $quantity = $product->quantity;
+            if ($req->method === "Positive") {
+                $quantity = $quantity - $transaction->quantity + $req->quantity;
+            } elseif ($req->method === "Negative") {
+                $quantity = $quantity + $transaction->quantity - $req->quantity;
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid method'
+                ]);
+            }
+    
+            // Update the product's quantity
+            $product->update([
+                "quantity" => $quantity,
+                "updated_at" => now()
+            ]);
+    
+            // Update the existing transaction detail
+            $transaction->update([
+                "store_id" => $req->store,
+                "tran_type" => $req->type,
+                "tran_method" => $req->method,
+                "tran_groupe_id" => $req->groupe,
+                "tran_head_id" => $req->product,
+                "quantity" => $req->quantity,
+                "updated_at" => now()
+            ]);
+    
+            return response()->json([
+                'status' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Transaction not found'
+            ]);
+        }
+    }
         
-    }//End Method
+
 
     //Delete Transaction Details
     public function DeleteAdjustment(Request $req){
         Transaction_Detail::findOrFail($req->id)->delete();
+
+    // Find the existing transaction
+    $transaction = Transaction_Detail::where('tran_id', $req->tranId)
+        ->where('tran_head_id', $req->product)
+        ->first();
+
+    if ($transaction) {
+        // Find the product
+        $product = Transaction_Head::where('id', $req->product)->first();
+        if (!$product) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Product not found'
+            ]);
+        }
+
+        // Calculate the new quantity based on the method
+        $quantity = $product->quantity;
+        if ($transaction->tran_method === "Positive") {
+            $quantity -= $transaction->quantity;
+        } elseif ($transaction->tran_method === "Negative") {
+            $quantity += $transaction->quantity;
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid method'
+            ]);
+        }
+
+        // Delete the transaction
+        $transaction->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Transaction deleted successfully'
+        ]);
+    } else {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Transaction not found'
+        ]);
+    }
         return response()->json([
             'status'=>'success'
         ]); 
