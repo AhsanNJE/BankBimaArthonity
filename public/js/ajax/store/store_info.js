@@ -1,4 +1,25 @@
 $(document).ready(function () {
+    // Add Button Click Functionality
+    $(document).on('click', '.add', function (e) {
+        $('#store_name').focus();
+    });
+
+
+
+    // Search by Division
+    $(document).on('change', '#searchDivision', function(e){
+        e.preventDefault();
+        let search = $('#search').val();
+        let division = $("#searchDivision").val();
+        let searchOption = $('#searchOption').val();
+        if(searchOption == 1){
+            loadStoreData(`/search/store`, {search:search, division:division}, '.store');
+        }
+        else if(searchOption == 2){
+            loadStoreData(`/search/store/location`, {search:search, division:division}, '.store');
+        }
+    });
+
 
     //Store Input Field Empty Error
     $(document).on('submit', '#AddStoreForm', function (e) {
@@ -153,7 +174,7 @@ $(document).ready(function () {
     $(document).on('click', '.paginate a', function (e) {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        loadEmployeeData(`/store/pagination?page=${page}`, {}, '.store');
+        loadStoreData(`/store/pagination?page=${page}`, {}, '.store');
     });
 
 
@@ -169,9 +190,13 @@ $(document).ready(function () {
     $(document).on('keyup', '#search', function (e) {
         e.preventDefault();
         let search = $(this).val();
-        let searchOption = $("#searchOption").val();
-        if(searchOption == "1"){
-            loadEmployeeData(`/search/page/store`, {search:search}, '.store')
+        let division = $("#searchDivision").val();
+        let searchOption = $('#searchOption').val();
+        if(searchOption == 1){
+            loadStoreData(`/search/store`, {search:search, division:division}, '.store');
+        }
+        else if(searchOption == 2){
+            loadStoreData(`/search/store/location`, {search:search, division:division}, '.store');
         }
     });
 
@@ -183,9 +208,13 @@ $(document).ready(function () {
         $('.paginate').addClass('hidden');
         let search = $('#search').val();
         let page = $(this).attr('href').split('page=')[1];
-        let searchOption = $("#searchOption").val();
-        if(searchOption == "1"){
-            loadEmployeeData(`/search/page/store?page=${page}`, {search:search}, '.store');
+        let division = $("#searchDivision").val();
+        let searchOption = $('#searchOption').val();
+        if(searchOption == 1){
+            loadStoreData(`/search/store?page=${page}`, {search:search, division:division}, '.store');
+        }
+        else if(searchOption == 2){
+            loadStoreData(`/search/store/location?page=${page}`, {search:search, division:division}, '.store');
         }
         
     });
@@ -193,7 +222,7 @@ $(document).ready(function () {
 
 
     // Employee Data Load Function
-    function loadEmployeeData(url, data, targetElement) {
+    function loadStoreData(url, data, targetElement) {
         $.ajax({
             url: url,
             data: data,

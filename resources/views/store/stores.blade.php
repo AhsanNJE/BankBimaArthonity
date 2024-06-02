@@ -5,14 +5,31 @@
             <div class="col-md-3">
                 <button class="open-modal add" data-modal-id="addStore">Add Store</button>
             </div>
-            <div class="col-md-9 search">
-                <select name="searchOption" id="searchOption" class="select-small">
-                    <option value="1">Name</option>
-                    <option value="2">Division</option>
-                    <option value="3">Location</option>
+            <div class="col-md-2">
+                <label for="searchDivision">Division</label>
+                <select name="searchDivision" id="searchDivision">
+                    <option value="">All</option>
+                    <option value="Dhaka">Dhaka</option>
+                    <option value="Mymensingh ">Mymensingh </option>
+                    <option value="Sylhet">Sylhet</option>
+                    <option value="Chattogram">Chattogram</option>
+                    <option value="Barishal ">Barishal </option>
+                    <option value="Khulna">Khulna</option>
+                    <option value="Rajshahi ">Rajshahi </option>
+                    <option value="Rangpur">Rangpur</option>
                 </select>
-                <input type="text" name="search" id="search" class="input-small" placeholder="Search here..."
-                    style="width: 40%;">
+            </div>
+            <div class="col-md-2">
+                <label for="searchOption">Option</label>
+                <select name="searchOption" id="searchOption">
+                    <option value="1">Store Name</option>
+                    <option value="2 ">Location </option>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label for="search">Search</label>
+                <input type="text" name="search" id="search" class="form-input" placeholder="Search here..."
+                    style="width: 100%;">
             </div>
         </div>
     </div>
