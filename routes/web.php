@@ -895,10 +895,12 @@ Route::controller(InventoryController::class)->group(function(){
      Route::delete('/store/delete', [InventoryController::class, 'DeleteStore'])->name('store.delete');
      //Store search routes start
      Route::get('/search/store', [InventoryController::class, 'SearchStore'])->name('search.store.name');
+     Route::get('/search/store/division', [InventoryController::class, 'SearchStoreByDivision'])->name('search.store.division.name');
      //Store pagination routes start
      Route::get('/store/pagination', [InventoryController::class,'StorePagination']);
      Route::get('/search/page/store', [InventoryController::class,'SearchStore']);
      Route::get('/get/store/name', [InventoryController::class, 'GetStoreByName']);
+     Route::get('/get/store/division', [InventoryController::class, 'GetStoreByDivision']);
 
     ////////////////////////// --------------- Pharmacy Product Routes START----------- ///////////////////////////
 

@@ -1,5 +1,5 @@
 <table class="show-table">
-    <caption class="caption">Designation Details</caption>
+    <caption class="caption">Transaction Head Details</caption>
     <thead>
         <tr>
             <th>SL:</th>
