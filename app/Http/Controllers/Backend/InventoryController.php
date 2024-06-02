@@ -802,17 +802,11 @@ class InventoryController extends Controller
 
 
     // Search Store by Name
-    public function SearchStore(Request $request){
-        if($request->search != ""){
-            $store = Store::where('store_name', 'like', '%'.$request->search.'%')
-            ->orWhere('id', 'like','%'.$request->search.'%')
-            ->orderBy('store_name','asc')
-            ->paginate(15);
-        }
-        else{
-            $store = Store::orderBy('store_name','asc')
-            ->paginate(15);
-        }
+    public function SearchStore(Request $req){
+        $store = Store::where('store_name', 'like', '%'.$req->search.'%')
+        ->where('division', 'like','%'.$req->division.'%')
+        ->orderBy('store_name','asc')
+        ->paginate(15);
 
         $paginationHtml = $store->links()->toHtml();
         
@@ -829,7 +823,35 @@ class InventoryController extends Controller
             ]); 
         }
         
-    }//End Method
+    } // End Method
+
+
+
+    // Search Store by Location
+    public function SearchStoreByLocation(Request $req){
+        $store = Store::with('Location')
+        ->whereHas('Location', function ($query) use ($req) {
+            $query->where('upazila', 'like', '%'.$req->search.'%');
+            $query->orderBy('upazila','asc');
+        })
+        ->where('division', 'like','%'.$req->division.'%')
+        ->paginate(15);
+
+        $paginationHtml = $store->links()->toHtml();
+        
+        if($store->count() >= 1){
+            return response()->json([
+                'status' => 'success',
+                'data' => view('store.searchStore', compact('store'))->render(),
+                'paginate' =>$paginationHtml
+            ]);
+        }
+        else{
+            return response()->json([
+                'status'=>'null'
+            ]); 
+        }
+    } // End Method
 
     //Get Unit By Name
     public function GetStoreByName(Request $req){
