@@ -16,8 +16,8 @@
             <div class="col-md-2">
                 <label for="searchOption">Search Option</label>
                 <select name="searchOption" id="searchOption">
+                    <option value="2">Product Name</option>
                     <option value="1">Transaction Id</option>
-                    <option value="2">User</option>
                 </select>
             </div>
             <div class="col-md-3">

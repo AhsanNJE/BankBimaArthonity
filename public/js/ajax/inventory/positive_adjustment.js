@@ -20,9 +20,6 @@ $(document).ready(function () {
     });
 
 
-
-
-    
     
     $(document).on('keyup', '#quantity, #amount', function (e) {
         let quantity = $('#quantity').val();
@@ -39,33 +36,6 @@ $(document).ready(function () {
         $('#updateTotAmount').val(totalAmount);
     });
 
-
-    $(document).on('keyup', '#totalDiscount, #advance', function (e) {
-        // Calculate total discount
-        let amountRP = parseInt($('#amountRP').val());
-        let totalDiscount = parseInt($('#totalDiscount').val());
-        let advance = parseInt($('#advance').val());
-
-        let netAmount = amountRP - totalDiscount;
-        let balance = netAmount - advance;
-
-        $('#netAmount').val(netAmount);
-        $('#balance').val(balance);
-    });
-
-
-    $(document).on('keyup', '#updateTotalDiscount, #updateAdvance', function (e) {
-        // Calculate total discount
-        let amountRP = parseInt($('#updateAmountRP').val());
-        let totalDiscount = parseInt($('#updateTotalDiscount').val());
-        let advance = parseInt($('#updateAdvance').val());
-
-        let netAmount = amountRP - totalDiscount;
-        let balance = netAmount - advance;
-
-        $('#updateNetAmount').val(netAmount);
-        $('#updateBalance').val(balance);
-    });
 
 
     $(document).on('change', '#groupe', function (e) {
@@ -151,6 +121,7 @@ $(document).ready(function () {
     ///////////// ------------------ Edit Transaction Details ajax part start ---------------- /////////////////////////////
     $(document).on('click', '.editAdjustment', function (e) {
         e.preventDefault();
+        let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
         $.ajax({
             url: "/transaction/edit/positive",
@@ -165,6 +136,12 @@ $(document).ready(function () {
                 $('input[name="product"]').attr('data-id', res.adjust.tran_head_id);
                 $('input[name="product"]').val(res.adjust.head.tran_head_name);
                 $('input[name="quantity"]').val(res.adjust.quantity);
+
+                var modal = document.getElementById(modalId);
+
+                if (modal) {
+                    modal.style.display = 'block';
+                }
             },
             error: function (err) {
                 console.log(err)
@@ -249,7 +226,7 @@ $(document).ready(function () {
                     $('.positive').load(location.href + ' .positive');
                     $('#search').val('');
                     $('#deleteModal').hide();
-                    toastr.success('Transaction Main Data Deleted Successfully', 'Deleted!');
+                    toastr.success('Adjustment Deleted Successfully', 'Deleted!');
                 }
             }
         });
@@ -264,7 +241,7 @@ $(document).ready(function () {
             let startDate = $('#startDate').val();
             let endDate = $('#endDate').val();
             let page = $(this).attr('href').split('page=')[5];
-            searchTransaction(`/transaction/pagination?page=${page}`, {startDate:startDate, endDate:endDate, method:method, type:type}, '.positive');
+            searchTransaction(`/transaction/adjustment/pagination?page=${page}`, {startDate:startDate, endDate:endDate, method:method, type:type}, '.positive');
         });
 
 
@@ -300,11 +277,11 @@ $(document).ready(function () {
         let type = "5";
         let searchOption = $("#searchOption").val();
         let page = $(this).attr('href').split('page=')[5];
-        if(searchOption == "5"){
+        if(searchOption == "1"){
             searchTransaction(`/transaction/adjustment/pagination/tranid?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
         }
         if(searchOption == "2"){
-            searchTransaction(`/transaction//adjustment/pagination/product?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
+            searchTransaction(`/transaction/adjustment/pagination/product?page=${page}`, {search:search, startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
         }
         
     });

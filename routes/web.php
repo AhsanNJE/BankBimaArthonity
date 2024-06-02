@@ -415,12 +415,12 @@ Route::controller(TransactionController::class)->group(function () {
         // Negative Adjustment Routes
         Route::get('/negative', 'ShowNegativeAdjustment')->name('show.negative.adjustment');
 
-         //details crud routes start
+         //Negative Adjustment routes start
          Route::post('/insert/negative/adjustment', 'InsertAdjustment')->name('insert.negative.adjustment');
-         Route::get('/edit/details', 'EditTransactionDetails')->name('edit.transaction.details');
-         Route::put('/update/details', 'UpdateTransactionDetails')->name('update.transaction.details');
+         Route::get('/edit/negative', 'EditAdjustment')->name('edit.transaction.negative');
+         Route::put('/update/negative', 'UpdateAdjustment')->name('update.transaction.negative');
          Route::delete('/delete/negative', 'DeleteTransactionDetails')->name('delete.negative.transaction.details');
-         Route::get('/print/negative', 'PrintPATransactionDetails')->name('print.negative');
+         
 
         ////////////////////////// --------------- Bank Transaction routes ----------- ///////////////////////////
         // Bank Withdraw transaction crude Routes
