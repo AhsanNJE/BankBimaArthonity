@@ -415,12 +415,12 @@ Route::controller(TransactionController::class)->group(function () {
         // Negative Adjustment Routes
         Route::get('/negative', 'ShowNegativeAdjustment')->name('show.negative.adjustment');
 
-         //Negative Adjustment routes start
+         //details crud routes start
          Route::post('/insert/negative/adjustment', 'InsertAdjustment')->name('insert.negative.adjustment');
-         Route::get('/edit/negative', 'EditAdjustment')->name('edit.transaction.negative');
-         Route::put('/update/negative', 'UpdateAdjustment')->name('update.transaction.negative');
+         Route::get('/edit/details', 'EditTransactionDetails')->name('edit.transaction.details');
+         Route::put('/update/details', 'UpdateTransactionDetails')->name('update.transaction.details');
          Route::delete('/delete/negative', 'DeleteTransactionDetails')->name('delete.negative.transaction.details');
-         
+         Route::get('/print/negative', 'PrintPATransactionDetails')->name('print.negative');
 
         ////////////////////////// --------------- Bank Transaction routes ----------- ///////////////////////////
         // Bank Withdraw transaction crude Routes
@@ -895,12 +895,11 @@ Route::controller(InventoryController::class)->group(function(){
      Route::delete('/store/delete', [InventoryController::class, 'DeleteStore'])->name('store.delete');
      //Store search routes start
      Route::get('/search/store', [InventoryController::class, 'SearchStore'])->name('search.store.name');
-     Route::get('/search/store/division', [InventoryController::class, 'SearchStoreByDivision'])->name('search.store.division.name');
      //Store pagination routes start
      Route::get('/store/pagination', [InventoryController::class,'StorePagination']);
      Route::get('/search/page/store', [InventoryController::class,'SearchStore']);
      Route::get('/get/store/name', [InventoryController::class, 'GetStoreByName']);
-     Route::get('/get/store/division', [InventoryController::class, 'GetStoreByDivision']);
+
 
     ////////////////////////// --------------- Pharmacy Product Routes START----------- ///////////////////////////
 

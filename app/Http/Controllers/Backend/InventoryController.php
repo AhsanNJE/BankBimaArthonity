@@ -831,37 +831,6 @@ class InventoryController extends Controller
         
     }//End Method
 
-    // Search Store by Division
-    public function SearchStoreByDivision(Request $request){
-        if($request->search != ""){
-            $store = Store::where('division', 'like', '%'.$request->search.'%')
-            ->orWhere('id', 'like','%'.$request->search.'%')
-            ->orderBy('division','asc')
-            ->paginate(15);
-        }
-        else{
-            $store = Store::orderBy('division','asc')
-            ->paginate(15);
-        }
-
-        $paginationHtml = $store->links()->toHtml();
-        
-        if($store->count() >=  1){
-            return response()->json([
-                'status' => 'success',
-                'data' => view('store.searchStore', compact('store'))->render(),
-                'paginate' =>$paginationHtml
-            ]);
-        }
-        else{
-            return response()->json([
-                'status'=>'null'
-            ]); 
-        }
-        
-    }//End Method
-    
-
     //Get Store By Name
     public function GetStoreByName(Request $req){
         $stores = Store::where('store_name', 'like', '%'.$req->store.'%')
@@ -874,26 +843,6 @@ class InventoryController extends Controller
             $list = "";
             foreach($stores as $index => $store) {
                 $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$store->id.'">'.$store->store_name.'</li>';
-            }
-        }
-        else{
-            $list = '<li>No Data Found</li>';
-        }
-        return $list;
-    }//End Method
-
-    //Get Store By Division
-    public function GetStoreByDivision(Request $req){
-        $stores = Store::where('division', 'like', '%'.$req->store.'%')
-        ->orderBy('division','asc')
-        ->take(10)
-        ->get();
-
-
-        if($stores->count() > 0){
-            $list = "";
-            foreach($stores as $index => $store) {
-                $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$store->id.'">'.$store->division.'</li>';
             }
         }
         else{
