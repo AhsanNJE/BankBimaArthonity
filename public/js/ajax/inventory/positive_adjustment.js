@@ -2,10 +2,7 @@ $(document).ready(function () {
 
     // Get Last Transaction Id By Transaction Method and Type
     $(document).on('click', '.add', function (e) {
-        let type = '5';
-        let method = 'Positive';
-        getTransactionWith(type, method, '#within')
-        $('#user').focus();
+        $('#store').focus();
     });
  
 
@@ -18,58 +15,6 @@ $(document).ready(function () {
         let endDate = $('#endDate').val();
         searchTransaction(`/transaction/search/adjustment/date`, { startDate:startDate, endDate:endDate, method:method, type:type}, '.positive')
     });
-
-
-    
-    $(document).on('keyup', '#quantity, #amount', function (e) {
-        let quantity = $('#quantity').val();
-        let amount = $('#amount').val();
-        let totalAmount = quantity * amount;
-        $('#totAmount').val(totalAmount);
-    });
-    
-    
-    $(document).on('keyup', '#updateQuantity, #updateAmount', function (e) {
-        let quantity = $('#updateQuantity').val();
-        let amount = $('#updateAmount').val();
-        let totalAmount = quantity * amount;
-        $('#updateTotAmount').val(totalAmount);
-    });
-
-
-
-    $(document).on('change', '#groupe', function (e) {
-        let groupe = $('#groupe').val();
-        $.ajax({
-            url: "/transaction/get/heads/groupe",
-            method: 'GET',
-            data: { groupe:groupe },
-            success: function (res) {
-                $('#head').html(res);
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    });
-
-
-
-    $(document).on('change', '#updateGroupe', function (e) {
-        let groupe = $('#updateGroupe').val();
-        $.ajax({
-            url: "/transaction/get/heads/groupe",
-            method: 'GET',
-            data: { groupe:groupe },
-            success: function (res) {
-                $('#updateHead').html(res);
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        });
-    });
-
 
     ///////////// ------------------ Add Positive Adjustment ajax part start ---------------- /////////////////////////////
     $(document).on('submit', '#AddPositiveAdjustmentForm', function (e) {
@@ -128,14 +73,14 @@ $(document).ready(function () {
             method: 'GET',
             data: { id:id },
             success: function (res) {
-                $('input[name="id"]').val(res.adjust.id);
-                $('input[name="tranId"]').val(res.adjust.tran_id);
-                $('input[name="store"]').attr('data-id', res.adjust.store_id);
-                $('input[name="store"]').val(res.adjust.store.store_name);
-                $('input[name="product"]').attr('data-groupe', res.adjust.tran_groupe_id);
-                $('input[name="product"]').attr('data-id', res.adjust.tran_head_id);
-                $('input[name="product"]').val(res.adjust.head.tran_head_name);
-                $('input[name="quantity"]').val(res.adjust.quantity);
+                $('#id').val(res.adjust.id);
+                $('#updateTranId').val(res.adjust.tran_id);
+                $('#updateStore').attr('data-id', res.adjust.store_id);
+                $('#updateStore').val(res.adjust.store.store_name);
+                $('#updateProduct').attr('data-groupe', res.adjust.tran_groupe_id);
+                $('#updateProduct').attr('data-id', res.adjust.tran_head_id);
+                $('#updateProduct').val(res.adjust.head.tran_head_name);
+                $('#updateQuantity').val(res.adjust.quantity);
 
                 var modal = document.getElementById(modalId);
 
@@ -285,51 +230,6 @@ $(document).ready(function () {
         }
         
     });
-
-
-   
-
-
-
-    //get last transaction with by transaction type function
-    function GetAdjustmentWith(type, method, targetElement) {
-        $.ajax({
-            url: "/transaction/adjustment/get/tranwith",
-            method: 'GET',
-            data: { type: type, method:method },
-            success: function (res) {
-                if (res.status === 'success') {
-                    let id = [];
-                    $(targetElement).html('');
-                    $.each(res.tranwith, function (key, withs) {
-                        id.push(withs.id)
-                        $(targetElement).append(`<input type="checkbox" id="with[]" class="with-checkbox" name="with" value="${withs.id}" checked>`);
-                    });
-                    // getTransactionGroupe(id, '#groupein');
-                }
-            }
-        });
-    }
-
-
-
-    //get transaction groupe by transaction with function
-    function GetAdjustmentGroupeByWith(withs, targetElement) {
-        $.ajax({
-            url: "/transaction/adjustment/get/groupes/with",
-            method: 'GET',
-            data: { withs: withs },
-            success: function (res) {
-                if (res.status === 'success') {
-                    $(targetElement).html('');
-                    $.each(res.groupes, function (key, groupe) {
-                        $(targetElement).append(`<input type="checkbox" id="groupe[]" class="groupe-checkbox" name="groupe" value="${groupe.groupe_id}" checked>`);
-                    });
-                }
-            }
-        });
-    }
-
 
     // Search Positive Details
     function searchTransaction(url, data, targetElement) {

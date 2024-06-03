@@ -1491,7 +1491,7 @@ class TransactionController extends Controller
     //Show All Positive Adjustment Details
     public function ShowPositiveAdjustment(){
         $adjust = Transaction_Detail::where('tran_method','Positive')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        $groupes = Transaction_Groupe::where('tran_groupe_type', '1')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
         return view('inventory.positive_adjustment.positiveAdjustments', compact('adjust','groupes'));
     }//End Method
 
@@ -1500,7 +1500,7 @@ class TransactionController extends Controller
     //Show All Negative Adjustment Details
     public function ShowNegativeAdjustment(){
         $adjust = Transaction_Detail::where('tran_method','Negative')->where('tran_type','5')->whereRaw("DATE(tran_date) = ?", [date('Y-m-d')])->orderBy('tran_date','asc')->paginate(15);
-        $groupes = Transaction_Groupe::where('tran_groupe_type', '1')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
+        $groupes = Transaction_Groupe::where('tran_groupe_type', '5')->whereIn('tran_method',["Receive",'Both'])->orderBy('added_at','asc')->get();
         return view('inventory.negative_adjustment.negativeAdjustments', compact('adjust','groupes'));
     }//End Method
 
@@ -1513,12 +1513,6 @@ class TransactionController extends Controller
             "groupe" => 'required',
             "product" => 'required',
         ]);
-
-        $adjust = Transaction_Detail::where('tran_id', $req->tranId)
-        ->where('tran_head_id', $req->product)
-        ->get();
-
-        $heads = Transaction_Head::where('id',$req->product)->first();
 
         $prefixes = [
             '5' => ['Negative' => 'INA', 'Positive' => 'IPA'],
@@ -1534,61 +1528,57 @@ class TransactionController extends Controller
                     ->first();
     
                 $id = ($transaction) ? $prefix . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : $prefix . '000000001';
+
+                $products = Transaction_Head::where('id', $req->product)->first();
+                if ($req->method === "Positive") {
+                    $quantity = $products->quantity + $req->quantity;
+                    Transaction_Head::findOrFail($req->product)->update([
+                        "quantity" => $quantity,
+                        "updated_at" => now()
+                    ]);
     
-            }
-        }
-
-
-        if($adjust){
-            // Find the Product and Update the Quantity in Product Table
-            $products = Transaction_Head::where('id', $req->product)->first();
-            if ($req->method === "Positive") {
-                $quantity = $products->quantity + $req->quantity;
-                Transaction_Head::findOrFail($req->product)->update([
-                    "quantity" => $quantity,
-                    "updated_at" => now()
-                ]);
-
-                Transaction_Detail::insert([
-                    "tran_id" => $id,
-                    "store_id" => $req->store,
-                    "tran_type" => $req->type,
-                    "tran_method" => $req->method,
-                    "tran_groupe_id" => $req->groupe,
-                    "tran_head_id" => $req->product,
-                    "quantity" => $req->quantity,
-                ]);
-
-                return response()->json([
-                    'status'=>'success',
-                ]);
-
-            }elseif ($req->method === "Negative") {
-                $quantity = $products->quantity - $req->quantity;
-                Transaction_Head::findOrFail($req->product)->update([
-                    "quantity" => $quantity,
-                    "updated_at" => now()
-                ]);
-
-                Transaction_Detail::insert([
-                    "tran_id" => $id,
-                    "store_id" => $req->store,
-                    "tran_type" => $req->type,
-                    "tran_method" => $req->method,
-                    "tran_groupe_id" => $req->groupe,
-                    "tran_head_id" => $req->product,
-                    "quantity" => $req->quantity,
-                ]);
-
-                return response()->json([
-                    'status'=>'success',
-                ]);
-
-            }else {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Invalid method'
-                ]);
+                    Transaction_Detail::insert([
+                        "tran_id" => $id,
+                        "store_id" => $req->store,
+                        "tran_type" => $req->type,
+                        "tran_method" => $req->method,
+                        "tran_groupe_id" => $req->groupe,
+                        "tran_head_id" => $req->product,
+                        "quantity" => $req->quantity,
+                    ]);
+    
+                    return response()->json([
+                        'status'=>'success',
+                    ]);
+    
+                }elseif ($req->method === "Negative") {
+                    $quantity = $products->quantity - $req->quantity;
+                    Transaction_Head::findOrFail($req->product)->update([
+                        "quantity" => $quantity,
+                        "updated_at" => now()
+                    ]);
+    
+                    Transaction_Detail::insert([
+                        "tran_id" => $id,
+                        "store_id" => $req->store,
+                        "tran_type" => $req->type,
+                        "tran_method" => $req->method,
+                        "tran_groupe_id" => $req->groupe,
+                        "tran_head_id" => $req->product,
+                        "quantity" => $req->quantity,
+                    ]);
+    
+                    return response()->json([
+                        'status'=>'success',
+                    ]);
+    
+                }else {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Invalid method'
+                    ]);
+                }
+    
             }
         }
 
@@ -1627,12 +1617,6 @@ class TransactionController extends Controller
         if ($transaction) {
             // Find the product
             $product = Transaction_Head::where('id', $req->product)->first();
-            if (!$product) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Product not found'
-                ]);
-            }
     
             // Calculate the new quantity based on the method
             $quantity = $product->quantity;
@@ -1677,55 +1661,49 @@ class TransactionController extends Controller
         
 
 
-    //Delete Transaction Details
+    // Delete Transaction Details
     public function DeleteAdjustment(Request $req){
-        Transaction_Detail::findOrFail($req->id)->delete();
+        // Find the existing transaction
+        $transaction = Transaction_Detail::findOrFail($req->id);
 
-    // Find the existing transaction
-    $transaction = Transaction_Detail::where('tran_id', $req->tranId)
-        ->where('tran_head_id', $req->product)
-        ->first();
+        if ($transaction) {
+            // Find the product
+            $product = Transaction_Head::where('id', $transaction->tran_head_id)->first();
 
-    if ($transaction) {
-        // Find the product
-        $product = Transaction_Head::where('id', $req->product)->first();
-        if (!$product) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Product not found'
+            // Calculate the new quantity based on the method
+            $quantity = $product->quantity;
+            if ($transaction->tran_method == "Positive") {
+                $quantity -= $transaction->quantity;
+            } elseif ($transaction->tran_method == "Negative") {
+                $quantity += $transaction->quantity;
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid transaction method'
+                ]);
+            }
+
+            // Update the product's quantity
+            $product->update([
+                "quantity" => $quantity,
+                "updated_at" => now()
             ]);
-        }
 
-        // Calculate the new quantity based on the method
-        $quantity = $product->quantity;
-        if ($transaction->tran_method === "Positive") {
-            $quantity -= $transaction->quantity;
-        } elseif ($transaction->tran_method === "Negative") {
-            $quantity += $transaction->quantity;
+            // Delete the transaction
+            $transaction->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Transaction deleted successfully'
+            ]);
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Invalid method'
+                'message' => 'Transaction not found'
             ]);
         }
-
-        // Delete the transaction
-        $transaction->delete();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Transaction deleted successfully'
-        ]);
-    } else {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Transaction not found'
-        ]);
     }
-        return response()->json([
-            'status'=>'success'
-        ]); 
-    }//End Method
+
 
 
     //Adjustment Pagination
@@ -1823,139 +1801,6 @@ class TransactionController extends Controller
             ]);
         }
     }//End Method
-
-
-    // Get Transaction Id By Transaction Method And Type 
-    public function GetAdjustmentId(Request $req){
-        $prefixes = [
-            '5' => ['Negative' => 'INA', 'Positive' => 'IPA'],
-            '6' => ['Negative' => 'PNA', 'Positive' => 'PPA'],
-        ];
-    
-        if ($req->type && isset($prefixes[$req->type])) {
-            $prefix = $prefixes[$req->type][$req->method] ?? null;
-            if ($prefix) {
-                $transaction = Transaction_Main::where('tran_type', $req->type)
-                    ->where('tran_method', $req->method)
-                    ->latest('tran_id')
-                    ->first();
-    
-                $id = ($transaction) ? $prefix . str_pad((intval(substr($transaction->tran_id, 3)) + 1), 9, '0', STR_PAD_LEFT) : $prefix . '000000001';
-    
-                return response()->json([
-                    'status' => 'success',
-                    'id' => $id,
-                ]);
-            }
-        }
-    
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Invalid request parameters',
-        ]);
-    }//End Method
-
-
-
-    // Get Transaction With By Transaction Method And Type
-    public function GetAdjustmentWith(Request $req){
-        if($req->type == null){
-            $tranwith = Transaction_With::whereIn('tran_method', [$req->method, 'Both'])->where('user_type', $req->user)->get();
-        }
-        else{
-            $tranwith = Transaction_With::whereIn('tran_method', [$req->method, 'Both'])->where('tran_type',$req->type)->get();
-        }
-        
-        return response()->json([
-            'status' => 'success',
-            'tranwith' => $tranwith,
-        ]);
-    }//End Method
-
-
-    
-    // Get Transaction User By Transaction User Type
-    public function GetAdjustmentGroupeByWith(Request $req){
-        if($req->within == "1"){
-            $users = User_Info::where('user_name', 'like', '%'.$req->tranUser.'%')
-            ->whereIn('tran_user_type', $req->tranUserType)
-            ->orderBy('user_name','asc')
-            ->take(10)
-            ->get();
-
-            if($users->count() > 0){
-                $list = "";
-                foreach($users as $index => $user) {
-                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$user->user_id.'"  data-with="'.$user->tran_user_type.'">'.$user->user_name.'</li>';
-                }
-            }
-            else{
-                $list = '<li>No Data Found</li>';
-            }
-            return $list;
-        }
-        else{
-            $users = User_Info::where('user_name', 'like', '%'.$req->tranUser.'%')
-            ->where('tran_user_type', $req->tranUserType)
-            ->orderBy('user_name','asc')
-            ->take(10)
-            ->get();
-
-
-            if($users->count() > 0){
-                $list = "";
-                foreach($users as $index => $user) {
-                    $list .= '<li tabindex="' . ($index + 1) . '" data-id="'.$user->user_id.'" data-with="'.$user->tran_user_type.'">'.$user->user_name.'</li>';
-                }
-            }
-            else{
-                $list = '<li>No Data Found</li>';
-            }
-            return $list;
-        }
-    }//End Method
-
-
-
-
-    // Get Transaction Groupe By Transaction With
-    public function GetAdjustmentProduct(Request $req){
-        $groupes = Transaction_With_Groupe::select('groupe_id')->whereIn('with_id', $req->withs)->groupBy('groupe_id')->get();
-
-        return response()->json([
-            'status' => 'success',
-            'groupes' => $groupes,
-        ]);
-    }//End Method
-
-
-
-
-
-    //Get Inserted Transacetion Grid By Transaction Id
-    public function GetAdjustmentGrid(Request $request){
-        if($request->tranId != ""){
-            $transaction = Transaction_Detail::where('tran_id', 'like', $request->tranId)
-            ->orderBy('tran_id','asc')
-            ->paginate(15);
-
-            if ($transaction) {
-                return response()->json([
-                    'status' => 'success',
-                    'data' => view('transaction.general.transactionGrid', compact('transaction'))->render(),
-                    'transaction' => $transaction
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 'null'
-                ]); 
-            }
-        }
-    }//End Method
-
-
-
-
 
     /////////////////////////// --------------- Adjustment Methods Ends ---------- //////////////////////////
 }
